@@ -110,7 +110,7 @@ function sb_do_settings_sections( $page ) {
             <div class="left"><p><?php printf(__("Created by %s.", "sb-core"), "SB Team"); ?> <?php printf(__("If you have any question, please send us an email via: %s", "sb-core"), ' <em>laidinhcuongvn@gmail.com</em>'); ?></p></div>
             <div class="right">
                 <ul class="sb-social-list">
-                    <li class="github"><a target="_blank" href="https://github.com/skylarkcob/sb"></a></li>
+                    <li class="github"><a target="_blank" href="https://github.com/skylarkcob/sb-core"></a></li>
                     <li class="facebook"><a target="_blank" href="https://www.facebook.com/Sauhicom"></a></li>
                     <li class="twitter"><a target="_blank" href="https://twitter.com/skylarkcob"></a></li>
                 </ul>
