@@ -1,0 +1,200 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sb-core\n"
+"POT-Creation-Date: 2014-09-28 11:36+0700\n"
+"PO-Revision-Date: 2014-09-28 11:36+0700\n"
+"Last-Translator: SB Team <laidinhcuongvn@gmail.com>\n"
+"Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _;__;_e;_x;_n;gettext;gettext_noop;_ex;_nx\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../admin/class-sb-admin-custom.php:59 ../admin/class-sb-admin.php:100
+msgid "Short description about SB Options."
+msgstr ""
+
+#: ../admin/class-sb-admin-custom.php:61 ../admin/class-sb-admin.php:102
+msgid "Change your settings below:"
+msgstr ""
+
+#: ../admin/class-sb-admin.php:84 ../admin/class-sb-admin.php:107
+#: ../admin/class-sb-admin.php:147
+msgid "About SB"
+msgstr ""
+
+#: ../admin/class-sb-admin.php:153
+msgid "SB Options"
+msgstr ""
+
+#: ../admin/class-sb-field.php:30
+msgid "Insert image"
+msgstr ""
+
+#: ../admin/class-sb-field.php:35
+msgid "Upload"
+msgstr ""
+
+#: ../admin/class-sb-field.php:59
+msgid "Enter url for the image above."
+msgstr ""
+
+#: ../admin/class-sb-field.php:84
+msgid "On"
+msgstr ""
+
+#: ../admin/class-sb-field.php:85
+msgid "Off"
+msgstr ""
+
+#: ../admin/sb-about.php:4 ../admin/sb-setting-page.php:62
+msgid "Version:"
+msgstr ""
+
+#: ../admin/sb-about.php:5
+#, php-format
+msgid ""
+"SB Framework is a PHP framework that created by SB Team, the purposes of "
+"this framework are to help coding WordPress more easier. You can download "
+"the latest version from %s."
+msgstr ""
+
+#: ../admin/sb-about.php:6
+#, php-format
+msgid ""
+"SB Framework is writen by %1$s and %2$s, if you have any questions please "
+"send mail via the email address below this panel or write a post on learn "
+"WordPress forum."
+msgstr ""
+
+#: ../admin/sb-about.php:7
+#, php-format
+msgid ""
+"If you feel this framework helpful, you can use the PayPal donate button "
+"below to send a beer or a coffee cup to these founders. It will help us to "
+"create more functional on this framework. You can visit %s for more "
+"information."
+msgstr ""
+
+#: ../admin/sb-about.php:7
+msgid "the donation page"
+msgstr ""
+
+#: ../admin/sb-setting-page.php:40
+msgid "Options page will not work if your browser doesn't support javascript!"
+msgstr ""
+
+#: ../admin/sb-setting-page.php:44
+msgid "All your changes have been saved successfully."
+msgstr ""
+
+#: ../admin/sb-setting-page.php:53
+msgid "No name theme"
+msgstr ""
+
+#: ../admin/sb-setting-page.php:87 ../admin/sb-setting-page.php:88
+msgid "Save changes"
+msgstr ""
+
+#: ../admin/sb-setting-page.php:94
+#, php-format
+msgid "Created by %s."
+msgstr ""
+
+#: ../admin/sb-setting-page.php:94
+#, php-format
+msgid "If you have any question, please send us an email via: %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:124
+msgid "comment"
+msgstr ""
+
+#: ../inc/class-sb-core.php:124
+msgid "comments"
+msgstr ""
+
+#: ../inc/class-sb-core.php:176
+#, php-format
+msgid "Author: %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:179
+#, php-format
+msgid "Day: %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:182
+#, php-format
+msgid "Month: %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:182
+msgid "F Y"
+msgstr ""
+
+#: ../inc/class-sb-core.php:185
+#, php-format
+msgid "Year: %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:185
+msgid "Y"
+msgstr ""
+
+#: ../inc/class-sb-core.php:188
+msgid "Asides"
+msgstr ""
+
+#: ../inc/class-sb-core.php:191
+msgid "Galleries"
+msgstr ""
+
+#: ../inc/class-sb-core.php:194
+msgid "Images"
+msgstr ""
+
+#: ../inc/class-sb-core.php:197
+msgid "Videos"
+msgstr ""
+
+#: ../inc/class-sb-core.php:200
+msgid "Quotes"
+msgstr ""
+
+#: ../inc/class-sb-core.php:203
+msgid "Links"
+msgstr ""
+
+#: ../inc/class-sb-core.php:206
+msgid "Statuses"
+msgstr ""
+
+#: ../inc/class-sb-core.php:209
+msgid "Audios"
+msgstr ""
+
+#: ../inc/class-sb-core.php:212
+msgid "Chats"
+msgstr ""
+
+#: ../inc/class-sb-core.php:215
+msgid "Archives"
+msgstr ""
+
+#: ../inc/sb-core-functions.php:10
+msgid "About"
+msgstr ""
+
+#: ../inc/sb-core-functions.php:24
+msgid ""
+"All plugins and themes that are created by SB Team will be deactivated! Are "
+"you sure?"
+msgstr ""
