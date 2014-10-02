@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') OR exit;
+
 function sb_do_settings_sections( $page ) {
     global $wp_settings_sections, $wp_settings_fields;
 
@@ -37,59 +39,60 @@ function sb_do_settings_sections( $page ) {
 }
 ?>
 <div class="wrap sb-option">
-    <noscript><div class="no-js"><?php _e("Options page will not work if your browser doesn't support javascript!", "sb-core"); ?></div></noscript>
+    <noscript><div class="no-js"><?php _e('Options page will not work if your browser doesn\'t support javascript!', 'sb-core'); ?></div></noscript>
     <h2></h2>
-    <?php if (isset($_REQUEST["submit"]) || isset($_REQUEST["settings-updated"])) : ?>
+    <?php if (isset($_REQUEST['submit']) || isset($_REQUEST['settings-updated'])) : ?>
         <div id="message" class="updated">
-            <p><strong><?php _e("All your changes have been saved successfully."); ?></strong></p>
+            <p><strong><?php _e('All your changes have been saved successfully.', 'sb-core'); ?></strong></p>
         </div>
     <?php endif; ?>
     <div class="sbtheme-container">
         <div class="sbtheme-header">
             <?php $theme = wp_get_theme(); ?>
-            <?php $name = $theme->get("Name"); ?>
+            <?php $name = $theme->get('Name'); ?>
             <?php
             if(empty($name)) {
-                $name = __("No name theme", "sb-core");
+                $name = __('No name theme', 'sb-core');
             }
             ?>
             <h2><?php echo $name; ?></h2>
             <?php
-            $version = $theme->get("Version");
-            $version = str_replace("-wpcom", "", $version);
+            $version = $theme->get('Version');
+            $version = str_replace('-wpcom', '', $version);
             ?>
             <?php if(!empty($version)) : ?>
-                <span><?php _e("Version:", "sb-core"); ?> <?php echo $version; ?></span>
+                <span><?php _e('Version:', 'sb-core'); ?> <?php echo $version; ?></span>
             <?php endif; ?>
         </div>
         <div class="sbtheme-content">
             <div class="sidebar">
                 <ul class="sbtheme-list-section sb-tabs">
-                    <?php $count = 0; $tabs = apply_filters("sb_admin_tabs", array()); $current_tab = isset($_REQUEST["page"]) ? $_REQUEST["page"] : ""; ?>
+                    <?php $count = 0; $tabs = apply_filters('sb_admin_tabs', array()); $current_tab = isset($_REQUEST['page']) ? $_REQUEST['page'] : ''; ?>
                     <?php
                     $key = 'sb_options';
                     $about_tab = isset($tabs[$key]) ? $tabs[$key] : '';
                     if($about_tab) {
                         unset($tabs[$key]);
-                        $class = "tab-item section-item tab-".$key; if($key == $current_tab) $class .= " active";
-                        $type = isset($value["type"]) ? $value["type"] : "normal";
-                        $class .= " ".$type;
+                        $class = 'tab-item section-item tab-'.$key; if($key == $current_tab) $class .= ' active';
+                        $type = isset($value['type']) ? $value['type'] : 'normal';
+                        $class .= ' '.$type;
                         $value = $about_tab;
                         ?>
                         <li class="<?php echo $class; ?>">
-                            <a class="sbtheme-group-tab" href="<?php echo admin_url("admin.php?page=".$key); ?>" data-section="<?php echo $value['section_id']; ?>"><i class="tab-icon <?php echo $key; ?>"></i> <span class="group-title"><?php _e($value['title'], 'sb-core'); ?></span></a>
+                            <a class="sbtheme-group-tab" href="<?php echo admin_url('admin.php?page='.$key); ?>" data-section="<?php echo $value['section_id']; ?>"><i class="tab-icon <?php echo $key; ?>"></i> <span class="group-title"><?php _e($value['title'], 'sb-core'); ?></span></a>
                         </li>
                         <?php
                     }
+                    $tabs['sb_plugins'] = array('title' => 'SB Plugins', 'section_id' => 'sb_plugins_section', 'type' => 'plugin');
                     ?>
                     <?php foreach($tabs as $key => $value) : ?>
-                        <?php $class = "tab-item section-item tab-".$key; if($key == $current_tab) $class .= " active"; ?>
+                        <?php $class = 'tab-item section-item tab-'.$key; if($key == $current_tab) $class .= ' active'; ?>
                         <?php
-                        $type = isset($value["type"]) ? $value["type"] : "normal";
-                        $class .= " ".$type;
+                        $type = isset($value['type']) ? $value['type'] : 'normal';
+                        $class .= ' '.$type;
                         ?>
                         <li class="<?php echo $class; ?>">
-                            <a class="sbtheme-group-tab" href="<?php echo admin_url("admin.php?page=".$key); ?>" data-section="<?php echo $value['section_id']; ?>"><i class="tab-icon <?php echo $key; ?>"></i> <span class="group-title"><?php _e($value['title'], 'sb-core'); ?></span></a>
+                            <a class="sbtheme-group-tab" href="<?php echo admin_url('admin.php?page='.$key); ?>" data-section="<?php echo $value['section_id']; ?>"><i class="tab-icon <?php echo $key; ?>"></i> <span class="group-title"><?php _e($value['title'], 'sb-core'); ?></span></a>
                         </li>
                         <?php $count++; ?>
                     <?php endforeach; ?>
@@ -97,17 +100,17 @@ function sb_do_settings_sections( $page ) {
             </div>
             <div class="main">
                 <form id="sb-options-form" method="post" action="options.php" data-page="<?php echo $current_tab; ?>">
-                    <?php settings_fields( "sb-setting" ); ?>
+                    <?php settings_fields( 'sb-setting' ); ?>
                     <?php sb_do_settings_sections( $current_tab ); ?>
                     <?php if(!SB_Admin_Custom::is_about_page()) : ?>
-                    <?php submit_button(__("Save changes", "sb-core")); ?>
-                    <div class="top-save-button"><?php submit_button(__("Save changes", "sb-core")); ?></div>
+                    <?php submit_button(__('Save changes', 'sb-core')); ?>
+                    <div class="top-save-button"><?php submit_button(__('Save changes', 'sb-core')); ?></div>
                     <?php endif; ?>
                 </form>
             </div>
         </div>
         <div class="sbtheme-footer">
-            <div class="left"><p><?php printf(__("Created by %s.", "sb-core"), "SB Team"); ?> <?php printf(__("If you have any question, please send us an email via: %s", "sb-core"), ' <em>laidinhcuongvn@gmail.com</em>'); ?></p></div>
+            <div class="left"><p><?php printf(__('Created by %s.', 'sb-core'), 'SB Team'); ?> <?php printf(__('If you have any question, please send us an email via: %s', 'sb-core'), ' <em>laidinhcuongvn@gmail.com</em>'); ?></p></div>
             <div class="right">
                 <ul class="sb-social-list">
                     <li class="github"><a target="_blank" href="https://github.com/skylarkcob/sb-core"></a></li>

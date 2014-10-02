@@ -502,3 +502,46 @@ a:focus {
     color: #aaa;
     font-style: normal;
 }
+
+.sb-plugins .sub-tabs {
+    color: #666;
+    float: left;
+    font-size: 13px;
+    list-style: none outside none;
+    margin: 8px 0 0;
+    padding: 0;
+}
+
+
+.sb-plugins .sub-tabs li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.sb-plugins .sub-tabs li a {
+    text-decoration: none;
+}
+
+.sb-plugins .sub-tabs li a.current {
+    color: #000;
+    font-weight: 600;
+}
+
+.sb-plugins .plugin-card .desc, .sb-plugins .plugin-card .name {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.sb-plugins .plugin-card-bottom > div {
+    margin-bottom: 5px;
+}
+
+.sb-plugins .button {
+    float: right;
+}
+
+.sb-plugins .plugin-card-top {
+    overflow: hidden;
+}

@@ -53,6 +53,7 @@ if(!class_exists("SB_Admin")) {
                 wp_enqueue_style("sb-admin-style");
 
                 wp_register_script("sb-admin", plugins_url("sb-admin-script.js", __FILE__), array("jquery"), false, true);
+
                 wp_enqueue_script("sb-admin");
             } else {
                 wp_register_style("sb-admin-style", plugins_url("sb-admin-style.min.css", __FILE__));
@@ -85,9 +86,14 @@ if(!class_exists("SB_Admin")) {
             }
         }
 
+        private function add_default_section() {
+            $this->add_sb_options_section();
+            add_settings_section("sb_plugins_section", 'SB Plugins', array( $this, 'print_section_info' ), 'sb_plugins');
+        }
+
         public function action_admin_init() {
             $this->register_sb_setting();
-            $this->add_sb_options_section();
+            $this->add_default_section();
             do_action("sb_admin_init");
         }
 
@@ -96,7 +102,9 @@ if(!class_exists("SB_Admin")) {
         }
 
         public function print_section_info($args) {
-            if($args["id"] == "sb_options_section") {
+            if($args['id'] == 'sb_plugins_section') {
+                include SB_CORE_ADMIN_PATH . '/sb-plugins.php';
+            } elseif($args["id"] == "sb_options_section") {
                 _e("Short description about SB Options.", "sb-core");
             } else {
                 _e("Change your settings below:", "sb-core");
@@ -129,7 +137,7 @@ if(!class_exists("SB_Admin")) {
 		
 		public function action_admin_menu() {
 			$this->add_menu_page();
-			$this->add_submenu_page();
+			$this->add_default_submenu();
 			do_action("sb_admin_menu");
 		}
 		
@@ -141,7 +149,12 @@ if(!class_exists("SB_Admin")) {
 			$this->action();
             $this->filter();
 		}
-		
+
+        private function add_default_submenu() {
+            $this->add_submenu_page();
+            add_submenu_page('sb_options', 'SB Plugins', 'SB Plugins', 'manage_options', 'sb_plugins', array($this, 'settings_page'));
+        }
+
 		public function add_submenu_page() {
 			if(!$this->submenu_exists("sb_options")) {
 				add_submenu_page('sb_options', __('About SB', 'sb-core'), __('About SB', 'sb-core'), 'manage_options', 'sb_options', array($this, 'settings_page'));

@@ -20,6 +20,9 @@
         if(!option_form.find("h3.setting-title").length && option_form.attr("data-page") != "sb-options") {
             option_form.css({"display": "none"});
         }
+        if(option_form.find('div.sb-plugins').length) {
+            option_form.find('p.submit').css({"display": "none"});
+        }
     })();
 
     // Hide updated message
@@ -97,5 +100,15 @@
         }
         wp.media.model.settings.post.id = oldPostID;
     }
+
+    // Load SB Plugins
+    (function(){
+        var data = {
+            'action': 'sb_plugins'
+        };
+        $.post(sb_core_admin_ajax.url, data, function(response){
+            sb_option.find('div.sb-plugins > div').html(response);
+        });
+    })();
 
 })(jQuery);

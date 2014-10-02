@@ -1,10 +1,10 @@
 === SB Core ===
 Contributors: skylarkcob
 Donate link: http://hocwp.net/donate/
-Tags: sb, sb plugin, sb theme, sb team, sb core
+Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,7 @@ SB Core is not only a plugin but also a framework, it contains core function for
 
 * [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
 * [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
+* [SB Clean](https://wordpress.org/plugins/sb-clean/)
 
 == Installation ==
 

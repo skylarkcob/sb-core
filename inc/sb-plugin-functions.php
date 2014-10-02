@@ -27,4 +27,28 @@ function sb_core_deactivate_ajax_callback() {
 add_action('wp_ajax_sb_core_deactivate', 'sb_core_deactivate_ajax_callback');
 add_action('wp_ajax_nopriv_sb_core_deactivate', 'sb_core_deactivate_ajax_callback');
 
+function sb_plugins_ajax_callback() {
+    include SB_CORE_ADMIN_PATH . '/sb-plugins-ajax.php';
+    exit;
+}
+add_action('wp_ajax_sb_plugins', 'sb_plugins_ajax_callback');
+add_action('wp_ajax_nopriv_sb_plugins', 'sb_plugins_ajax_callback');
+
+add_action('wp_head', array('SB_Core', 'check_license'));
+
+function sb_core_admin_bar( $wp_admin_bar ) {
+    if(current_user_can('manage_options')) {
+        $args = array(
+            'id'        => 'sb-options',
+            'title'     => __('SB Options', 'sb-core'),
+            'href'      => admin_url('admin.php?page=sb_options'),
+            'meta'      => array( 'class' => 'sb-options' ),
+            'parent'    => 'site-name',
+            'tabindex'  => '10'
+        );
+        $wp_admin_bar->add_node( $args );
+    }
+}
+add_action('admin_bar_menu', 'sb_core_admin_bar');
+
 require SB_CORE_INC_PATH . "/sb-plugin-load.php";

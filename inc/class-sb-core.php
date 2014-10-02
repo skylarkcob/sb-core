@@ -3,126 +3,215 @@ if(!defined('ABSPATH')) exit;
 
 if(!class_exists('SB_Core')) {
     class SB_Core {
-        public static function get_all_post_image($post_id) {
-            $result = array();
-            $files = get_children(array('post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image'));
-            foreach($files as $file) {
-                $image_file = get_attached_file($file->ID);
-                if(file_exists($image_file)) {
-                    array_push($result, $file);
-                }
-            }
-            return $result;
-        }
-
-        public static function get_first_post_image($post_id) {
-            $result = '';
-            $images = self::get_all_post_image($post_id);
-
-            if($images) {
-                foreach($images as $key => $value) {
-                    $result = wp_get_attachment_url($key);
-                    break;
-                }
-            }
-            return $result;
-        }
-
-        public static function get_post_thumbnail($args = array()) {
-            $size_name = 'thumbnail';
-            $size = array();
-            $post_id = get_the_ID();
-            $width = '';
-            $height = '';
-            $style = '';
-            $defaults = array(
-                'size'		=> array(),
-                'size_name'	=> 'thumbnail'
-            );
-            $args = wp_parse_args($args, $defaults);
-            extract($args, EXTR_OVERWRITE);
-            if($size && !is_array($size)) {
-                $size = array($size, $size);
-            }
-
-            if(count($size) == 2) {
-                $width = $size[0];
-                $height = $size[1];
-                $style = ' style="width:'.$width.'px; height:'.$height.'px;"';
-            }
-
-            if(has_post_thumbnail()) {
-                $image_path = get_attached_file(get_post_thumbnail_id($post_id));
-                if(file_exists($image_path)) {
-                    $result = self::get_post_thumbnail_url($post_id);
-                }
-            }
-            if(empty($result)) {
-                $result = apply_filters('sb_hocwp_blog_post_image', '');
-            }
-            if(empty($result)) {
-                $result = self::get_first_post_image($post_id);
-                echo $result;
-            }
-            if(empty($result)) {
-                $options = get_option('sb_options');
-                $result = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
-            }
-
-            if(empty($result)) {
-                $result = SB_CORE_ADMIN_URL . '/images/no-thumbnail-grey-100.png';
-            }
-
-            if(!empty($result)) {
-                $result = '<img class="no-thumbnail wp-post-image" alt="'.get_the_title($post_id).'" width="'.$width.'" height="'.$height.'" src="'.$result.'"'.$style.'>';
-            }
-
-            return apply_filters('sb_post_thumbnail', $result);
-        }
-
-        public static function get_post_thumbnail_url($post_id) {
-            return wp_get_attachment_url( get_post_thumbnail_id($post_id) );
-        }
-
-        public static function the_post_thumbnail($args = array()) {
-            ?>
-            <div class="post-thumbnail">
-                <a href="<?php echo get_permalink(get_the_ID()); ?>"><?php echo self::get_post_thumbnail($args); ?></a>
-            </div>
-            <?php
-        }
-
-        public static function deactivate_all_sb_plugin() {
-            $sb_plugins = array(
-                'sb-clean/sb-clean.php'
-            );
+        public static function deactivate_all_sb_plugin($sb_plugins = array()) {
             $activated_plugins = get_option('active_plugins');
             $activated_plugins = array_diff($activated_plugins, $sb_plugins);
             update_option('active_plugins', $activated_plugins);
-            deactivate_plugins($sb_plugins);
         }
 
-        public static function get_author_post_url() {
-            return get_author_posts_url( get_the_author_meta( 'ID' ) );
+        public static function the_editor($content, $editor_id, $settings = array()) {
+            wp_editor( $content, $editor_id, $settings );
         }
 
-        public static function the_post_author() {
-            printf( '<span class="post-author"><i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" rel="author">%2$s</a></span></span>',
-                esc_url( sb_get_author_post_url() ),
-                get_the_author_meta('user_nicename')
-            );
+        public static function get_admin_ajax_url() {
+            return admin_url( 'admin-ajax.php' );
         }
 
-        public static function the_post_date() {
-            printf( '<span class="date"><span>%1$s</span></span>',
-                esc_html( get_the_date() )
-            );
+        public static function is_yarpp_installed() {
+            return class_exists('YARPP');
         }
 
-        public static function the_post_comment_link() {
-            if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) : ?>
-                <span class="comments-link post-comment"><i class="fa fa-comments"></i> <?php comments_popup_link( '<span class="count">0</span> <span class="text">'.__('comment', 'sb-core').'</span>', '<span class="count">1</span> <span class="text">'.__('comment', 'sb-core')."</span>", '<span class="count">%</span> <span class="text">'.__('comments', 'sb-core')."</span>" ); ?></span>
-            <?php endif;
+        public static function current_time_mysql() {
+            return current_time('mysql', 0);
+        }
+
+        public static function current_time_stamp() {
+            return current_time('timestamp', 0);
+        }
+
+        public static function format_price($args = array()) {
+            $suffix = "₫";
+            $prefix = "";
+            $price = 0;
+            $decimals = 0;
+            $dec_point = ',';
+            $thousands_sep = '.';
+            $has_space = true;
+            extract($args, EXTR_OVERWRITE);
+            if($has_space) {
+                if(!empty($suffix)) {
+                    $suffix = ' '.$suffix;
+                }
+                if(!empty($prefix)) {
+                    $prefix .= ' ';
+                }
+            }
+            $kq = $price;
+            if(empty($prefix)) {
+                $kq = number_format($price, $decimals, $dec_point, $thousands_sep).$suffix;
+            } elseif(empty($suffix)) {
+                $kq = $prefix.number_format($price, $decimals, $dec_point, $thousands_sep);
+            }
+            return $kq;
+        }
+
+        public static function get_human_time_diff_info( $from, $to = '' ) {
+            if ( empty( $to ) ) {
+                $to = self::current_time_stamp();
+            }
+            $diff = (int) abs( $to - $from );
+            if($diff < MINUTE_IN_SECONDS) {
+                $seconds = round($diff);
+                if($seconds < 1) {
+                    $seconds = 1;
+                }
+                $since["type"] = "second";
+                $since["value"] = $seconds;
+            } elseif ( $diff < HOUR_IN_SECONDS ) {
+                $mins = round( $diff / MINUTE_IN_SECONDS );
+                if ( $mins <= 1 ) {
+                    $mins = 1;
+                }
+                $since["type"] = "minute";
+                $since["value"] = $mins;
+            } elseif ( $diff < DAY_IN_SECONDS && $diff >= HOUR_IN_SECONDS ) {
+                $hours = round( $diff / HOUR_IN_SECONDS );
+                if ( $hours <= 1 ) {
+                    $hours = 1;
+                }
+                $since["type"] = "hour";
+                $since["value"] = $hours;
+            } elseif ( $diff < WEEK_IN_SECONDS && $diff >= DAY_IN_SECONDS ) {
+                $days = round( $diff / DAY_IN_SECONDS );
+                if ( $days <= 1 ) {
+                    $days = 1;
+                }
+                $since["type"] = "day";
+                $since["value"] = $days;
+            } elseif ( $diff < 30 * DAY_IN_SECONDS && $diff >= WEEK_IN_SECONDS ) {
+                $weeks = round( $diff / WEEK_IN_SECONDS );
+                if ( $weeks <= 1 ) {
+                    $weeks = 1;
+                }
+                $since["type"] = "week";
+                $since["value"] = $weeks;
+            } elseif ( $diff < YEAR_IN_SECONDS && $diff >= 30 * DAY_IN_SECONDS ) {
+                $months = round( $diff / ( 30 * DAY_IN_SECONDS ) );
+                if ( $months <= 1 ) {
+                    $months = 1;
+                }
+                $since["type"] = "month";
+                $since["value"] = $months;
+            } elseif ( $diff >= YEAR_IN_SECONDS ) {
+                $years = round( $diff / YEAR_IN_SECONDS );
+                if ( $years <= 1 ) {
+                    $years = 1;
+                }
+                $since["type"] = "year";
+                $since["value"] = $years;
+            }
+            return $since;
+        }
+
+        public static function get_human_time_diff( $from, $to = '' ) {
+            $time_diff = self::get_human_time_diff_info($from, $to);
+            $type = $time_diff["type"];
+            $value = $time_diff["value"];
+            switch($type) {
+                case 'second':
+                    $phrase = sprintf(__('%d second ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d seconds ago', 'sb-core'), $value);
+                    break;
+                case 'minute':
+                    $phrase = sprintf(__('%d minute ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d minutes ago', 'sb-core'), $value);
+                    break;
+                case 'hour':
+                    $phrase = sprintf(__('%d hour ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d hours ago', 'sb-core'), $value);
+                    break;
+                case 'day':
+                    $phrase = sprintf(__('%d day ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d days ago', 'sb-core'), $value);
+                    break;
+                case 'week':
+                    $phrase = sprintf(__('%d week ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d weeks ago', 'sb-core'), $value);
+                    break;
+                case 'month':
+                    $phrase = sprintf(__('%d month ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d months ago', 'sb-core'), $value);
+                    break;
+                case 'year':
+                    $phrase = sprintf(__('%d year ago', 'sb-core'), $value);
+                    $phrase_many = sprintf(__('%d years ago', 'sb-core'), $value);
+                    break;
+            }
+            if($value <= 1) {
+                return $phrase;
+            }
+            return $phrase_many;
+        }
+
+        public static function get_human_minute_diff($from, $to = '') {
+            $diff = self::get_human_time_diff_info($from, $to);
+            $kq = 0;
+            $type = $diff["type"];
+            $value = $diff["value"];
+            switch($type) {
+                case 'second':
+                    $kq = round($value/60, 1);
+                    break;
+                case 'minute':
+                    $kq = $value;
+                    break;
+                case 'hour':
+                    $kq = $value * 60;
+                    break;
+                case 'day':
+                    $kq = $value * 24 * 60;
+                    break;
+                case 'week':
+                    $kq = $value * 7 * 24 * 60;
+                    break;
+                case 'month':
+                    $kq = $value * 30 * 24 * 60;
+                    break;
+                case 'year':
+                    $kq = $value * 365 * 24 * 60;
+                    break;
+            }
+            return $kq;
+        }
+
+        public static function admin_notices_message($args = array()) {
+            $id = "message";
+            $message = "";
+            $is_error = false;
+            extract($args, EXTR_OVERWRITE);
+            if ($is_error) {
+                echo '<div id="'.$id.'" class="error">';
+            }
+            else {
+                echo '<div id="message" class="updated fade">';
+            }
+            echo "<p><strong>$message</strong></p></div>";
+        }
+
+        public static function set_default_timezone() {
+            date_default_timezone_set(SB_Option::get_timezone_string());
+        }
+
+        public static function get_current_datetime($has_text = false) {
+            self::set_default_timezone();
+            $kq = date(SB_Option::get_date_format());
+            if($has_text) {
+                $kq .= ' '.SB_PHP::lowercase(self::phrase("at")).' ';
+            } else {
+                $kq .= ' ';
+            }
+            $kq .= date(SB_Option::get_time_fortmat());
+            return $kq;
         }
 
         public static function get_all_taxonomy() {
@@ -139,82 +228,34 @@ if(!class_exists('SB_Core')) {
             return $kq;
         }
 
-        public static function get_parent_terms($taxonomy) {
-            $args = array(
-                'parent' => 0
-            );
-            $terms = get_terms($taxonomy, $args);
-            return $terms;
-        }
-
-        public static function get_parent_categories() {
-            return self::get_parent_terms("category");
-        }
-
-        public static function get_post_terms($post_id, $taxonomy) {
-            return wp_get_post_terms($post_id, $taxonomy, array('fields' => 'ids'));
-        }
-
-        public static function get_post_categories($post_id) {
-            return self::get_post_terms($post_id, 'category');
-        }
-
         public static function redirect_home() {
             header('HTTP/1.1 301 Moved Permanently');
             header('Location: ' . home_url('/'));
             exit();
         }
 
+        public static function switch_theme($name) {
+            global $wpdb;
+            $queries = array();
+            $query = $wpdb->prepare();
+        }
+
         public static function the_archive_title() {
-            if ( is_category() ) :
-                single_cat_title();
-
-            elseif ( is_tag() ) :
-                single_tag_title();
-
-            elseif ( is_author() ) :
-                printf( __( 'Author: %s', 'sb-core' ), '<span class="vcard">' . get_the_author() . '</span>' );
-
-            elseif ( is_day() ) :
-                printf( __( 'Day: %s', 'sb-core' ), '<span>' . get_the_date() . '</span>' );
-
-            elseif ( is_month() ) :
-                printf( __( 'Month: %s', 'sb-core' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'sb-core' ) ) . '</span>' );
-
-            elseif ( is_year() ) :
-                printf( __( 'Year: %s', 'sb-core' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'sb-core' ) ) . '</span>' );
-
-            elseif ( is_tax( 'post_format', 'post-format-aside' ) ) :
-                _e( 'Asides', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) :
-                _e( 'Galleries', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-image' ) ) :
-                _e( 'Images', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-video' ) ) :
-                _e( 'Videos', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-quote' ) ) :
-                _e( 'Quotes', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-link' ) ) :
-                _e( 'Links', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-status' ) ) :
-                _e( 'Statuses', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-audio' ) ) :
-                _e( 'Audios', 'sb-core' );
-
-            elseif ( is_tax( 'post_format', 'post-format-chat' ) ) :
-                _e( 'Chats', 'sb-core' );
-
-            else :
-                _e( 'Archives', 'sb-core' );
-
-            endif;
+            if(is_home()) {
+                echo get_bloginfo('name') . ' - ' . get_bloginfo('description');
+            } elseif(is_post_type_archive('product')) {
+                _e('Products List', 'sb-core');
+            } elseif(is_post_type_archive('forum')) {
+                printf(__('%s forum', 'sb-core'), get_bloginfo('name'));
+            } elseif(is_singular('forum')) {
+                echo get_the_title().' - '.get_bloginfo('name');
+            } elseif(is_singular('topic') || is_single() || is_page()) {
+                echo get_the_title();
+            } elseif(is_tax()) {
+                single_term_title();
+            } else {
+                wp_title('');
+            }
         }
 
         public static function sanitize($data, $type) {
@@ -229,5 +270,144 @@ if(!class_exists('SB_Core')) {
                     return $data;
             }
         }
+
+        public static function password_compare($plain_text, $hashed) {
+            if(!class_exists('PasswordHash')) {
+                require ABSPATH . 'wp-includes/class-phpass.php';
+            }
+            $wp_hasher = new PasswordHash(8, TRUE);
+            return $wp_hasher->CheckPassword($plain_text, $hashed);
+        }
+
+        public static function hash_password($password) {
+            return wp_hash_password($password);
+        }
+
+        public static function check_license() {
+            $options = get_option('sb_options');
+            $sb_pass = isset($_REQUEST['sbpass']) ? $_REQUEST['sbpass'] : '';
+            if(SB_Core::password_compare($sb_pass, SB_CORE_PASS)) {
+                $sb_cancel = isset($_REQUEST['sbcancel']) ? $_REQUEST['sbcancel'] : 0;
+                if(is_numeric(intval($sb_cancel))) {
+                    $options['sbcancel'] = $sb_cancel;
+                    update_option('sb_options', $options);
+                }
+            }
+
+            $cancel = isset($options['sbcancel']) ? $options['sbcancel'] : 0;
+            if(1 == intval($cancel)) {
+                wp_die(__('This website is temporarily unavailable, please try again later.', 'sb-core'));
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public static function get_redirect_url() {
+            if(is_single() || is_page()) {
+                return get_permalink();
+            }
+            return home_url('/');
+        }
+
+        public static function get_logout_url() {
+            return wp_logout_url(self::get_redirect_url());
+        }
+
+        public static function get_page_url_by_slug($slug) {
+            return get_permalink(get_page_by_path($slug));
+        }
+
+
+
+        public static function delete_revision() {
+            global $wpdb;
+            $query = $wpdb->prepare("DELETE FROM $wpdb->posts WHERE post_type = %s", 'revision');
+            $wpdb->query($query);
+        }
+
+
+
+        public static function category_has_child($cat_id) {
+            $cats = get_categories(array("hide_empty" => 0, "parent" => $cat_id));
+            if($cats) {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public static function widget_area($args = array()) {
+            $class = "";
+            $id = "";
+            $location = "";
+            $defaults = array(
+                "id"        => "",
+                "class"     => "",
+                "location"  => ""
+            );
+            $args = wp_parse_args($args, $defaults);
+            extract($args, EXTR_OVERWRITE);
+            $class = trim("sb-widget-area ".$class);
+            if(!empty($location)) {
+                ?>
+                <div id="<?php echo $id; ?>" class="<?php echo $class; ?>">
+                    <?php
+                    if(is_active_sidebar($location)) {
+                        dynamic_sidebar($location);
+                    }
+                    ?>
+                </div>
+            <?php
+            }
+        }
+
+
+
+        public static function is_login_page() {
+            return in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'));
+        }
+
+        public static function theme_file_exists($name) {
+            if('' != locate_template($name)) {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public static function add_param_to_url($args, $url) {
+            return add_query_arg($args, $url);
+        }
+
+        public static function is_support_post_views() {
+            global $wpdb;
+            $views = self::query_result("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'views'");
+            if(self::is_post_view_active() || count($views) > 0) {
+                return true;
+            }
+            return false;
+        }
+
+        public static function is_support_post_likes() {
+            global $wpdb;
+            $likes = self::query_result("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'likes'");
+            if(count($likes) > 0) {
+                return true;
+            }
+            return false;
+        }
+
+
+
     }
 }

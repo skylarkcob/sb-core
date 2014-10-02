@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sb-core\n"
-"POT-Creation-Date: 2014-09-28 11:36+0700\n"
-"PO-Revision-Date: 2014-09-28 11:36+0700\n"
+"POT-Creation-Date: 2014-10-02 20:02+0700\n"
+"PO-Revision-Date: 2014-10-02 20:02+0700\n"
 "Last-Translator: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language: vi\n"
@@ -17,20 +17,20 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../admin/class-sb-admin-custom.php:59 ../admin/class-sb-admin.php:100
+#: ../admin/class-sb-admin-custom.php:59 ../admin/class-sb-admin.php:108
 msgid "Short description about SB Options."
 msgstr ""
 
-#: ../admin/class-sb-admin-custom.php:61 ../admin/class-sb-admin.php:102
+#: ../admin/class-sb-admin-custom.php:61 ../admin/class-sb-admin.php:110
 msgid "Change your settings below:"
 msgstr ""
 
-#: ../admin/class-sb-admin.php:84 ../admin/class-sb-admin.php:107
-#: ../admin/class-sb-admin.php:147
+#: ../admin/class-sb-admin.php:85 ../admin/class-sb-admin.php:115
+#: ../admin/class-sb-admin.php:160
 msgid "About SB"
 msgstr ""
 
-#: ../admin/class-sb-admin.php:153
+#: ../admin/class-sb-admin.php:166 ../inc/sb-plugin-functions.php:43
 msgid "SB Options"
 msgstr ""
 
@@ -54,11 +54,33 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-#: ../admin/sb-about.php:4 ../admin/sb-setting-page.php:62
+#: ../admin/class-sb-plugin.php:49
+#, php-format
+msgid "Install %s now"
+msgstr ""
+
+#: ../admin/class-sb-plugin.php:49
+msgid "Install Now"
+msgstr ""
+
+#: ../admin/class-sb-plugin.php:55
+#, php-format
+msgid "Update %s now"
+msgstr ""
+
+#: ../admin/class-sb-plugin.php:55
+msgid "Update Now"
+msgstr ""
+
+#: ../admin/class-sb-plugin.php:61
+msgid "Installed"
+msgstr ""
+
+#: ../admin/sb-about.php:6 ../admin/sb-setting-page.php:64
 msgid "Version:"
 msgstr ""
 
-#: ../admin/sb-about.php:5
+#: ../admin/sb-about.php:7
 #, php-format
 msgid ""
 "SB Framework is a PHP framework that created by SB Team, the purposes of "
@@ -66,7 +88,7 @@ msgid ""
 "the latest version from %s."
 msgstr ""
 
-#: ../admin/sb-about.php:6
+#: ../admin/sb-about.php:8
 #, php-format
 msgid ""
 "SB Framework is writen by %1$s and %2$s, if you have any questions please "
@@ -74,7 +96,7 @@ msgid ""
 "WordPress forum."
 msgstr ""
 
-#: ../admin/sb-about.php:7
+#: ../admin/sb-about.php:9
 #, php-format
 msgid ""
 "If you feel this framework helpful, you can use the PayPal donate button "
@@ -83,117 +105,172 @@ msgid ""
 "information."
 msgstr ""
 
-#: ../admin/sb-about.php:7
+#: ../admin/sb-about.php:9
 msgid "the donation page"
 msgstr ""
 
-#: ../admin/sb-setting-page.php:40
+#: ../admin/sb-plugins-ajax.php:22
+msgid "Downloads:"
+msgstr ""
+
+#: ../admin/sb-plugins-ajax.php:32
+msgid "Last Updated:"
+msgstr ""
+
+#: ../admin/sb-plugins.php:2
+#, php-format
+msgid "List all plugins are written by %s."
+msgstr ""
+
+#: ../admin/sb-setting-page.php:42
 msgid "Options page will not work if your browser doesn't support javascript!"
 msgstr ""
 
-#: ../admin/sb-setting-page.php:44
+#: ../admin/sb-setting-page.php:46
 msgid "All your changes have been saved successfully."
 msgstr ""
 
-#: ../admin/sb-setting-page.php:53
+#: ../admin/sb-setting-page.php:55
 msgid "No name theme"
 msgstr ""
 
-#: ../admin/sb-setting-page.php:87 ../admin/sb-setting-page.php:88
+#: ../admin/sb-setting-page.php:106 ../admin/sb-setting-page.php:107
 msgid "Save changes"
 msgstr ""
 
-#: ../admin/sb-setting-page.php:94
+#: ../admin/sb-setting-page.php:113
 #, php-format
 msgid "Created by %s."
 msgstr ""
 
-#: ../admin/sb-setting-page.php:94
+#: ../admin/sb-setting-page.php:113
 #, php-format
 msgid "If you have any question, please send us an email via: %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:124
+#: ../inc/class-sb-core.php:122
+#, php-format
+msgid "%d second ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:123
+#, php-format
+msgid "%d seconds ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:126
+#, php-format
+msgid "%d minute ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:127
+#, php-format
+msgid "%d minutes ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:130
+#, php-format
+msgid "%d hour ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:131
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:134
+#, php-format
+msgid "%d day ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:135
+#, php-format
+msgid "%d days ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:138
+#, php-format
+msgid "%d week ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:139
+#, php-format
+msgid "%d weeks ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:142
+#, php-format
+msgid "%d month ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:143
+#, php-format
+msgid "%d months ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:146
+#, php-format
+msgid "%d year ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:147
+#, php-format
+msgid "%d years ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:247
+msgid "Products List"
+msgstr ""
+
+#: ../inc/class-sb-core.php:249
+#, php-format
+msgid "%s forum"
+msgstr ""
+
+#: ../inc/class-sb-core.php:299
+msgid "This website is temporarily unavailable, please try again later."
+msgstr ""
+
+#: ../inc/class-sb-mail.php:25
+#, php-format
+msgid "Your comment on %s is approved"
+msgstr ""
+
+#: ../inc/class-sb-mail.php:26
+#, php-format
+msgid "Dear %s"
+msgstr ""
+
+#: ../inc/class-sb-mail.php:27
+#, php-format
+msgid ""
+"Your comment on %s is approved. You can click these links below for more "
+"detail."
+msgstr ""
+
+#: ../inc/class-sb-mail.php:28
+#, php-format
+msgid "Post link: %s"
+msgstr ""
+
+#: ../inc/class-sb-mail.php:29
+#, php-format
+msgid "Comment link: %s"
+msgstr ""
+
+#: ../inc/class-sb-post.php:115
 msgid "comment"
 msgstr ""
 
-#: ../inc/class-sb-core.php:124
+#: ../inc/class-sb-post.php:115
 msgid "comments"
 msgstr ""
 
-#: ../inc/class-sb-core.php:176
-#, php-format
-msgid "Author: %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:179
-#, php-format
-msgid "Day: %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:182
-#, php-format
-msgid "Month: %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:182
-msgid "F Y"
-msgstr ""
-
-#: ../inc/class-sb-core.php:185
-#, php-format
-msgid "Year: %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:185
-msgid "Y"
-msgstr ""
-
-#: ../inc/class-sb-core.php:188
-msgid "Asides"
-msgstr ""
-
-#: ../inc/class-sb-core.php:191
-msgid "Galleries"
-msgstr ""
-
-#: ../inc/class-sb-core.php:194
-msgid "Images"
-msgstr ""
-
-#: ../inc/class-sb-core.php:197
-msgid "Videos"
-msgstr ""
-
-#: ../inc/class-sb-core.php:200
-msgid "Quotes"
-msgstr ""
-
-#: ../inc/class-sb-core.php:203
-msgid "Links"
-msgstr ""
-
-#: ../inc/class-sb-core.php:206
-msgid "Statuses"
-msgstr ""
-
-#: ../inc/class-sb-core.php:209
-msgid "Audios"
-msgstr ""
-
-#: ../inc/class-sb-core.php:212
-msgid "Chats"
-msgstr ""
-
-#: ../inc/class-sb-core.php:215
-msgid "Archives"
-msgstr ""
-
-#: ../inc/sb-core-functions.php:10
+#: ../inc/sb-plugin-functions.php:10
 msgid "About"
 msgstr ""
 
-#: ../inc/sb-core-functions.php:24
+#: ../inc/sb-plugin-functions.php:24
 msgid ""
 "All plugins and themes that are created by SB Team will be deactivated! Are "
 "you sure?"
