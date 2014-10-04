@@ -545,3 +545,15 @@ a:focus {
 .sb-plugins .plugin-card-top {
     overflow: hidden;
 }
+
+.sbtheme-content .reset-button {
+    bottom: 25px;
+    position: absolute;
+    right: 20px;
+}
+
+.sbtheme-content .reset-button img {
+    display: none;
+    margin-left: 10px;
+    vertical-align: -3px;
+}

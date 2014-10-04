@@ -22,6 +22,7 @@
         }
         if(option_form.find('div.sb-plugins').length) {
             option_form.find('p.submit').css({"display": "none"});
+            option_form.find('div.reset-button').css({'display': 'none'});
         }
     })();
 
@@ -55,8 +56,6 @@
             });
         });
     })();
-
-
 
     // Upload media button
     (function(){
@@ -103,11 +102,43 @@
 
     // Load SB Plugins
     (function(){
-        var data = {
-            'action': 'sb_plugins'
-        };
-        $.post(sb_core_admin_ajax.url, data, function(response){
-            sb_option.find('div.sb-plugins > div').html(response);
+        if(sb_option.find('div.sb-plugins').length) {
+            var data = {
+                'action': 'sb_plugins'
+            };
+            $.post(sb_core_admin_ajax.url, data, function(response){
+                sb_option.find('div.sb-plugins > div').html(response);
+            });
+        }
+    })();
+
+    (function(){
+        sb_option.find('div.reset-button > span').on('click', function(){
+            var that = $(this),
+                data_page = that.parent().parent().attr('data-page'),
+                data = {
+                    'action': 'sb_option_reset',
+                    'sb_option_page': that.parent().parent().attr('data-page')
+                };
+
+            that.find('img').css({'display': 'inline-block'});
+            $.post(sb_core_admin_ajax.url, data, function(response){
+                var data_option = $.parseJSON(response),
+                    option_form = that.parent().parent();
+                if(typeof data_option == 'object') {
+                    if(data_page == 'sb_paginate') {
+                        option_form.find('input[name="sb_options[paginate][label]"]').val(data_option['label']);
+                        option_form.find('input[name="sb_options[paginate][next_text]"]').val(data_option['next_text']);
+                        option_form.find('input[name="sb_options[paginate][previous_text]"]').val(data_option['previous_text']);
+                        option_form.find('input[name="sb_options[paginate][range]"]').val(data_option['range']);
+                        option_form.find('input[name="sb_options[paginate][anchor]"]').val(data_option['anchor']);
+                        option_form.find('input[name="sb_options[paginate][gap]"]').val(data_option['gap']);
+                        option_form.find('select[name="sb_options[paginate][style]"]').val(data_option['style']);
+                        option_form.find('select[name="sb_options[paginate][border_radius]"]').val(data_option['border_radius']);
+                    }
+                }
+                that.find('img').css({'display': 'none'});
+            });
         });
     })();
 

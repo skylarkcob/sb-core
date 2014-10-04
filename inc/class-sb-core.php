@@ -300,16 +300,6 @@ if(!class_exists('SB_Core')) {
             }
         }
 
-
-
-
-
-
-
-
-
-
-
         public static function get_redirect_url() {
             if(is_single() || is_page()) {
                 return get_permalink();
@@ -325,15 +315,11 @@ if(!class_exists('SB_Core')) {
             return get_permalink(get_page_by_path($slug));
         }
 
-
-
         public static function delete_revision() {
             global $wpdb;
             $query = $wpdb->prepare("DELETE FROM $wpdb->posts WHERE post_type = %s", 'revision');
             $wpdb->query($query);
         }
-
-
 
         public static function category_has_child($cat_id) {
             $cats = get_categories(array("hide_empty" => 0, "parent" => $cat_id));
@@ -342,8 +328,6 @@ if(!class_exists('SB_Core')) {
             }
             return false;
         }
-
-
 
         public static function widget_area($args = array()) {
             $class = "";
@@ -370,8 +354,6 @@ if(!class_exists('SB_Core')) {
             }
         }
 
-
-
         public static function is_login_page() {
             return in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'));
         }
@@ -382,8 +364,6 @@ if(!class_exists('SB_Core')) {
             }
             return false;
         }
-
-
 
         public static function add_param_to_url($args, $url) {
             return add_query_arg($args, $url);
@@ -406,8 +386,6 @@ if(!class_exists('SB_Core')) {
             }
             return false;
         }
-
-
 
     }
 }

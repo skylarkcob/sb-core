@@ -105,6 +105,7 @@ function sb_do_settings_sections( $page ) {
                     <?php if(!SB_Admin_Custom::is_about_page()) : ?>
                     <?php submit_button(__('Save changes', 'sb-core')); ?>
                     <div class="top-save-button"><?php submit_button(__('Save changes', 'sb-core')); ?></div>
+                    <div class="sb-button reset-button"><span class="button"><?php _e('Reset', 'sb-core'); ?><img src="<?php echo SB_CORE_ADMIN_URL . '/images/ajax-loader.gif'; ?>"></span></div>
                     <?php endif; ?>
                 </form>
             </div>

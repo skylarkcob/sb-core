@@ -15,7 +15,7 @@ if(!class_exists('SB_List_Plugin')) {
             $this->add(new SB_Plugin('sb-paginate'));
             $this->add(new SB_Plugin('sb-clean'));
             $this->add(new SB_Plugin('sb-tbfa'));
-
+            $this->add(new SB_Plugin('sb-comment'));
         }
 
         public function add($plugin) {
