@@ -129,4 +129,8 @@ class SB_Post {
         return wp_get_post_terms($post_id, $taxonomy, array('fields' => 'ids'));
     }
 
+    public static function get_meta($post_id, $key) {
+        return get_post_meta($post_id, $key, true);
+    }
+
 }

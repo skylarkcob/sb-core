@@ -326,7 +326,7 @@ a:focus {
 }
 
 .sbtheme-option-section {
-
+    min-height: 450px;
 }
 
 .sbtheme-option-section.active {
