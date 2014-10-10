@@ -29,4 +29,6 @@ require SB_CORE_ADMIN_PATH . '/class-sb-plugin.php';
 
 require SB_CORE_ADMIN_PATH . '/class-sb-list-plugin.php';
 
+require SB_CORE_ADMIN_PATH . '/class-sb-meta-box.php';
+
 require SB_CORE_ADMIN_PATH . '/sb-admin.php';

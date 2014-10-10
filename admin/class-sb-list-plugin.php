@@ -15,6 +15,7 @@ class SB_List_Plugin {
         $this->add(new SB_Plugin('sb-clean'));
         $this->add(new SB_Plugin('sb-tbfa'));
         $this->add(new SB_Plugin('sb-comment'));
+        $this->add(new SB_Plugin('sb-post-widget'));
     }
 
     public function add($plugin) {

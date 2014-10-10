@@ -36,31 +36,18 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
         </p>
-    <?php
+        <?php
     }
 
     public static function select($args = array()) {
-        $paragraph_class = "";
-        $id = "";
-        $name = "";
-        $field_class = "";
-        $label_text = "";
+        $paragraph_class = '';
+        $id = '';
+        $name = '';
+        $field_class = '';
+        $label_text = '';
         $list_options = array();
-        $value = "";
-        $description = "";
-
-        $defaults = array(
-            "id"                => "",
-            "name"              => "",
-            "label_text"        => "",
-            "value"             => "",
-            "paragraph_class"   => "",
-            "field_class"       => "",
-            "list_options"      => array()
-        );
-
-        $args = wp_parse_args($args, $defaults);
-
+        $value = '';
+        $description = '';
         extract($args, EXTR_OVERWRITE);
         ?>
         <p class="<?php echo $paragraph_class; ?>">
@@ -68,6 +55,33 @@ class SB_Widget_Field {
             <select id="<?php echo esc_attr( $id ); ?>" class="<?php echo $field_class; ?>" name="<?php echo esc_attr( $name ); ?>">
                 <?php foreach ( $list_options as $key => $option ) : ?>
                     <option value="<?php echo esc_attr( $key ); ?>"<?php selected( $value, $key ); ?>><?php echo $option; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php if(!empty($description)) : ?>
+                <em><?php echo $description; ?></em>
+            <?php endif; ?>
+        </p>
+        <?php
+    }
+
+    public static function select_sidebar($args = array()) {
+        $paragraph_class = '';
+        $id = '';
+        $name = '';
+        $field_class = '';
+        $label_text = '';
+        $list_options = array();
+        $value = '';
+        $description = '';
+        extract($args, EXTR_OVERWRITE);
+
+        ?>
+        <p class="<?php echo $paragraph_class; ?>">
+            <label for="<?php echo esc_attr( $id ); ?>"><?php echo $label_text; ?></label>
+            <select id="<?php echo esc_attr( $id ); ?>" class="<?php echo $field_class; ?>" name="<?php echo esc_attr( $name ); ?>">
+                <?php foreach ( $list_options as $sidebar_id => $sidebar ) : ?>
+                    <?php if('wp_inactive_widgets' == $sidebar_id) continue; ?>
+                    <option value="<?php echo esc_attr( $sidebar_id ); ?>"<?php selected( $value, $sidebar_id ); ?>><?php echo $sidebar['name']; ?></option>
                 <?php endforeach; ?>
             </select>
             <?php if(!empty($description)) : ?>
@@ -111,7 +125,7 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
         </p>
-    <?php
+        <?php
     }
 
     public static function size($args = array()) {
@@ -153,7 +167,7 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
         </p>
-    <?php
+        <?php
     }
 
     public static function text($args = array()) {
@@ -180,7 +194,7 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
         </p>
-    <?php
+        <?php
     }
 
     public static function textarea($args = array()) {
@@ -227,7 +241,7 @@ class SB_Widget_Field {
             <legend><?php echo $title; ?></legend>
             <?php call_user_func($callback); ?>
         </fieldset>
-    <?php
+        <?php
     }
 
     public static function select_term($args = array()) {
@@ -281,6 +295,6 @@ class SB_Widget_Field {
             <?php endif; ?>
             <input id="<?php echo esc_attr( $taxonomy_id ); ?>" class="widefat taxonomy" name="<?php echo esc_attr( $taxonomy_name ); ?>" type="hidden" value="<?php echo esc_attr( $taxonomy ); ?>">
         </p>
-    <?php
+        <?php
     }
 }

@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.0.3
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,7 @@ SB Core is not only a plugin but also a framework, it contains core function for
 * [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
 * [SB Clean](https://wordpress.org/plugins/sb-clean/)
 * [SB Comment](https://wordpress.org/plugins/sb-comment/)
+* [SB Post Widget](https://wordpress.org/plugins/sb-post-widget/)
 
 == Installation ==
 
@@ -50,6 +51,12 @@ Please visit [homepage](http://hocwp.net) for more details.
 Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
+
+= V1.0.5 =
+* New: Support SB Tab Widget.
+
+= V1.0.4 =
+* New: Update for SBT WAP theme.
 
 = V1.0.3 =
 * New: Support SB Post Widget.

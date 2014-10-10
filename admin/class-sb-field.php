@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 class SB_Field {
 
     private static function image_thumbnail($class = "", $src = "") {
@@ -23,6 +21,56 @@ class SB_Field {
         self::image_thumbnail($name, $value);
         self::media_upload($id, $name, $value, $description);
         echo '</div>';
+    }
+
+    public static function widget_area($args = array()) {
+        $id = '';
+        $name = '';
+        $list_sidebars = array();
+        $description = '';
+        $default_sidebars = array();
+        extract($args, EXTR_OVERWRITE);
+        ?>
+        <div id="<?php echo $id; ?>" class="sb-theme-sidebar">
+            <div class="sb-sidebar-group">
+                <ul id="sb-sortable-sidebar" class="sb-sortable-list" data-icon-drag="<?php echo SB_CORE_URL . '/images/icon-drag-16.png'; ?>" data-icon-delete="<?php echo SB_CORE_URL . '/images/icon-delete-16.png'; ?>" data-sidebar="<?php echo count($list_sidebars); ?>" data-message-confirm="<?php _e('Are you sure you want to delete?', 'sb-core'); ?>" data-name="<?php echo $name; ?>">
+                    <li class="ui-state-disabled sb-default-sidebar">
+                        <div class="sb-sidebar-line">
+                            <input type="text" name="sidebar_default_0_name" value="<?php _e('Sidebar name', 'sb-core'); ?>" autocomplete="off" disabled>
+                            <input type="text" name="sidebar_default_0_description" value="<?php _e('Sidebar description', 'sb-core'); ?>" autocomplete="off" disabled>
+                            <input type="text" name="sidebar_default_0_id" value="<?php _e('Sidebar id', 'sb-core'); ?>" autocomplete="off" disabled>
+                        </div>
+                        <img class="sb-icon-drag" src="<?php echo SB_CORE_URL . '/images/icon-drag-16.png'; ?>">
+                        <img class="sb-icon-delete" src="<?php echo SB_CORE_URL . '/images/icon-delete-16.png'; ?>">
+                    </li>
+                    <?php $count = 1; foreach($default_sidebars as $value) : ?>
+                        <li class="ui-state-disabled sb-default-sidebar">
+                            <div class="sb-sidebar-line">
+                                <input type="text" name="sidebar_default_<?php echo $count; ?>_name" value="<?php echo $value['name']; ?>" autocomplete="off" disabled>
+                                <input type="text" name="sidebar_default_<?php echo $count; ?>_description" value="<?php echo $value['description']; ?>" autocomplete="off" disabled>
+                                <input type="text" name="sidebar_default_<?php echo $count; ?>_id" value="<?php echo $value['id']; ?>" autocomplete="off" disabled>
+                            </div>
+                            <img class="sb-icon-drag" src="<?php echo SB_CORE_URL . '/images/icon-drag-16.png'; ?>">
+                            <img class="sb-icon-delete" src="<?php echo SB_CORE_URL . '/images/icon-delete-16.png'; ?>">
+                        </li>
+                    <?php $count++; endforeach; ?>
+                    <?php $count = 1; foreach($list_sidebars as $sidebar) : ?>
+                        <li class="ui-state-default sb-user-sidebar" data-sidebar="<?php echo $count; ?>">
+                            <div class="sb-sidebar-line">
+                                <input type="text" name="<?php echo $name . '[' . $count . '][name]'; ?>" value="<?php echo $sidebar['name']; ?>" autocomplete="off">
+                                <input type="text" name="<?php echo $name . '[' . $count . '][description]'; ?>" value="<?php echo $sidebar['description']; ?>" autocomplete="off">
+                                <input type="text" name="<?php echo $name . '[' . $count . '][id]'; ?>" value="<?php echo $sidebar['id']; ?>" autocomplete="off">
+                            </div>
+                            <img class="sb-icon-drag" src="<?php echo SB_CORE_URL . '/images/icon-drag-16.png'; ?>">
+                            <img class="sb-icon-delete" src="<?php echo SB_CORE_URL . '/images/icon-delete-16.png'; ?>">
+                        </li>
+                    <?php $count++; endforeach; ?>
+                </ul>
+                <input type="hidden" name="<?php echo $name; ?>[count]" value="<?php echo count($list_sidebars); ?>" class="sb-sidebar-count">
+            </div>
+            <button class="button sb-add-sidebar"><?php _e('Add new sidebar', 'sb-core'); ?></button>
+        </div>
+        <?php
     }
 
     private static function media_upload($id, $name, $value, $description) {

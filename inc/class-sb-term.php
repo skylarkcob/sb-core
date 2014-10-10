@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_Term {
     public static function get($taxonomy, $args = array()) {
         $args['hide_empty'] = 0;
@@ -35,6 +33,11 @@ class SB_Term {
 
     public static function get_category_no_childrens($args = array()) {
         return self::get_no_childrens('category', $args);
+    }
+
+    public static function get_categories($args = array()) {
+        $args['hide_empty'] = false;
+        return get_categories($args);
     }
 
 }

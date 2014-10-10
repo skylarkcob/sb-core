@@ -24,7 +24,10 @@ class SB_Post {
 
     public static function get_first_image_url($post_id) {
         $image = self::get_first_image($post_id);
-        return wp_get_attachment_url($image->id);
+        if($image) {
+            return wp_get_attachment_url($image->id);
+        }
+        return '';
     }
 
     public static function get_thumbnail_url($post_id) {
@@ -129,8 +132,17 @@ class SB_Post {
         return wp_get_post_terms($post_id, $taxonomy, array('fields' => 'ids'));
     }
 
-    public static function get_meta($post_id, $key) {
-        return get_post_meta($post_id, $key, true);
+    public static function get_meta($post_id, $meta_key) {
+        return get_post_meta($post_id, $meta_key, true);
+    }
+
+    public static function get_sb_meta($post_id, $meta_key) {
+        $meta_key = SB_Core::build_meta_box_field_name($meta_key);
+        return self::get_meta($post_id, $meta_key);
+    }
+
+    public static function update_meta($post_id, $meta_key, $meta_value) {
+        update_post_meta($post_id, $meta_key, $meta_value);
     }
 
 }

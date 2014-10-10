@@ -142,4 +142,58 @@
         });
     })();
 
+    // List sidebar option
+    (function(){
+        function append_new_sidebar(list) {
+            var $li = $('<li class="ui-state-default sb-sidebar-custom"/>'),
+                data_sidebar = parseInt(list.attr('data-sidebar')) + 1;
+                $html = '<div class="sb-sidebar-line"><input type="text" name="' + list.attr('data-name') + '[' + data_sidebar + '][name]"><input type="text" name="' + list.attr('data-name') + '[' + data_sidebar + '][description]"><input type="text" name="' + list.attr('data-name') + '[' + data_sidebar + '][id]"></div>';
+            list.attr('data-sidebar', data_sidebar);
+
+            $html += '<img src="' + list.attr('data-icon-drag') + '" class="sb-icon-drag">';
+            $html += '<img src="' + list.attr('data-icon-delete') + '" class="sb-icon-delete">';
+            $li.attr('data-sidebar', data_sidebar);
+            $li.html($html);
+            list.append($li);
+            list.parent().find('.sb-sidebar-count').val(data_sidebar);
+            list.sortable('refresh');
+        }
+
+        $('#sb-sortable-sidebar').sortable({
+            cancel: ':input, .ui-state-disabled, .sb-icon-delete',
+            placeholder: 'ui-state-highlight',
+        });
+
+        $('button.sb-add-sidebar').on('click', function(e){
+            e.preventDefault();
+            var sortable_list = $(this).parent().find('.ui-sortable');
+            append_new_sidebar(sortable_list);
+            return false;
+        });
+
+        sb_option.delegate('.sb-icon-delete', 'click', function(){
+            var that = $(this),
+                $li = that.parent(),
+                $list = $li.parent(),
+                has_value = false,
+                data_sidebar = parseInt($list.attr('data-sidebar')) - 1;
+            if(!$li.hasClass('sb-default-sidebar')) {
+                $li.find('input').each(function(){
+                    if('' != $(this).val()) {
+                        has_value = true;
+                    }
+                });
+                if(has_value && confirm($list.attr('data-message-confirm'))) {
+                    that.parent().remove();
+                    $list.attr('data-sidebar', data_sidebar);
+                    $list.parent().find('.sb-sidebar-count').val(data_sidebar);
+                } else {
+                    that.parent().remove();
+                    $list.attr('data-sidebar', data_sidebar);
+                    $list.parent().find('.sb-sidebar-count').val(data_sidebar);
+                }
+            }
+        });
+    })();
+
 })(jQuery);

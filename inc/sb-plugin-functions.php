@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 function sb_core_session() {
     if(version_compare(phpversion(), '5.4.0', '>=')) {
         if (session_status() == PHP_SESSION_NONE) {
