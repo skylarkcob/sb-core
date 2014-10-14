@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_Query {
     public static function get_posts_per_page() {
         return get_option('posts_per_page');

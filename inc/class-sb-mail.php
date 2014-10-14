@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_Mail {
     public static function set_html_content_type() {
         return 'text/html';

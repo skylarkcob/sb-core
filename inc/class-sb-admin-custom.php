@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 class SB_Admin_Custom {
     public static function add_submenu_page($title, $slug, $callback) {
         if(!self::submenu_page_exists($slug)) {
@@ -66,6 +64,6 @@ class SB_Admin_Custom {
     }
 
     public static function setting_page_callback() {
-        include SB_CORE_ADMIN_PATH . '/sb-setting-page.php';
+        include SB_CORE_INC_PATH . '/sb-setting-page.php';
     }
 }

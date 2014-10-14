@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 class SB_Admin {
 
     private $sb_plugins = array();
@@ -46,22 +44,6 @@ class SB_Admin {
         if(SB_PHP::is_string_contain($page, 'sb')) {
             wp_enqueue_media();
         }
-
-        if($this->sb_admin_test()) {
-            wp_register_style('sb-admin-style', SB_CORE_URL . '/admin/sb-admin-style.css');
-            wp_enqueue_style('sb-admin-style');
-
-            wp_register_script('sb-admin', SB_CORE_URL . '/admin/sb-admin-script.js', array('jquery'), false, true);
-
-            wp_enqueue_script('sb-admin');
-        } else {
-            wp_register_style('sb-admin-style', SB_CORE_URL . '/admin/sb-admin-style.min.css');
-            wp_enqueue_style('sb-admin-style');
-
-            wp_register_script('sb-admin', SB_CORE_URL . '/admin/sb-admin-script.min.js', array('jquery'), false, true);
-            wp_enqueue_script('sb-admin');
-        }
-
     }
 
     public function action_admin_head() {
@@ -97,12 +79,12 @@ class SB_Admin {
     }
 
     public function sb_options_callback() {
-        include(SB_CORE_ADMIN_PATH . '/sb-about.php');
+        include(SB_CORE_INC_PATH . '/sb-about.php');
     }
 
     public function print_section_info($args) {
         if($args['id'] == 'sb_plugins_section') {
-            include SB_CORE_ADMIN_PATH . '/sb-plugins.php';
+            include SB_CORE_INC_PATH . '/sb-plugins.php';
         } elseif($args['id'] == 'sb_options_section') {
             _e('Short description about SB Options.', 'sb-core');
         } else {

@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 class SB_PHP {
     public static function url_exists($url) {
 

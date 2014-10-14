@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.0.5
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,17 +26,22 @@ SB Core is not only a plugin but also a framework, it contains core function for
 
 **Recommended WordPress Plugins**
 
-* [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
-* [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
+* [SB Banner Widget](https://wordpress.org/plugins/sb-banner-widget/)
 * [SB Clean](https://wordpress.org/plugins/sb-clean/)
 * [SB Comment](https://wordpress.org/plugins/sb-comment/)
+* [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
 * [SB Post Widget](https://wordpress.org/plugins/sb-post-widget/)
+* [SB Tab Widget](https://wordpress.org/plugins/sb-tab-widget/)
+* [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
 
 == Installation ==
 
-Upload the SB Core plugin to your blog, activate it.
+Install this plugin from your WordPress site Dashboard or follow these steps below:
 
-1, 2, 3: You're done!
+1. Download plugin from WordPress Plugins directory and extract it.
+1. Upload the `sb-core` folder to the `/wp-content/plugins/` directory.
+1. Activate the SB Core plugin through the 'Plugins' menu in WordPress.
+1. Configure the plugin by going to the `SB Options` menu that appears in your admin menu.
 
 == Frequently Asked Questions ==
 
@@ -52,20 +57,29 @@ Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
 
-= V1.0.5 =
+= 1.0.8 =
+* New: Support SB Login Page.
+
+= 1.0.7 =
+* Bugs: Fix SB Core admin url.
+
+= 1.0.6 =
+* New: Support SB Banner Widget.
+
+= 1.0.5 =
 * New: Support SB Tab Widget.
 
-= V1.0.4 =
+= 1.0.4 =
 * New: Update for SBT WAP theme.
 
-= V1.0.3 =
+= 1.0.3 =
 * New: Support SB Post Widget.
 
-= V1.0.2 =
+= 1.0.2 =
 * New: Add function to deactive SB Theme after SB Core is deativated.
 
-= V1.0.1 =
+= 1.0.1 =
 * New: Split core functions to many classes, support SB Comment plugin.
 
-= V1.0.0 =
-First release of SB Core.
+= 1.0.0 =
+First release of this plugin.

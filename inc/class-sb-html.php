@@ -1,7 +1,4 @@
 <?php
-if(!defined("ABSPATH")) {
-    exit;
-}
 class SB_HTML {
     var $self_closers = null;
     var $name = null;

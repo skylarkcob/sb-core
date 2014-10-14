@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_Plugin {
     private $slug;
     private $folder_name;
@@ -9,6 +7,10 @@ class SB_Plugin {
     public function __construct($slug) {
         $this->slug = $slug;
         $this->folder_name = $slug;
+    }
+
+    public function get_slug() {
+        return $this->slug;
     }
 
     public function set_folder($name) {

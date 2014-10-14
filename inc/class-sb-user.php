@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_User {
     public static function is_admin($user_id) {
         $user = get_user_by('id', $user_id);

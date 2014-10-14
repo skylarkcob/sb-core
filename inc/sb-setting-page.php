@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 function sb_do_settings_sections( $page ) {
     global $wp_settings_sections, $wp_settings_fields;
 
@@ -30,7 +28,7 @@ function sb_do_settings_sections( $page ) {
         if($has_field && 'sb_options_section' != $section_id) {
             do_settings_fields( $page, $section_id );
         } elseif('sb_options_section' == $section_id) {
-            include(SB_CORE_ADMIN_PATH . '/sb-about.php');
+            include(SB_CORE_INC_PATH . '/sb-about.php');
         }
         echo '</table>';
         echo '</div>';
@@ -105,7 +103,7 @@ function sb_do_settings_sections( $page ) {
                     <?php if(!SB_Admin_Custom::is_about_page()) : ?>
                     <?php submit_button(__('Save changes', 'sb-core')); ?>
                     <div class="top-save-button"><?php submit_button(__('Save changes', 'sb-core')); ?></div>
-                    <div class="sb-button reset-button"><span class="button"><?php _e('Reset', 'sb-core'); ?><img src="<?php echo SB_CORE_ADMIN_URL . '/images/ajax-loader.gif'; ?>"></span></div>
+                    <div class="sb-button reset-button"><span class="button"><?php _e('Reset', 'sb-core'); ?><img src="<?php echo SB_CORE_URL . '/images/ajax-loader.gif'; ?>"></span></div>
                     <?php endif; ?>
                 </form>
             </div>

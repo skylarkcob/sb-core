@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_Option {
     public static function get_date_format() {
         return get_option('date_format');
@@ -44,5 +42,14 @@ class SB_Option {
     public static function the_footer_text_html() {
         $options = self::get();
         echo isset($options['theme']['footer_text']) ? $options['theme']['footer_text'] : '';
+    }
+
+    public static function get_login_logo_url() {
+        $options = self::get();
+        $logo_url = isset($options['login_page']['logo']) ? $options['login_page']['logo'] : '';
+        if(empty($logo_url) && defined('SB_THEME_VERSION')) {
+            $logo_url = isset($options['theme']['logo']) ? $options['theme']['logo'] : '';
+        }
+        return $logo_url;
     }
 }

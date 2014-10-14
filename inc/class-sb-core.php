@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 class SB_Core {
     public static function deactivate_all_sb_plugin($sb_plugins = array()) {
         $activated_plugins = get_option('active_plugins');

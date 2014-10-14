@@ -1,6 +1,4 @@
 <?php
-if(!defined('ABSPATH')) exit;
-
 class SB_Widget_Field {
     public static function number($args = array()) {
         $input_class = '';
@@ -100,17 +98,7 @@ class SB_Widget_Field {
         $name = '';
         $value = '';
         $display = true;
-        $defaults = array(
-            'id'				=> '',
-            'name'				=> '',
-            'value'				=> '',
-            'description'		=> '',
-            'paragraph_id'		=> '',
-            'display'			=> true,
-            'input_class'		=> '',
-            'paragraph_class'	=> ''
-        );
-        $args = wp_parse_args($args, $defaults);
+        $paragraph_id = '';
         extract($args, EXTR_OVERWRITE);
         $style = '';
         if(!$display) {
@@ -118,7 +106,7 @@ class SB_Widget_Field {
         }
         $input_class = trim($input_class." sb-checkbox");
         ?>
-        <p class="<?php echo $paragraph_class; ?>" style="<?php echo $style; ?>">
+        <p id="<?php echo $paragraph_id; ?>" class="<?php echo $paragraph_class; ?>" style="<?php echo $style; ?>">
             <input id="<?php echo esc_attr( $id ); ?>" class="<?php echo $input_class; ?>" name="<?php echo esc_attr( $name ); ?>" type="checkbox" value="<?php echo esc_attr( $value ); ?>" <?php checked( $value, 1, true ); ?>>
             <label for="<?php echo esc_attr( $id ); ?>"><?php echo $label_text; ?></label>
             <?php if(!empty($description)) : ?>
@@ -294,6 +282,22 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
             <input id="<?php echo esc_attr( $taxonomy_id ); ?>" class="widefat taxonomy" name="<?php echo esc_attr( $taxonomy_name ); ?>" type="hidden" value="<?php echo esc_attr( $taxonomy ); ?>">
+        </p>
+        <?php
+    }
+
+    public static function media_upload($args = array()) {
+        $id = '';
+        $name = '';
+        $label_text = '';
+        $value = '';
+        $paragraph_id = '';
+        extract($args, EXTR_OVERWRITE);
+        ?>
+        <p id="<?php echo $paragraph_id; ?>" class="sb-media-upload">
+            <label for="<?php echo esc_attr($id); ?>"><?php _e($label_text, 'sb-banner-widget' ); ?></label>
+            <input id="<?php echo esc_attr($id); ?>" class="widefat" name="<?php echo esc_attr($name); ?>" type="text" value="<?php echo esc_attr($value); ?>">
+            <a title="<?php _e('Insert image', 'sb-core'); ?>" data-editor="sb-content" class="sb-button button sb-insert-media sb-add-media" href="javascript:;"><?php _e('Upload', 'sb-core'); ?></a>
         </p>
         <?php
     }

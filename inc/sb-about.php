@@ -1,7 +1,5 @@
-<?php defined('ABSPATH') OR exit; ?>
-
 <div class="sbtheme-about about-sb-text">
-    <?php $logo_url = plugins_url('images/sb-framework-logo-300.png', __FILE__); ?>
+    <?php $logo_url = SB_CORE_URL . '/images/sb-framework-logo-300.png'; ?>
     <div class="sb-logo"><img src="<?php echo $logo_url; ?>"></div>
     <p class="sb-version"><?php _e("Version:", "sb-core"); ?> <?php echo SB_CORE_VERSION; ?></p>
     <p><?php printf(__('SB Framework is a PHP framework that created by SB Team, the purposes of this framework are to help coding WordPress more easier. You can download the latest version from %s.', 'sb-core'), '<a target="_blank" href="https://github.com/skylarkcob/sb-core">SB Core\'s GitHub Repository</a>'); ?></p>

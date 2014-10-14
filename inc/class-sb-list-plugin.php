@@ -1,6 +1,4 @@
 <?php
-defined('ABSPATH') OR exit;
-
 class SB_List_Plugin {
     private $plugins;
 
@@ -10,12 +8,14 @@ class SB_List_Plugin {
 
     private function init() {
         $this->plugins = array();
+        $this->add(new SB_Plugin('sb-banner-widget'));
+        $this->add(new SB_Plugin('sb-clean'));
+        $this->add(new SB_Plugin('sb-comment'));
         $this->add(new SB_Plugin('sb-core'));
         $this->add(new SB_Plugin('sb-paginate'));
-        $this->add(new SB_Plugin('sb-clean'));
-        $this->add(new SB_Plugin('sb-tbfa'));
-        $this->add(new SB_Plugin('sb-comment'));
         $this->add(new SB_Plugin('sb-post-widget'));
+        $this->add(new SB_Plugin('sb-tab-widget'));
+        $this->add(new SB_Plugin('sb-tbfa'));
     }
 
     public function add($plugin) {

@@ -1,13 +1,13 @@
 <?php
 class SB_Field {
 
-    private static function image_thumbnail($class = "", $src = "") {
+    private static function image_thumbnail($class = '', $src = '') {
         $class = str_replace('[', '_', $class);
         $class = str_replace(']', '', $class);
-        $class .= " media image thumbnail sbtheme";
+        $class .= ' media image thumbnail sbtheme';
         $class = trim($class);
         if(!empty($src)) {
-            $class .= " uploaded";
+            $class .= ' uploaded';
         }
         echo '<div class="'.$class.'">';
         if(!empty($src)) {
@@ -74,12 +74,12 @@ class SB_Field {
     }
 
     private static function media_upload($id, $name, $value, $description) {
-        $button_title = __("Insert image", "sb-core");
+        $button_title = __('Insert image', 'sb-core');
         $value = trim($value);
         ?>
         <div class="sbtheme-upload media">
             <input type="text" id="<?php echo $id; ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>">
-            <a title="<?php echo $button_title; ?>" data-editor="sb-content" class="sb-button button sb-insert-media sb-add_media" href="javascript:void(0);"><?php _e("Upload", "sb-core"); ?></a>
+            <a title="<?php echo $button_title; ?>" data-editor="sb-content" class="sb-button button sb-insert-media sb-add_media" href="javascript:void(0);"><?php _e('Upload', 'sb-core'); ?></a>
         </div>
         <p class="description"><?php echo $description; ?></p>
     <?php
@@ -93,19 +93,19 @@ class SB_Field {
     }
 
     private static function media_upload_with_url($id, $name, $value, $description) {
-        self::media_upload($id."_image", $name."[image]", $value, $description);
-        $name = $name."[url]";
+        self::media_upload($id.'_image', $name.'[image]', $value, $description);
+        $name = $name.'[url]';
         $url_name = $name;
-        $options = get_option("sb_options");
+        $options = get_option('sb_options');
         $keys = explode(']', $name);
         $first = str_replace('sb_options[', '', $keys[0]);
         $second = str_replace('[', '', $keys[1]);
         $third = str_replace('[', '', $keys[2]);
 
         $value = isset($options[$first][$second][$third]) ? $options[$first][$second][$third] : '';
-        $description = __("Enter url for the image above.", "sb-core");
+        $description = __('Enter url for the image above.', 'sb-core');
         echo '<div style="margin-top: 20px; ">';
-        self::text_field($id."_url", $url_name, $value, $description);
+        self::text_field($id.'_url', $url_name, $value, $description);
         echo '</div>';
     }
 
@@ -117,47 +117,47 @@ class SB_Field {
 
     public static function switch_button($id, $name, $value, $description) {
         $enable = (bool) $value;
-        $class = "switch-button";
+        $class = 'switch-button';
         $class_on = $class . ' on';
         $class_off = $class . ' off';
         if($enable) {
-            $class_on .= " active";
+            $class_on .= ' active';
         } else {
-            $class_off .= " active";
+            $class_off .= ' active';
         }
         ?>
         <fieldset class="sbtheme-switch">
             <div class="switch-options">
-                <label data-switch="on" class="<?php echo $class_on; ?> left"><span><?php _e("On", "sb-core"); ?></span></label>
-                <label data-switch="off" class="<?php echo $class_off; ?> right"><span><?php _e("Off", "sb-core"); ?></span></label>
+                <label data-switch="on" class="<?php echo $class_on; ?> left"><span><?php _e('On', 'sb-core'); ?></span></label>
+                <label data-switch="off" class="<?php echo $class_off; ?> right"><span><?php _e('Off', 'sb-core'); ?></span></label>
                 <input type="hidden" value="<?php echo $value; ?>" name="<?php echo esc_attr($name); ?>" id="<?php echo $id; ?>" class="checkbox checkbox-input">
                 <p class="description"><?php echo $description; ?></p>
             </div>
         </fieldset>
-    <?php
+        <?php
     }
 
     public static function select_term_field($args = array()) {
-        $paragraph_class = "";
-        $id = "";
-        $name = "";
-        $field_class = "";
-        $label_text = "";
+        $paragraph_class = '';
+        $id = '';
+        $name = '';
+        $field_class = '';
+        $label_text = '';
         $list_options = array();
-        $value = "";
-        $description = "";
+        $value = '';
+        $description = '';
         $taxonomy = '';
         $taxonomy_id = '';
         $taxonomy_name = '';
 
         $defaults = array(
-            "id"                => "",
-            "name"              => "",
-            "label_text"        => "",
-            "value"             => "",
-            "paragraph_class"   => "",
-            "field_class"       => "",
-            "list_options"      => array()
+            'id'                => '',
+            'name'              => '',
+            'label_text'        => '',
+            'value'             => '',
+            'paragraph_class'   => '',
+            'field_class'       => '',
+            'list_options'      => array()
         );
 
         $args = wp_parse_args($args, $defaults);
