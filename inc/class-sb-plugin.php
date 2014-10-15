@@ -41,25 +41,23 @@ class SB_Plugin {
     }
 
     public function the_installation_button() {
-        if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
+        if(current_user_can('install_plugins') || current_user_can('update_plugins')) {
             $status = $this->get_status();
             $name = $this->get_name();
-            switch ( $status['status'] ) {
+            switch($status['status']) {
                 case 'install':
-                    if ( $status['url'] ) {
-                        echo '<a class="install-now button" href="' . $status['url'] . '" aria-label="' . esc_attr( sprintf( __( 'Install %s now', 'sb-core' ), $name ) ) . '">' . __( 'Install Now', 'sb-core' ) . '</a>';
+                    if($status['url']) {
+                        echo '<a class="install-now button" href="' . $status['url'] . '" aria-label="' . esc_attr(sprintf(__( 'Install %s now', 'sb-core' ), $name)) . '">' . __('Install Now', 'sb-core') . '</a>';
                     }
-
                     break;
                 case 'update_available':
-                    if ( $status['url'] ) {
-                        echo '<a class="button" href="' . $status['url'] . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now', 'sb-core' ), $name ) ) . '">' . __( 'Update Now', 'sb-core' ) . '</a>';
+                    if($status['url']) {
+                        echo '<a class="button" href="' . $status['url'] . '" aria-label="' . esc_attr(sprintf(__('Update %s now', 'sb-core'), $name)) . '">' . __('Update Now', 'sb-core') . '</a>';
                     }
-
                     break;
                 case 'latest_installed':
                 case 'newer_installed':
-                    echo '<span class="button button-disabled" title="' . esc_attr__( 'This plugin is already installed and is up to date', 'sb-core' ) . ' ">' . __( 'Installed', 'sb-core' ) . '</span>';
+                    echo '<span class="button button-disabled" title="' . esc_attr__('This plugin is already installed and is up to date', 'sb-core') . ' ">' . __('Installed', 'sb-core') . '</span>';
                     break;
             }
         }

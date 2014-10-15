@@ -52,4 +52,56 @@ class SB_Option {
         }
         return $logo_url;
     }
+
+    public static function get_theme_thumbnail_url() {
+        $options = self::get();
+        $url = isset($options['theme']['thumbnail']) ? $options['theme']['thumbnail'] : '';
+        if(empty($url)) {
+            $url = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
+        }
+        if(empty($url)) {
+            $url = SB_Post::get_default_thumbnail_url();
+        }
+        return $url;
+    }
+
+    public static function get_widget_thumbnail_url() {
+        $options = self::get();
+        $url = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
+        if(empty($url)) {
+            $url = isset($options['theme']['thumbnail']) ? $options['theme']['thumbnail'] : '';
+        }
+        if(empty($url)) {
+            $url = SB_Post::get_default_thumbnail_url();
+        }
+        return $url;
+    }
+
+    public static function get_by_key($args = array()) {
+        $default = isset($args['default']) ? $args['default'] : '';
+        $options = self::get();
+        $keys = isset($args['keys']) ? $args['keys'] : array();
+        $value = $default;
+        $tmp = $options;
+        foreach($keys as $key) {
+            $tmp = isset($tmp[$key]) ? $tmp[$key] : '';
+            if(empty($tmp)) {
+                break;
+            }
+        }
+        if(!empty($tmp)) {
+            $value = $tmp;
+        }
+        return $value;
+    }
+
+    public static function get_bool_value_by_key($args = array()) {
+        $value = self::get_by_key($args);
+        return (bool)$value;
+    }
+
+    public static function get_int_value_by_key($args = array()) {
+        $value = self::get_by_key($args);
+        return intval($value);
+    }
 }

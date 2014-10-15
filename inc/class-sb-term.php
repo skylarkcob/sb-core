@@ -11,7 +11,7 @@ class SB_Term {
         $result = '';
         extract($args, EXTR_OVERWRITE);
         foreach($terms as $term) {
-            $result .= sprintf('<a href="%1$s" title="%2$s">%3$s</a>', get_term_link($term), $term->name, $term->name).$separator;
+            $result .= sprintf('<a href="%1$s" title="%2$s">%3$s</a>', get_term_link($term), $term->name, $term->name) . $separator;
         }
         $result = trim($result, $separator);
         return $result;

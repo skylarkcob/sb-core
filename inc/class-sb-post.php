@@ -42,16 +42,13 @@ class SB_Post {
             $result = self::get_first_image_url($post_id);
         }
         if(empty($result)) {
-            $options = get_option('sb_options');
-            $result = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
-            if(empty($result)) {
-                $result = isset($options['theme']['no_thumbnail']) ? $options['theme']['no_thumbnail'] : '';
-            }
-        }
-        if(empty($result)) {
-            $result = SB_CORE_URL . '/images/no-thumbnail-grey-100.png';
+            $result = SB_Option::get_theme_thumbnail_url();
         }
         return apply_filters('sb_thumbnail_url', $result);
+    }
+
+    public static function get_default_thumbnail_url() {
+        return SB_CORE_URL . '/images/no-thumbnail-grey-100.png';
     }
 
     public static function get_thumbnail_html($args = array()) {
@@ -67,11 +64,11 @@ class SB_Post {
         if(count($size) == 2) {
             $width = $size[0];
             $height = $size[1];
-            $style = ' style="width:'.$width.'px; height:'.$height.'px;"';
+            $style = ' style="width:' . $width . 'px; height:' . $height . 'px;"';
         }
         $result = self::get_thumbnail_url($post_id);
         if(!empty($result)) {
-            $result = '<img class="wp-post-image" alt="'.get_the_title($post_id).'" width="'.$width.'" height="'.$height.'" src="'.$result.'"'.$style.'>';
+            $result = '<img class="wp-post-image" alt="' . get_the_title($post_id) . '" width="' . $width . '" height="' . $height . '" src="' . $result . '"' . $style . '>';
         }
         return apply_filters('sb_thumbnail_html', $result);
     }
@@ -87,18 +84,18 @@ class SB_Post {
     }
 
     public static function get_author_url() {
-        return get_author_posts_url( get_the_author_meta( 'ID' ) );
+        return get_author_posts_url(get_the_author_meta('ID'));
     }
 
     public static function the_author() {
-        printf( '<span class="post-author"><i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" rel="author">%2$s</a></span></span>',
-            esc_url( self::get_author_url() ),
+        printf('<span class="post-author"><i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" rel="author">%2$s</a></span></span>',
+            esc_url( self::get_author_url()),
             get_the_author_meta('user_nicename')
         );
     }
 
     public static function get_time_compare($post) {
-        return get_post_time("G", false, $post);
+        return get_post_time('G', false, $post);
     }
 
     public static function get_human_minute_diff($post) {
@@ -106,14 +103,14 @@ class SB_Post {
     }
 
     public static function the_date() {
-        printf( '<span class="date"><span>%1$s</span></span>',
-            esc_html( get_the_date() )
+        printf('<span class="date"><span>%1$s</span></span>',
+            esc_html( get_the_date())
         );
     }
 
     public static function the_comment_link() {
-        if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) : ?>
-            <span class="comments-link post-comment"><i class="fa fa-comments"></i> <?php comments_popup_link( '<span class="count">0</span> <span class="text">'.__('comment', 'sb-core').'</span>', '<span class="count">1</span> <span class="text">'.__('comment', 'sb-core')."</span>", '<span class="count">%</span> <span class="text">'.__('comments', 'sb-core')."</span>" ); ?></span>
+        if(!post_password_required() && (comments_open() || get_comments_number())) : ?>
+            <span class="comments-link post-comment"><i class="fa fa-comments"></i> <?php comments_popup_link( '<span class="count">0</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">1</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">%</span> <span class="text">' . __('comments', 'sb-core') . '</span>'); ?></span>
         <?php endif;
     }
 

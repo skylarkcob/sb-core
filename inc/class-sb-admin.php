@@ -1,13 +1,8 @@
 <?php
 class SB_Admin {
 
-    private $sb_plugins = array();
     private $sb_admin_added = false;
     private $tabs = array();
-
-    private function sb_plugin_init() {
-
-    }
 
     private function has_sb_admin() {
         global $sb_admin;
@@ -19,7 +14,6 @@ class SB_Admin {
 
     private function init() {
         $this->sb_admin_added = true;
-        $this->sb_plugin_init();
         $this->sb_tab_init();
     }
 
@@ -52,18 +46,18 @@ class SB_Admin {
 
     public function sanitize( $input ) {
         $data = $input;
-        $options = get_option('sb_options');
+        $options = SB_Option::get();
         $data = wp_parse_args($data, $options);
         return apply_filters('sb_options_sanitize', $data);
     }
 
     private function register_sb_setting() {
-        register_setting( 'sb-setting', 'sb_options', array( $this, 'sanitize' ) );
+        register_setting('sb-setting', 'sb_options', array($this, 'sanitize'));
     }
 
     private function add_sb_options_section() {
         if(SB_Admin_Custom::is_about_page()) {
-            add_settings_section('sb_options_section', __('About SB', 'sb-core'), array( $this, 'print_section_info' ), 'sb_options');
+            add_settings_section('sb_options_section', __('About SB', 'sb-core'), array($this, 'print_section_info'), 'sb_options');
         }
     }
 
@@ -143,8 +137,8 @@ class SB_Admin {
     }
 
     public function add_menu_page() {
-        if ( empty ( $GLOBALS['admin_page_hooks']['sb_options'] ) ) {
-            add_menu_page( __('SB Options', 'sb-core'), __('SB Options', 'sb-core'), 'manage_options', 'sb_options', '', plugins_url( 'admin/images/px.png', __FILE__ ), 62 );
+        if(empty($GLOBALS['admin_page_hooks']['sb_options'])) {
+            add_menu_page('SB Options', 'SB Options', 'manage_options', 'sb_options', '', plugins_url('admin/images/px.png', __FILE__), 62);
         }
     }
 }

@@ -16,10 +16,13 @@ class SB_Field {
         echo '</div>';
     }
 
-    public static function media_image($id, $name, $value, $description) {
+    public static function media_image($args = array()) {
+        $name = '';
+        $value = '';
+        extract($args, EXTR_OVERWRITE);
         echo '<div class="sbtheme-media-image">';
         self::image_thumbnail($name, $value);
-        self::media_upload($id, $name, $value, $description);
+        self::media_upload($args);
         echo '</div>';
     }
 
@@ -73,7 +76,12 @@ class SB_Field {
         <?php
     }
 
-    private static function media_upload($id, $name, $value, $description) {
+    private static function media_upload($args = array()) {
+        $id = '';
+        $name = '';
+        $description = '';
+        $value = '';
+        extract($args, EXTR_OVERWRITE);
         $button_title = __('Insert image', 'sb-core');
         $value = trim($value);
         ?>
@@ -82,40 +90,52 @@ class SB_Field {
             <a title="<?php echo $button_title; ?>" data-editor="sb-content" class="sb-button button sb-insert-media sb-add_media" href="javascript:void(0);"><?php _e('Upload', 'sb-core'); ?></a>
         </div>
         <p class="description"><?php echo $description; ?></p>
-    <?php
+        <?php
     }
 
-    public static function media_image_with_url($id, $name, $value, $description) {
+    public static function media_image_with_url($args = array()) {
         echo '<div class="sbtheme-media-image with-url">';
         self::image_thumbnail($name, $value);
-        self::media_upload_with_url($id, $name, $value, $description);
+        self::media_upload_with_url($args);
         echo '</div>';
     }
 
-    private static function media_upload_with_url($id, $name, $value, $description) {
-        self::media_upload($id.'_image', $name.'[image]', $value, $description);
-        $name = $name.'[url]';
-        $url_name = $name;
-        $options = get_option('sb_options');
-        $keys = explode(']', $name);
+    private static function media_upload_with_url($args = array()) {
+        $new_args = $args;
+        $new_args['id'] = (isset($args['id']) ? $args['id'] : '') . '_image';
+        $new_args['name'] = (isset($args['name']) ? $args['name'] : '') . '[image]';
+        self::media_upload($new_args);
+        $args['id'] = (isset($args['id']) ? $args['id'] : '') . '_url';
+        $args['name'] = (isset($args['name']) ? $args['name'] : '') . '[url]';
+        $options = SB_Option::get();
+        $keys = explode(']', $args['name']);
         $first = str_replace('sb_options[', '', $keys[0]);
         $second = str_replace('[', '', $keys[1]);
         $third = str_replace('[', '', $keys[2]);
-
         $value = isset($options[$first][$second][$third]) ? $options[$first][$second][$third] : '';
         $description = __('Enter url for the image above.', 'sb-core');
         echo '<div style="margin-top: 20px; ">';
-        self::text_field($id.'_url', $url_name, $value, $description);
+        self::text_field($args);
         echo '</div>';
     }
 
-    public static function text_field($id, $name, $value, $description) {
+    public static function text_field($args = array()) {
+        $id = '';
+        $name = '';
+        $value = '';
+        $description = '';
+        extract($args, EXTR_OVERWRITE);
         $value = trim($value);
         $class = 'widefat';
         printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, $description);
     }
 
-    public static function switch_button($id, $name, $value, $description) {
+    public static function switch_button($args = array()) {
+        $id = '';
+        $name = '';
+        $value = '';
+        $description = '';
+        extract($args, EXTR_OVERWRITE);
         $enable = (bool) $value;
         $class = 'switch-button';
         $class_on = $class . ' on';
@@ -149,19 +169,6 @@ class SB_Field {
         $taxonomy = '';
         $taxonomy_id = '';
         $taxonomy_name = '';
-
-        $defaults = array(
-            'id'                => '',
-            'name'              => '',
-            'label_text'        => '',
-            'value'             => '',
-            'paragraph_class'   => '',
-            'field_class'       => '',
-            'list_options'      => array()
-        );
-
-        $args = wp_parse_args($args, $defaults);
-
         extract($args, EXTR_OVERWRITE);
         ?>
         <p class="<?php echo $paragraph_class; ?>">
@@ -183,7 +190,7 @@ class SB_Field {
             <?php endif; ?>
             <input id="<?php echo esc_attr( $taxonomy_id ); ?>" class="widefat taxonomy" name="<?php echo esc_attr( $taxonomy_name ); ?>" type="hidden" value="<?php echo esc_attr( $taxonomy ); ?>">
         </p>
-    <?php
+        <?php
     }
 
     public static function social_field($args = array()) {
@@ -193,22 +200,35 @@ class SB_Field {
             $value = $field['value'];
             $description = $field['description'];
             echo '<div style="margin-bottom: 20px; ">';
-            self::text_field($id, $name, $value, $description);
+            $new_args = array(
+                'id' => $id,
+                'name' => $name,
+                'value' => $value,
+                'description' => $description
+            );
+            self::text_field($new_args);
             echo '</div>';
         }
     }
 
-    public static function rich_editor_field($id, $name, $value, $description, $args = array()) {
-        $defaults = array(
+    public static function rich_editor_field($args = array()) {
+        $id = '';
+        $name = '';
+        $value = '';
+        $description = '';
+        $textarea_row = 5;
+        extract($args, EXTR_OVERWRITE);
+        $args = array(
             'textarea_name' => $name,
-            'textarea_rows' => 5
+            'textarea_rows' => $textarea_row
         );
-        $args = wp_parse_args($args, $defaults);
         ?>
         <div id="<?php echo $id . '_editor'; ?>" class="sb-rich-editor">
             <?php wp_editor($value, $id, $args); ?>
+            <?php if(!empty($description)) : ?>
             <p class="description"><?php echo $description; ?></p>
+            <?php endif; ?>
         </div>
-    <?php
+        <?php
     }
 }

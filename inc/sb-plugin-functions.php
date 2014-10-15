@@ -13,16 +13,16 @@ function sb_core_session() {
 add_action('init', 'sb_core_session');
 
 function sb_core_textdomain() {
-    load_plugin_textdomain( 'sb-core', false, SB_CORE_DIRNAME . '/languages/' );
+    load_plugin_textdomain('sb-core', false, SB_CORE_DIRNAME . '/languages/');
 }
 add_action('plugins_loaded', 'sb_core_textdomain');
 
 function sb_core_about_page_link($links) {
-    $sb_link = '<a href="admin.php?page=sb_options">'.__('About', 'sb-core').'</a>';
+    $sb_link = '<a href="admin.php?page=sb_options">' . __('About', 'sb-core') . '</a>';
     array_unshift($links, $sb_link);
     return $links;
 }
-add_filter('plugin_action_links_' . SB_CORE_BASENAME, 'sb_core_about_page_link' );
+add_filter('plugin_action_links_' . SB_CORE_BASENAME, 'sb_core_about_page_link');
 
 function sb_core_admin_style_and_script() {
     wp_register_style('sb-core-style', SB_CORE_URL . '/css/sb-core-admin-style.css');
@@ -77,7 +77,7 @@ function sb_core_admin_bar( $wp_admin_bar ) {
             'id'        => 'sb-options',
             'title'     => __('SB Options', 'sb-core'),
             'href'      => admin_url('admin.php?page=sb_options'),
-            'meta'      => array( 'class' => 'sb-options' ),
+            'meta'      => array('class' => 'sb-options'),
             'parent'    => 'site-name',
             'tabindex'  => '10'
         );

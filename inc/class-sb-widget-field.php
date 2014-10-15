@@ -9,23 +9,12 @@ class SB_Widget_Field {
         $label_text = '';
         $name = '';
         $value = '';
-        $defaults = array(
-            'id'				=> '',
-            'name'				=> '',
-            'value'				=> '',
-            'description'		=> '',
-            'paragraph_id'		=> '',
-            'display'			=> true,
-            'input_class'		=> '',
-            'paragraph_class'	=> ''
-        );
-        $args = wp_parse_args($args, $defaults);
         extract($args, EXTR_OVERWRITE);
         $style = '';
         if(!$display) {
             $style = 'display: none;';
         }
-        $input_class = trim($input_class." sb-number");
+        $input_class = trim($input_class . ' sb-number');
         ?>
         <p class="<?php echo $paragraph_class; ?>" style="<?php echo $style; ?>">
             <label for="<?php echo esc_attr( $id ); ?>"><?php echo $label_text; ?></label>
@@ -72,7 +61,6 @@ class SB_Widget_Field {
         $value = '';
         $description = '';
         extract($args, EXTR_OVERWRITE);
-
         ?>
         <p class="<?php echo $paragraph_class; ?>">
             <label for="<?php echo esc_attr( $id ); ?>"><?php echo $label_text; ?></label>
@@ -86,7 +74,7 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
         </p>
-    <?php
+        <?php
     }
 
     public static function checkbox($args = array()) {
@@ -104,7 +92,7 @@ class SB_Widget_Field {
         if(!$display) {
             $style = 'display: none;';
         }
-        $input_class = trim($input_class." sb-checkbox");
+        $input_class = trim($input_class . ' sb-checkbox');
         ?>
         <p id="<?php echo $paragraph_id; ?>" class="<?php echo $paragraph_class; ?>" style="<?php echo $style; ?>">
             <input id="<?php echo esc_attr( $id ); ?>" class="<?php echo $input_class; ?>" name="<?php echo esc_attr( $name ); ?>" type="checkbox" value="<?php echo esc_attr( $value ); ?>" <?php checked( $value, 1, true ); ?>>
@@ -128,21 +116,8 @@ class SB_Widget_Field {
         $name_width = '';
         $name_height = '';
         $value = array();
-        $defaults = array(
-            'id_width'			=> '',
-            'name_width'		=> '',
-            'id_height'			=> '',
-            'name_height'		=> '',
-            'value'				=> array(),
-            'description'		=> '',
-            'paragraph_id'		=> '',
-            'display'			=> true,
-            'input_class'		=> '',
-            'paragraph_class'	=> ''
-        );
-        $args = wp_parse_args($args, $defaults);
         extract($args, EXTR_OVERWRITE);
-        $input_class = trim($input_class." sb-number image-size");
+        $input_class = trim($input_class . ' sb-number image-size');
         ?>
         <p class="<?php echo $paragraph_class; ?>"<?php if(!$display) echo ' style="display:none"'; ?>>
             <label for="<?php echo esc_attr( $id ); ?>"><?php echo $label_text; ?></label>
@@ -159,20 +134,13 @@ class SB_Widget_Field {
     }
 
     public static function text($args = array()) {
-        $paragraph_class = "";
-        $input_class = "";
-        $id = "";
-        $name = "";
-        $value = "";
-        $description = "";
-        $label_text = "";
-
-        $defaults = array(
-            "input_class"   => "widefat"
-        );
-
-        $args = wp_parse_args($args, $defaults);
-
+        $paragraph_class = '';
+        $input_class = 'widefat';
+        $id = '';
+        $name = '';
+        $value = '';
+        $description = '';
+        $label_text = '';
         extract($args, EXTR_OVERWRITE);
         ?>
         <p class="<?php echo $paragraph_class; ?>">
@@ -186,22 +154,14 @@ class SB_Widget_Field {
     }
 
     public static function textarea($args = array()) {
-        $paragraph_class = "";
-        $input_class = "";
-        $id = "";
-        $name = "";
-        $value = "";
-        $description = "";
-        $label_text = "";
+        $paragraph_class = '';
+        $input_class = 'widefat';
+        $id = '';
+        $name = '';
+        $value = '';
+        $description = '';
+        $label_text = '';
         $textarea_rows = 3;
-
-        $defaults = array(
-            "input_class"   => "widefat",
-            "textarea_rows" => 3
-        );
-
-        $args = wp_parse_args($args, $defaults);
-
         extract($args, EXTR_OVERWRITE);
         ?>
         <p class="<?php echo $paragraph_class; ?>">
@@ -211,7 +171,7 @@ class SB_Widget_Field {
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
         </p>
-    <?php
+        <?php
     }
 
     public static function fieldset($args = array()) {
@@ -245,19 +205,6 @@ class SB_Widget_Field {
         $taxonomy_id = '';
         $taxonomy_name = '';
         $display = true;
-
-        $defaults = array(
-            "id"                => "",
-            "name"              => "",
-            "label_text"        => "",
-            "value"             => "",
-            "paragraph_class"   => "",
-            "field_class"       => "",
-            "list_options"      => array()
-        );
-
-        $args = wp_parse_args($args, $defaults);
-
         extract($args, EXTR_OVERWRITE);
         $style = '';
         if(!$display) {

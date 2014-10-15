@@ -1,21 +1,17 @@
 <?php
 function sb_do_settings_sections( $page ) {
     global $wp_settings_sections, $wp_settings_fields;
-
     if ( ! isset( $wp_settings_sections[$page] ) ) {
         return;
     }
     $count = 0;
     foreach ( (array) $wp_settings_sections[$page] as $section ) {
-
         $section_id = $section['id'];
         $class = 'sbtheme-option-section';
         echo '<div id="'.$section_id.'" class="'.$class.'">';
-
         if ( $section['title'] ) {
             echo "<h3 class=\"setting-title\">{$section['title']}</h3>\n";
         }
-
         if ( $section['callback'] ) {
             call_user_func( $section['callback'], $section );
         }
@@ -23,7 +19,6 @@ function sb_do_settings_sections( $page ) {
         if ( ! isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$page] ) || !isset( $wp_settings_fields[$page][$section_id] ) ) {
             $has_field = false;
         }
-
         echo '<table class="form-table">';
         if($has_field && 'sb_options_section' != $section_id) {
             do_settings_fields( $page, $section_id );
@@ -118,11 +113,8 @@ function sb_do_settings_sections( $page ) {
                 </ul>
             </div>
         </div>
-
     </div>
-
     <div class="sbtheme-copyright">
         <p>&copy; 2008 - <?php echo date('Y'); ?> <a href="http://hocwp.net">SB Team</a>. All Rights Reserved.</p>
     </div>
-
 </div>

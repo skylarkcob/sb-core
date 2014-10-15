@@ -546,6 +546,10 @@ a:focus {
     overflow: hidden;
 }
 
+.sb-plugins .plugin-card {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
 .sbtheme-content .reset-button {
     bottom: 25px;
     position: absolute;

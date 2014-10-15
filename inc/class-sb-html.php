@@ -45,11 +45,11 @@ class SB_HTML {
 
     private function make_outlink_nofollow() {
         if('a' == $this->name) {
-            $href = $this->get_attribute("href");
+            $href = $this->get_attribute('href');
             if(!empty($href)) {
                 if(!SB_WP::is_my_domain_url($href)) {
-                    $this->set_attribute("rel", "nofollow");
-                    $this->set_attribute("target", "_blank");
+                    $this->set_attribute('rel', 'nofollow');
+                    $this->set_attribute('target', '_blank');
                 }
             }
         }
@@ -69,7 +69,7 @@ class SB_HTML {
         }
         $result .= '>';
         if(!in_array($this->name, $this->self_closers)) {
-            $result .= $this->get_attribute("text");
+            $result .= $this->get_attribute('text');
             $result .= sprintf('</%s>', $this->name);
         }
         return $result;

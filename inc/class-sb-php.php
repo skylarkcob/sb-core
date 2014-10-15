@@ -5,7 +5,7 @@ class SB_PHP {
     }
 
     public static function mysql_time_format() {
-        return "Y-m-d H:i:s";
+        return 'Y-m-d H:i:s';
     }
 
     public static function move_item_to_beginning_by_key($key, $arr) {
@@ -26,11 +26,11 @@ class SB_PHP {
 
     public static function date_plus_minute($date, $minute) {
         $kq = new DateTime($date);
-        $time_modify = "+".$minute;
+        $time_modify = '+' . $minute;
         if($minute > 1) {
-            $time_modify .= " minutes";
+            $time_modify .= ' minutes';
         } else {
-            $time_modify .= " minute";
+            $time_modify .= ' minute';
         }
         $kq->modify($time_modify);
         return $kq->format(self::mysql_time_format());
@@ -125,7 +125,7 @@ class SB_PHP {
     }
 
     public static function get_current_url() {
-        return $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+        return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
 
     public static function get_current_date_time($format = 'd-m-Y H:i:s') {
@@ -150,7 +150,7 @@ class SB_PHP {
     }
 
     public static function is_image_url($url) {
-        $img_formats = array("png", "jpg", "jpeg", "gif", "tiff", "bmp");
+        $img_formats = array('png', 'jpg', 'jpeg', 'gif', 'tiff', 'bmp');
         $path_info = pathinfo($url);
         $extension = isset($path_info['extension']) ? $path_info['extension'] : "";
         if (in_array(strtolower($extension), $img_formats)) {
@@ -185,7 +185,7 @@ class SB_PHP {
         $doc = new DOMDocument();
         @$doc->loadHTML($content);
         $xpath = new DOMXPath($doc);
-        $src = $xpath->evaluate("string(//img/@src)");
+        $src = $xpath->evaluate('string(//img/@src)');
         return $src;
     }
 
@@ -228,13 +228,13 @@ class SB_PHP {
     }
 
     public static function paragraph_to_array($list_paragraph) {
-        $list_paragraph = str_replace("</p>", "", $list_paragraph);
-        $list_paragraph = explode("<p>", $list_paragraph);
+        $list_paragraph = str_replace('</p>', '', $list_paragraph);
+        $list_paragraph = explode('<p>', $list_paragraph);
         return array_filter($list_paragraph);
     }
 
     public static function is_favicon_url($url) {
-        $favicon_formats = array("png", "ico");
+        $favicon_formats = array('png', 'ico');
         $path_info = pathinfo($url);
         $extension = isset($path_info['extension']) ? $path_info['extension'] : '';
         if (in_array(strtolower($extension), $favicon_formats)) {
@@ -245,7 +245,7 @@ class SB_PHP {
 
     public static function implode_all($arr, $split = '~') {
         if(!is_array($arr)) return $arr;
-        $result = "";
+        $result = '';
         foreach($arr as $value) {
             if(empty($value)) continue;
             if(is_array($value)) {
@@ -304,8 +304,8 @@ class SB_PHP {
 
     public static function add_http_to_url($url) {
         $url = self::strtolower($url);
-        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-            $url = "http://" . $url;
+        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
+            $url = 'http://' . $url;
         }
         return $url;
     }
@@ -412,9 +412,9 @@ class SB_PHP {
 
     public static function is_ip_vietnam($ip) {
         $details = self::ip_details($ip);
-        if(isset($details["country"])) {
-            $country = $details["country"];
-            if("VN" == $country) {
+        if(isset($details['country'])) {
+            $country = $details['country'];
+            if('VN' == $country) {
                 return true;
             }
         }
@@ -480,7 +480,7 @@ class SB_PHP {
         if(!file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
-        $ifp = fopen($output_file, "wb");
+        $ifp = fopen($output_file, 'wb');
         $data = explode(',', $base64_string);
         fwrite($ifp, base64_decode($data[1]));
         fclose($ifp);
@@ -527,7 +527,7 @@ class SB_PHP {
 
     function current_weekday($format = 'd/m/Y H:i:s') {
         self::timezone_hcm();
-        $weekday = date("l");
+        $weekday = date('l');
         $weekday = strtolower($weekday);
         switch($weekday) {
             case 'monday':

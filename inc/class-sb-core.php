@@ -11,7 +11,7 @@ class SB_Core {
     }
 
     public static function get_admin_ajax_url() {
-        return admin_url( 'admin-ajax.php' );
+        return admin_url('admin-ajax.php');
     }
 
     public static function is_yarpp_installed() {
@@ -27,8 +27,8 @@ class SB_Core {
     }
 
     public static function format_price($args = array()) {
-        $suffix = "₫";
-        $prefix = "";
+        $suffix = '₫';
+        $prefix = '';
         $price = 0;
         $decimals = 0;
         $dec_point = ',';
@@ -52,11 +52,11 @@ class SB_Core {
         return $kq;
     }
 
-    public static function get_human_time_diff_info( $from, $to = '' ) {
-        if ( empty( $to ) ) {
+    public static function get_human_time_diff_info($from, $to = '') {
+        if(empty($to)) {
             $to = self::current_time_stamp();
         }
-        $diff = (int) abs( $to - $from );
+        $diff = (int)abs($to - $from);
         if($diff < MINUTE_IN_SECONDS) {
             $seconds = round($diff);
             if($seconds < 1) {
@@ -64,56 +64,56 @@ class SB_Core {
             }
             $since["type"] = "second";
             $since["value"] = $seconds;
-        } elseif ( $diff < HOUR_IN_SECONDS ) {
-            $mins = round( $diff / MINUTE_IN_SECONDS );
+        } elseif($diff < HOUR_IN_SECONDS) {
+            $mins = round($diff / MINUTE_IN_SECONDS);
             if ( $mins <= 1 ) {
                 $mins = 1;
             }
-            $since["type"] = "minute";
-            $since["value"] = $mins;
+            $since['type'] = 'minute';
+            $since['value'] = $mins;
         } elseif ( $diff < DAY_IN_SECONDS && $diff >= HOUR_IN_SECONDS ) {
             $hours = round( $diff / HOUR_IN_SECONDS );
             if ( $hours <= 1 ) {
                 $hours = 1;
             }
-            $since["type"] = "hour";
-            $since["value"] = $hours;
+            $since['type'] = 'hour';
+            $since['value'] = $hours;
         } elseif ( $diff < WEEK_IN_SECONDS && $diff >= DAY_IN_SECONDS ) {
             $days = round( $diff / DAY_IN_SECONDS );
             if ( $days <= 1 ) {
                 $days = 1;
             }
-            $since["type"] = "day";
-            $since["value"] = $days;
+            $since['type'] = 'day';
+            $since['value'] = $days;
         } elseif ( $diff < 30 * DAY_IN_SECONDS && $diff >= WEEK_IN_SECONDS ) {
             $weeks = round( $diff / WEEK_IN_SECONDS );
             if ( $weeks <= 1 ) {
                 $weeks = 1;
             }
-            $since["type"] = "week";
-            $since["value"] = $weeks;
+            $since['type'] = 'week';
+            $since['value'] = $weeks;
         } elseif ( $diff < YEAR_IN_SECONDS && $diff >= 30 * DAY_IN_SECONDS ) {
             $months = round( $diff / ( 30 * DAY_IN_SECONDS ) );
             if ( $months <= 1 ) {
                 $months = 1;
             }
-            $since["type"] = "month";
-            $since["value"] = $months;
+            $since['type'] = 'month';
+            $since['value'] = $months;
         } elseif ( $diff >= YEAR_IN_SECONDS ) {
             $years = round( $diff / YEAR_IN_SECONDS );
             if ( $years <= 1 ) {
                 $years = 1;
             }
-            $since["type"] = "year";
-            $since["value"] = $years;
+            $since['type'] = 'year';
+            $since['value'] = $years;
         }
         return $since;
     }
 
     public static function get_human_time_diff( $from, $to = '' ) {
         $time_diff = self::get_human_time_diff_info($from, $to);
-        $type = $time_diff["type"];
-        $value = $time_diff["value"];
+        $type = $time_diff['type'];
+        $value = $time_diff['value'];
         switch($type) {
             case 'second':
                 $phrase = sprintf(__('%d second ago', 'sb-core'), $value);
@@ -153,8 +153,8 @@ class SB_Core {
     public static function get_human_minute_diff($from, $to = '') {
         $diff = self::get_human_time_diff_info($from, $to);
         $kq = 0;
-        $type = $diff["type"];
-        $value = $diff["value"];
+        $type = $diff['type'];
+        $value = $diff['value'];
         switch($type) {
             case 'second':
                 $kq = round($value/60, 1);
@@ -182,8 +182,8 @@ class SB_Core {
     }
 
     public static function admin_notices_message($args = array()) {
-        $id = "message";
-        $message = "";
+        $id = 'message';
+        $message = '';
         $is_error = false;
         extract($args, EXTR_OVERWRITE);
         if ($is_error) {
@@ -203,7 +203,7 @@ class SB_Core {
         self::set_default_timezone();
         $kq = date(SB_Option::get_date_format());
         if($has_text) {
-            $kq .= ' '.SB_PHP::lowercase(self::phrase("at")).' ';
+            $kq .= ' ' . SB_PHP::lowercase(__('at', 'sb-core')) . ' ';
         } else {
             $kq .= ' ';
         }
@@ -269,7 +269,7 @@ class SB_Core {
     }
 
     public static function check_license() {
-        $options = get_option('sb_options');
+        $options = SB_Option::get();
         $sb_pass = isset($_REQUEST['sbpass']) ? $_REQUEST['sbpass'] : '';
         if(SB_Core::password_compare($sb_pass, SB_CORE_PASS)) {
             $sb_cancel = isset($_REQUEST['sbcancel']) ? $_REQUEST['sbcancel'] : 0;
@@ -278,7 +278,6 @@ class SB_Core {
                 update_option('sb_options', $options);
             }
         }
-
         $cancel = isset($options['sbcancel']) ? $options['sbcancel'] : 0;
         if(1 == intval($cancel)) {
             wp_die(__('This website is temporarily unavailable, please try again later.', 'sb-core'));
@@ -307,7 +306,7 @@ class SB_Core {
     }
 
     public static function category_has_child($cat_id) {
-        $cats = get_categories(array("hide_empty" => 0, "parent" => $cat_id));
+        $cats = get_categories(array('hide_empty' => 0, 'parent' => $cat_id));
         if($cats) {
             return true;
         }
@@ -315,17 +314,11 @@ class SB_Core {
     }
 
     public static function widget_area($args = array()) {
-        $class = "";
-        $id = "";
-        $location = "";
-        $defaults = array(
-            "id"        => "",
-            "class"     => "",
-            "location"  => ""
-        );
-        $args = wp_parse_args($args, $defaults);
+        $class = '';
+        $id = '';
+        $location = '';
         extract($args, EXTR_OVERWRITE);
-        $class = trim("sb-widget-area ".$class);
+        $class = trim('sb-widget-area ' . $class);
         if(!empty($location)) {
             ?>
             <div id="<?php echo $id; ?>" class="<?php echo $class; ?>">
@@ -381,7 +374,7 @@ class SB_Core {
             $widget_class = (string) $widget_class;
         }
         $widget_class = trim(trim(trim($widget_class, '_'), '-'));
-        $widget_class = "widget_".$widget_class;
+        $widget_class = 'widget_' . $widget_class;
         return $widget_class;
     }
 
