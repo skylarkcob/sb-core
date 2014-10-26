@@ -63,6 +63,10 @@ class SB_PHP {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
     }
 
+    public static function set_default_timezone($timezone_string) {
+        date_default_timezone_set($timezone_string);
+    }
+
     public static function get_input_number($value) {
         $result = 0;
         if(is_numeric($value)) {
@@ -108,11 +112,11 @@ class SB_PHP {
     }
 
     public static function strtolower($string) {
-        return mb_strtolower($string);
+        return self::lowercase($string);
     }
 
     public static function strtoupper($string) {
-        return mb_strtoupper($string);
+        return self::uppercase($string);
     }
 
     public static function uppercase($str, $charset = 'UTF-8') {
@@ -128,8 +132,12 @@ class SB_PHP {
         return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
 
-    public static function get_current_date_time($format = 'd-m-Y H:i:s') {
-        self::timezone_hcm();
+    public static function get_current_date_time($format = 'd-m-Y H:i:s', $timezone_string = '') {
+        if(empty($timezone_string)) {
+            self::timezone_hcm();
+        } else {
+            self::set_default_timezone($timezone_string);
+        }
         return date($format);
     }
 
@@ -335,7 +343,8 @@ class SB_PHP {
     }
 
     public static function is_url_alive($url) {
-        return true;
+        $domain = self::get_domain_name($url);
+        return self::is_domain_alive($domain);
     }
 
     public static function get_one_in_many_if_empty($current_value, $array_value) {
@@ -628,6 +637,55 @@ class SB_PHP {
         }
         $old_string = trim($old_string);
         return $old_string;
+    }
+
+    public static function count_next_day($from, $to) {
+        $sec_from = strtotime ( date(SB_DATE_TIME_FORMAT, strtotime($from)) );
+        $sec_to = strtotime ( date(SB_DATE_TIME_FORMAT, strtotime($to)) );
+        $seconds =  $sec_to - $sec_from;
+        $days = $seconds / 86400;
+        $days = ceil($days);
+        return abs($days);
+    }
+
+    public static function is_today($date) {
+        if(date('Ymd') == date('Ymd', strtotime($date))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function get_next_time_diff($args = array()) {
+        $from = '';
+        $to = '';
+        $text_before = '';
+        extract($args, EXTR_OVERWRITE);
+        $days = self::count_next_day($from, $to);
+        $result = '';
+        if($days == 1 && self::is_today($to)) {
+            return 'Today';
+        } elseif($days < 7) {
+            $result = self::_n($days, '1 day', '%d days');
+        } elseif($days >= 7 && $days < 30) {
+            $week = round($days/7, 0);
+            $result = self::_n($week, '1 week', '%d weeks');
+        } elseif($days >= 30 && $days < 365) {
+            $value = round($days/30, 0);
+            $result = self::_n($value, '1 month', '%d months');
+        } else {
+            $value = round($days/365, 0);
+            $result = self::_n($value, '1 year', '%d years');
+        }
+        $result = $text_before . ' ' . $result;
+        $result = trim($result);
+        return $result;
+    }
+
+    public static function _n($number, $text_one, $text_many) {
+        if($number < 2) {
+            return sprintf(__($text_one, 'sb-core'), $number);
+        }
+        return sprintf(__($text_many, 'sb-core'), $number);
     }
 
 }

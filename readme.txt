@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.1.0
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,7 @@ SB Core is not only a plugin but also a framework, it contains core function for
 * [SB Clean](https://wordpress.org/plugins/sb-clean/)
 * [SB Comment](https://wordpress.org/plugins/sb-comment/)
 * [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
+* [SB Login Page](https://wordpress.org/plugins/sb-login-page/)
 * [SB Post Widget](https://wordpress.org/plugins/sb-post-widget/)
 * [SB Tab Widget](https://wordpress.org/plugins/sb-tab-widget/)
 * [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
@@ -57,35 +58,44 @@ Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
 
+= 1.1.2 =
+* Support for Coupon theme.
+* Check array before extract arguments on SB Field class.
+
+= 1.1.1 =
+Update function to check array arguments on SB Field class.
+
 = 1.1.0 =
 * Update option field argument.
+* Update get post thumbnail function.
+* Add function to change site url when moving hosting.
 
 = 1.0.9 =
-* Fix function to show warning when user click deactivate SB Core plugin.
+Fix function to show warning when user click deactivate SB Core plugin.
 
 = 1.0.8 =
-* New: Support SB Login Page.
+New: Support SB Login Page.
 
 = 1.0.7 =
-* Bugs: Fix SB Core admin url.
+Bugs: Fix SB Core admin url.
 
 = 1.0.6 =
-* New: Support SB Banner Widget.
+New: Support SB Banner Widget.
 
 = 1.0.5 =
-* New: Support SB Tab Widget.
+New: Support SB Tab Widget.
 
 = 1.0.4 =
-* New: Update for SBT WAP theme.
+New: Update for SBT WAP theme.
 
 = 1.0.3 =
-* New: Support SB Post Widget.
+New: Support SB Post Widget.
 
 = 1.0.2 =
-* New: Add function to deactive SB Theme after SB Core is deativated.
+New: Add function to deactive SB Theme after SB Core is deativated.
 
 = 1.0.1 =
-* New: Split core functions to many classes, support SB Comment plugin.
+New: Split core functions to many classes, support SB Comment plugin.
 
 = 1.0.0 =
 First release of this plugin.

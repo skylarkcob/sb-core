@@ -12,6 +12,7 @@ class SB_List_Plugin {
         $this->add(new SB_Plugin('sb-clean'));
         $this->add(new SB_Plugin('sb-comment'));
         $this->add(new SB_Plugin('sb-core'));
+        $this->add(new SB_Plugin('sb-login-page'));
         $this->add(new SB_Plugin('sb-paginate'));
         $this->add(new SB_Plugin('sb-post-widget'));
         $this->add(new SB_Plugin('sb-tab-widget'));

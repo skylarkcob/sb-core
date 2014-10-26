@@ -138,7 +138,7 @@ class SB_Admin {
 
     public function add_menu_page() {
         if(empty($GLOBALS['admin_page_hooks']['sb_options'])) {
-            add_menu_page('SB Options', 'SB Options', 'manage_options', 'sb_options', '', plugins_url('admin/images/px.png', __FILE__), 62);
+            add_menu_page('SB Options', 'SB Options', 'manage_options', 'sb_options', '', plugins_url('admin/images/px.png', __FILE__), 71);
         }
     }
 }

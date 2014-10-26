@@ -1,5 +1,21 @@
 a.toplevel_page_sb_options .wp-menu-image {
-    background: url("../images/sb-options-icon.png") no-repeat scroll center center transparent;
+    background-image: url("../images/sb-options-icon.png");
+}
+
+a.toplevel_page_sb_options:hover .wp-menu-image {
+    background-image: url("../images/sb-options-hover-icon.png");
+}
+
+.wp-menu-open a.toplevel_page_sb_options:hover .wp-menu-image,
+.wp-menu-open a.toplevel_page_sb_options .wp-menu-image {
+    background-image: url("../images/sb-options-open-icon.png");
+}
+
+a.toplevel_page_sb_options .wp-menu-image {
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 20px auto;
     opacity: 0.7;
 }
 

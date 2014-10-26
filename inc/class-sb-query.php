@@ -83,4 +83,11 @@ class SB_Query {
         }
         return $related_posts;
     }
+
+    public static function get_first_post_from_query($query) {
+        if($query && $query->have_posts()) {
+            return $query->posts[0];
+        }
+        return null;
+    }
 }

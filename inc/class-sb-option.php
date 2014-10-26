@@ -1,11 +1,18 @@
 <?php
 class SB_Option {
+    public static function update($sb_options) {
+        self::update_option('sb_options', $sb_options);
+    }
     public static function get_date_format() {
         return get_option('date_format');
     }
 
     public static function get_time_fortmat() {
         return get_option('time_format');
+    }
+
+    public static function get_date_time_format() {
+        return self::get_date_format() . ' ' . self::get_time_fortmat();
     }
 
     public static function get_timezone_string() {
@@ -83,6 +90,9 @@ class SB_Option {
         $keys = isset($args['keys']) ? $args['keys'] : array();
         $value = $default;
         $tmp = $options;
+        if(!is_array($keys)) {
+            return $value;
+        }
         foreach($keys as $key) {
             $tmp = isset($tmp[$key]) ? $tmp[$key] : '';
             if(empty($tmp)) {
@@ -95,6 +105,29 @@ class SB_Option {
         return $value;
     }
 
+    public static function get_theme_social($social_key) {
+        return self::get_by_key(array('keys' => array('theme', 'social', $social_key)));
+    }
+
+    public static function get_theme_option($args = array()) {
+        if(isset($args['keys']) && is_array($args['keys'])) {
+            array_unshift($args['keys'], 'theme');
+        }
+        return self::get_by_key($args);
+    }
+
+    public static function get_theme_footer_text() {
+        $args = array(
+            'keys' => array('footer_text')
+        );
+        return self::get_theme_option($args);
+    }
+
+    public static function get_scroll_top() {
+        $result = self::get_theme_option(array('keys' => array('scroll_top')));
+        return (bool)$result;
+    }
+
     public static function get_bool_value_by_key($args = array()) {
         $value = self::get_by_key($args);
         return (bool)$value;
@@ -103,5 +136,61 @@ class SB_Option {
     public static function get_int_value_by_key($args = array()) {
         $value = self::get_by_key($args);
         return intval($value);
+    }
+
+    public static function get_home_url() {
+        return get_option('home');
+    }
+
+    public static function get_site_url() {
+        return get_option('siteurl');
+    }
+
+    public static function change_option_array_url(&$options, $args = array()) {
+        $site_url = '';
+        $url = '';
+        extract($args, EXTR_OVERWRITE);
+        if(empty($site_url) || empty($url) || $url == $site_url) {
+            return;
+        }
+        foreach($options as $key => &$value) {
+            if(is_array($value)) {
+                self::change_option_array_url($value, $args);
+            } elseif(!empty($value) && !is_numeric($value)) {
+                $value = str_replace($url, $site_url, $value);
+            }
+        }
+    }
+
+    public static function change_option_url($args = array()) {
+        $site_url = '';
+        $url = '';
+        extract($args, EXTR_OVERWRITE);
+        if(empty($site_url) || empty($url) || $url == $site_url) {
+            return;
+        }
+        $options = self::get();
+        self::change_option_array_url($options, $args);
+        self::update($options);
+    }
+
+    public static function change_widget_text_url($args = array()) {
+        $site_url = '';
+        $url = '';
+        extract($args, EXTR_OVERWRITE);
+        if(empty($site_url) || empty($url) || $url == $site_url) {
+            return;
+        }
+        $text_widgets = get_option('widget_text');
+        foreach($text_widgets as $key => $widget) {
+            if(isset($widget['text'])) {
+                $text_widgets[$key]['text'] = str_replace($url, $site_url, $widget['text']);
+            }
+        }
+        update_option('widget_text', $text_widgets);
+    }
+
+    public static function update_option($option_name, $option_value) {
+        update_option($option_name, $option_value);
     }
 }

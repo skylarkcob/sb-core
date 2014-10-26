@@ -19,7 +19,9 @@ class SB_Field {
     public static function media_image($args = array()) {
         $name = '';
         $value = '';
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         echo '<div class="sbtheme-media-image">';
         self::image_thumbnail($name, $value);
         self::media_upload($args);
@@ -32,7 +34,9 @@ class SB_Field {
         $list_sidebars = array();
         $description = '';
         $default_sidebars = array();
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         ?>
         <div id="<?php echo $id; ?>" class="sb-theme-sidebar">
             <div class="sb-sidebar-group">
@@ -81,7 +85,9 @@ class SB_Field {
         $name = '';
         $description = '';
         $value = '';
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         $button_title = __('Insert image', 'sb-core');
         $value = trim($value);
         ?>
@@ -94,7 +100,12 @@ class SB_Field {
     }
 
     public static function media_image_with_url($args = array()) {
+        $name = '';
+        $value = '';
         echo '<div class="sbtheme-media-image with-url">';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         self::image_thumbnail($name, $value);
         self::media_upload_with_url($args);
         echo '</div>';
@@ -124,7 +135,9 @@ class SB_Field {
         $name = '';
         $value = '';
         $description = '';
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         $value = trim($value);
         $class = 'widefat';
         printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, $description);
@@ -135,7 +148,9 @@ class SB_Field {
         $name = '';
         $value = '';
         $description = '';
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         $enable = (bool) $value;
         $class = 'switch-button';
         $class_on = $class . ' on';
@@ -169,7 +184,9 @@ class SB_Field {
         $taxonomy = '';
         $taxonomy_id = '';
         $taxonomy_name = '';
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         ?>
         <p class="<?php echo $paragraph_class; ?>">
             <label for="<?php echo esc_attr( $id ); ?>"></label>
@@ -217,7 +234,9 @@ class SB_Field {
         $value = '';
         $description = '';
         $textarea_row = 5;
-        extract($args, EXTR_OVERWRITE);
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
         $args = array(
             'textarea_name' => $name,
             'textarea_rows' => $textarea_row

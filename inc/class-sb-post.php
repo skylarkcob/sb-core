@@ -28,11 +28,18 @@ class SB_Post {
         return '';
     }
 
-    public static function get_thumbnail_url($post_id) {
+    public static function get_thumbnail_url($args = array()) {
+        $post_id = get_the_ID();
+        $result = '';
+        $size = '';
+        extract($args, EXTR_OVERWRITE);
         if(has_post_thumbnail($post_id)) {
             $image_path = get_attached_file(get_post_thumbnail_id($post_id));
             if(file_exists($image_path)) {
-                $result = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
+                $image_attributes = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size);
+                if($image_attributes) {
+                    $result = $image_attributes[0];
+                }
             }
         }
         if(empty($result)) {
@@ -52,13 +59,13 @@ class SB_Post {
     }
 
     public static function get_thumbnail_html($args = array()) {
-        $size = array();
+        $size = '';
         $post_id = get_the_ID();
         $width = '';
         $height = '';
         $style = '';
         extract($args, EXTR_OVERWRITE);
-        if($size && !is_array($size)) {
+        if(is_array($size) && count($size) == 1) {
             $size = array($size, $size);
         }
         if(count($size) == 2) {
@@ -66,7 +73,8 @@ class SB_Post {
             $height = $size[1];
             $style = ' style="width:' . $width . 'px; height:' . $height . 'px;"';
         }
-        $result = self::get_thumbnail_url($post_id);
+        $args['size'] = $size;
+        $result = self::get_thumbnail_url($args);
         if(!empty($result)) {
             $result = '<img class="wp-post-image" alt="' . get_the_title($post_id) . '" width="' . $width . '" height="' . $height . '" src="' . $result . '"' . $style . '>';
         }
@@ -102,10 +110,18 @@ class SB_Post {
         return SB_Core::get_human_minute_diff(self::get_time_compare($post));
     }
 
+    public static function get_human_time_diff($post) {
+        return SB_Core::get_human_time_diff(self::get_time_compare($post));
+    }
+
     public static function the_date() {
         printf('<span class="date"><span>%1$s</span></span>',
             esc_html( get_the_date())
         );
+    }
+
+    public static function update_custom_menu_url($post_id, $meta_value) {
+        self::update_meta($post_id, '_menu_item_url', $meta_value);
     }
 
     public static function the_comment_link() {
@@ -127,6 +143,10 @@ class SB_Post {
         return wp_get_post_terms($post_id, $taxonomy, array('fields' => 'ids'));
     }
 
+    public static function get_terms($post_id, $taxonomy) {
+        return wp_get_post_terms($post_id, $taxonomy);
+    }
+
     public static function get_meta($post_id, $meta_key) {
         return get_post_meta($post_id, $meta_key, true);
     }
@@ -138,6 +158,25 @@ class SB_Post {
 
     public static function update_meta($post_id, $meta_key, $meta_value) {
         update_post_meta($post_id, $meta_key, $meta_value);
+    }
+
+    public static function change_custom_menu_url($args = array()) {
+        $site_url = '';
+        $url = '';
+        extract($args, EXTR_OVERWRITE);
+        if(empty($site_url) || empty($url) || $url == $site_url) {
+            return;
+        }
+        $menus = wp_get_nav_menus();
+        foreach($menus as $menu) {
+            $menu_items = wp_get_nav_menu_items($menu->term_id);
+            foreach($menu_items as $item) {
+                if('custom' == $item->type) {
+                    $item_url = str_replace($url, $site_url, $item->url);
+                    SB_Post::update_custom_menu_url($item->term_id, $item_url);
+                }
+            }
+        }
     }
 
 }
