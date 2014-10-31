@@ -47,8 +47,9 @@ class SB_Option {
     }
 
     public static function the_footer_text_html() {
-        $options = self::get();
-        echo isset($options['theme']['footer_text']) ? $options['theme']['footer_text'] : '';
+        $footer_text = self::get_theme_footer_text();
+        $footer_text = wpautop($footer_text);
+        echo $footer_text;
     }
 
     public static function get_login_logo_url() {
@@ -192,5 +193,39 @@ class SB_Option {
 
     public static function update_option($option_name, $option_value) {
         update_option($option_name, $option_value);
+    }
+
+    public static function get_theme_rss_feed() {
+        $result = array();
+        $count = self::get_theme_option(array('keys' => array('rss_feed', 'count')));
+        if(!is_numeric($count)) {
+            $count = 0;
+        }
+        $order = self::get_theme_option(array('keys' => array('rss_feed', 'order')));
+        $order = explode(',', $order);
+        for($i = 1; $i <= $count; $i++) {
+            $title = self::get_theme_option(array('keys' => array('rss_feed', $i, 'title')));
+            $number = self::get_theme_option(array('keys' => array('rss_feed', $i, 'number')));
+            $url = self::get_theme_option(array('keys' => array('rss_feed', $i, 'url')));
+            $id = self::get_theme_option(array('keys' => array('rss_feed', $i, 'id')));
+            if((empty($number) || empty($url)) || (empty($title) && empty($id))) {
+                continue;
+            }
+            $feed = array('title' => $title, 'number' => $number, 'url' => $url, 'id' => $id);
+            array_push($result, $feed);
+        }
+        $ordered = array();
+        foreach($order as $id) {
+            $count = 0;
+            foreach($result as $item) {
+                if($item['id'] == $id) {
+                    array_push($ordered, $item);
+                    unset($result[$count]);
+                    break;
+                }
+                $count++;
+            }
+        }
+        return $ordered + $result;
     }
 }

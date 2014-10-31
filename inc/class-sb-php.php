@@ -594,6 +594,20 @@ class SB_PHP {
         self::set_session($key, $old);
     }
 
+    public static function sort_array_by_key_array($array = array(), $order = array()) {
+        $ordered = array();
+        foreach($order as $key) {
+            if(is_array($key)) {
+                continue;
+            }
+            if(array_key_exists($key, $array)) {
+                $ordered[$key] = $array[$key];
+                unset($array[$key]);
+            }
+        }
+        return $ordered + $array;
+    }
+
     public static function is_valid_url($url) {
         return self::is_url_valid($url);
     }

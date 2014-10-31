@@ -574,4 +574,24 @@ class SB_Core {
         return array_key_exists($sidebar_id, $wp_registered_sidebars);
     }
 
+    public static function set_dashboard_language($lang) {
+        global $sb_dashboard_language;
+        $sb_dashboard_language = apply_filters('sb_dashboard_language', $lang);
+    }
+
+    public static function get_dashboard_language() {
+        global $sb_dashboard_language;
+        if(empty($sb_dashboard_language)) {
+            $sb_dashboard_language = 'en';
+        }
+        return $sb_dashboard_language;
+    }
+
+    public static function english_dashboard($lang) {
+        if(is_admin()) {
+            $lang = 'en';
+        }
+        setlocale(LC_ALL, $lang);
+        return $lang;
+    }
 }

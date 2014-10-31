@@ -230,4 +230,132 @@
         });
     })();
 
+    (function(){
+        if(!$('ul.sb-sortable-list').hasClass('ui-sortable')) {
+            var remove_item = false;
+            $('ul.sb-sortable-list').sortable({
+                cancel: ':input, .ui-state-disabled, .sb-icon-delete',
+                placeholder: 'ui-state-highlight',
+                receive: function(event, ui) {
+                    remove_item = false;
+                },
+                over: function(event, ui) {
+                    remove_item = false;
+                },
+                out: function(event, ui) {
+                    remove_item = true;
+                },
+                beforeStop: function(event, ui) {
+                    if(remove_item) {
+                        var ui_panel = ui.item.closest('div.sb-ui-panel'),
+                            input_count = ui_panel.find('input.ui-item-count'),
+                            count = parseInt(input_count.val());
+                        count--;
+                        input_count.val(count);
+                        ui_panel.find('button.ui-add-item').attr('data-count', count);
+                        ui.item.remove();
+                    }
+                },
+                sort: function(event, ui) {
+                    var that = $(this);
+                    that.find('.ui-state-highlight').css({'height': ui.item.height()});
+                },
+                stop: function(event, ui) {
+                    var data = '';
+
+                    $('ul.sb-sortable-list li').each(function(i, el){
+                        var p = $(el).find('.ui-item-id').val();
+                        data += p + ',';
+                    });
+                    data = data.slice(0, -1);
+                    $('.sb-ui-panel input.ui-item-order').val(data);
+                }
+            });
+        }
+    })();
+
+    function sb_build_add_ui_data(button) {
+        var that = button,
+            data_name = that.attr('data-name'),
+            data_count = that.attr('data-count'),
+            data_type = that.attr('data-type'),
+            ui_panel = that.closest('div.sb-ui-panel'),
+            input_order = ui_panel.find('.ui-item-order'),
+            next_id = button.attr('data-next-id'),
+            order = input_order.val(),
+            data = null;
+        data = {
+            action: 'sb_add_ui_item',
+            data_name: data_name,
+            data_count: data_count,
+            data_type: data_type,
+            data_id: next_id
+        };
+        data_count++;
+        if(!order.trim()) {
+            order += next_id;
+        } else {
+            order += ',' + next_id;
+        }
+
+        next_id++;
+        button.attr('data-next-id', next_id);
+        ui_panel.find('input.ui-item-count').val(data_count);
+        input_order.val(order);
+        button.attr('data-count', data_count);
+        return data;
+    }
+
+    function sb_switch_reset_ajax(button, show) {
+        if(show) {
+            button.find('img').addClass('active');
+        } else {
+            button.find('img').removeClass('active');
+        }
+    }
+
+    function sb_reset_ui_complete(button) {
+        var ui_panel = button.closest('div.sb-ui-panel'),
+            add_button = ui_panel.find('button.ui-add-item'),
+            input_order = ui_panel.find('input.ui-item-order'),
+            input_count = ui_panel.find('input.ui-item-count');
+        button.closest('div').find('.sb-sortable-list').html('');
+        input_order.val('');
+        input_count.val(0);
+        add_button.attr('data-count', 0);
+        add_button.attr('data-next-id', 1);
+        sb_switch_reset_ajax(button, false);
+    }
+
+    (function(){
+        $('.sb-ui-panel button.reset').on('click', function(e){
+            e.preventDefault();
+            var that = $(this),
+                data = null,
+                data_type = that.attr('data-type'),
+                option_panel = that.closest('div.sb-option');
+            if(confirm(option_panel.attr('data-message-confirm'))) {
+                sb_switch_reset_ajax(that, true);
+                data = {
+                    action: 'sb_ui_reset',
+                    data_type: data_type
+                };
+                $.post(sb_core_admin_ajax.url, data, function(resp){
+                    sb_reset_ui_complete(that);
+                });
+            }
+        });
+    })();
+
+    (function(){
+        $('button.ui-add-item').on('click', function(e){
+            e.preventDefault();
+            var that = $(this),
+                ui_list = that.parent().find('.sb-sortable-list');
+            $.post(sb_core_admin_ajax.url, sb_build_add_ui_data(that), function(resp){
+                ui_list.append(resp);
+            });
+        })
+    })();
+
 })(jQuery);

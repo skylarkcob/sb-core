@@ -31,7 +31,7 @@ function sb_do_settings_sections( $page ) {
     }
 }
 ?>
-<div class="wrap sb-option">
+<div class="wrap sb-option sb-options" data-message-confirm="<?php _e('Are you sure?', 'sb-core'); ?>">
     <noscript><div class="no-js"><?php _e('Options page will not work if your browser doesn\'t support javascript!', 'sb-core'); ?></div></noscript>
     <h2></h2>
     <?php if (isset($_REQUEST['submit']) || isset($_REQUEST['settings-updated'])) : ?>

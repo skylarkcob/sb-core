@@ -659,3 +659,85 @@ a:focus {
     cursor: default;
     opacity: 0.15;
 }
+
+.sb-addable {
+    padding-bottom: 40px !important;
+}
+
+.min-height {
+    min-height: 200px;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.sb-addable button {
+    bottom: 10px;
+}
+
+.sb-addable .add-item {
+    right: 10px;
+}
+
+.sb-addable button.reset {
+    left: 10px;
+}
+
+.gray-bg {
+    background-color: #f4f4f4;
+}
+
+.gray-bg.border {
+    border: 1px solid #e5e5e5;
+}
+
+.padding-10 {
+    padding: 10px;
+}
+
+.width-50 {
+    display: table-cell;
+    width: 48%;
+}
+
+.right {
+    float: right;
+}
+
+.sb-addable input {
+    margin-bottom: 15px;
+}
+
+.sortable-item {
+    cursor: pointer;
+}
+
+.sb-sortable-list li {
+    border: 1px dashed #ccc;
+    margin-bottom: 15px;
+    padding: 15px 10px 0;
+}
+
+button.reset img {
+    display: none;
+    margin-left: 4px;
+    vertical-align: -3px;
+}
+
+button.reset img.active {
+    display: inline-block;
+}
+
+.sb-option .switch-options label.right {
+    float: none;
+}
+
+.nav-menu-meta .accordion-container .add-menu-item-tabs,
+.nav-menu-meta .accordion-container .outer-border {
+    padding: 0;
+}

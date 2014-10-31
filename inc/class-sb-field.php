@@ -80,6 +80,62 @@ class SB_Field {
         <?php
     }
 
+    public static function rss_feed($args = array()) {
+        $id = '';
+        $name = '';
+        $list_feeds = array();
+        $description = '';
+        $order = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        $count = SB_Option::get_theme_option(array('keys' => array('rss_feed', 'count')));
+        if($count > count($list_feeds)) {
+            $count = count($list_feeds);
+        }
+        $real_count = $count;
+        $next_id = 1;
+
+        ?>
+        <div id="<?php echo $id; ?>" class="sb-addable rss-feed min-height relative gray-bg border padding-10 sb-ui-panel">
+            <div class="item-group">
+                <ul class="sb-sortable-list" data-message-confirm="<?php _e('Are you sure you want to delete?', 'sb-core'); ?>">
+                    <?php if($count == 0) : ?>
+                        <?php $count++; ?>
+                        <?php SB_Admin_Custom::set_current_rss_feed_item(array('name' => $name, 'count' => $count)); ?>
+                        <?php sb_get_core_template_part('loop-rss-feed'); ?>
+                        <?php $real_count = $count; ?>
+                        <?php $order = $count; ?>
+                        <?php $next_id++; ?>
+                    <?php endif; ?>
+                    <?php if($count > 0) : ?>
+                        <?php $new_count = 1; ?>
+                        <?php foreach($list_feeds as $feed) : ?>
+                            <?php
+                            $feed_id = isset($feed['id']) ? $feed['id'] : 0;
+                            if($feed_id >= $next_id) {
+                                $next_id = $feed_id + 1;
+                            }
+                            ?>
+                            <?php SB_Admin_Custom::set_current_rss_feed_item(array('feed' => $feed, 'count' => $new_count, 'name' => $name)); ?>
+                            <?php sb_get_core_template_part('loop-rss-feed'); ?>
+                            <?php $new_count++; ?>
+
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+                <input type="hidden" name="<?php echo $name; ?>[order]" value="<?php echo $order; ?>" class="ui-item-order item-order" autocomplete="off">
+                <input type="hidden" name="<?php echo $name; ?>[count]" value="<?php echo $real_count; ?>" class="ui-item-count item-count" autocomplete="off">
+            </div>
+            <button class="button add-item ui-add-item absolute" data-type="rss_feed" data-name="<?php echo $name; ?>" data-count="<?php echo $count; ?>" data-next-id="<?php echo $next_id; ?>"><?php _e('Add new', 'sb-core'); ?></button>
+            <button class="button reset-item ui-reset-item absolute reset" data-type="rss_feed"><?php _e('Reset', 'sb-core'); ?> <img src="<?php echo SB_CORE_URL; ?>/images/ajax-loader.gif"></button>
+        </div>
+        <?php if(!empty($description)) : ?>
+            <p class="description"><?php _e($description, 'sb-core'); ?></p>
+        <?php endif; ?>
+        <?php
+    }
+
     private static function media_upload($args = array()) {
         $id = '';
         $name = '';
@@ -140,7 +196,20 @@ class SB_Field {
         }
         $value = trim($value);
         $class = 'widefat';
-        printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, $description);
+        printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core'));
+    }
+
+    public static function number_field($args = array()){
+        $id = '';
+        $name = '';
+        $value = '';
+        $description = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        $value = trim($value);
+        $class = '';
+        printf('<input type="number" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core'));
     }
 
     public static function switch_button($args = array()) {

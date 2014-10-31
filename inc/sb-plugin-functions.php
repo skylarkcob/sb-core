@@ -31,6 +31,9 @@ function sb_core_admin_style_and_script() {
     wp_register_script('sb-core-admin', SB_CORE_URL . '/js/sb-core-admin-script.js', array('jquery'), false, true);
     wp_localize_script('sb-core-admin', 'sb_core_admin_ajax', array('url' => SB_Core::get_admin_ajax_url()));
     wp_enqueue_script('sb-core-admin');
+    if(is_sb_admin_page() && sb_admin_need_ui()) {
+        wp_enqueue_script('jquery-ui-core');
+    }
 }
 add_action('admin_enqueue_scripts', 'sb_core_admin_style_and_script');
 
@@ -75,7 +78,7 @@ function sb_core_admin_bar( $wp_admin_bar ) {
     if(current_user_can('manage_options')) {
         $args = array(
             'id'        => 'sb-options',
-            'title'     => __('SB Options', 'sb-core'),
+            'title'     => 'SB Options',
             'href'      => admin_url('admin.php?page=sb_options'),
             'meta'      => array('class' => 'sb-options'),
             'parent'    => 'site-name',
@@ -123,5 +126,29 @@ register_deactivation_hook(SB_CORE_FILE, 'sb_core_deactivate');
 function sb_testing() {
 	return apply_filters('sb_testing', false);
 }
+
+function sb_add_ui_item_ajax_callback() {
+    $type = isset($_POST['data_type']) ? $_POST['data_type'] : '';
+    switch($type) {
+        case 'rss_feed':
+            include SB_CORE_INC_PATH . '/ajax-add-rss-feed.php';
+            break;
+    }
+    die();
+}
+add_action('wp_ajax_sb_add_ui_item', 'sb_add_ui_item_ajax_callback');
+
+function sb_ui_reset_ajax_callback() {
+    $type = isset($_POST['data_type']) ? $_POST['data_type'] : '';
+    switch($type) {
+        case 'rss_feed':
+            $options = SB_Option::get();
+            unset($options['theme']['rss_feed']);
+            SB_Option::update($options);
+            break;
+    }
+    die();
+}
+add_action('wp_ajax_sb_ui_reset', 'sb_ui_reset_ajax_callback');
 
 require SB_CORE_INC_PATH . '/sb-plugin-load.php';

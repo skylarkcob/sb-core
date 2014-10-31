@@ -24,8 +24,10 @@ class SB_Post {
         $image = self::get_first_image($post_id);
         if($image) {
             return wp_get_attachment_url($image->id);
+        } else {
+            $post = get_post($post_id);
+            return SB_PHP::get_first_image($post->post_content);
         }
-        return '';
     }
 
     public static function get_thumbnail_url($args = array()) {
@@ -171,12 +173,16 @@ class SB_Post {
         foreach($menus as $menu) {
             $menu_items = wp_get_nav_menu_items($menu->term_id);
             foreach($menu_items as $item) {
-                if('custom' == $item->type) {
+                if('custom' == $item->type || 'trang-chu' == $item->post_name || 'home' == $item->post_name) {
                     $item_url = str_replace($url, $site_url, $item->url);
                     SB_Post::update_custom_menu_url($item->term_id, $item_url);
                 }
             }
         }
+    }
+
+    public static function get_by_slug($slug, $post_type = 'post') {
+        return get_page_by_path($slug, OBJECT, $post_type);
     }
 
 }

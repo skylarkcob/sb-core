@@ -39,12 +39,37 @@ class SB_Admin_Custom {
         return isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
     }
 
+    public static function is_sb_page() {
+        $page = self::get_current_page();
+        if(SB_PHP::is_string_contain($page, 'sb')) {
+            return true;
+        }
+        return false;
+    }
+
     public static function is_about_page() {
         $page = self::get_current_page();
         if('sb_options' == $page) {
             return true;
         }
         return false;
+    }
+
+    public static function get_default_rss_feed_number() {
+        return SB_RSS_FEED_NUMBER;
+    }
+
+    public static function set_current_rss_feed_item($args) {
+        global $sb_current_rss_feed;
+        $sb_current_rss_feed = $args;
+    }
+
+    public static function get_current_rss_feed_item() {
+        global $sb_current_rss_feed;
+        if(!is_array($sb_current_rss_feed)) {
+            $sb_current_rss_feed = array();
+        }
+        return $sb_current_rss_feed;
     }
 
     public static function add_section($section_id, $section_title, $page_slug) {

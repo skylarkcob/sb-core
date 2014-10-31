@@ -90,4 +90,25 @@ class SB_Query {
         }
         return null;
     }
+
+    public static function set_loop_count($count) {
+        global $sb_loop_count;
+        $sb_loop_count = $count;
+    }
+
+    public static function get_loop_count() {
+        global $sb_loop_count;
+        return $sb_loop_count;
+    }
+
+    public static function build_tax_query($tax_item, $args) {
+        if(is_array($args)) {
+            if(isset($$args['tax_query'])) {
+                array_push($args['tax_query'], $tax_item);
+            } else {
+                $args['tax_query'] = array($tax_item);
+            }
+        }
+        return $args;
+    }
 }
