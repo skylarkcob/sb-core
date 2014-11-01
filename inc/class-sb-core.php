@@ -407,6 +407,13 @@ class SB_Core {
             case 'text':
                 $data = sanitize_text_field($data);
                 return $data;
+            case 'checkbox':
+                if(is_numeric($data) && $data != 0) {
+                    $data = 1;
+                } else {
+                    $data = 0;
+                }
+                return $data;
             default:
                 return $data;
         }

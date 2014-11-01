@@ -741,3 +741,7 @@ button.reset img.active {
 .nav-menu-meta .accordion-container .outer-border {
     padding: 0;
 }
+
+.margin-bottom {
+    margin-bottom: 20px;
+}

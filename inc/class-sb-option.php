@@ -37,13 +37,19 @@ class SB_Option {
     }
 
     public static function get_favicon_url() {
-        $options = self::get();
-        return isset($options['theme']['favicon']) ? $options['theme']['favicon'] : '';
+        return self::get_theme_option(array('keys' => array('favicon')));
     }
 
     public static function get_logo_url() {
-        $options = self::get();
-        return isset($options['theme']['logo']) ? $options['theme']['logo'] : '';
+        return self::get_theme_option(array('keys' => array('logo')));
+    }
+
+    public static function get_logo_type() {
+        $type = self::get_theme_option(array('keys' => array('logo_type')));
+        if(empty($type)) {
+            $type = 'background';
+        }
+        return apply_filters('sb_logo_type', $type);
     }
 
     public static function the_footer_text_html() {
@@ -56,14 +62,14 @@ class SB_Option {
         $options = self::get();
         $logo_url = isset($options['login_page']['logo']) ? $options['login_page']['logo'] : '';
         if(empty($logo_url) && defined('SB_THEME_VERSION')) {
-            $logo_url = isset($options['theme']['logo']) ? $options['theme']['logo'] : '';
+            $logo_url = self::get_logo_url();
         }
         return $logo_url;
     }
 
     public static function get_theme_thumbnail_url() {
         $options = self::get();
-        $url = isset($options['theme']['thumbnail']) ? $options['theme']['thumbnail'] : '';
+        $url = self::get_theme_option(array('keys' => array('thumbnail')));
         if(empty($url)) {
             $url = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
         }
@@ -77,7 +83,7 @@ class SB_Option {
         $options = self::get();
         $url = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
         if(empty($url)) {
-            $url = isset($options['theme']['thumbnail']) ? $options['theme']['thumbnail'] : '';
+            $url = self::get_theme_option(array('keys' => array('thumbnail')));
         }
         if(empty($url)) {
             $url = SB_Post::get_default_thumbnail_url();

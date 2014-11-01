@@ -32,6 +32,11 @@
     (function(){
         setTimeout(function(){
             sb_option.find('div.updated').fadeOut(3000);
+            var page_url = window.location.href;
+            if(page_url.indexOf('settings-updated') >= 0 && sb_option.length) {
+                page_url = page_url.slice(0, page_url.indexOf('&'));
+                window.history.pushState('string', '', page_url);
+            }
         }, 2000);
     })();
 

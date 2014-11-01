@@ -19,10 +19,13 @@ class SB_Field {
     public static function media_image($args = array()) {
         $name = '';
         $value = '';
+        $container_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
-        echo '<div class="sbtheme-media-image">';
+        $container_class .= ' sbtheme-media-image';
+        $container_class = trim($container_class);
+        echo '<div class="' . $container_class . '">';
         self::image_thumbnail($name, $value);
         self::media_upload($args);
         echo '</div>';
@@ -202,20 +205,35 @@ class SB_Field {
     public static function number_field($args = array()){
         $id = '';
         $name = '';
-        $value = '';
+        $value = 0;
         $description = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
-        $value = trim($value);
         $class = '';
         printf('<input type="number" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core'));
+    }
+
+    public static function checkbox($args = array()) {
+        $id = '';
+        $name = '';
+        $value = 0;
+        $description = '';
+        $text = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        if(!is_numeric($value)) {
+            $value = 0;
+        }
+        $class = '';
+        printf('<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'" %4$s> %5$s<p class="description">%6$s</p>', esc_attr($id), esc_attr($name), $value, checked($value, 1, false), $value, __($description, 'sb-core'));
     }
 
     public static function switch_button($args = array()) {
         $id = '';
         $name = '';
-        $value = '';
+        $value = 0;
         $description = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
@@ -238,6 +256,25 @@ class SB_Field {
                 <p class="description"><?php echo $description; ?></p>
             </div>
         </fieldset>
+        <?php
+    }
+
+    public static function select($args = array()) {
+        $id = '';
+        $name = '';
+        $list_options = array();
+        $description = '';
+        $value = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        ?>
+        <select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>">
+            <?php foreach($list_options as $key => $text) : ?>
+                <option value="<?php echo $key; ?>" <?php selected($value, $key); ?>><?php echo $text; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <p class="description"><?php echo $description; ?></p>
         <?php
     }
 

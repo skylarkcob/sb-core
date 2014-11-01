@@ -45,10 +45,7 @@ class SB_Admin {
     }
 
     public function sanitize( $input ) {
-        $data = $input;
-        $options = SB_Option::get();
-        $data = wp_parse_args($data, $options);
-        return apply_filters('sb_options_sanitize', $data);
+        return apply_filters('sb_options_sanitize', $input);
     }
 
     private function register_sb_setting() {
