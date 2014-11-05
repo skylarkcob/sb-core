@@ -21,8 +21,6 @@ require SB_CORE_INC_PATH . '/class-sb-post.php';
 
 require SB_CORE_INC_PATH . '/class-sb-html.php';
 
-require SB_CORE_INC_PATH . '/class-sb-product.php';
-
 require SB_CORE_INC_PATH . '/class-sb-term.php';
 
 require SB_CORE_INC_PATH . '/class-sb-plugin.php';

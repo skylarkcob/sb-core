@@ -33,3 +33,15 @@ function sb_get_core_template_part($name) {
     $name .= '.php';
     include SB_CORE_INC_PATH . '/' . $name;
 }
+
+function sb_core_get_loop($name) {
+    sb_get_core_template_part('loop/' . $name);
+}
+
+function sb_core_get_ajax($name) {
+    sb_get_core_template_part('ajax/' . $name);
+}
+
+function sb_core_get_content($name) {
+    sb_get_core_template_part('content/' . $name);
+}

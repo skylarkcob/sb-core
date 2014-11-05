@@ -106,7 +106,7 @@ class SB_Field {
                     <?php if($count == 0) : ?>
                         <?php $count++; ?>
                         <?php SB_Admin_Custom::set_current_rss_feed_item(array('name' => $name, 'count' => $count)); ?>
-                        <?php sb_get_core_template_part('loop-rss-feed'); ?>
+                        <?php sb_core_get_loop('loop-rss-feed'); ?>
                         <?php $real_count = $count; ?>
                         <?php $order = $count; ?>
                         <?php $next_id++; ?>
@@ -121,7 +121,7 @@ class SB_Field {
                             }
                             ?>
                             <?php SB_Admin_Custom::set_current_rss_feed_item(array('feed' => $feed, 'count' => $new_count, 'name' => $name)); ?>
-                            <?php sb_get_core_template_part('loop-rss-feed'); ?>
+                            <?php sb_core_get_loop('loop-rss-feed'); ?>
                             <?php $new_count++; ?>
 
                         <?php endforeach; ?>

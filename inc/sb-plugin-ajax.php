@@ -6,7 +6,7 @@ function sb_core_deactivate_ajax_callback() {
 add_action('wp_ajax_sb_core_deactivate_message', 'sb_core_deactivate_ajax_callback');
 
 function sb_plugins_ajax_callback() {
-    include SB_CORE_INC_PATH . '/sb-plugins-ajax.php';
+    sb_core_get_ajax('sb-plugins-ajax');
     die();
 }
 add_action('wp_ajax_sb_plugins', 'sb_plugins_ajax_callback');
@@ -28,7 +28,7 @@ function sb_add_ui_item_ajax_callback() {
     $type = isset($_POST['data_type']) ? $_POST['data_type'] : '';
     switch($type) {
         case 'rss_feed':
-            include SB_CORE_INC_PATH . '/ajax-add-rss-feed.php';
+            sb_core_get_ajax('ajax-add-rss-feed');
             break;
     }
     die();

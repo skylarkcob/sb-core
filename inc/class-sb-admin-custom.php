@@ -89,6 +89,6 @@ class SB_Admin_Custom {
     }
 
     public static function setting_page_callback() {
-        include SB_CORE_INC_PATH . '/sb-setting-page.php';
+        sb_core_get_content('sb-setting-page');
     }
 }

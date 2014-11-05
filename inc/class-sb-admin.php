@@ -70,12 +70,12 @@ class SB_Admin {
     }
 
     public function sb_options_callback() {
-        include(SB_CORE_INC_PATH . '/sb-about.php');
+        sb_core_get_content('sb-about');
     }
 
     public function print_section_info($args) {
         if($args['id'] == 'sb_plugins_section') {
-            include SB_CORE_INC_PATH . '/sb-plugins.php';
+            sb_core_get_content('sb-plugins');
         } elseif($args['id'] == 'sb_options_section') {
             _e('Short description about SB Options.', 'sb-core');
         } else {
