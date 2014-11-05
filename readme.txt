@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.1.4
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,8 +58,19 @@ Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
 
+= 1.1.6 =
+Update list plugins created by SB Team.
+
+= 1.1.5 =
+* Support Shopping theme.
+* Add function to create custom post type and custom taxonomy.
+* Update the functions to create meta box for posts.
+* Update check core function.
+
 = 1.1.4 =
 * Update the function to sanitize input data.
+* Update function to change url after settings changed.
+* Add new setting fields.
 
 = 1.1.3 =
 * Add new class to get post from rss feed.

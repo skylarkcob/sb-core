@@ -154,12 +154,23 @@ class SB_Post {
     }
 
     public static function get_sb_meta($post_id, $meta_key) {
-        $meta_key = SB_Core::build_meta_box_field_name($meta_key);
+        $meta_key = sb_build_meta_name($meta_key);
         return self::get_meta($post_id, $meta_key);
     }
 
     public static function update_meta($post_id, $meta_key, $meta_value) {
         update_post_meta($post_id, $meta_key, $meta_value);
+    }
+
+    public static function update_metas($post_id, $metas = array()) {
+        foreach($metas as $meta) {
+            $meta_key = isset($meta['key']) ? $meta['key'] : '';
+            $meta_value = isset($meta['value']) ? $meta['value'] : '';
+            if(empty($meta_key)) {
+                continue;
+            }
+            self::update_meta($post_id, $meta_key, $meta_value);
+        }
     }
 
     public static function change_custom_menu_url($args = array()) {
@@ -185,4 +196,36 @@ class SB_Post {
         return get_page_by_path($slug, OBJECT, $post_type);
     }
 
+    public static function insert($args = array()) {
+        $post_title = '';
+        $post_content = '';
+        $post_status = 'pending';
+        $post_type = 'post';
+        $post_author = 1;
+        $first_admin = SB_User::get_first_admin();
+        if($first_admin) {
+            $post_author = $first_admin->ID;
+        }
+        $defaults = array(
+            'post_title' => $post_title,
+            'post_content' => $post_content,
+            'post_status'           => $post_status,
+            'post_type'             => $post_type,
+            'post_author'           => $post_author,
+            'ping_status'           => get_option('default_ping_status'),
+            'post_parent'           => 0,
+            'menu_order'            => 0,
+            'to_ping'               =>  '',
+            'pinged'                => '',
+            'post_password'         => '',
+            'guid'                  => '',
+            'post_content_filtered' => '',
+            'post_excerpt'          => '',
+            'import_id'             => 0
+        );
+        $args = wp_parse_args($args, $defaults);
+        $args['post_title'] = wp_strip_all_tags($args['post_title']);
+        $post_id = wp_insert_post($args);
+        return $post_id;
+    }
 }

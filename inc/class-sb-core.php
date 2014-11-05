@@ -394,17 +394,20 @@ class SB_Core {
     public static function sanitize($data, $type) {
         switch($type) {
             case 'url':
+                $data = trim($data);
                 $data = esc_url_raw($data);
                 if(!SB_PHP::is_valid_url($data)) {
                     $data = '';
                 }
                 return $data;
             case 'image_url':
+                $data = trim($data);
                 if(!SB_PHP::is_valid_image($data)) {
                     $data = '';
                 }
                 return $data;
             case 'text':
+                $data = trim($data);
                 $data = sanitize_text_field($data);
                 return $data;
             case 'checkbox':
@@ -600,5 +603,136 @@ class SB_Core {
         }
         setlocale(LC_ALL, $lang);
         return $lang;
+    }
+    
+    public static function register_post_type($args = array()) {
+        $name = '';
+        $singular_name = '';
+        $supports = array();
+        $hierarchical = false;
+        $public = true;
+        $show_ui = true;
+        $show_in_menu = true;
+        $show_in_nav_menus = true;
+        $show_in_admin_bar = true;
+        $menu_position = 6;
+        $can_export = true;
+        $has_archive = true;
+        $exclude_from_search = false;
+        $publicly_queryable = true;
+        $capability_type = 'post';
+        $taxonomies = array();
+        $menu_icon = 'dashicons-admin-post';
+        $slug = '';
+        $with_front = true;
+        $pages = true;
+        $feeds = true;
+        $query_var = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        if(empty($singular_name)) {
+            $singular_name = $name;
+        }
+        if(empty($name) || !is_array($supports) || empty($slug) || post_type_exists($slug)) {
+            return;
+        }
+        if(!in_array('title', $supports)) {
+            array_push($supports, 'title');
+        }
+        $labels = array(
+            'name'                => $name,
+            'singular_name'       => $singular_name,
+            'menu_name'           => $name,
+            'parent_item' => sprintf(__( 'Parent %s', 'sb-core' ), $singular_name),
+            'parent_item_colon'   => sprintf(__( 'Parent %s:', 'sb-core' ), $singular_name),
+            'all_items'           => sprintf(__( 'All %s', 'sb-core' ), $name),
+            'view_item'           => sprintf(__( 'View %s', 'sb-core' ), $singular_name),
+            'add_new_item'        => sprintf(__( 'Add New %s', 'sb-core' ), $singular_name),
+            'add_new'             => __( 'Add New', 'sb-core' ),
+            'edit_item'           => sprintf(__( 'Edit %s', 'sb-core' ), $singular_name),
+            'update_item'         => sprintf(__( 'Update %s', 'sb-core' ), $singular_name),
+            'search_items'        => sprintf(__( 'Search %s', 'sb-core' ), $singular_name) ,
+            'not_found'           => __( 'Not found', 'sb-core' ),
+            'not_found_in_trash'  => __( 'Not found in Trash', 'sb-core' )
+        );
+        $rewrite = array(
+            'slug'                => $slug,
+            'with_front'          => $with_front,
+            'pages'               => $pages,
+            'feeds'               => $feeds
+        );
+        unset($args);
+        $args = array(
+            'labels'              => $labels,
+            'supports'            => $supports,
+            'taxonomies' => $taxonomies,
+            'hierarchical'        => $hierarchical,
+            'public'              => $public,
+            'show_ui'             => $show_ui,
+            'show_in_menu'        => $show_in_menu,
+            'show_in_nav_menus'   => $show_in_nav_menus,
+            'show_in_admin_bar'   => $show_in_admin_bar,
+            'menu_position'       => $menu_position,
+            'menu_icon' => $menu_icon,
+            'can_export'          => $can_export,
+            'has_archive'         => $has_archive,
+            'exclude_from_search' => $exclude_from_search,
+            'publicly_queryable'  => $publicly_queryable,
+            'query_var' => $query_var,
+            'rewrite' => $rewrite,
+            'capability_type'     => $capability_type
+        );
+        register_post_type($slug, $args);
+    }
+
+    public static function register_taxonomy($args = array()) {
+        $name = '';
+        $singular_name = '';
+        $hierarchical = true;
+        $public = true;
+        $show_ui = true;
+        $show_admin_column = true;
+        $show_in_nav_menus = true;
+        $show_tagcloud = true;
+        $post_types = array();
+        $slug = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        if(empty($singular_name)) {
+            $singular_name = $name;
+        }
+        if(empty($name) || empty($slug) || taxonomy_exists($slug)) {
+            return;
+        }
+        $labels = array(
+            'name'                       => $name,
+            'singular_name'              => $singular_name,
+            'menu_name'                  => $name,
+            'all_items'                  => sprintf(__( 'All %s', 'sb-core' ), $name),
+            'parent_item'                => sprintf(__( 'Parent %s', 'sb-core' ), $singular_name),
+            'parent_item_colon'          => sprintf(__( 'Parent %s:', 'sb-core' ), $singular_name),
+            'new_item_name'              => sprintf(__( 'New %s Name', 'sb-core' ), $singular_name),
+            'add_new_item'               => sprintf(__( 'Add New %s', 'sb-core' ), $singular_name),
+            'edit_item'                  => sprintf(__( 'Edit %s', 'sb-core' ), $singular_name),
+            'update_item'                => sprintf(__( 'Update %s', 'sb-core' ), $singular_name),
+            'separate_items_with_commas' => sprintf(__( 'Separate %s with commas', 'sb-core' ), SB_PHP::lowercase($name)),
+            'search_items'               => sprintf(__( 'Search %s', 'sb-core' ), $name),
+            'add_or_remove_items'        => sprintf(__( 'Add or remove %s', 'sb-core' ), $name),
+            'choose_from_most_used'      => sprintf(__( 'Choose from the most used %s', 'sb-core' ), $name),
+            'not_found'                  => __( 'Not Found', 'sb-core' ),
+        );
+        unset($args);
+        $args = array(
+            'labels'                     => $labels,
+            'hierarchical'               => $hierarchical,
+            'public'                     => $public,
+            'show_ui'                    => $show_ui,
+            'show_admin_column'          => $show_admin_column,
+            'show_in_nav_menus'          => $show_in_nav_menus,
+            'show_tagcloud'              => $show_tagcloud,
+        );
+        register_taxonomy($slug, $post_types, $args);
     }
 }

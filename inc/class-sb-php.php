@@ -4,6 +4,14 @@ class SB_PHP {
 
     }
 
+    public static function clean_url($url) {
+        $url = self::lowercase($url);
+        $url = str_replace(' ', '-', $url);
+        $url = self::remove_vietnamese($url);
+        $url = preg_replace('/[^A-Za-z0-9\-]/', '', $url);
+        return preg_replace('/-+/', '-', $url);
+    }
+
     public static function mysql_time_format() {
         return 'Y-m-d H:i:s';
     }

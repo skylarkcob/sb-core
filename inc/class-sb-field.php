@@ -194,12 +194,15 @@ class SB_Field {
         $name = '';
         $value = '';
         $description = '';
+        $container_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
         $value = trim($value);
-        $class = 'widefat';
-        printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core'));
+        $class = 'widefat'; ?>
+        <div class="<?php echo $container_class; ?>">
+            <?php printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core')); ?>
+        </div> <?php
     }
 
     public static function number_field($args = array()){
@@ -264,17 +267,21 @@ class SB_Field {
         $name = '';
         $list_options = array();
         $description = '';
+        $container_class = '';
         $value = '';
+        $field_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
         ?>
-        <select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>">
-            <?php foreach($list_options as $key => $text) : ?>
-                <option value="<?php echo $key; ?>" <?php selected($value, $key); ?>><?php echo $text; ?></option>
-            <?php endforeach; ?>
-        </select>
-        <p class="description"><?php echo $description; ?></p>
+        <div class="<?php echo $container_class; ?>">
+            <select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>" class="<?php echo $field_class; ?>">
+                <?php foreach($list_options as $key => $text) : ?>
+                    <option value="<?php echo $key; ?>" <?php selected($value, $key); ?>><?php echo $text; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <p class="description"><?php echo $description; ?></p>
+        </div>
         <?php
     }
 

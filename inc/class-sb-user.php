@@ -12,6 +12,25 @@ class SB_User {
         return false;
     }
 
+    public static function get($args = array()) {
+        return get_users($args);
+    }
+
+    public static function get_administrators($args = array()) {
+        $args['role'] = 'administrator';
+        return self::get($args);
+    }
+
+    public static function get_first_admin($args = array()) {
+        $users = self::get_administrators($args);
+        $user = new WP_User();
+        foreach($users as $value) {
+            $user = $value;
+            break;
+        }
+        return $user;
+    }
+
     public static function only_view_own_media($query) {
         global $current_user;
         if($current_user && !self::is_admin($current_user->ID)) {
@@ -191,5 +210,11 @@ class SB_User {
             }
         }
         return false;
+    }
+
+    public static function must_login() {
+        if(!self::is_logged_in()) {
+            self::go_to_login();
+        }
     }
 }

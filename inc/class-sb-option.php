@@ -52,6 +52,14 @@ class SB_Option {
         return apply_filters('sb_logo_type', $type);
     }
 
+    public static function get_logo_text() {
+        $result = self::get_theme_option(array('keys' => array('logo_text')));
+        if(empty($result)) {
+            $result = get_bloginfo('name');
+        }
+        return $result;
+    }
+
     public static function the_footer_text_html() {
         $footer_text = self::get_theme_footer_text();
         $footer_text = wpautop($footer_text);

@@ -2,6 +2,7 @@
 class SB_Meta_Box {
     private $id;
     private $post_type;
+    private $post_types;
     private $fields;
     private $title;
     private $callback;
@@ -20,7 +21,8 @@ class SB_Meta_Box {
             return;
         }
         $id = '';
-        $post_type = 'post';
+        $post_type = '';
+        $post_types = array('post');
         $fields = array();
         $title = 'SB Meta Box';
         $callback = '';
@@ -30,6 +32,7 @@ class SB_Meta_Box {
         extract($args, EXTR_OVERWRITE);
         $this->id = 'sb_meta_box_' . $id;
         $this->post_type = $post_type;
+        $this->post_types = $post_types;
         $this->fields = array();
         $this->title = $title;
         $this->callback = $callback;
@@ -43,7 +46,17 @@ class SB_Meta_Box {
     }
 
     public function add() {
-        add_meta_box($this->id, $this->title, $this->callback, $this->post_type, $this->context, $this->priority, $this->callback_args);
+        $post_type = $this->post_type;
+        if(empty($post_type)) {
+            $post_type = $this->post_types;
+        }
+        if(is_array($post_type)) {
+            foreach($post_type as $screen) {
+                add_meta_box($this->id, $this->title, $this->callback, $screen, $this->context, $this->priority, $this->callback_args);
+            }
+        } else {
+            add_meta_box($this->id, $this->title, $this->callback, $post_type, $this->context, $this->priority, $this->callback_args);
+        }
     }
 
     public function save($post_id) {

@@ -3,6 +3,8 @@ require SB_CORE_INC_PATH . '/sb-plugin-constant.php';
 
 require SB_CORE_INC_PATH . '/class-sb-php.php';
 
+require SB_CORE_INC_PATH . '/class-sb-message.php';
+
 require SB_CORE_INC_PATH . '/class-sb-default-setting.php';
 
 require SB_CORE_INC_PATH . '/class-sb-core.php';
@@ -32,3 +34,5 @@ require SB_CORE_INC_PATH . '/class-sb-meta-box.php';
 require SB_CORE_INC_PATH . '/class-sb-ajax.php';
 
 require SB_CORE_INC_PATH . '/sb-admin.php';
+
+require SB_CORE_INC_PATH . '/sb-plugin-ajax.php';
