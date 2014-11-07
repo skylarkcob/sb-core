@@ -22,7 +22,7 @@ class SB_HTML {
     }
 
     public function set_attribute($attribute_name, $value) {
-        if("" != $value) {
+        if(!empty($value)) {
             $this->attributes[$attribute_name] = $value;
         }
     }
@@ -84,15 +84,11 @@ class SB_HTML {
     }
 
     public static function before_mail_message() {
-        $result = '<div style="background-color: rgb(245, 245, 245); padding: 20px;">';
-        $result .= '<div style="background-color: rgb(255, 255, 255); padding: 10px 20px;">';
-        return $result;
+        return SB_Mail::before();
     }
 
     public static function after_mail_message() {
-        $result = '</div>';
-        $result .= '</div>';
-        return $result;
+        return SB_Mail::after();
     }
 
     public static function build_mail_body($message) {

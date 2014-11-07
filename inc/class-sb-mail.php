@@ -11,6 +11,8 @@ class SB_Mail {
 
     public static function send_html($to, $subject, $message, $headers = '', $attachments = '') {
         add_filter( 'wp_mail_content_type', array('SB_Mail', 'set_html_content_type') );
+        $message = self::before() . $message;
+        $message .= self::after();
         $result = self::send($to, $subject, $message, $headers, $attachments);
         remove_filter( 'wp_mail_content_type', array('SB_Mail', 'set_html_content_type') );
         return $result;
@@ -26,8 +28,34 @@ class SB_Mail {
                 $body .= sprintf(sprintf('<p>%s</p>', __('Post link: %s', 'sb-core')), get_permalink($post));
                 $body .= sprintf(sprintf('<p>%s</p>', __('Comment link: %s', 'sb-core')), get_comment_link($comment));
                 $body = SB_HTML::build_mail_body($body);
-                self::send_html_mail($comment->comment_author_email, $subject, $body);
+                self::send_html($comment->comment_author_email, $subject, $body);
             }
         }
+    }
+
+    public static function build_body($args = array()) {
+        $body = '';
+        foreach($args as $key => $value) {
+            $tag = isset($value['tag']) ? $value['tag'] : '';
+            if(!empty($tag)) {
+                $html = new SB_HTML($tag);
+                $text = isset($value['text']) ? $value['text'] : '';
+                $html->set_attribute('text', $text);
+                $body .= $html->build();
+            }
+        }
+        return $body;
+    }
+
+    public static function before() {
+        $result = '<div class="sb-mail" style="background-color: rgb(245, 245, 245); padding: 20px;">';
+        $result .= '<div class="sb-mail-container" style="background-color: rgb(255, 255, 255); padding: 10px 20px;">';
+        return $result;
+    }
+
+    public static function after() {
+        $result = '</div>';
+        $result .= '</div>';
+        return $result;
     }
 }

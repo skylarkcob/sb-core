@@ -228,4 +228,16 @@ class SB_Post {
         $post_id = wp_insert_post($args);
         return $post_id;
     }
+
+    public static function get_author_link() {
+        return get_the_author_link();
+    }
+
+    public static function the_author_link() {
+        echo self::get_author_link();
+    }
+
+    public static function the_category() {
+        the_category(',', '');
+    }
 }
