@@ -52,6 +52,18 @@ class SB_Option {
         return apply_filters('sb_logo_type', $type);
     }
 
+    public static function get_term_metas() {
+        global $sb_term_metas;
+        if(!is_array($sb_term_metas) || count($sb_term_metas) < 1) {
+            $sb_term_metas = get_option('sb_term_metas');
+        }
+        return $sb_term_metas;
+    }
+
+    public static function update_term_metas($new_value) {
+        update_option('sb_term_metas', $new_value);
+    }
+
     public static function get_logo_text() {
         $result = self::get_theme_option(array('keys' => array('logo_text')));
         if(empty($result)) {

@@ -17,6 +17,31 @@ class SB_Term {
         return $result;
     }
 
+    public static function get_all_metas($term_id, $taxonomy) {
+        $metas = SB_Option::get_term_metas();
+        $result = array();
+        $meta_info = isset($metas[$term_id]) ? $metas[$term_id] : array();
+        $tax = isset($meta_info['taxonomy']) ? $meta_info['taxonomy'] : '';
+        if($tax == $taxonomy) {
+            $result = $meta_info;
+        }
+        return $result;
+    }
+
+    public static function get_meta($term_id, $taxonomy, $meta_key) {
+        $meta_info = self::get_all_metas($term_id, $taxonomy);
+        $result = isset($meta_info[$meta_key]) ? $meta_info[$meta_key] : '';
+        return $result;
+    }
+
+    public static function get_thumbnail_url($term_id, $taxonomy) {
+        return self::get_meta($term_id, $taxonomy, 'thumbnail');
+    }
+
+    public static function get_category_thumbnail_url($term_id) {
+        return self::get_thumbnail_url($term_id, 'category');
+    }
+
     public static function get_tags($args = array()) {
         return self::get('post_tag', $args);
     }

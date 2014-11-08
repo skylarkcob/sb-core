@@ -39,6 +39,19 @@ class SB_Admin_Custom {
         return isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
     }
 
+    public static function get_page_now() {
+        global $pagenow;
+        return $pagenow;
+    }
+
+    public static function is_edit_term_page() {
+        $page = self::get_page_now();
+        if(strrpos($page, 'edit-tags') !== false) {
+            return true;
+        }
+        return false;
+    }
+
     public static function is_sb_page() {
         $page = self::get_current_page();
         if(SB_PHP::is_string_contain($page, 'sb')) {

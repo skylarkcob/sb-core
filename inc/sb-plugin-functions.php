@@ -111,4 +111,8 @@ function sb_meta_box_nonce() {
     wp_nonce_field('sb_meta_box', 'sb_meta_box_nonce');
 }
 
+function sb_term_meta_nonce() {
+    wp_nonce_field('sb_term_meta', 'sb_term_meta_nonce');
+}
+
 require SB_CORE_INC_PATH . '/sb-plugin-load.php';

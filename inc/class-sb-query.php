@@ -48,7 +48,7 @@ class SB_Query {
         $posts_per_page = 5;
         $post_type = 'post';
         extract($args, EXTR_OVERWRITE);
-        if(empty($post_id) && (is_single() || is_page())) {
+        if(empty($post_id) && (is_single() || is_page() || is_singular())) {
             $post_id = get_the_ID();
         }
         $tags = SB_Post::get_tag_ids($post_id);

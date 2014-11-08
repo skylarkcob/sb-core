@@ -193,14 +193,14 @@ class SB_Widget_Field {
     }
 
     public static function select_term($args = array()) {
-        $paragraph_class = "";
-        $id = "";
-        $name = "";
-        $field_class = "";
-        $label_text = "";
+        $paragraph_class = '';
+        $id = '';
+        $name = '';
+        $field_class = '';
+        $label_text = '';
         $list_options = array();
-        $value = "";
-        $description = "";
+        $value = '';
+        $description = '';
         $taxonomy = '';
         $taxonomy_id = '';
         $taxonomy_name = '';

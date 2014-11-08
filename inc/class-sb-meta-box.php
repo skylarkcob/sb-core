@@ -60,23 +60,19 @@ class SB_Meta_Box {
     }
 
     public function save($post_id) {
-        if ( ! isset( $_POST['sb_meta_box_nonce'] ) ) {
-            return $post_id;
-        }
-        $nonce = $_POST['sb_meta_box_nonce'];
-        if ( ! wp_verify_nonce( $nonce, 'sb_meta_box' ) ) {
-            return $post_id;
-        }
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return $post_id;
-        }
-        if(!current_user_can('edit_post', $post_id)) {
+        if (!SB_Core::verify_nonce('sb_meta_box', 'sb_meta_box_nonce') || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !current_user_can('edit_post', $post_id)) {
             return $post_id;
         }
         foreach($this->fields as $field) {
-            $value = isset($_POST[$field['name']]) ? $_POST[$field['name']] : '';
-            $meta_value = SB_Core::sanitize($value, $field['type']);
-            SB_Post::update_meta($post_id, $field['name'], $meta_value);
+            $type = isset($field['type']) ? $field['type'] : '';
+            $name = isset($field['name']) ? $field['name'] : '';
+            if('checkbox' == $type) {
+                $value = isset($_POST[$name]) ? 1 : 0;
+            } else {
+                $value = isset($_POST[$name]) ? $_POST[$name] : '';
+            }
+            $meta_value = SB_Core::sanitize($value, $type);
+            SB_Post::update_meta($post_id, $name, $meta_value);
         }
         return $post_id;
     }

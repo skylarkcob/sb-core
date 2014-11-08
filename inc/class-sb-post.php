@@ -185,7 +185,8 @@ class SB_Post {
             $menu_items = wp_get_nav_menu_items($menu->term_id);
             foreach($menu_items as $item) {
                 if('custom' == $item->type || 'trang-chu' == $item->post_name || 'home' == $item->post_name) {
-                    $item_url = str_replace($url, $site_url, $item->url);
+                    $item_url = $item->url;
+                    $item_url = str_replace($url, $site_url, $item_url);
                     SB_Post::update_custom_menu_url($item->term_id, $item_url);
                 }
             }
