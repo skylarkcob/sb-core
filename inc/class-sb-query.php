@@ -103,7 +103,7 @@ class SB_Query {
 
     public static function build_tax_query($tax_item, $args) {
         if(is_array($args)) {
-            if(isset($$args['tax_query'])) {
+            if(isset($args['tax_query'])) {
                 array_push($args['tax_query'], $tax_item);
             } else {
                 $args['tax_query'] = array($tax_item);

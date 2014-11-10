@@ -51,6 +51,20 @@ class SB_PHP {
         return round(date_create('@0')->add($diff)->getTimestamp()/60, 0);
     }
 
+    public static function create_folder($file_path) {
+        if(!file_exists($file_path)) {
+            mkdir($file_path);
+        }
+    }
+
+    public static function copy($source, $destination) {
+        if(@fclose(@fopen($source, 'r'))) {
+            copy($source, $destination);
+            return true;
+        }
+        return false;
+    }
+
     public static function substr($str, $len, $more = '...', $charset = 'UTF-8'){
         $str = html_entity_decode($str, ENT_QUOTES, $charset);
         if(mb_strlen($str, $charset) > $len) {

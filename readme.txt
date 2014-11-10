@@ -62,6 +62,7 @@ Please update all SB Plugins after you updated SB Core.
 * Split files to each folder by types.
 * Move class SB_Product to theme folder.
 * Update build mail body function.
+* Support term extra fields.
 
 = 1.1.6 =
 Update list plugins created by SB Team.

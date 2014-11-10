@@ -65,4 +65,8 @@ class SB_Term {
         return get_categories($args);
     }
 
+    public static function get_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw') {
+        return get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw');
+    }
+
 }
