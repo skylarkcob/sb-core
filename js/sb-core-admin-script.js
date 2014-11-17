@@ -4,7 +4,8 @@
         option_form = $('#sb-options-form'),
         file_frame = null,
         new_post_id = 0,
-        old_post_id = '';
+        old_post_id = '',
+        body = $('body');
 
     function sb_is_image_url(url) {
         var result = true,
@@ -21,7 +22,8 @@
     }
 
     function sb_is_url(text) {
-        if(/^([a-z]([a-z]|\d|\+|-|\.)*):(\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?((\[(|(v[\da-f]{1,}\.(([a-z]|\d|-|\.|_|~)|[!\$&'\(\)\*\+,;=]|:)+))\])|((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=])*)(:\d*)?)(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*|(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)){0})(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(text)) {
+        var url_regex = new RegExp('^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.)');
+        if(url_regex.test(text)) {
             return true;
         }
         return false;
@@ -225,14 +227,35 @@
         }
     })();
 
+    // UI Sortable List
     (function(){
+        $('ul.sb-sortable-list.active-sortable').each(function(i, el){
+            var that = $(this),
+                sortable_active_list = that,
+                sortable_container = sortable_active_list.closest('div.sb-sortable'),
+                sortable_source_list = null,
+                sortable_source_list_height = 0,
+                sortable_active_list_height = 0;
+            if(sortable_active_list.length) {
+                sortable_source_list = sortable_container.find('ul.sb-sortable-list.sortable-source')
+                if(sortable_source_list.length) {
+                    sortable_active_list_height = sortable_active_list.height();
+                    sortable_source_list_height = sortable_source_list.height();
+                    if(sortable_active_list_height < sortable_source_list_height) {
+                        sortable_active_list.css({'height': sortable_source_list_height});
+                    }
+                }
+            }
+        });
         if(!$('ul.sb-sortable-list').hasClass('ui-sortable')) {
-            var remove_item = false;
+            var remove_item = false,
+                sortable_container = null;
             if(!$('ul.sb-sortable-list').length) {
                 return;
             }
             $('ul.sb-sortable-list').sortable({
                 cancel: ':input, .ui-state-disabled, .sb-icon-delete',
+                connectWith: '.connected-sortable',
                 placeholder: 'ui-state-highlight',
                 receive: function(event, ui) {
                     remove_item = false;
@@ -244,7 +267,9 @@
                     remove_item = true;
                 },
                 beforeStop: function(event, ui) {
-                    if(remove_item) {
+                    var that = $(ui.item),
+                        sortable_list = that.parent();
+                    if(remove_item && sortable_list.hasClass('out-remove')) {
                         var ui_panel = ui.item.closest('div.sb-ui-panel'),
                             input_count = ui_panel.find('input.ui-item-count'),
                             count = parseInt(input_count.val());
@@ -259,16 +284,32 @@
                     that.find('.ui-state-highlight').css({'height': ui.item.height()});
                 },
                 stop: function(event, ui) {
-                    var data = '';
-
-                    $('ul.sb-sortable-list li').each(function(i, el){
-                        var p = $(el).find('.ui-item-id').val();
-                        data += p + ',';
-                    });
-                    data = data.slice(0, -1);
-                    $('.sb-ui-panel input.ui-item-order').val(data);
+                    var data = '',
+                        that = $(ui.item),
+                        single_ui_order = null,
+                        sortable_connect_active = null;
+                    sortable_container = that.closest('div.sb-sortable'),
+                    single_ui_order = sortable_container.find('input.ui-item-order');
+                    sortable_connect_active = sortable_container.find('input.active-sortalbe-value');
+                    if(single_ui_order.length) {
+                        sortable_container.find('ul.sb-sortable-list li').each(function(i, el){
+                            var p = $(el).find('.ui-item-id').val();
+                            data += p + ',';
+                        });
+                        data = data.slice(0, -1);
+                        single_ui_order.val(data);
+                    }
+                    if(sortable_connect_active.length) {
+                        data = '';
+                        sortable_container.find('ul.sb-sortable-list.active-sortable li').each(function(i, el){
+                            var p = $(el).attr('data-term');
+                            data += p + ',';
+                        });
+                        data = data.slice(0, -1);
+                        sortable_container.find('.active-sortalbe-value').val(data);
+                    }
                 }
-            });
+            }).disableSelection();
         }
     })();
 
@@ -358,14 +399,16 @@
 
     (function(){
         $('.sb-insert-media').on('click', function(e){
-            e.preventDefault();
             var that = $(this),
                 media_container = that.closest('div.sb-media-upload'),
                 image_preview_container = media_container.find('.image-preview'),
                 image_container = media_container.find('.image-upload-container'),
                 image_input = image_container.find('input'),
                 image_url = '';
-
+            if(that.hasClass('delegate')) {
+                return;
+            }
+            e.preventDefault();
             if(file_frame) {
                 file_frame.uploader.uploader.param('post_id', new_post_id);
                 file_frame.open();
@@ -373,22 +416,27 @@
             }
             file_frame = wp.media({title: 'Insert Media', button:{text: 'Use this image'}, multiple: false});
             file_frame.on('select', function(){
-                image_url = sb_receive_media_upload(file_frame);
+                image_url = window.sb_receive_media_upload(file_frame);
                 if($.trim(image_url)) {
                     image_input.val(image_url);
                     image_preview_container.html('<img src="' + image_url + '">');
                     image_preview_container.addClass('has-image');
                 }
+                file_frame = null;
             });
             file_frame.open();
         });
+
         $('.sb-remove-media').on('click', function(e){
-            e.preventDefault();
             var that = $(this),
                 media_container = that.closest('div.sb-media-upload'),
                 image_preview_container = media_container.find('.image-preview'),
                 image_container = media_container.find('.image-upload-container'),
                 image_input = image_container.find('input');
+            if(that.hasClass('delegate')) {
+                return;
+            }
+            e.preventDefault();
             image_input.val('');
             image_preview_container.removeClass('has-image');
             image_preview_container.html('');
@@ -410,10 +458,10 @@
         });
     })();
 
-    function sb_receive_media_upload(file_frame) {
+    window.sb_receive_media_upload = function (file_frame) {
         var media_data = file_frame.state().get('selection').first().toJSON();
         old_post_id = wp.media.model.settings.post.id;
         return media_data.url;
-    }
+    };
 
 })(jQuery);

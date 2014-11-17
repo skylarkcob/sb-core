@@ -44,7 +44,9 @@ class SB_Admin {
         do_action('sb_admin_head');
     }
 
-    public function sanitize( $input ) {
+    public function sanitize($input) {
+        $options = SB_Option::get();
+        $input = wp_parse_args($input, $options);
         return apply_filters('sb_options_sanitize', $input);
     }
 

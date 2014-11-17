@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.1.7
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,17 @@ Please visit [homepage](http://hocwp.net) for more details.
 Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
+
+= 1.2.0 =
+Update functions for add media button.
+
+= 1.1.9 =
+* Update all fields in SB_Field class.
+* Support for SB Banner Widget.
+
+= 1.1.8 =
+* Update widget fields.
+* Fix SB Options saved.
 
 = 1.1.7 =
 * Split files to each folder by types.

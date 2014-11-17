@@ -87,6 +87,7 @@ class SB_Post {
         $width = '';
         $height = '';
         $style = '';
+        $crop = false;
         extract($args, EXTR_OVERWRITE);
         if(is_array($size) && count($size) == 1) {
             $size = array($size, $size);
@@ -99,7 +100,11 @@ class SB_Post {
         $args['size'] = $size;
         $result = self::get_thumbnail_url($args);
         if(!empty($result)) {
-            $result = '<img class="wp-post-image" alt="' . get_the_title($post_id) . '" width="' . $width . '" height="' . $height . '" src="' . $result . '"' . $style . '>';
+            $tmp = bfi_thumb($result, array('width' => $width, 'height' => $height, 'crop' => $crop));
+            if(!empty($tmp)) {
+                $result = $tmp;
+            }
+            $result = '<img class="wp-post-image sb-post-image img-responsive" alt="' . get_the_title($post_id) . '" width="' . $width . '" height="' . $height . '" src="' . $result . '"' . $style . '>';
         }
         return apply_filters('sb_thumbnail_html', $result);
     }
@@ -156,9 +161,21 @@ class SB_Post {
     }
 
     public static function the_date() {
-        printf('<span class="date"><span>%1$s</span></span>',
-            esc_html( get_the_date())
+        printf('<span class="date"><i class="fa fa-clock-o"></i><span>%1$s</span></span>',
+            esc_html(get_the_date())
         );
+    }
+
+    public static function the_date_time() {
+        printf('<span class="date"><i class="fa fa-clock-o"></i><span class="post-date">%1$s</span>&nbsp;<span class="post-time">%2$s</span></span>',
+            esc_html(get_the_date()),
+            esc_html(get_the_time())
+        );
+    }
+
+    public static function get_types($args = array(), $output = 'names', $operator = 'and') {
+        $args['public'] = true;
+        return get_post_types($args, $output, $operator);
     }
 
     public static function update_custom_menu_url($post_id, $meta_value) {
@@ -188,6 +205,43 @@ class SB_Post {
         return wp_get_post_terms($post_id, $taxonomy);
     }
 
+    public static function the_term_link($post_id, $taxonomy, $args = array()) {
+        $separator = ', ';
+        $number = -1;
+        $link = true;
+        $top_level = false;
+        extract($args, EXTR_OVERWRITE);
+        $terms = self::get_terms($post_id, $taxonomy);
+        $result = '';
+        $count = 0;
+        foreach($terms as $term) {
+            if($top_level && $term->parent > 0) {
+                continue;
+            }
+            if($link) {
+                $result .= sprintf('<a href="%1$s">%2$s</a>', get_term_link($term), $term->name);
+            } else {
+                $result .= $term->name;
+            }
+            $result .= $separator;
+            $count++;
+            if($number > 0 && $count >= $number) {
+                break;
+            }
+        }
+        $result = trim($result, $separator);
+        if(empty($result)) {
+            $term = array_shift($terms);
+            $result = $term->name;
+        }
+        echo $result;
+    }
+
+    public static function the_term_name($post_id, $taxonomy, $args = array()) {
+        $args['link'] = false;
+        self::the_term_link($post_id, $taxonomy, $args);
+    }
+
     public static function get_meta($post_id, $meta_key) {
         return get_post_meta($post_id, $meta_key, true);
     }
@@ -212,22 +266,36 @@ class SB_Post {
         }
     }
 
-    public static function change_custom_menu_url($args = array()) {
-        $site_url = '';
-        $url = '';
-        extract($args, EXTR_OVERWRITE);
-        if(empty($site_url) || empty($url) || $url == $site_url) {
-            return;
-        }
+    public static function get_menu_custom_items() {
+        $result = array();
         $menus = wp_get_nav_menus();
         foreach($menus as $menu) {
             $menu_items = wp_get_nav_menu_items($menu->term_id);
             foreach($menu_items as $item) {
-                if('custom' == $item->type || 'trang-chu' == $item->post_name || 'home' == $item->post_name) {
-                    $item_url = $item->url;
-                    $item_url = str_replace($url, $site_url, $item_url);
-                    SB_Post::update_custom_menu_url($item->term_id, $item_url);
+                if('custom' == $item->type) {
+                    array_push($result, $item);
                 }
+            }
+        }
+        return $result;
+    }
+
+    public static function change_custom_menu_url($args = array()) {
+        $site_url = '';
+        $url = '';
+        extract($args, EXTR_OVERWRITE);
+        if(empty($url)) {
+            $url = SB_Option::get_site_url();
+        }
+        if(empty($site_url) || $url == $site_url) {
+            return;
+        }
+        $menu_items = self::get_menu_custom_items();
+        foreach($menu_items as $item) {
+            if('trang-chu' == $item->post_name || 'home' == $item->post_name) {
+                $item_url = $item->url;
+                $item_url = str_replace($url, $site_url, $item_url);
+                SB_Post::update_custom_menu_url($item->ID, $item_url);
             }
         }
     }
@@ -278,6 +346,10 @@ class SB_Post {
     }
 
     public static function the_category() {
-        the_category(',', '');
+        the_category(', ', '');
+    }
+
+    public static function the_term($post_id, $taxonomy) {
+        the_terms($post_id, $taxonomy);
     }
 }

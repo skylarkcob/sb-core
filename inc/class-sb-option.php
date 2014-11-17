@@ -143,6 +143,11 @@ class SB_Option {
         return self::get_by_key($args);
     }
 
+    public static function get_theme_option_single_key($key_name) {
+        $args = array('keys' => array($key_name));
+        return self::get_theme_option($args);
+    }
+
     public static function get_theme_footer_text() {
         $args = array(
             'keys' => array('footer_text')

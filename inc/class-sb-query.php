@@ -52,10 +52,14 @@ class SB_Query {
             $post_id = get_the_ID();
         }
         $tags = SB_Post::get_tag_ids($post_id);
-        $posts = new WP_Query(array('post_type' => $post_type, 'tag__in' => $tags, 'posts_per_page' => -1));
+        $defaults = array('post_type' => $post_type, 'tag__in' => $tags, 'posts_per_page' => -1);
+        $defaults = wp_parse_args($defaults, $args);
+        $posts = new WP_Query($defaults);
         $tag_posts = $posts->posts;
         $cats = SB_Post::get_category_ids($post_id);
-        $posts = new WP_Query(array('post_type' => $post_type, 'category__in' => $cats, 'posts_per_page' => -1));
+        $defaults = array('post_type' => $post_type, 'category__in' => $cats, 'posts_per_page' => -1);
+        $defaults = wp_parse_args($defaults, $args);
+        $posts = new WP_Query($defaults);
         $cat_posts = $posts->posts;
         $a_part = SB_PHP::get_part_of(2/3, $posts_per_page);
         foreach($tag_posts as $post) {
@@ -110,5 +114,85 @@ class SB_Query {
             }
         }
         return $args;
+    }
+
+    public static function build_date_query($date_item, $args) {
+        if(is_array($args)) {
+            if(isset($args['date_query'])) {
+                array_push($args['date_query'], $date_item);
+            } else {
+                $args['date_query'] = array($date_item);
+            }
+        }
+        return $args;
+    }
+
+    public static function get_results($query) {
+        global $wpdb;
+        return $wpdb->get_results($query, OBJECT);
+    }
+
+    public static function build_daily_post_args($args = array()) {
+        $today = getdate();
+        $date_item = array(
+            'year' => $today['year'],
+            'month' => $today['mon'],
+            'day' => $today['mday']
+        );
+        $args = self::build_date_query($date_item, $args);
+        return $args;
+    }
+
+    public static function get_today_posts($args = array()) {
+        $args = self::build_daily_post_args($args);
+        return new WP_Query($args);
+    }
+
+    public static function get_random_posts($args = array()) {
+        $args['orderby'] = 'rand';
+        return new WP_Query($args);
+    }
+
+    public static function build_weekly_post_args($args = array()) {
+        $date_item = array(
+            'year' => date('Y'),
+            'week' => date('W')
+        );
+        $args = self::build_date_query($date_item, $args);
+        return $args;
+    }
+
+    public static function get_this_week_posts($args = array()) {
+        $args = self::build_weekly_post_args($args);
+        return new WP_Query($args);
+    }
+
+    public static function build_monthly_post_args($args = array()) {
+        $today = getdate();
+        $date_item = array(
+            'year' => $today['year'],
+            'month' => $today['mon']
+        );
+        $args = self::build_date_query($date_item, $args);
+        return $args;
+    }
+
+    public static function get_this_month_posts($args = array()) {
+        $args = self::build_monthly_post_args($args);
+        return new WP_Query($args);
+    }
+
+    public static function build_yearly_post_args($args = array()) {
+        $today = getdate();
+        $date_item = array(
+            'year' => $today['year']
+        );
+        $args = self::build_date_query($date_item, $args);
+        return $args;
+    }
+
+    public static function get_this_year_posts($args = array()) {
+        $args = self::build_yearly_post_args($args);
+        return new WP_Query($args);
     }
 }

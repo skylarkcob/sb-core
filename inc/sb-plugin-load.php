@@ -1,6 +1,10 @@
 <?php
 require SB_CORE_INC_PATH . '/sb-plugin-constant.php';
 
+if(!function_exists('bfi_thumb')) {
+    require SB_CORE_PATH . '/lib/bfi-thumb/BFI_Thumb.php';
+}
+
 require SB_CORE_INC_PATH . '/class-sb-php.php';
 
 require SB_CORE_INC_PATH . '/class-sb-message.php';

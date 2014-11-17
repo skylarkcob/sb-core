@@ -65,6 +65,12 @@ class SB_PHP {
         return false;
     }
 
+    public static function add_string_with_space_before($old_string, $new_string) {
+        $old_string .= ' ';
+        $old_string = self::add_string_unique($old_string, $new_string);
+        return $old_string;
+    }
+
     public static function substr($str, $len, $more = '...', $charset = 'UTF-8'){
         $str = html_entity_decode($str, ENT_QUOTES, $charset);
         if(mb_strlen($str, $charset) > $len) {
@@ -79,6 +85,27 @@ class SB_PHP {
             return implode(' ', $arrRes).$more;
         }
         return $str;
+    }
+
+    public static function array_shift(&$array, $number = 1) {
+        $result = array();
+        $number = absint($number);
+        if(!is_array($array) || !is_numeric($number)) {
+            return $result;
+        }
+        if(1 == $number) {
+            return array_shift($array);
+        }
+        if($number >= count($array)) {
+            $result = $array;
+            $array = array();
+            return $result;
+        }
+        for($i = 0; $i < $number; $i++) {
+            $item = array_shift($array);
+            array_push($result, $item);
+        }
+        return $result;
     }
 
     public static function timezone_hcm() {
@@ -133,12 +160,34 @@ class SB_PHP {
         return mb_strtolower($str, $charset);
     }
 
-    public static function strtolower($string) {
-        return self::lowercase($string);
+    public static function get_first_char($string, $encoding = 'utf-8') {
+        $result = '';
+        if(!empty($string)) {
+            $result = mb_substr($string, 0, 1, $encoding);
+        }
+        return $result;
     }
 
-    public static function strtoupper($string) {
-        return self::uppercase($string);
+    public static function uppercase_first_char($string, $encoding = 'utf-8') {
+        $first_char = self::get_first_char($string, $encoding);
+        $len = mb_strlen($string, $encoding);
+        $then = mb_substr($string, 1, $len - 1, $encoding);
+        $first_char = mb_strtoupper($first_char, $encoding);
+        return $first_char . $then;
+    }
+
+    public static function uppercase_only_first_char($string, $encoding = 'utf-8') {
+        $string = self::strtolower($string, $encoding);
+        $string = self::uppercase_first_char($string, $encoding);
+        return $string;
+    }
+
+    public static function strtolower($string, $encoding = 'utf-8') {
+        return self::lowercase($string, $encoding);
+    }
+
+    public static function strtoupper($string, $encoding = 'utf-8') {
+        return self::uppercase($string, $encoding);
     }
 
     public static function uppercase($str, $charset = 'UTF-8') {
@@ -207,8 +256,8 @@ class SB_PHP {
         return isset($array_value[$key]) ? $array_value[$key] : '';
     }
 
-    public static function strlen($string) {
-        return mb_strlen(($string));
+    public static function strlen($string, $encoding = 'utf-8') {
+        return mb_strlen($string, $encoding);
     }
 
     public static function get_first_image($content) {
@@ -602,10 +651,6 @@ class SB_PHP {
 
     public static function set_session($key, $value) {
         $_SESSION[$key] = $value;
-    }
-
-    public static function uppercase_first_char($string) {
-        return ucfirst($string);
     }
 
     public static function set_session_array($key, $value) {

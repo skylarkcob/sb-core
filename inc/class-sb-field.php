@@ -1,29 +1,80 @@
 <?php
 class SB_Field {
 
-    private static function image_thumbnail($class = '', $src = '') {
-        $class = str_replace('[', '_', $class);
-        $class = str_replace(']', '', $class);
-        $class .= ' media image thumbnail sbtheme';
-        $class = trim($class);
-        if(!empty($src)) {
-            $class .= ' uploaded';
+    private static function image_thumbnail($args = array()) {
+        self::uploaded_image_preview($args);
+    }
+
+    private static function uploaded_image_preview($args = array()) {
+        $value = '';
+        $preview = true;
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
         }
-        echo '<div class="'.$class.'">';
-        if(!empty($src)) {
-            echo '<img src="'.$src.'">';
+        $image_preview = '';
+        $image_preview_class = 'image-preview';
+        if(!empty($value)) {
+            $image_preview = sprintf('<img src="%s">', $value);
+            $image_preview_class .= ' has-image';
         }
-        echo '</div>';
+        if($preview) : ?>
+            <div class="<?php echo $image_preview_class; ?>"><?php echo $image_preview; ?></div>
+        <?php endif;
     }
 
     public static function media_image($args = array()) {
         self::media_upload_with_remove_and_preview($args);
     }
 
+    public static function media_upload_no_preview($args = array()) {
+        $args['preview'] = false;
+        self::media_upload_with_remove_and_preview($args);
+    }
+
+    private static function media_upload($args = array()) {
+        self::media_image($args);
+    }
+
+    public static function media_image_with_url($args = array()) {
+        self::media_upload_with_url($args);
+    }
+
+    private static function media_upload_with_url($args = array()) {
+        $new_args = $args;
+        $id = isset($args['id']) ? $args['id'] : '';
+        $name = isset($args['name']) ? $args['name'] : '';
+        if(!empty($id)) {
+            $new_args['id'] = $id . '_image';
+        }
+        $new_args['name'] = $name . '[image]';
+        self::media_upload($new_args);
+        if(!empty($id)) {
+            $args['id'] = $id . '_url';
+        }
+        $args['name'] = $name . '[url]';
+        $names = explode(']', $args['name']);
+        $keys = array();
+        foreach($names as $name_item) {
+            $item = str_replace('sb_options[', '', $name_item);
+            $item = str_replace('[', '', $name_item);
+            array_push($keys, $item);
+        }
+        $value = SB_Option::get_by_key(array('keys' => $keys));
+        $description = __('Enter url for the image above.', 'sb-core');
+        echo '<div class="margin-top">';
+        self::text_field($args);
+        echo '</div>';
+    }
+
     public static function media_upload_with_remove_and_preview($args = array()) {
         $name = '';
         $value = '';
         $container_class = '';
+        $preview = true;
+        $id = '';
+        $label = '';
+        $upload_button_class = '';
+        $remove_button_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
@@ -36,15 +87,19 @@ class SB_Field {
             $image_preview = sprintf('<img src="%s">', $value);
             $image_preview_class .= ' has-image';
         }
-        $container_class .= ' sb-media-upload';
-        $container_class = trim($container_class);
+        $container_class = SB_PHP::add_string_with_space_before($container_class, 'sb-media-upload');
+        $upload_button_class = SB_PHP::add_string_with_space_before($upload_button_class, 'sb-button button sb-insert-media sb-add_media');
+        $remove_button_class = SB_PHP::add_string_with_space_before($remove_button_class, 'sb-button button sb-remove-media sb-remove-image');
         ?>
         <div class="<?php echo $container_class; ?>">
-            <div class="<?php echo $image_preview_class; ?>"><?php echo $image_preview; ?></div>
+            <?php if($preview) : ?>
+                <div class="<?php echo $image_preview_class; ?>"><?php echo $image_preview; ?></div>
+            <?php endif; ?>
             <div class="image-upload-container">
+                <label for="<?php echo esc_attr($id); ?>"><?php echo $label; ?></label>
                 <input type="url" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" autocomplete="off" class="image-url">
-                <a href="javascript:;" class="sb-button button sb-insert-media sb-add_media" title="<?php _e('Insert image', 'sb-core'); ?>"><?php _e('Upload', 'sb-core'); ?></a>
-                <a href="javascript:;" class="sb-button button sb-remove-media sb-remove-image" title="<?php _e('Remove image', 'sb-core'); ?>"><?php _e('Remove', 'sb-core'); ?></a>
+                <a href="javascript:;" class="<?php echo $upload_button_class; ?>" title="<?php _e('Insert image', 'sb-core'); ?>"><?php _e('Upload', 'sb-core'); ?></a>
+                <a href="javascript:;" class="<?php echo $remove_button_class; ?>" title="<?php _e('Remove image', 'sb-core'); ?>"><?php _e('Remove', 'sb-core'); ?></a>
             </div>
         </div>
         <?php
@@ -99,6 +154,45 @@ class SB_Field {
             </div>
             <button class="button sb-add-sidebar"><?php _e('Add new sidebar', 'sb-core'); ?></button>
         </div>
+        <?php
+    }
+    
+    public static function sortble_term($args = array()) {
+        $option_name = '';
+        $sortable_class = '';
+        $sortable_active_class = '';
+        $term_args = array();
+        $taxonomy = '';
+        if(is_array($args)) {
+            extract($args);
+        }
+        if(empty($option_name) || empty($taxonomy)) {
+            return;
+        }
+        $sortable_class = SB_PHP::add_string_with_space_before($sortable_class, 'connected-sortable sb-sortable-list left min-height sortable-source');
+        $sortable_active_class = SB_PHP::add_string_with_space_before($sortable_active_class, 'connected-sortable active-sortable sb-sortable-list min-height right');
+        $active_terms = SB_Option::get_theme_option_single_key($option_name);
+        $term_args['exclude'] = $active_terms;
+        $terms = SB_Term::get($taxonomy, $term_args);
+        ?>
+        <div class="sb-sortable">
+            <div class="sb-sortable-container">
+                <ul class="<?php echo $sortable_class; ?>">
+                    <?php foreach($terms as $term) : ?>
+                        <li data-term="<?php echo $term->term_id; ?>" class="ui-state-default"><?php echo $term->name; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <ul class="<?php echo $sortable_active_class; ?>">
+                    <?php $terms = $active_terms; $active_terms = explode(',', $active_terms); ?>
+                    <?php foreach($active_terms as $term_id) : if($term_id < 1) continue; $term = get_term($term_id, $taxonomy); ?>
+                        <?php if(!$term) continue; ?>
+                        <li data-term="<?php echo $term->term_id; ?>" class="ui-state-default"><?php echo $term->name; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <input type="hidden" class="active-sortalbe-value" name="sb_options[theme][<?php echo $option_name; ?>]" value="<?php echo $terms; ?>">
+        </div>
+        <p class="description" style="clear: both"><?php _e('Drag and drop the widget into right box to active it.', 'sb-theme'); ?></p>
         <?php
     }
 
@@ -158,82 +252,41 @@ class SB_Field {
         <?php
     }
 
-    private static function media_upload($args = array()) {
-        $id = '';
-        $name = '';
-        $description = '';
-        $value = '';
-        if(is_array($args)) {
-            extract($args, EXTR_OVERWRITE);
-        }
-        $button_title = __('Insert image', 'sb-core');
-        $value = trim($value);
-        ?>
-        <div class="sbtheme-upload media">
-            <input type="text" id="<?php echo $id; ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>">
-            <a title="<?php echo $button_title; ?>" data-editor="sb-content" class="sb-button button sb-insert-media sb-add_media" href="javascript:void(0);"><?php _e('Upload', 'sb-core'); ?></a>
-        </div>
-        <p class="description"><?php echo $description; ?></p>
-        <?php
-    }
-
-    public static function media_image_with_url($args = array()) {
-        $name = '';
-        $value = '';
-        echo '<div class="sbtheme-media-image with-url">';
-        if(is_array($args)) {
-            extract($args, EXTR_OVERWRITE);
-        }
-        self::image_thumbnail($name, $value);
-        self::media_upload_with_url($args);
-        echo '</div>';
-    }
-
-    private static function media_upload_with_url($args = array()) {
-        $new_args = $args;
-        $new_args['id'] = (isset($args['id']) ? $args['id'] : '') . '_image';
-        $new_args['name'] = (isset($args['name']) ? $args['name'] : '') . '[image]';
-        self::media_upload($new_args);
-        $args['id'] = (isset($args['id']) ? $args['id'] : '') . '_url';
-        $args['name'] = (isset($args['name']) ? $args['name'] : '') . '[url]';
-        $options = SB_Option::get();
-        $keys = explode(']', $args['name']);
-        $first = str_replace('sb_options[', '', $keys[0]);
-        $second = str_replace('[', '', $keys[1]);
-        $third = str_replace('[', '', $keys[2]);
-        $value = isset($options[$first][$second][$third]) ? $options[$first][$second][$third] : '';
-        $description = __('Enter url for the image above.', 'sb-core');
-        echo '<div style="margin-top: 20px; ">';
-        self::text_field($args);
-        echo '</div>';
-    }
-
     public static function text_field($args = array()) {
+        self::text($args);
+    }
+
+    public static function text($args = array()) {
         $id = '';
         $name = '';
         $value = '';
         $description = '';
+        $field_class = '';
         $container_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
         $value = trim($value);
-        $class = 'widefat'; ?>
+        $field_class = SB_PHP::add_string_with_space_before($field_class, 'widefat'); ?>
         <div class="<?php echo $container_class; ?>">
-            <?php printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core')); ?>
+            <?php printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="' . $field_class . '" autocomplete="off"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, $description); ?>
         </div> <?php
     }
 
     public static function number_field($args = array()){
+        self::number($args);
+    }
+
+    public static function number($args = array()) {
         $id = '';
         $name = '';
         $value = 0;
         $description = '';
+        $field_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
-        $class = '';
-        printf('<input type="number" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, __($description, 'sb-core'));
+        printf('<input type="number" id="%1$s" name="%2$s" value="%3$s" class="' . $field_class . '" autocomplete="off"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, $description);
     }
 
     public static function checkbox($args = array()) {
@@ -241,15 +294,19 @@ class SB_Field {
         $name = '';
         $value = 0;
         $description = '';
+        $label = '';
         $text = '';
+        $field_class = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
         if(!is_numeric($value)) {
             $value = 0;
         }
-        $class = '';
-        printf('<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" class="'.$class.'" %4$s> %5$s<p class="description">%6$s</p>', esc_attr($id), esc_attr($name), $value, checked($value, 1, false), $value, __($description, 'sb-core'));
+        if(empty($label)) {
+            $label = $text;
+        }
+        printf('<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" class="' . $field_class . '" %4$s autocomplete="off"> %5$s<p class="description">%6$s</p>', esc_attr($id), esc_attr($name), $value, checked($value, 1, false), $label, $value, $description);
     }
 
     public static function switch_button($args = array()) {
@@ -274,7 +331,7 @@ class SB_Field {
             <div class="switch-options">
                 <label data-switch="on" class="<?php echo $class_on; ?> left"><span><?php _e('On', 'sb-core'); ?></span></label>
                 <label data-switch="off" class="<?php echo $class_off; ?> right"><span><?php _e('Off', 'sb-core'); ?></span></label>
-                <input type="hidden" value="<?php echo $value; ?>" name="<?php echo esc_attr($name); ?>" id="<?php echo $id; ?>" class="checkbox checkbox-input">
+                <input type="hidden" value="<?php echo $value; ?>" name="<?php echo esc_attr($name); ?>" id="<?php echo $id; ?>" class="checkbox checkbox-input" autocomplete="off">
                 <p class="description"><?php echo $description; ?></p>
             </div>
         </fieldset>
@@ -285,6 +342,7 @@ class SB_Field {
         $id = '';
         $name = '';
         $list_options = array();
+        $options = array();
         $description = '';
         $container_class = '';
         $value = '';
@@ -292,10 +350,13 @@ class SB_Field {
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
+        if(!is_array($options) || count($options) < 1) {
+            $options = $list_options;
+        }
         ?>
         <div class="<?php echo $container_class; ?>">
-            <select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>" class="<?php echo $field_class; ?>">
-                <?php foreach($list_options as $key => $text) : ?>
+            <select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>" class="<?php echo $field_class; ?>" autocomplete="off">
+                <?php foreach($options as $key => $text) : ?>
                     <option value="<?php echo $key; ?>" <?php selected($value, $key); ?>><?php echo $text; ?></option>
                 <?php endforeach; ?>
             </select>
@@ -305,30 +366,32 @@ class SB_Field {
     }
 
     public static function select_term_field($args = array()) {
-        $paragraph_class = '';
+        self::select_term($args);
+    }
+
+    public static function select_term($args = array()) {
+        $container_class = '';
         $id = '';
         $name = '';
         $field_class = '';
-        $label_text = '';
-        $list_options = array();
+        $label = '';
+        $options = array();
         $value = '';
         $description = '';
         $taxonomy = '';
         $taxonomy_id = '';
         $taxonomy_name = '';
-        if(is_array($args)) {
-            extract($args, EXTR_OVERWRITE);
-        }
+        extract($args, EXTR_OVERWRITE);
         ?>
-        <p class="<?php echo $paragraph_class; ?>">
-            <label for="<?php echo esc_attr( $id ); ?>"></label>
-            <select id="<?php echo esc_attr( $id ); ?>" class="<?php echo $field_class; ?>" name="<?php echo esc_attr( $name ); ?>">
-                <?php foreach ( $list_options as $tax ) : ?>
+        <p class="<?php echo $container_class; ?>">
+            <label for="<?php echo esc_attr($id); ?>"><?php echo $label; ?></label>
+            <select id="<?php echo esc_attr($id); ?>" class="<?php echo $field_class; ?>" name="<?php echo esc_attr($name); ?>" autocomplete="off">
+                <?php foreach($options as $tax) : ?>
                     <?php $terms = get_terms($tax->name); ?>
                     <?php if(count($terms) > 0) : ?>
                         <optgroup label="<?php echo $tax->labels->name; ?>">
-                            <?php foreach ( $terms as $cat ) : ?>
-                                <option value="<?php echo $cat->term_id; ?>"<?php selected( $value, $cat->term_id ); ?> data-taxonomy="<?php echo $tax->name; ?>"><?php echo $cat->name; ?> (<?php echo $cat->count; ?>)</option>
+                            <?php foreach ($terms as $cat) : ?>
+                                <option value="<?php echo $cat->term_id; ?>" data-taxonomy="<?php echo $tax->name; ?>" <?php selected($value, $cat->term_id); ?>><?php echo $cat->name; ?> (<?php echo $cat->count; ?>)</option>
                             <?php endforeach; ?>
                         </optgroup>
                     <?php endif; ?>
@@ -337,18 +400,25 @@ class SB_Field {
             <?php if(!empty($description)) : ?>
                 <em><?php echo $description; ?></em>
             <?php endif; ?>
-            <input id="<?php echo esc_attr( $taxonomy_id ); ?>" class="widefat taxonomy" name="<?php echo esc_attr( $taxonomy_name ); ?>" type="hidden" value="<?php echo esc_attr( $taxonomy ); ?>">
+            <input id="<?php echo esc_attr($taxonomy_id); ?>" class="widefat taxonomy" name="<?php echo esc_attr($taxonomy_name); ?>" type="hidden" value="<?php echo esc_attr($taxonomy); ?>">
         </p>
         <?php
     }
 
     public static function social_field($args = array()) {
+        self::social($args);
+    }
+
+    public static function social($args = array()) {
         foreach($args as $field) {
-            $id = $field['id'];
-            $name = $field['name'];
-            $value = $field['value'];
-            $description = $field['description'];
-            echo '<div style="margin-bottom: 20px; ">';
+            $id = isset($field['id']) ? $field['id'] : '';
+            $name = isset($field['name']) ? $field['name'] : '';
+            $value = isset($field['value']) ? $field['value'] : '';
+            if(empty($name)) {
+                continue;
+            }
+            $description = isset($field['description']) ? $field['description'] : '';
+            echo '<div class="margin-bottom">';
             $new_args = array(
                 'id' => $id,
                 'name' => $name,
@@ -361,6 +431,10 @@ class SB_Field {
     }
 
     public static function rich_editor_field($args = array()) {
+        self::rich_editor($args);
+    }
+
+    public static function rich_editor($args = array()) {
         $id = '';
         $name = '';
         $value = '';
@@ -372,14 +446,12 @@ class SB_Field {
         $args = array(
             'textarea_name' => $name,
             'textarea_rows' => $textarea_row
-        );
-        ?>
+        ); ?>
         <div id="<?php echo $id . '_editor'; ?>" class="sb-rich-editor">
             <?php wp_editor($value, $id, $args); ?>
             <?php if(!empty($description)) : ?>
-            <p class="description"><?php echo $description; ?></p>
+                <p class="description"><?php echo $description; ?></p>
             <?php endif; ?>
-        </div>
-        <?php
+        </div> <?php
     }
 }

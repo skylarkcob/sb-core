@@ -217,4 +217,9 @@ class SB_User {
             self::go_to_login();
         }
     }
+
+    public static function get_by_meta($meta_key, $args = array()) {
+        $args['meta_key'] = $meta_key;
+        return self::get($args);
+    }
 }

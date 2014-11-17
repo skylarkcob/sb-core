@@ -24,6 +24,24 @@ class SB_Term_Field {
         $label = '';
         $description = '';
         $name = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        if(empty($id) || empty($label) || empty($name)) {
+            return;
+        }
+        self::before($id, $label);
+        $args['container_class'] = isset($args['container_class']) ? $args['container_class'] . ' small' : 'small';
+        SB_Field::media_upload_with_remove_and_preview($args);
+        self::after($description);
+    }
+
+    public static function term_select($args = array()) {
+        $id = '';
+        $label = '';
+        $description = '';
+        $terms = array();
+        $name = '';
         $value = '';
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
@@ -31,15 +49,15 @@ class SB_Term_Field {
         if(empty($id) || empty($label) || empty($name)) {
             return;
         }
-        $image_preview = '';
-        $image_preview_class = 'image-preview';
-        if(!empty($value)) {
-            $image_preview = sprintf('<img src="%s">', $value);
-            $image_preview_class .= ' has-image';
-        }
         self::before($id, $label);
         $args['container_class'] = isset($args['container_class']) ? $args['container_class'] . ' small' : 'small';
-        SB_Field::media_upload_with_remove_and_preview($args);
+        ?>
+        <select name="<?php echo $name; ?>" autocomplete="off">
+            <?php foreach($terms as $term) : ?>
+                <option value="<?php echo $term->term_id; ?>" <?php selected($value, $term->term_id); ?>><?php echo $term->name; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php
         self::after($description);
     }
 

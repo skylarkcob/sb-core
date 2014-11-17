@@ -260,6 +260,12 @@ class SB_Core {
         return $menu;
     }
 
+    public static function get_current_url() {
+        global $wp;
+        $current_url = trailingslashit(home_url($wp->request));
+        return $current_url;
+    }
+
     public static function get_menu_items($menu, $args = array()) {
         return wp_get_nav_menu_items($menu, $args);
     }
@@ -607,17 +613,30 @@ class SB_Core {
     }
 
     public static function is_support_post_views() {
+        if(class_exists('WP_Widget_PostViews')) {
+            return true;
+        }
         global $wpdb;
-        $views = self::query_result("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'views'");
-        if(self::is_post_view_active() || count($views) > 0) {
+        $query = $wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", 'views');
+        $views = SB_Query::get_results($query);
+        if(count($views) > 0) {
             return true;
         }
         return false;
     }
 
+    public static function is_support_post_favorites() {
+        $users = SB_User::get_by_meta('favorites');
+        if(!is_array($users) || count($users) < 1) {
+            return false;
+        }
+        return true;
+    }
+
     public static function is_support_post_likes() {
         global $wpdb;
-        $likes = self::query_result("SELECT * FROM $wpdb->postmeta WHERE meta_key = 'likes'");
+        $query = $wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", 'likes');
+        $likes = SB_Query::get_results($query);
         if(count($likes) > 0) {
             return true;
         }
@@ -825,6 +844,8 @@ class SB_Core {
             'show_admin_column'          => $show_admin_column,
             'show_in_nav_menus'          => $show_in_nav_menus,
             'show_tagcloud'              => $show_tagcloud,
+            'query_var' => true,
+            'rewrite' => array('slug' => $slug)
         );
         register_taxonomy($slug, $post_types, $args);
     }

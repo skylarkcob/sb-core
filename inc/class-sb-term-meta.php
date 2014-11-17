@@ -3,6 +3,7 @@ class SB_Term_Meta {
     public $taxonomies = array();
     private $callback;
     public $fields = array();
+    private $create_callback;
 
     public function __construct($args = array()) {
         $this->extract($args);
@@ -15,11 +16,13 @@ class SB_Term_Meta {
         }
         $taxonomies = array();
         $callback = '';
+        $create_callback = '';
         $fields = array();
         extract($args, EXTR_OVERWRITE);
         $this->taxonomies = $taxonomies;
         $this->callback = $callback;
         $this->fields = $fields;
+        $this->create_callback = $create_callback;
     }
 
     public function hook() {
@@ -27,8 +30,14 @@ class SB_Term_Meta {
             return;
         }
         foreach($this->taxonomies as $tax_name) {
-            add_action('' . $tax_name . '_edit_form_fields', $this->callback);
+            if(!empty($this->create_callback) || function_exists($this->create_callback)) {
+                add_action($tax_name . '_add_form_fields', $this->create_callback);
+            }
+            if(!empty($this->callback) || function_exists($this->callback)) {
+                add_action($tax_name . '_edit_form_fields', $this->callback);
+            }
             add_action('edited_' . $tax_name, array($this, 'save'));
+            add_action('created_' . $tax_name, array($this, 'save'));
         }
     }
 
