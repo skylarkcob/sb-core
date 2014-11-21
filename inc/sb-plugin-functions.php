@@ -27,12 +27,14 @@ add_filter('plugin_action_links_' . SB_CORE_BASENAME, 'sb_core_about_page_link')
 function sb_core_admin_style_and_script() {
     wp_register_style('sb-core-style', SB_CORE_URL . '/css/sb-core-admin-style.css');
     wp_enqueue_style('sb-core-style');
-
-    wp_register_script('sb-core-admin', SB_CORE_URL . '/js/sb-core-admin-script.js', array('jquery'), false, true);
-    wp_localize_script('sb-core-admin', 'sb_core_admin_ajax', array('url' => SB_Core::get_admin_ajax_url()));
-    wp_enqueue_script('sb-core-admin');
-    if(is_sb_admin_page() && sb_admin_need_ui()) {
-        wp_enqueue_script('jquery-ui-core');
+    global $pagenow;
+    if('nav-menus.php' != $pagenow) {
+        wp_register_script('sb-core-admin', SB_CORE_URL . '/js/sb-core-admin-script.js', array('jquery'), false, true);
+        wp_localize_script('sb-core-admin', 'sb_core_admin_ajax', array('url' => SB_Core::get_admin_ajax_url()));
+        wp_enqueue_script('sb-core-admin');
+        if(is_sb_admin_page() && sb_admin_need_ui()) {
+            wp_enqueue_script('jquery-ui-core');
+        }
     }
 }
 add_action('admin_enqueue_scripts', 'sb_core_admin_style_and_script');

@@ -7,6 +7,23 @@ class SB_Option {
         return get_option('date_format');
     }
 
+    public static function get_default_language() {
+        global $sb_default_language;
+        if(empty($sb_default_language)) {
+            $sb_default_language = self::get_theme_option_single_key('default_language');
+        }
+        if(empty($sb_default_language)) {
+            $sb_default_language = SB_THEME_DEFAULT_LANGUAGE;
+        }
+        return apply_filters('sb_default_language', $sb_default_language);
+    }
+
+    public static function update_breadcrumb_sep($value) {
+        $options = get_option('wpseo_internallinks');
+        $options['breadcrumbs-sep'] = $value;
+        update_option('wpseo_internallinks', $options);
+    }
+
     public static function get_time_fortmat() {
         return get_option('time_format');
     }
@@ -179,6 +196,9 @@ class SB_Option {
     }
 
     public static function change_option_array_url(&$options, $args = array()) {
+        if(!is_array($options)) {
+            return;
+        }
         $site_url = '';
         $url = '';
         extract($args, EXTR_OVERWRITE);

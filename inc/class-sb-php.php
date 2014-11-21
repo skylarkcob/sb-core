@@ -16,6 +16,10 @@ class SB_PHP {
         return 'Y-m-d H:i:s';
     }
 
+    public static function format_date($date, $format) {
+        return date($format, strtotime($date));
+    }
+
     public static function move_item_to_beginning_by_key($key, $arr) {
         $tmp = isset($arr[$key]) ? $arr[$key] : '';
         if($tmp) {

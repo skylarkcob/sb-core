@@ -212,7 +212,7 @@ class SB_Core {
     }
 
     public static function get_menu_location() {
-        return get_nav_menu_locations();
+        return get_registered_nav_menus();
     }
 
     public static function get_menu($args = array()) {
@@ -560,6 +560,24 @@ class SB_Core {
         return wp_logout_url(self::get_redirect_url());
     }
 
+    public static function get_language_text($en_text, $vi_text) {
+        $lang = SB_PHP::get_session('current_language');
+        $result = '';
+        switch($lang) {
+            case 'vi':
+                $result = $vi_text;
+                break;
+            case 'en':
+                $result = $en_text;
+                break;
+        }
+        return $result;
+    }
+
+    public static function the_language_text($en_text, $vi_text) {
+        echo self::get_language_text($en_text, $vi_text);
+    }
+
     public static function get_page_url_by_slug($slug) {
         return get_permalink(get_page_by_path($slug));
     }
@@ -709,12 +727,11 @@ class SB_Core {
         return $sb_dashboard_language;
     }
 
-    public static function english_dashboard($lang) {
+    public static function english_dashboard($locale) {
         if(is_admin()) {
-            $lang = 'en';
+            $locale = 'en';
         }
-        setlocale(LC_ALL, $lang);
-        return $lang;
+        return $locale;
     }
     
     public static function register_post_type($args = array()) {
@@ -725,7 +742,7 @@ class SB_Core {
         $public = true;
         $show_ui = true;
         $show_in_menu = true;
-        $show_in_nav_menus = true;
+        $show_in_nav_menus = false;
         $show_in_admin_bar = true;
         $menu_position = 6;
         $can_export = true;
@@ -805,7 +822,7 @@ class SB_Core {
         $public = true;
         $show_ui = true;
         $show_admin_column = true;
-        $show_in_nav_menus = true;
+        $show_in_nav_menus = false;
         $show_tagcloud = true;
         $post_types = array();
         $slug = '';

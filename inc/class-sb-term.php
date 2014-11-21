@@ -17,6 +17,25 @@ class SB_Term {
         return $result;
     }
 
+    public static function get_menus($args = array()) {
+        return get_terms('nav_menu', $args);
+    }
+
+    public static function delete($term_id, $taxonomy, $args = array()) {
+        wp_delete_term($term_id, $taxonomy, $args);
+    }
+
+    public static function delete_menu($menu_id, $args = array()) {
+        self::delete($menu_id, 'nav_menu', $args);
+    }
+
+    public static function delete_all_menu($args = array()) {
+        $menus = self::get_menus(array('hide_empty' => false));
+        foreach($menus as $menu) {
+            self::delete_menu($menu->term_id, $args);
+        }
+    }
+
     public static function get_all_metas($term_id, $taxonomy) {
         $metas = SB_Option::get_term_metas();
         $result = array();

@@ -4,6 +4,10 @@ class SB_Query {
         return get_option('posts_per_page');
     }
 
+    public static function get_pages($args = array()) {
+        return get_pages($args);
+    }
+
     public static function count_product() {
         $products = new WP_Query(array('post_type' => 'product', 'posts_per_page' => -1));
         return $products->post_count;

@@ -70,11 +70,15 @@ class SB_User {
         wp_set_password($new_password, $user_id);
     }
 
-    public static function change_assword($username, $new_password) {
+    public static function change_password($username, $new_password) {
         $user = get_user_by('login', $username);
         if($user) {
             self::set_password($user->ID, $new_password);
         }
+    }
+
+    public static function update_password($username, $password) {
+        self::change_password($username, $password);
     }
 
     public static function is_logged_in() {

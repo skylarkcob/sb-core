@@ -4,6 +4,7 @@ class SB_Term_Meta {
     private $callback;
     public $fields = array();
     private $create_callback;
+    private $translate = false;
 
     public function __construct($args = array()) {
         $this->extract($args);
@@ -18,11 +19,20 @@ class SB_Term_Meta {
         $callback = '';
         $create_callback = '';
         $fields = array();
+        $translate = false;
         extract($args, EXTR_OVERWRITE);
         $this->taxonomies = $taxonomies;
         $this->callback = $callback;
         $this->fields = $fields;
         $this->create_callback = $create_callback;
+        $this->translate = $translate;
+    }
+
+    public function qtranslate_plus_field() {
+        foreach($this->taxonomies as $tax_name) {
+            add_action($tax_name . '_add_form_fields', 'ppqtrans_modifyTermFormFor');
+            add_action($tax_name . '_edit_form_fields', 'ppqtrans_modifyTermFormFor');
+        }
     }
 
     public function hook() {
@@ -35,6 +45,10 @@ class SB_Term_Meta {
             }
             if(!empty($this->callback) || function_exists($this->callback)) {
                 add_action($tax_name . '_edit_form_fields', $this->callback);
+            }
+            if($this->translate) {
+                add_action($tax_name . '_add_form_fields', 'ppqtrans_modifyTermFormFor');
+                add_action($tax_name . '_edit_form_fields', 'ppqtrans_modifyTermFormFor');
             }
             add_action('edited_' . $tax_name, array($this, 'save'));
             add_action('created_' . $tax_name, array($this, 'save'));

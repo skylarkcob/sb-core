@@ -22,7 +22,8 @@ class SB_Post {
 
     public static function get_first_image($post_id) {
         $images = self::get_images($post_id);
-        foreach($images as $image) {
+        if(is_array($images)) {
+            $image = array_shift($images);
             return $image;
         }
         return '';
@@ -43,7 +44,7 @@ class SB_Post {
 
     public static function get_first_image_url($post_id) {
         $image = self::get_first_image($post_id);
-        if($image) {
+        if($image && !is_wp_error($image)) {
             return wp_get_attachment_url($image->id);
         } else {
             $post = get_post($post_id);
@@ -70,6 +71,10 @@ class SB_Post {
         }
         if(empty($result)) {
             $result = self::get_first_image_url($post_id);
+        }
+        if(empty($result)) {
+            $post = get_post($post_id);
+            $result = SB_PHP::get_first_image($post->post_content);
         }
         if(empty($result)) {
             $result = SB_Option::get_theme_thumbnail_url();
@@ -142,7 +147,7 @@ class SB_Post {
     }
 
     public static function the_author() {
-        printf('<span class="post-author"><i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" rel="author">%2$s</a></span></span>',
+        printf('<span class="post-author"><i class="fa fa-user icon-left"></i> <span class="author vcard"><a class="url fn n" href="%1$s" rel="author">%2$s</a></span></span>',
             esc_url( self::get_author_url()),
             get_the_author_meta('user_nicename')
         );
@@ -160,9 +165,21 @@ class SB_Post {
         return SB_Core::get_human_time_diff(self::get_time_compare($post));
     }
 
+    public static function get_the_date() {
+        $post_date = get_the_date();
+        if(empty($post_date)) {
+            $post_id = get_the_ID();
+            $post = get_post($post_id);
+            $post_date = $post->post_date_gmt;
+            $post_date = date(SB_Option::get_date_format(), strtotime($post_date));
+        }
+        return $post_date;
+    }
+
     public static function the_date() {
-        printf('<span class="date"><i class="fa fa-clock-o"></i><span>%1$s</span></span>',
-            esc_html(get_the_date())
+        $post_date = self::get_the_date();
+        printf('<span class="date"><i class="fa fa-clock-o icon-left"></i><span>%1$s</span></span>',
+            esc_html($post_date)
         );
     }
 
@@ -184,7 +201,7 @@ class SB_Post {
 
     public static function the_comment_link() {
         if(!post_password_required() && (comments_open() || get_comments_number())) : ?>
-            <span class="comments-link post-comment"><i class="fa fa-comments"></i> <?php comments_popup_link( '<span class="count">0</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">1</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">%</span> <span class="text">' . __('comments', 'sb-core') . '</span>'); ?></span>
+            <span class="comments-link post-comment"><i class="fa fa-comments icon-left"></i> <?php comments_popup_link( '<span class="count">0</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">1</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">%</span> <span class="text">' . __('comments', 'sb-core') . '</span>'); ?></span>
         <?php endif;
     }
 
@@ -351,5 +368,15 @@ class SB_Post {
 
     public static function the_term($post_id, $taxonomy) {
         the_terms($post_id, $taxonomy);
+    }
+
+    public static function the_term_html($post_id, $taxonomy) {
+        $terms = get_the_terms($post_id, $taxonomy);
+        if($terms && ! is_wp_error($terms)) : ?>
+        <span class="cat-links">
+		        <span class="entry-utility-prep"><?php _e('Posted in:', 'sb-core'); ?> </span>
+            <?php the_terms($post_id, $taxonomy); ?>
+            </span>
+    <?php endif;
     }
 }
