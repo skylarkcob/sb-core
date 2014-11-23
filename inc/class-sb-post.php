@@ -74,7 +74,9 @@ class SB_Post {
         }
         if(empty($result)) {
             $post = get_post($post_id);
-            $result = SB_PHP::get_first_image($post->post_content);
+            if($post && !is_wp_error($post)) {
+                $result = SB_PHP::get_first_image($post->post_content);
+            }
         }
         if(empty($result)) {
             $result = SB_Option::get_theme_thumbnail_url();

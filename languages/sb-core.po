@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sb-core\n"
-"POT-Creation-Date: 2014-10-02 20:02+0700\n"
-"PO-Revision-Date: 2014-10-02 20:02+0700\n"
-"Last-Translator: SB Team <laidinhcuongvn@gmail.com>\n"
+"POT-Creation-Date: 2014-11-23 21:15+0700\n"
+"PO-Revision-Date: 2014-11-23 21:15+0700\n"
+"Last-Translator: Lai Dinh Cuong <laidinhcuongvn@gmail.com>\n"
 "Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.6.10\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -17,218 +17,235 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../admin/class-sb-admin-custom.php:59 ../admin/class-sb-admin.php:108
-msgid "Short description about SB Options."
-msgstr ""
-
-#: ../admin/class-sb-admin-custom.php:61 ../admin/class-sb-admin.php:110
-msgid "Change your settings below:"
-msgstr ""
-
-#: ../admin/class-sb-admin.php:85 ../admin/class-sb-admin.php:115
-#: ../admin/class-sb-admin.php:160
-msgid "About SB"
-msgstr ""
-
-#: ../admin/class-sb-admin.php:166 ../inc/sb-plugin-functions.php:43
-msgid "SB Options"
-msgstr ""
-
-#: ../admin/class-sb-field.php:30
-msgid "Insert image"
-msgstr ""
-
-#: ../admin/class-sb-field.php:35
-msgid "Upload"
-msgstr ""
-
-#: ../admin/class-sb-field.php:59
-msgid "Enter url for the image above."
-msgstr ""
-
-#: ../admin/class-sb-field.php:84
-msgid "On"
-msgstr ""
-
-#: ../admin/class-sb-field.php:85
-msgid "Off"
-msgstr ""
-
-#: ../admin/class-sb-plugin.php:49
-#, php-format
-msgid "Install %s now"
-msgstr ""
-
-#: ../admin/class-sb-plugin.php:49
-msgid "Install Now"
-msgstr ""
-
-#: ../admin/class-sb-plugin.php:55
-#, php-format
-msgid "Update %s now"
-msgstr ""
-
-#: ../admin/class-sb-plugin.php:55
-msgid "Update Now"
-msgstr ""
-
-#: ../admin/class-sb-plugin.php:61
-msgid "Installed"
-msgstr ""
-
-#: ../admin/sb-about.php:6 ../admin/sb-setting-page.php:64
-msgid "Version:"
-msgstr ""
-
-#: ../admin/sb-about.php:7
-#, php-format
-msgid ""
-"SB Framework is a PHP framework that created by SB Team, the purposes of "
-"this framework are to help coding WordPress more easier. You can download "
-"the latest version from %s."
-msgstr ""
-
-#: ../admin/sb-about.php:8
-#, php-format
-msgid ""
-"SB Framework is writen by %1$s and %2$s, if you have any questions please "
-"send mail via the email address below this panel or write a post on learn "
-"WordPress forum."
-msgstr ""
-
-#: ../admin/sb-about.php:9
-#, php-format
-msgid ""
-"If you feel this framework helpful, you can use the PayPal donate button "
-"below to send a beer or a coffee cup to these founders. It will help us to "
-"create more functional on this framework. You can visit %s for more "
-"information."
-msgstr ""
-
-#: ../admin/sb-about.php:9
-msgid "the donation page"
-msgstr ""
-
-#: ../admin/sb-plugins-ajax.php:22
+#: ../inc/ajax/sb-plugins-ajax.php:21
 msgid "Downloads:"
 msgstr ""
 
-#: ../admin/sb-plugins-ajax.php:32
+#: ../inc/ajax/sb-plugins-ajax.php:31
 msgid "Last Updated:"
 msgstr ""
 
-#: ../admin/sb-plugins.php:2
-#, php-format
-msgid "List all plugins are written by %s."
+#: ../inc/class-sb-admin-custom.php:94 ../inc/class-sb-admin.php:82
+msgid "Short description about SB Options."
 msgstr ""
 
-#: ../admin/sb-setting-page.php:42
-msgid "Options page will not work if your browser doesn't support javascript!"
+#: ../inc/class-sb-admin-custom.php:96 ../inc/class-sb-admin.php:84
+msgid "Change your settings below:"
 msgstr ""
 
-#: ../admin/sb-setting-page.php:46
-msgid "All your changes have been saved successfully."
-msgstr ""
-
-#: ../admin/sb-setting-page.php:55
-msgid "No name theme"
-msgstr ""
-
-#: ../admin/sb-setting-page.php:106 ../admin/sb-setting-page.php:107
-msgid "Save changes"
-msgstr ""
-
-#: ../admin/sb-setting-page.php:113
-#, php-format
-msgid "Created by %s."
-msgstr ""
-
-#: ../admin/sb-setting-page.php:113
-#, php-format
-msgid "If you have any question, please send us an email via: %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:122
-#, php-format
-msgid "%d second ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:123
-#, php-format
-msgid "%d seconds ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:126
-#, php-format
-msgid "%d minute ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:127
-#, php-format
-msgid "%d minutes ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:130
-#, php-format
-msgid "%d hour ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:131
-#, php-format
-msgid "%d hours ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:134
-#, php-format
-msgid "%d day ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:135
-#, php-format
-msgid "%d days ago"
-msgstr ""
-
-#: ../inc/class-sb-core.php:138
-#, php-format
-msgid "%d week ago"
+#: ../inc/class-sb-admin.php:59 ../inc/class-sb-admin.php:89
+#: ../inc/class-sb-admin.php:134
+msgid "About SB"
 msgstr ""
 
 #: ../inc/class-sb-core.php:139
 #, php-format
-msgid "%d weeks ago"
+msgid "%d second ago"
 msgstr ""
 
-#: ../inc/class-sb-core.php:142
+#: ../inc/class-sb-core.php:140
 #, php-format
-msgid "%d month ago"
+msgid "%d seconds ago"
 msgstr ""
 
 #: ../inc/class-sb-core.php:143
 #, php-format
-msgid "%d months ago"
+msgid "%d minute ago"
 msgstr ""
 
-#: ../inc/class-sb-core.php:146
+#: ../inc/class-sb-core.php:144
 #, php-format
-msgid "%d year ago"
+msgid "%d minutes ago"
 msgstr ""
 
 #: ../inc/class-sb-core.php:147
 #, php-format
+msgid "%d hour ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:148
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:151
+#, php-format
+msgid "%d day ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:152
+#, php-format
+msgid "%d days ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:155
+#, php-format
+msgid "%d week ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:156
+#, php-format
+msgid "%d weeks ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:159
+#, php-format
+msgid "%d month ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:160
+#, php-format
+msgid "%d months ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:163
+#, php-format
+msgid "%d year ago"
+msgstr ""
+
+#: ../inc/class-sb-core.php:164
+#, php-format
 msgid "%d years ago"
 msgstr ""
 
-#: ../inc/class-sb-core.php:247
-msgid "Products List"
-msgstr ""
-
-#: ../inc/class-sb-core.php:249
-#, php-format
-msgid "%s forum"
-msgstr ""
-
-#: ../inc/class-sb-core.php:299
+#: ../inc/class-sb-core.php:552 ../inc/sb-admin.php:18
 msgid "This website is temporarily unavailable, please try again later."
+msgstr ""
+
+#: ../inc/class-sb-core.php:780 ../inc/class-sb-core.php:847
+#, php-format
+msgid "Parent %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:781 ../inc/class-sb-core.php:848
+#, php-format
+msgid "Parent %s:"
+msgstr ""
+
+#: ../inc/class-sb-core.php:782 ../inc/class-sb-core.php:846
+#, php-format
+msgid "All %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:783
+#, php-format
+msgid "View %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:784 ../inc/class-sb-core.php:850
+#, php-format
+msgid "Add New %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:785
+msgid "Add New"
+msgstr ""
+
+#: ../inc/class-sb-core.php:786 ../inc/class-sb-core.php:851
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:787 ../inc/class-sb-core.php:852
+#, php-format
+msgid "Update %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:788 ../inc/class-sb-core.php:854
+#, php-format
+msgid "Search %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:789
+msgid "Not found"
+msgstr ""
+
+#: ../inc/class-sb-core.php:790
+msgid "Not found in Trash"
+msgstr ""
+
+#: ../inc/class-sb-core.php:849
+#, php-format
+msgid "New %s Name"
+msgstr ""
+
+#: ../inc/class-sb-core.php:853
+#, php-format
+msgid "Separate %s with commas"
+msgstr ""
+
+#: ../inc/class-sb-core.php:855
+#, php-format
+msgid "Add or remove %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:856
+#, php-format
+msgid "Choose from the most used %s"
+msgstr ""
+
+#: ../inc/class-sb-core.php:857
+msgid "Not Found"
+msgstr ""
+
+#: ../inc/class-sb-field.php:73
+msgid "Enter url for the image above."
+msgstr ""
+
+#: ../inc/class-sb-field.php:114
+msgid "Insert image"
+msgstr ""
+
+#: ../inc/class-sb-field.php:114
+msgid "Upload"
+msgstr ""
+
+#: ../inc/class-sb-field.php:115
+msgid "Remove image"
+msgstr ""
+
+#: ../inc/class-sb-field.php:115
+msgid "Remove"
+msgstr ""
+
+#: ../inc/class-sb-field.php:133 ../inc/class-sb-field.php:231
+msgid "Are you sure you want to delete?"
+msgstr ""
+
+#: ../inc/class-sb-field.php:136
+msgid "Sidebar name"
+msgstr ""
+
+#: ../inc/class-sb-field.php:137
+msgid "Sidebar description"
+msgstr ""
+
+#: ../inc/class-sb-field.php:138
+msgid "Sidebar id"
+msgstr ""
+
+#: ../inc/class-sb-field.php:168
+msgid "Add new sidebar"
+msgstr ""
+
+#: ../inc/class-sb-field.php:208
+msgid "Drag and drop the widget into right box to active it."
+msgstr ""
+
+#: ../inc/class-sb-field.php:259
+msgid "Add new"
+msgstr ""
+
+#: ../inc/class-sb-field.php:260 ../inc/content/sb-setting-page.php:101
+msgid "Reset"
+msgstr ""
+
+#: ../inc/class-sb-field.php:346
+msgid "On"
+msgstr ""
+
+#: ../inc/class-sb-field.php:347
+msgid "Off"
 msgstr ""
 
 #: ../inc/class-sb-mail.php:25
@@ -258,20 +275,167 @@ msgstr ""
 msgid "Comment link: %s"
 msgstr ""
 
-#: ../inc/class-sb-post.php:115
-msgid "comment"
+#: ../inc/class-sb-message.php:4 ../inc/content/sb-setting-page.php:34
+msgid "Are you sure?"
 msgstr ""
 
-#: ../inc/class-sb-post.php:115
-msgid "comments"
+#: ../inc/class-sb-message.php:9
+msgid "Redirecting"
 msgstr ""
 
-#: ../inc/sb-plugin-functions.php:10
-msgid "About"
+#: ../inc/class-sb-message.php:14
+#, php-format
+msgid "Redirecting to %s"
 msgstr ""
 
-#: ../inc/sb-plugin-functions.php:24
+#: ../inc/class-sb-message.php:19
 msgid ""
 "All plugins and themes that are created by SB Team will be deactivated! Are "
 "you sure?"
+msgstr ""
+
+#: ../inc/class-sb-plugin.php:50
+#, php-format
+msgid "Install %s now"
+msgstr ""
+
+#: ../inc/class-sb-plugin.php:50
+msgid "Install Now"
+msgstr ""
+
+#: ../inc/class-sb-plugin.php:55
+#, php-format
+msgid "Update %s now"
+msgstr ""
+
+#: ../inc/class-sb-plugin.php:55
+msgid "Update Now"
+msgstr ""
+
+#: ../inc/class-sb-plugin.php:60
+msgid "Installed"
+msgstr ""
+
+#: ../inc/class-sb-post.php:206
+msgid "comment"
+msgstr ""
+
+#: ../inc/class-sb-post.php:206
+msgid "comments"
+msgstr ""
+
+#: ../inc/class-sb-post.php:379
+msgid "Posted in:"
+msgstr ""
+
+#: ../inc/class-sb-widget-field.php:17
+msgid "Title:"
+msgstr ""
+
+#: ../inc/content/sb-about.php:4 ../inc/content/sb-setting-page.php:57
+msgid "Version:"
+msgstr ""
+
+#: ../inc/content/sb-about.php:5
+#, php-format
+msgid ""
+"SB Framework is a PHP framework that created by SB Team, the purposes of "
+"this framework are to help coding WordPress more easier. You can download "
+"the latest version from %s."
+msgstr ""
+
+#: ../inc/content/sb-about.php:6
+#, php-format
+msgid ""
+"SB Framework is writen by %1$s and %2$s, if you have any questions please "
+"send mail via the email address below this panel or write a post on learn "
+"WordPress forum."
+msgstr ""
+
+#: ../inc/content/sb-about.php:7
+#, php-format
+msgid ""
+"If you feel this framework helpful, you can use the PayPal donate button "
+"below to send a beer or a coffee cup to these founders. It will help us to "
+"create more functional on this framework. You can visit %s for more "
+"information."
+msgstr ""
+
+#: ../inc/content/sb-about.php:7
+msgid "the donation page"
+msgstr ""
+
+#: ../inc/content/sb-plugins.php:10
+#, php-format
+msgid "List all plugins are written by %s."
+msgstr ""
+
+#: ../inc/content/sb-setting-page.php:35
+msgid "Options page will not work if your browser doesn't support javascript!"
+msgstr ""
+
+#: ../inc/content/sb-setting-page.php:39
+msgid "All your changes have been saved successfully."
+msgstr ""
+
+#: ../inc/content/sb-setting-page.php:48
+msgid "No name theme"
+msgstr ""
+
+#: ../inc/content/sb-setting-page.php:99
+#: ../inc/content/sb-setting-page.php:100
+msgid "Save changes"
+msgstr ""
+
+#: ../inc/content/sb-setting-page.php:107
+#, php-format
+msgid "Created by %s."
+msgstr ""
+
+#: ../inc/content/sb-setting-page.php:107
+#, php-format
+msgid "If you have any question, please send us an email via: %s"
+msgstr ""
+
+#: ../inc/loop/loop-rss-feed.php:19
+msgid "Title"
+msgstr ""
+
+#: ../inc/loop/loop-rss-feed.php:20
+msgid "Number of post"
+msgstr ""
+
+#: ../inc/loop/loop-rss-feed.php:21
+msgid "Put your feed url here"
+msgstr ""
+
+#: ../inc/sb-plugin-functions.php:21
+msgid "About"
+msgstr ""
+
+#: ../lib/bfi-thumb/BFI_Thumb.php:145
+msgid ""
+"The server does not have ImageMagick or GD installed and/or enabled! Any of "
+"these libraries are required for WordPress to be able to resize images. "
+"Please contact your server administrator to enable this before continuing."
+msgstr ""
+
+#: ../lib/bfi-thumb/BFI_Thumb.php:273
+msgid "Image rotate failed."
+msgstr ""
+
+#: ../lib/bfi-thumb/BFI_Thumb.php:296
+msgid "Image opacity change failed."
+msgstr ""
+
+#: ../lib/bfi-thumb/BFI_Thumb.php:383
+msgid "Image color change failed."
+msgstr ""
+
+#: ../lib/bfi-thumb/BFI_Thumb.php:400
+msgid "Image grayscale failed."
+msgstr ""
+
+#: ../lib/bfi-thumb/BFI_Thumb.php:417
+msgid "Image negate failed."
 msgstr ""

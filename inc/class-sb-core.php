@@ -60,6 +60,10 @@ class SB_Core {
         return true;
     }
 
+    public static function enqueue_script($handle, $url) {
+        wp_enqueue_script($handle, $url, array('jquery'), false, true);
+    }
+
     public static function nonce() {
         wp_nonce_field('sb_nonce', 'sb_nonce_field');
     }

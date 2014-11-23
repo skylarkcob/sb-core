@@ -13,6 +13,20 @@ class SB_Query {
         return $products->post_count;
     }
 
+    public static function get_post_by_term($term_id, $taxonomy, $args = array()) {
+        $tax_item = array(
+            'taxonomy' => $taxonomy,
+            'field' => 'id',
+            'terms' => $term_id
+        );
+        $args = SB_Query::build_tax_query($tax_item, $args);
+        return new WP_Query($args);
+    }
+
+    public static function get_post_by_category($term_id, $args = array()) {
+        return self::get_post_by_term($term_id, 'category', $args);
+    }
+
     public static function get_post_by_recent_comment($args = array()) {
         $posts_per_page = self::get_posts_per_page();
         extract($args, EXTR_OVERWRITE);

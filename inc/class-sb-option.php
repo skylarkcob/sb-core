@@ -160,6 +160,23 @@ class SB_Option {
         return self::get_by_key($args);
     }
 
+    public static function get_utility_option($args = array()) {
+        if(isset($args['keys']) && is_array($args['keys'])) {
+            array_unshift($args['keys'], 'utilities');
+        }
+        return self::get_by_key($args);
+    }
+
+    public static function get_utility($name) {
+        $value = self::get_utility_option(array('keys' => array($name)));
+        return intval($value);
+    }
+
+    public static function utility_enabled($name) {
+        $value = self::get_utility($name);
+        return (bool)$value;
+    }
+
     public static function get_theme_option_single_key($key_name) {
         $args = array('keys' => array($key_name));
         return self::get_theme_option($args);

@@ -287,8 +287,16 @@
                     var data = '',
                         that = $(ui.item),
                         single_ui_order = null,
-                        sortable_connect_active = null;
-                    sortable_container = that.closest('div.sb-sortable'),
+                        sortable_connect_active = null,
+                        sortable_container = that.closest('div.sb-sortable'),
+                        sortable_active_list = sortable_container.find('.sb-sortable-list.active-sortable'),
+                        sortable_source_list = sortable_container.find('.sb-sortable-list.sortable-source');
+
+                    if(sortable_active_list.children().length < sortable_source_list.children().length) {
+                        sortable_active_list.css({'height': sortable_source_list.height()});
+                    } else {
+                        sortable_active_list.css({'height': 'auto'});
+                    }
                     single_ui_order = sortable_container.find('input.ui-item-order');
                     sortable_connect_active = sortable_container.find('input.active-sortalbe-value');
                     if(single_ui_order.length) {
@@ -303,7 +311,11 @@
                         data = '';
                         sortable_container.find('ul.sb-sortable-list.active-sortable li').each(function(i, el){
                             var p = $(el).attr('data-term');
-                            data += p + ',';
+                            if(data.indexOf(p) != -1) {
+                                return;
+                            } else {
+                                data += p + ',';
+                            }
                         });
                         data = data.slice(0, -1);
                         sortable_container.find('.active-sortalbe-value').val(data);

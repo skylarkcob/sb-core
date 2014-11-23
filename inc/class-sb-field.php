@@ -43,25 +43,38 @@ class SB_Field {
         $new_args = $args;
         $id = isset($args['id']) ? $args['id'] : '';
         $name = isset($args['name']) ? $args['name'] : '';
+        $names = explode(']', $name);
+        $keys = array();
+        foreach($names as $name_item) {
+            $item = str_replace('sb_options[', '', $name_item);
+            $item = str_replace('[', '', $item);
+            if(empty($item)) {
+                continue;
+            }
+            array_push($keys, $item);
+        }
+        $image_keys = $keys;
+        array_push($image_keys, 'image');
         if(!empty($id)) {
             $new_args['id'] = $id . '_image';
         }
         $new_args['name'] = $name . '[image]';
+        $container_class = isset($args['container_class']) ? $args['container_class'] : '';
+        $container_class = SB_PHP::add_string_with_space_before($container_class, 'margin-bottom');
+        $value = SB_Option::get_by_key(array('keys' => $image_keys));
+        $new_args['container_class'] = $container_class;
+        $new_args['value'] = $value;
         self::media_upload($new_args);
         if(!empty($id)) {
             $args['id'] = $id . '_url';
         }
-        $args['name'] = $name . '[url]';
-        $names = explode(']', $args['name']);
-        $keys = array();
-        foreach($names as $name_item) {
-            $item = str_replace('sb_options[', '', $name_item);
-            $item = str_replace('[', '', $name_item);
-            array_push($keys, $item);
-        }
+        array_push($keys, 'url');
         $value = SB_Option::get_by_key(array('keys' => $keys));
         $description = __('Enter url for the image above.', 'sb-core');
         echo '<div class="margin-top">';
+        $args['name'] = $name . '[url]';
+        $args['value'] = $value;
+        $args['description'] = $description;
         self::text_field($args);
         echo '</div>';
     }
@@ -267,6 +280,7 @@ class SB_Field {
             extract($args, EXTR_OVERWRITE);
         }
         $value = trim($value);
+        $container_class = SB_PHP::add_string_with_space_before($container_class, 'sb-text-field');
         $field_class = SB_PHP::add_string_with_space_before($field_class, 'widefat'); ?>
         <div class="<?php echo $container_class; ?>">
             <?php printf('<input type="text" id="%1$s" name="%2$s" value="%3$s" class="' . $field_class . '" autocomplete="off"><p class="description">%4$s</p>', esc_attr($id), esc_attr($name), $value, $description); ?>
