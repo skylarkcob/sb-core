@@ -24,6 +24,13 @@ class SB_Option {
         update_option('wpseo_internallinks', $options);
     }
 
+    public static function edit_breadcrumb_sep() {
+        $options = get_option('wpseo_internallinks');
+        $sep = isset($options['breadcrumbs-sep']) ? $options['breadcrumbs-sep'] : '/';
+        $options['breadcrumbs-sep'] = '<span class="sep">' . trim($sep) . '</span>';
+        update_option('wpseo_internallinks', $options);
+    }
+
     public static function get_time_fortmat() {
         return get_option('time_format');
     }
