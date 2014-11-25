@@ -64,8 +64,32 @@ class SB_Term {
         return get_queried_object();
     }
 
+    public static function get_level($term_id, $taxonomy) {
+        $level = 0;
+        $term = self::get_by('id', $term_id, $taxonomy);
+        while($term && !is_wp_error($term) && $term->parent > 0) {
+            $term = self::get_by('id', $term->parent, $taxonomy);
+            $level++;
+        }
+        return $level;
+    }
+
+    public static function get_category_level($term_id) {
+        return self::get_level($term_id, 'category');
+    }
+
+    public static function get_category_by_id($term_id) {
+        return get_category($term_id);
+    }
+
     public static function get_single_id() {
         return get_queried_object()->term_id;
+    }
+
+    public static function get_same_level($term, $args = array()) {
+        $defaults = array('parent' => $term->parent, 'depth' => 1);
+        $args = wp_parse_args($args, $defaults);
+        return self::get($term->taxonomy, $args);
     }
 
     public static function get_first_level_child($term_id, $taxonomy, $args = array()) {

@@ -26,6 +26,13 @@ class SB_Core {
         return current_time('timestamp', 0);
     }
 
+    public static function is_error($thing) {
+        if($thing && !is_wp_error($thing)) {
+            return true;
+        }
+        return false;
+    }
+
     public static function format_price($args = array()) {
         $suffix = '₫';
         $prefix = '';

@@ -400,6 +400,7 @@ class SB_Field {
         <p class="<?php echo $container_class; ?>">
             <label for="<?php echo esc_attr($id); ?>"><?php echo $label; ?></label>
             <select id="<?php echo esc_attr($id); ?>" class="<?php echo $field_class; ?>" name="<?php echo esc_attr($name); ?>" autocomplete="off">
+                <option value="0">--- <?php _e('Choose the term', 'sb-core'); ?> ---</option>
                 <?php foreach($options as $tax) : ?>
                     <?php $terms = get_terms($tax->name); ?>
                     <?php if(count($terms) > 0) : ?>

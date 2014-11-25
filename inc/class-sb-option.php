@@ -24,11 +24,40 @@ class SB_Option {
         update_option('wpseo_internallinks', $options);
     }
 
+    public static function get_bcn_options() {
+        global $sb_bcn_options;
+        if(empty($sb_bcn_options) || !is_array($sb_bcn_options)) {
+            $sb_bcn_options = get_option('bcn_options');
+        }
+        return $sb_bcn_options;
+    }
+
+    public static function edit_bcn_breadcrumb_sep() {
+        $options = self::get_bcn_options();
+        $sep = isset($options['hseparator']) ? $options['hseparator'] : '/';
+        $options['hseparator'] = '<span class="sep">' . trim($sep) . '</span>';
+        update_option('bcn_options', $options);
+    }
+
+    public static function get_wpseo_internallinks() {
+        global $sb_wpseo_internallinks;
+        if(!$sb_wpseo_internallinks || empty($sb_wpseo_internallinks) ||!is_array($sb_wpseo_internallinks)) {
+            $sb_wpseo_internallinks = get_option('wpseo_internallinks');
+        }
+        return $sb_wpseo_internallinks;
+    }
+
     public static function edit_breadcrumb_sep() {
-        $options = get_option('wpseo_internallinks');
+        $options = self::get_wpseo_internallinks();
         $sep = isset($options['breadcrumbs-sep']) ? $options['breadcrumbs-sep'] : '/';
         $options['breadcrumbs-sep'] = '<span class="sep">' . trim($sep) . '</span>';
         update_option('wpseo_internallinks', $options);
+    }
+
+    public static function yoast_breadcrumb_enabled() {
+        $options = self::get_wpseo_internallinks();
+        $enabled = isset($options['breadcrumbs-enable']) ? $options['breadcrumbs-enable'] : 0;
+        return (bool)$enabled;
     }
 
     public static function get_time_fortmat() {
