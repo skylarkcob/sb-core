@@ -28,9 +28,9 @@ class SB_Core {
 
     public static function is_error($thing) {
         if($thing && !is_wp_error($thing)) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public static function format_price($args = array()) {
@@ -223,7 +223,7 @@ class SB_Core {
     }
 
     public static function get_menu_location() {
-        return get_registered_nav_menus();
+        return get_nav_menu_locations();
     }
 
     public static function get_menu($args = array()) {
