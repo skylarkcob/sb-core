@@ -519,6 +519,10 @@ a:focus {
     background-image: url("../images/tab-theme-icon.png");
 }
 
+.sb-tabs .tab-item.statistics .tab-icon {
+    background-image: url("../images/icon-statistics.png");
+}
+
 .sb-option .top-save-button {
     position: absolute;
     right: 20px;

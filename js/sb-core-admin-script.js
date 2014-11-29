@@ -193,29 +193,27 @@
 
     // Deactivate SB Core
     (function(){
+        $('#sb-core span.deactivate > a').attr('href', 'javascript:;');
         $('#sb-core span.deactivate > a').on('click', function(){
             var that = $(this),
-                data = {
-                    'action': 'sb_core_deactivate_message'
-                },
+                data = null,
                 deactivate_link = that.attr('href');
-
-            if(deactivate_link.indexOf('sb-core') != -1) {
-                $.post(sb_core_admin_ajax.url, data, function(response){
-                    if(confirm(response)){
-                        data = {
-                            action: 'sb_deactivate_all_sb_product'
-                        };
-                        $.post(sb_core_admin_ajax.url, data, function(){
-                            window.location.href = deactivate_link;
-                        });
-                    } else {
-                        return false;
-                    }
-                });
-                return false;
-            }
-
+            data = {
+                'action': 'sb_core_deactivate_message'
+            };
+            $.post(sb_core_admin_ajax.url, data, function(response){
+                if(confirm(response)){
+                    data = {
+                        action: 'sb_deactivate_all_sb_product'
+                    };
+                    $.post(sb_core_admin_ajax.url, data, function(){
+                        window.location = window.location.pathname;
+                    });
+                } else {
+                    return false;
+                }
+            });
+            return false;
         });
         if($('#sb-core').hasClass('inactive')) {
             var data = {
@@ -225,6 +223,48 @@
 
             });
         }
+    })();
+
+    // SB Core thickbox and update links
+    (function(){
+        $('#sb-core a.thickbox').each(function(i, el){
+            var that = $(this),
+                core_tr = that.closest('tr#sb-core'),
+                core_update = null;
+            that.attr('href', 'https://wordpress.org/plugins/sb-core/');
+            that.attr('target', '_blank');
+            if(core_tr.hasClass('update')) {
+                core_update = core_tr.next();
+                if(core_update.hasClass('plugin-update-tr')) {
+                    core_update.fadeOut();
+                    core_update.remove();
+                    core_tr.children().each(function(i, el_th) {
+                        $(el_th).css({'box-shadow': '0 -1px 0 rgba(0, 0, 0, 0.1) inset'});
+                    });
+                    core_update.find('a').each(function(i, el_child){
+                        if($(this).hasClass('thickbox')) {
+                            $(this).attr('href', 'https://wordpress.org/plugins/sb-core/');
+                            $(this).attr('target', '_blank');
+                            $(this).on('click', function(e){
+                                e.preventDefault();
+                                window.open($(this).attr('href'));
+                                return false;
+                            });
+                        } else {
+                            $.post(sb_core_admin_ajax.url, {'action': 'sb_core_get_admin_url', 'name': 'update-core.php'}, function(resp){
+                                $(el_child).attr('href', resp);
+                            });
+                        }
+                    });
+                }
+            }
+        });
+        $('#sb-core a.thickbox').on('click', function(e){
+            e.preventDefault();
+            var that = $(this);
+            window.open(that.attr('href'));
+            return false;
+        });
     })();
 
     // UI Sortable List

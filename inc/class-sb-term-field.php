@@ -27,11 +27,12 @@ class SB_Term_Field {
         if(is_array($args)) {
             extract($args, EXTR_OVERWRITE);
         }
-        if(empty($id) || empty($label) || empty($name)) {
+        if(empty($id) || empty($name)) {
             return;
         }
         self::before($id, $label);
         $args['container_class'] = isset($args['container_class']) ? $args['container_class'] . ' small' : 'small';
+        $args['label'] = '';
         SB_Field::media_upload_with_remove_and_preview($args);
         self::after($description);
     }

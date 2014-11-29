@@ -14,6 +14,28 @@ class SB_Core {
         return admin_url('admin-ajax.php');
     }
 
+    public static function get_default_theme() {
+        $themes = wp_get_themes();
+        $wp_theme = '';
+        foreach($themes as $theme) {
+            $author_uri = $theme->get('AuthorURI');
+            if(strrpos($author_uri, 'wordpress.org') !== false) {
+                $wp_theme = $theme;
+                break;
+            }
+        }
+        if(empty($wp_theme)) {
+            foreach($themes as $theme) {
+                $text_domain = $theme->get('TextDomain');
+                if(strrpos($text_domain, 'sb-theme') === false) {
+                    $wp_theme = $theme;
+                    break;
+                }
+            }
+        }
+        return $wp_theme;
+    }
+
     public static function is_yarpp_installed() {
         return class_exists('YARPP');
     }
@@ -137,6 +159,41 @@ class SB_Core {
         return $since;
     }
 
+    public static function date_time_ago($date) {
+        $chunks = array(
+            array( 60 * 60 * 24 * 365 , __( 'năm', 'sb-core' ), __( 'năm', 'sb-core' ) ),
+            array( 60 * 60 * 24 * 30 , __( 'tháng', 'sb-core' ), __( 'tháng', 'sb-core' ) ),
+            array( 60 * 60 * 24 * 7, __( 'tuần', 'sb-core' ), __( 'tuần', 'sb-core' ) ),
+            array( 60 * 60 * 24 , __( 'ngày', 'sb-core' ), __( 'ngày', 'sb-core' ) ),
+            array( 60 * 60 , __( 'giờ', 'sb-core' ), __( 'giờ', 'sb-core' ) ),
+            array( 60 , __( 'phút', 'sb-core' ), __( 'phút', 'sb-core' ) ),
+            array( 1, __( 'giây', 'sb-core' ), __( 'giây', 'sb-core' ) )
+        );
+        if ( !is_numeric( $date ) ) {
+            $time_chunks = explode( ':', str_replace( ' ', ':', $date ) );
+            $date_chunks = explode( '-', str_replace( ' ', '-', $date ) );
+            $date = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );
+        }
+        $current_time = current_time( 'mysql', $gmt = 0 );
+        $newer_date = strtotime( $current_time );
+        $since = $newer_date - $date;
+        if ( 0 > $since )
+            return __( 'Vài giây trước', 'sb-core' );
+        for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
+            $seconds = $chunks[$i][0];
+            if ( ( $count = floor($since / $seconds) ) != 0 )
+                break;
+        }
+        $first_chunk = isset($chunks[$i][1]) ? $chunks[$i][1] : '';
+        $second_chunk = isset($chunks[$i][2]) ? $chunks[$i][2] : '';
+        $output = ( 1 == $count ) ? '1 '. $first_chunk : $count . ' ' . $second_chunk;
+        if ( !(int)trim($output) ){
+            $output = __( 'Vài giây', 'sb-core' );
+        }
+        $output .= ' ' . __('trước', 'sb-core');
+        return $output;
+    }
+
     public static function get_human_time_diff( $from, $to = '' ) {
         $time_diff = self::get_human_time_diff_info($from, $to);
         $type = $time_diff['type'];
@@ -251,6 +308,7 @@ class SB_Core {
             SB_Post::change_custom_menu_url($args);
             SB_Option::change_option_url($args);
             SB_Option::change_widget_text_url($args);
+            SB_Term::change_meta_url($url, $site_url);
             add_action('wp_head', array('SB_Core', 'regenerate_htaccess_file'));
         } else {
             remove_action('wp_head', array('SB_Core', 'regenerate_htaccess_file'));
@@ -824,6 +882,85 @@ class SB_Core {
             'capability_type'     => $capability_type
         );
         register_post_type($slug, $args);
+    }
+
+    public static function wp_postviews_activated() {
+        if(function_exists('process_postviews') || function_exists('postviews_menu') || function_exists('the_views')) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function get_social_share_url($args = array()) {
+        $result = '';
+        $title = '';
+        $permalink = '';
+        $url = '';
+        $social_name = '';
+        $thumbnail = '';
+        $excerpt = '';
+        $language = SB_Option::get_default_language();
+        $twitter_account = '';
+        extract($args, EXTR_OVERWRITE);
+        if(empty($permalink)) {
+            $permalink = $url;
+        }
+        $permalink = urlencode($permalink);
+        if(empty($twitter_account)) {
+            $twitter_account = SB_Option::get_theme_social('twitter');
+            $twitter_account = basename($twitter_account);
+        }
+        if(empty($twitter_account)) {
+            $twitter_account = 'skylarkcob';
+        }
+        switch($social_name) {
+            case 'facebook':
+                $url = 'https://www.facebook.com/sharer/sharer.php';
+                $url = add_query_arg('u', $permalink, $url);
+                if(!empty($title)) {
+                    $url = add_query_arg('t', $title, $url);
+                }
+                $result = $url;
+                break;
+            case 'googleplus':
+                $url = 'http://plusone.google.com/_/+1/confirm';
+                $url = add_query_arg('hl', $language, $url);
+                $url = add_query_arg('url', $permalink, $url);
+                $result = $url;
+                break;
+            case 'twitter':
+                $url = 'http://twitter.com/share';
+                $url = add_query_arg('url', $permalink, $url);
+                if(!empty($title)) {
+                    $url = add_query_arg('text', $title, $url);
+                }
+                $url = add_query_arg('via', $twitter_account, $url);
+                $result = $url;
+                break;
+            case 'pinterest':
+                $url = 'http://www.pinterest.com/pin/create/button';
+                if(!empty($thumbnail)) {
+                    $url = add_query_arg('media', $thumbnail, $url);
+                }
+                $url = add_query_arg('url', $permalink, $url);
+                if(!empty($title)) {
+                    $url = add_query_arg('description', $title . ' ' . $permalink, $url);
+                }
+                $result = $url;
+                break;
+            case 'zingme':
+                $url = 'http://link.apps.zing.vn/share';
+                if(!empty($title)) {
+                    $url = add_query_arg('t', $title, $url);
+                }
+                $url = add_query_arg('u', $permalink, $url);
+                if(!empty($excerpt)) {
+                    $url = add_query_arg('desc', $excerpt, $url);
+                }
+                $result = $url;
+                break;
+        }
+        return $result;
     }
 
     public static function register_taxonomy($args = array()) {

@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0.1
-Stable tag: 1.2.4
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,8 +29,8 @@ SB Core is not only a plugin but also a framework, it contains core function for
 * [SB Banner Widget](https://wordpress.org/plugins/sb-banner-widget/)
 * [SB Clean](https://wordpress.org/plugins/sb-clean/)
 * [SB Comment](https://wordpress.org/plugins/sb-comment/)
-* [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
 * [SB Login Page](https://wordpress.org/plugins/sb-login-page/)
+* [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
 * [SB Post Widget](https://wordpress.org/plugins/sb-post-widget/)
 * [SB Tab Widget](https://wordpress.org/plugins/sb-tab-widget/)
 * [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
@@ -57,6 +57,16 @@ Please visit [homepage](http://hocwp.net) for more details.
 Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
+
+= 1.2.7 =
+* Update function to change url for term's meta.
+
+= 1.2.6 =
+Update to test all plugins and themes are compatible with SB Core.
+
+= 1.2.5 =
+* Hide SB Core plugin update messages on plugins page.
+* Update new check core functions.
 
 = 1.2.4 =
 Update function to check thing error.

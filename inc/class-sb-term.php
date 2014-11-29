@@ -47,6 +47,18 @@ class SB_Term {
         return $result;
     }
 
+    public static function change_meta_url($old_url, $new_url) {
+        $metas = SB_Option::get_term_metas();
+        $new_metas = array();
+        foreach($metas as $meta) {
+            if(isset($meta['thumbnail'])) {
+                $meta['thumbnail'] = str_replace($old_url, $new_url, $meta['thumbnail']);
+            }
+            array_push($new_metas, $meta);
+        }
+        SB_Option::update_term_metas($new_metas);
+    }
+
     public static function get_only_top_parents($taxonomy, $args = array()) {
         $args['parent'] = 0;
         return self::get($taxonomy, $args);

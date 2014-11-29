@@ -47,15 +47,17 @@ class SB_Plugin {
             switch($status['status']) {
                 case 'install':
                     if($status['url']) {
-                        echo '<a class="install-now button" href="' . $status['url'] . '" aria-label="' . esc_attr(sprintf(__( 'Install %s now', 'sb-core' ), $name)) . '">' . __('Install Now', 'sb-core') . '</a>';
+                        echo '<a class="install-now button" href="' . $status['url'] . '" title="' . esc_attr__(sprintf(__( 'Install plugin %s now', 'sb-core' ), $name)) . '">' . __('Install Now', 'sb-core') . '</a>';
                     }
                     break;
                 case 'update_available':
                     if($status['url']) {
-                        echo '<a class="button" href="' . $status['url'] . '" aria-label="' . esc_attr(sprintf(__('Update %s now', 'sb-core'), $name)) . '">' . __('Update Now', 'sb-core') . '</a>';
+                        echo '<a class="button update-now" href="' . admin_url('update-core.php') . '" title="' . esc_attr__(sprintf(__('Update plugin %s now', 'sb-core'), $name)) . '">' . __('Update Now', 'sb-core') . '</a>';
                     }
                     break;
                 case 'latest_installed':
+                    echo '<span class="button button-disabled" title="' . esc_attr__('This plugin is already installed and is up to date', 'sb-core') . ' ">' . __('Installed', 'sb-core') . '</span>';
+                    break;
                 case 'newer_installed':
                     echo '<span class="button button-disabled" title="' . esc_attr__('This plugin is already installed and is up to date', 'sb-core') . ' ">' . __('Installed', 'sb-core') . '</span>';
                     break;

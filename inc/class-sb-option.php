@@ -208,9 +208,22 @@ class SB_Option {
         return intval($value);
     }
 
+    public static function statistics_enabled() {
+        return self::utility_enabled('statistics');
+    }
+
     public static function utility_enabled($name) {
         $value = self::get_utility($name);
         return (bool)$value;
+    }
+
+    public static function get_channel_ui_connect_array() {
+        $channel_ids = self::get_theme_option_single_key('channel_ui_connect');
+        $result = array();
+        if(!empty($channel_ids)) {
+            $result = explode(',', $channel_ids);
+        }
+        return $result;
     }
 
     public static function get_theme_option_single_key($key_name) {

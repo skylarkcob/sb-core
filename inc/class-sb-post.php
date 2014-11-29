@@ -12,6 +12,14 @@ class SB_Post {
         return $result;
     }
 
+    public static function get_comment_number($post_id = '') {
+        return get_comments_number($post_id);
+    }
+
+    public static function the_comment_number($post_id = '') {
+        echo self::get_comment_number($post_id);
+    }
+
     public static function get_attachments($post_id) {
         return self::get_images($post_id);
     }
@@ -130,6 +138,16 @@ class SB_Post {
             <a href="<?php echo get_permalink($post_id); ?>"><?php echo $thumbnail_url; ?></a>
         </div>
         <?php
+    }
+
+    public static function the_thumbnail_crop_html_by_id($post_id, $width, $height) {
+        $args = array(
+            'width' => $width,
+            'height' => $height,
+            'crop' => true,
+            'post_id' => $post_id
+        );
+        self::the_thumbnail_html($args);
     }
 
     public static function the_thumbnail_crop_html($width, $height) {
@@ -260,9 +278,29 @@ class SB_Post {
         $result = trim($result, $separator);
         if(empty($result)) {
             $term = array_shift($terms);
-            $result = $term->name;
+            if(!SB_Core::is_error($term)) {
+                $result = $term->name;
+            }
         }
         echo $result;
+    }
+
+    public static function get_next_post_url() {
+        $result = '';
+        $post = get_adjacent_post(false, '', true);
+        if(!SB_Core::is_error($post)) {
+            $result = get_permalink($post);
+        }
+        return $result;
+    }
+
+    public static function get_previous_post_url() {
+        $result = '';
+        $post = get_adjacent_post(false, '', false);
+        if(!SB_Core::is_error($post)) {
+            $result = get_permalink($post);
+        }
+        return $result;
     }
 
     public static function the_term_name($post_id, $taxonomy, $args = array()) {
@@ -281,6 +319,62 @@ class SB_Post {
 
     public static function update_meta($post_id, $meta_key, $meta_value) {
         update_post_meta($post_id, $meta_key, $meta_value);
+    }
+
+    public static function get_views($post_id) {
+        $views = self::get_meta($post_id, 'views');
+        if(empty($views)) {
+            $views = 0;
+        }
+        return $views;
+    }
+
+    public static function the_temperature($post_id) {
+        $temp = self::get_temperature($post_id);
+        echo '<span class="temperature"><i class="fa fa-fire icon-left"></i><span class="count">' . $temp . '°</span></span>';
+    }
+
+    public static function the_temperature_html($post_id) {
+        $class = 'item-temp';
+        $temp = SB_Post::get_temperature($post_id);
+        if($temp < 50) {
+            $class = SB_PHP::add_string_with_space_before($class, 'temp-50');
+        } elseif($temp >= 50 && $temp < 250) {
+            $class = SB_PHP::add_string_with_space_before($class, 'temp-100');
+        } elseif($temp >= 250 && $temp < 500) {
+            $class = SB_PHP::add_string_with_space_before($class, 'temp-250');
+        } elseif($temp >= 500 && $temp < 700) {
+            $class = SB_PHP::add_string_with_space_before($class, 'temp-500');
+        } else {
+            $class = SB_PHP::add_string_with_space_before($class, 'temp-1000');
+        }
+        ?>
+        <div class="<?php echo $class; ?>"><?php SB_Post::the_temperature($post_id); ?></div>
+        <?php
+    }
+
+    public static function get_temperature($post_id) {
+        $result = 0;
+        $views = self::get_views($post_id);
+        if(0 < $views) {
+            $result = sqrt($views);
+            $result *= 5;
+            $result = ceil($result);
+        }
+        $comment_count = self::get_comment_number($post_id);
+        $result += $comment_count;
+        if(1 > $result) {
+            $result = 1;
+        } elseif(1000000 < $result) {
+            $result = 1000000;
+        }
+        return $result;
+    }
+
+    public static function update_views($post_id) {
+        $views = self::get_views($post_id);
+        $views++;
+        self::update_meta($post_id, 'views', $views);
     }
 
     public static function update_metas($post_id, $metas = array()) {
