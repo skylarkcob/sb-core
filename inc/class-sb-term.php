@@ -50,11 +50,11 @@ class SB_Term {
     public static function change_meta_url($old_url, $new_url) {
         $metas = SB_Option::get_term_metas();
         $new_metas = array();
-        foreach($metas as $meta) {
+        foreach($metas as $key => $meta) {
             if(isset($meta['thumbnail'])) {
                 $meta['thumbnail'] = str_replace($old_url, $new_url, $meta['thumbnail']);
             }
-            array_push($new_metas, $meta);
+            $new_metas[$key] = $meta;
         }
         SB_Option::update_term_metas($new_metas);
     }
