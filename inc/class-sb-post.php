@@ -13,7 +13,12 @@ class SB_Post {
     }
 
     public static function get_comment_number($post_id = '') {
-        return get_comments_number($post_id);
+        $comment_number = get_comments_number($post_id);
+        if($comment_number == 1) {
+            $comments = SB_Post::get_comments($post_id);
+            $comment_number = count($comments);
+        }
+        return $comment_number;
     }
 
     public static function the_comment_number($post_id = '') {
@@ -228,9 +233,19 @@ class SB_Post {
         self::update_meta($post_id, '_menu_item_url', $meta_value);
     }
 
-    public static function the_comment_link() {
+    public static function the_comment_link($post_id = 0) {
+        if($post_id == 0) {
+            $post_id = get_the_ID();
+        }
+        $comment_number = self::get_comment_number($post_id);
+        $comment_link = get_comments_link($post_id);
         if(!post_password_required() && (comments_open() || get_comments_number())) : ?>
-            <span class="comments-link post-comment"><i class="fa fa-comments icon-left"></i> <?php comments_popup_link( '<span class="count">0</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">1</span> <span class="text">' . __('comment', 'sb-core') . '</span>', '<span class="count">%</span> <span class="text">' . __('comments', 'sb-core') . '</span>'); ?></span>
+            <span class="comments-link post-comment">
+                <i class="fa fa-comments icon-left"></i>
+                <a href="<?php echo $comment_link; ?>">
+                    <?php echo '<span class="count">' . $comment_number . '</span> <span class="text">' . __('bình  luận', 'sb-core') . '</span>'; ?>
+                </a>
+            </span>
         <?php endif;
     }
 
@@ -471,15 +486,20 @@ class SB_Post {
         the_category(', ', '');
     }
 
-    public static function the_term($post_id, $taxonomy) {
-        the_terms($post_id, $taxonomy);
+    public static function get_comments($post_id, $args = array()) {
+        $args['post_id'] = $post_id;
+        return get_comments($args);
+    }
+
+    public static function the_term($post_id, $taxonomy, $before = '', $sep = ', ', $after = '') {
+        the_terms($post_id, $taxonomy, $before, $sep, $after);
     }
 
     public static function the_term_html($post_id, $taxonomy) {
         $terms = get_the_terms($post_id, $taxonomy);
         if($terms && ! is_wp_error($terms)) : ?>
         <span class="cat-links">
-		        <span class="entry-utility-prep"><?php _e('Posted in:', 'sb-core'); ?> </span>
+		        <span class="entry-utility-prep"><?php _e('Chuyên mục:', 'sb-core'); ?> </span>
             <?php the_terms($post_id, $taxonomy); ?>
             </span>
     <?php endif;

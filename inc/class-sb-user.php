@@ -16,6 +16,10 @@ class SB_User {
         return get_users($args);
     }
 
+    public static function can($action) {
+        return current_user_can($action);
+    }
+
     public static function get_administrators($args = array()) {
         $args['role'] = 'administrator';
         return self::get($args);

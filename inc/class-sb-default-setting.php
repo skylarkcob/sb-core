@@ -2,7 +2,7 @@
 class SB_Default_Setting {
 	public static function sb_paginate() {
 		$options = array(
-			'label' => 'Pages:',
+			'label' => 'Trang',
 			'next_text' => '&raquo;',
 			'previous_text' => '&laquo;',
 			'range' => 3,

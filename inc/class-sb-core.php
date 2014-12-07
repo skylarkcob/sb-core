@@ -893,27 +893,24 @@ class SB_Core {
 
     public static function get_social_share_url($args = array()) {
         $result = '';
-        $title = '';
-        $permalink = '';
-        $url = '';
+        $title = get_the_title();
+        $permalink = get_the_permalink();
+        $url = $permalink;
         $social_name = '';
         $thumbnail = '';
-        $excerpt = '';
+        $excerpt = get_the_excerpt();
         $language = SB_Option::get_default_language();
-        $twitter_account = '';
+        $twitter_account = 'skylarkcob';
         extract($args, EXTR_OVERWRITE);
-        if(empty($permalink)) {
-            $permalink = $url;
-        }
         $permalink = urlencode($permalink);
         if(empty($twitter_account)) {
             $twitter_account = SB_Option::get_theme_social('twitter');
             $twitter_account = basename($twitter_account);
         }
-        if(empty($twitter_account)) {
-            $twitter_account = 'skylarkcob';
-        }
         switch($social_name) {
+            case 'email':
+                $result = 'mailto:email@hocwp.net?subject=' . $title . '&amp;body=' . $permalink;
+                break;
             case 'facebook':
                 $url = 'https://www.facebook.com/sharer/sharer.php';
                 $url = add_query_arg('u', $permalink, $url);

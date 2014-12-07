@@ -515,7 +515,8 @@ class SB_PHP {
     public static function get_domain_from_email($email) {
         $result = '';
         if(self::is_email_valid($email)) {
-            $result = array_pop(explode('@', $email));
+            $parts = explode('@', $email);
+            $result = array_pop($parts);
         }
         return $result;
     }

@@ -265,6 +265,9 @@ class SB_Option {
 
     public static function get_scroll_top() {
         $result = self::get_theme_option(array('keys' => array('scroll_top')));
+        if(!(bool)$result) {
+            $result = self::utility_enabled('scroll_top');
+        }
         return (bool)$result;
     }
 
