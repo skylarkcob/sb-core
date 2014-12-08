@@ -33,6 +33,8 @@ require SB_CORE_INC_PATH . '/class-sb-list-plugin.php';
 
 require SB_CORE_INC_PATH . '/class-sb-meta-box.php';
 
+require SB_CORE_INC_PATH . '/class-sb-meta-field.php';
+
 require SB_CORE_INC_PATH . '/class-sb-ajax.php';
 
 require SB_CORE_INC_PATH . '/sb-admin.php';

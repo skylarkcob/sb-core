@@ -461,6 +461,10 @@
                 return;
             }
             e.preventDefault();
+            if(!media_container.length) {
+                media_container = that.closest('p.sb-media-upload');
+                image_input = media_container.find('input');
+            }
             if(file_frame) {
                 file_frame.uploader.uploader.param('post_id', new_post_id);
                 file_frame.open();
@@ -471,8 +475,10 @@
                 image_url = window.sb_receive_media_upload(file_frame);
                 if($.trim(image_url)) {
                     image_input.val(image_url);
-                    image_preview_container.html('<img src="' + image_url + '">');
-                    image_preview_container.addClass('has-image');
+                    if(image_preview_container.length) {
+                        image_preview_container.html('<img src="' + image_url + '">');
+                        image_preview_container.addClass('has-image');
+                    }
                 }
                 file_frame = null;
             });
@@ -489,9 +495,15 @@
                 return;
             }
             e.preventDefault();
+            if(!media_container.length) {
+                media_container = that.closest('p.sb-media-upload');
+                image_input = media_container.find('input');
+            }
             image_input.val('');
-            image_preview_container.removeClass('has-image');
-            image_preview_container.html('');
+            if(!image_preview_container.length) {
+                image_preview_container.removeClass('has-image');
+                image_preview_container.html('');
+            }
         });
 
         $('.sb-media-upload .image-url').on('change input', function(e){

@@ -128,6 +128,19 @@ a:focus {
     min-height: 50px;
 }
 
+.display-block {
+    display: block;
+}
+.width-small {
+    width: 25%;
+}
+.width-medium {
+    width: 50%;
+}
+.width-large {
+    width: 100%;
+}
+
 /* ======================================
 	SB Widget
 ====================================== */
@@ -840,4 +853,10 @@ ul.sb-sortable-list {
 .sb-widget fieldset p {
     margin-bottom: 5px;
     margin-top: 0;
+}
+
+/* ================= META BOX ================= */
+
+.image-upload-url {
+    max-width: 80%;
 }
