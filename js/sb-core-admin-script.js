@@ -7,14 +7,20 @@
         old_post_id = '',
         body = $('body');
 
+    window.sb_default_quick_tags = function() {
+        QTags.addButton('hr', 'hr', '<hr>\n', '', 'w');
+        QTags.addButton('dl', 'dl', '<dl>\n', '</dl>\n\n', 'w');
+        QTags.addButton('dt', 'dt', '\t<dt>', '</dt>\n', 'w');
+        QTags.addButton('dd', 'dd', '\t<dd>', '</dd>\n', 'w');
+    };
+
+    window.sb_get_admin_post_type = function() {
+        return $('input[name="post_type"]').val();
+    }
+
     function sb_is_image_url(url) {
         var result = true,
             extension = url.slice(-4);
-        $('<img>', {
-            src: url,
-            error: function() { result = false; },
-            load: function() { result = true; }
-        });
         if(extension != '.png' && extension != '.jpg' && extension != '.gif' && extension != '.bmp'  && extension != 'jpeg') {
             result = false;
         }
@@ -500,19 +506,23 @@
                 image_input = media_container.find('input');
             }
             image_input.val('');
-            if(!image_preview_container.length) {
+            if(image_preview_container.length) {
                 image_preview_container.removeClass('has-image');
                 image_preview_container.html('');
             }
         });
 
-        $('.sb-media-upload .image-url').on('change input', function(e){
+        $('.sb-media-upload .image-url').bind('change input', function(e){
             e.preventDefault();
             var that = $(this),
                 media_container = that.closest('div.sb-media-upload'),
                 image_preview_container = media_container.find('.image-preview'),
                 image_text = that.val();
-            if(sb_is_url(image_text) && sb_is_image_url(image_text)) {
+            if(!media_container.length) {
+                media_container = that.closest('p.sb-media-upload');
+                image_preview_container = media_container.find('.image-preview');
+            }
+            if(image_text.trim() && sb_is_image_url(image_text)) {
                 image_preview_container.html('<img src="' + image_text + '">');
                 image_preview_container.addClass('has-image');
             } else {

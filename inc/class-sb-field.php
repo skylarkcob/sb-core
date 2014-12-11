@@ -79,6 +79,26 @@ class SB_Field {
         echo '</div>';
     }
 
+    public static function media_upload_group($args = array()) {
+        $name = isset($args['name']) ? trim($args['name']) : '';
+        if(empty($name)) {
+            return;
+        }
+        $name = sb_build_meta_name($name);
+        $value = isset($args['value']) ? trim($args['value']) : '';
+        $field_class = isset($args['field_class']) ? trim($args['field_class']) : '';
+        $field_class = SB_PHP::add_string_with_space_before($field_class, 'image-url image-upload-url');
+        $upload_button_class = isset($args['upload_button_class']) ? trim($args['upload_button_class']) : '';
+        $remove_button_class = isset($args['remove_button_class']) ? trim($args['remove_button_class']) : '';
+        $upload_button_class = SB_PHP::add_string_with_space_before($upload_button_class, 'sb-button button sb-insert-media sb-add_media');
+        $remove_button_class = SB_PHP::add_string_with_space_before($remove_button_class, 'sb-button button sb-remove-media sb-remove-image');
+        ?>
+        <input type="url" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" autocomplete="off" class="<?php echo $field_class; ?>">
+        <a href="javascript:;" class="<?php echo $upload_button_class; ?>" title="<?php _e('Insert image', 'sb-core'); ?>"><?php _e('Upload', 'sb-core'); ?></a>
+        <a href="javascript:;" class="<?php echo $remove_button_class; ?>" title="<?php _e('Remove image', 'sb-core'); ?>"><?php _e('Remove', 'sb-core'); ?></a>
+        <?php
+    }
+
     public static function media_upload_with_remove_and_preview($args = array()) {
         $name = '';
         $value = '';

@@ -14,6 +14,22 @@ class SB_Core {
         return admin_url('admin-ajax.php');
     }
 
+    public static function get_all_shortcodes() {
+        global $shortcode_tags;
+        return $shortcode_tags;
+    }
+
+    public static function get_all_sb_shortcodes() {
+        $shortcodes = self::get_all_shortcodes();
+        $result = array();
+        foreach($shortcodes as $key => $function) {
+            if('sb' == substr($key, 0, 2) && 'sb' == substr($function, 0, 2)) {
+                $result[$key] = $function;
+            }
+        }
+        return $result;
+    }
+
     public static function get_default_theme() {
         $themes = wp_get_themes();
         $wp_theme = '';

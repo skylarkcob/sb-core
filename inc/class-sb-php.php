@@ -4,6 +4,10 @@ class SB_PHP {
 
     }
 
+    public static function currency_format_vietnamese($number) {
+        return number_format($number, 0, '.', ',') . ' ₫';
+    }
+
     public static function clean_url($url) {
         $url = self::lowercase($url);
         $url = str_replace(' ', '-', $url);
@@ -270,6 +274,16 @@ class SB_PHP {
         $xpath = new DOMXPath($doc);
         $src = $xpath->evaluate('string(//img/@src)');
         return $src;
+    }
+
+    public static function get_all_image_from_string($data) {
+        preg_match_all('/<img[^>]+>/i', $data, $matches);
+        return $matches;
+    }
+
+    public static function remove_all_image_from_string($data) {
+        $data = preg_replace('/<img[^>]+\>/i', '', $data);
+        return $data;
     }
 
     public static function count_image($content) {

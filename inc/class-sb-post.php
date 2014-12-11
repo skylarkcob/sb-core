@@ -224,6 +224,12 @@ class SB_Post {
         );
     }
 
+    public static function get_first_term($post_id, $taxonomy) {
+        $terms = self::get_terms($post_id, $taxonomy);
+        $first_term = array_shift($terms);
+        return $first_term;
+    }
+
     public static function get_types($args = array(), $output = 'names', $operator = 'and') {
         $args['public'] = true;
         return get_post_types($args, $output, $operator);

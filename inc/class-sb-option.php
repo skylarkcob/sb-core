@@ -41,6 +41,10 @@ class SB_Option {
         update_option('bcn_options', $options);
     }
 
+    public static function responsive_enabled() {
+        return self::utility_enabled('responsive');
+    }
+
     public static function get_wpseo_internallinks() {
         global $sb_wpseo_internallinks;
         if(!$sb_wpseo_internallinks || empty($sb_wpseo_internallinks) ||!is_array($sb_wpseo_internallinks)) {

@@ -39,6 +39,13 @@ class SB_Admin_Custom {
         return isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
     }
 
+    public static function add_media_upload_to_post_page() {
+        $pagenow = SB_Admin_Custom::get_page_now();
+        if('post.php' == $pagenow || 'post-new.php' == $pagenow) {
+            wp_enqueue_media();
+        }
+    }
+
     public static function get_page_now() {
         global $pagenow;
         return $pagenow;
