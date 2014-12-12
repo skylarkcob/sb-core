@@ -606,6 +606,19 @@ class SB_Core {
         }
     }
 
+    public static function get_visitor_ip() {
+        $result = '';
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $result = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $result = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $result = $_SERVER['REMOTE_ADDR'];
+        }
+        $result = apply_filters('wpb_get_ip', $result);
+        return $result;
+    }
+
     public static function password_compare($plain_text, $hashed) {
         if(!class_exists('PasswordHash')) {
             require ABSPATH . 'wp-includes/class-phpass.php';

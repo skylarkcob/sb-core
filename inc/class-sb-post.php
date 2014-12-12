@@ -342,12 +342,32 @@ class SB_Post {
         update_post_meta($post_id, $meta_key, $meta_value);
     }
 
+    public static function update_sb_meta($post_id, $meta_key, $meta_value) {
+        $meta_key = sb_build_meta_name($meta_key);
+        self::update_meta($post_id, $meta_key, $meta_value);
+    }
+
+    public static function comment_closed($post_id) {
+        $result = false;
+        if(!comments_open($post_id)) {
+            $result = true;
+        }
+        return $result;
+    }
+
     public static function get_views($post_id) {
         $views = self::get_meta($post_id, 'views');
         if(empty($views)) {
             $views = 0;
         }
         return $views;
+    }
+
+    public static function insert_comment($post_id, $comment_data) {
+        $comment_data['comment_post_ID'] = $post_id;
+        $comment_id = wp_insert_comment($comment_data);
+        $comment_id = intval($comment_id);
+        return $comment_id;
     }
 
     public static function the_temperature($post_id) {

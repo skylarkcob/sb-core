@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,9 +58,15 @@ Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
 
+= 1.3.8 =
+* Add function to get operating system.
+* Add function to get browser.
+* Add function to get country code.
+
 = 1.3.7 =
 * Add more default php functions.
 * Add meta box field number.
+* Add function to get visitor IP.
 
 = 1.3.6 =
 * Add function to load mobile style for theme.
