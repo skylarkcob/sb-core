@@ -295,6 +295,14 @@ class SB_PHP {
         return date($format);
     }
 
+    public static function get_week_of_date($date) {
+        return date('W', strtotime($date));
+    }
+
+    public static function get_month_of_date($date) {
+        return date('n', strtotime($date));
+    }
+
     public static function generate_token() {
         return md5(uniqid(mt_rand(), true));
     }
@@ -464,7 +472,7 @@ class SB_PHP {
         return self::ip_details($ip);
     }
 
-    function ip_info_geoplugin($ip = null, $purpose = 'location', $deep_detect = true) {
+    public static function ip_info_geoplugin($ip = null, $purpose = 'location', $deep_detect = true) {
         $output = null;
         if(!self::is_ip_valid($ip)) {
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -531,6 +539,39 @@ class SB_PHP {
             }
         }
         return $output;
+    }
+
+    public static function get_geo_info($ip_address) {
+        $result = '';
+        if(self::is_ip_valid($ip_address)) {
+            $host = 'http://www.geoplugin.net/php.gp?ip=' . $ip_address;
+            if(function_exists('curl_init')) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $host);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'SB Geo');
+                $result = curl_exec($ch);
+                curl_close ($ch);
+            } elseif(ini_get('allow_url_fopen')) {
+                $result = file_get_contents($host, 'r');
+            }
+        }
+        $result = unserialize($result);
+        return $result;
+    }
+
+    public static function is_geoplugin_valid($geo) {
+        if(is_array($geo) && isset($geo['geoplugin_status']) && $geo['geoplugin_status'] == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function is_today($date) {
+        if(date('Ymd') == date('Ymd', strtotime($date))) {
+            return true;
+        }
+        return false;
     }
 
     public static function get_country_code_by_ip($ip_address) {
@@ -837,6 +878,58 @@ class SB_PHP {
         self::set_session($key, $old);
     }
 
+    public static function set_cookie($key, $value, $expire, $domain = '') {
+        setcookie($key, $value, $expire, '/', $domain);
+    }
+
+    public static function delete_cookie($key, $expire, $domain = '') {
+        unset($_COOKIE[$key]);
+        self::set_cookie($key, '', $expire, $domain);
+    }
+
+    public static function cookie_enabled() {
+        setcookie('sb_check_cookie_enabled', 'sb_test_cookie', time() + 3600, '/');
+        $result = false;
+        if(count($_COOKIE) > 0) {
+            $result = true;
+        }
+        return $result;
+    }
+
+    public static function get_cookie_array($key) {
+        $value = isset($_COOKIE[$key]) ? $_COOKIE[$key] : '';
+        $value = trim($value);
+        $value = str_replace('\\', '', $value);
+        $value = unserialize($value);
+        $value = (array)$value;
+        $value = array_filter($value);
+        return $value;
+    }
+
+    public static function set_cookie_minute($key, $value, $minute, $domain = '') {
+        self::set_cookie($key, $value, time() + (60 * $minute), $domain);
+    }
+
+    public static function set_cookie_hour($key, $value, $hour, $domain = '') {
+        $hour *= 60;
+        self::set_cookie_minute($key, $value, $hour, $domain);
+    }
+
+    public static function set_cookie_day($key, $value, $day, $domain = '') {
+        $day *= 24;
+        self::set_cookie_hour($key, $value, $day, $domain);
+    }
+
+    public static function set_cookie_week($key, $value, $week, $domain = '') {
+        $week *= 7;
+        self::set_cookie_day($key, $value, $week, $domain);
+    }
+
+    public static function set_cookie_month($key, $value, $month, $domain = '') {
+        $month *= 30;
+        self::set_cookie_day($key, $value, $month, $domain);
+    }
+
     public static function sort_array_by_key_array($array = array(), $order = array()) {
         $ordered = array();
         foreach($order as $key) {
@@ -905,8 +998,15 @@ class SB_PHP {
         return abs($days);
     }
 
-    public static function is_today($date) {
+    public static function is_this_week_day($date) {
         if(date('Ymd') == date('Ymd', strtotime($date))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function is_yesterday($date) {
+        if(date('Ymd', strtotime($date)) == date('Ymd', strtotime(self::get_current_date_time()) - 86400)) {
             return true;
         }
         return false;

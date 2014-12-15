@@ -232,6 +232,18 @@ class SB_Option {
         return self::get_by_key($args);
     }
 
+    public static function get_statistics_option($args = array()) {
+        if(isset($args['keys']) && is_array($args['keys'])) {
+            array_unshift($args['keys'], 'statistics');
+        }
+        return self::get_by_key($args);
+    }
+
+    public static function get_statistics_switch($name) {
+        $value = self::get_statistics_option(array('keys' => array($name)));
+        return intval($value);
+    }
+
     public static function get_utility($name) {
         $value = self::get_utility_option(array('keys' => array($name)));
         return intval($value);
@@ -342,6 +354,73 @@ class SB_Option {
 
     public static function update_option($option_name, $option_value) {
         update_option($option_name, $option_value);
+    }
+
+    public static function get_visits() {
+        $value = intval(get_option('visits'));
+        if($value < 1) {
+            $value = 1;
+        }
+        return $value;
+    }
+
+    public static function get_visits_today() {
+        $value = intval(get_option('visits_today'));
+        if($value < 1) {
+            $value = 1;
+        }
+        return $value;
+    }
+
+    public static function get_visitor_online() {
+        $value = intval(get_option('visitor_online'));
+        if($value < 1) {
+            $value = 1;
+        }
+        return $value;
+    }
+
+    public static function get_user_online() {
+        return intval(get_option('user_online'));
+    }
+
+    public static function get_bot_online() {
+        return intval(get_option('bot_online'));
+    }
+
+    public static function get_guest_online() {
+        return intval(get_option('guest_online'));
+    }
+
+    public static function get_visits_yesterday() {
+        $value = intval(get_option('visits_yesterday'));
+        return $value;
+    }
+
+    public static function get_visits_this_week() {
+        return intval(get_option('visits_this_week'));
+    }
+
+    public static function get_visits_this_month() {
+        return intval(get_option('visits_this_month'));
+    }
+
+    public static function get_today() {
+        return get_option('sb_today');
+    }
+
+    public static function get_tomorrow() {
+        return get_option('sb_tomorrow');
+    }
+
+    public static function get_yesterday() {
+        return get_option('sb_yesterday');
+    }
+
+    public static function update_visits() {
+        $visits = intval(get_option('visits'));
+        $visits++;
+        update_option('visits', $visits);
     }
 
     public static function get_theme_rss_feed() {
