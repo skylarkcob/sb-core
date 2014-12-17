@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.0.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Please visit [homepage](http://hocwp.net) for more details.
 Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
+Add function to get user local information.
+
+= 1.4.1 =
 
 = 1.4.0 =
 * Add more statistics function.

@@ -50,6 +50,11 @@ class SB_PHP {
         return $result;
     }
 
+    public static function get_user_agent() {
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        return $user_agent;
+    }
+
     public static function get_browser() {
         $result = 'Unknown Browser';
         $browsers = array(
@@ -906,6 +911,10 @@ class SB_PHP {
         return $value;
     }
 
+    public static function get_cookie($key) {
+        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : '';
+    }
+
     public static function set_cookie_minute($key, $value, $minute, $domain = '') {
         self::set_cookie($key, $value, time() + (60 * $minute), $domain);
     }
@@ -981,12 +990,60 @@ class SB_PHP {
         return self::is_string_contain($string, $key);
     }
 
+    public static function get_all_safe_char($special_char = false) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if($special_char) {
+            $characters .= '{}#,!_@^';
+            $characters .= '():.|`$';
+            $characters .= '[];?=+-*~%';
+        }
+        return $characters;
+    }
+
+    public static function random_string($length = 10, $special_char = false) {
+        $characters = self::get_all_safe_char($special_char);
+        $len = strlen($characters);
+        $result = '';
+        for($i = 0; $i < $length; $i++) {
+            $random_char = $characters[rand(0, $len - 1)];
+            $result .= $random_char;
+        }
+        return $result;
+    }
+
     public  static function add_string_unique($old_string, $text) {
         if(!self::is_string_contain($old_string, $text)) {
             $old_string .= $text;
         }
         $old_string = trim($old_string);
         return $old_string;
+    }
+
+    public static function get_version() {
+        return phpversion();
+    }
+
+    public static function get_pc_ip() {
+        $version = self::get_version();
+        $result = '';
+        if(function_exists('getHostByName')) {
+            if(version_compare($version, '5.3.0') == -1 && function_exists('php_uname')) {
+                $result = getHostByName(php_uname('n'));
+            } elseif(function_exists('getHostName')) {
+                $result = getHostByName(getHostName());
+            }
+        }
+        return $result;
+    }
+
+    public static function get_pc_name() {
+        $result = '';
+        if(function_exists('gethostname')) {
+            $result = gethostname();
+        } else {
+            $result = php_uname('n');
+        }
+        return $result;
     }
 
     public static function count_next_day($from, $to) {
