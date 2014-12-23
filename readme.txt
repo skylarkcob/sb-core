@@ -3,8 +3,8 @@ Contributors: skylarkcob
 Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
-Tested up to: 4.0.1
-Stable tag: 1.4.1
+Tested up to: 4.1
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,16 +50,34 @@ Please visit [homepage](http://hocwp.net) for more details.
 
 == Screenshots ==
 
-Please visit [homepage](http://hocwp.net) for more details.
+1. The main option page supported by SB Core.
 
 == Upgrade Notice ==
 
 Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
-Add function to get user local information.
+
+= 1.4.5 =
+* Update function to replace url from post content.
+* Translate human time diff function to Vietnamese.
+
+= 1.4.4 =
+* Add function to change url in post content.
+* Add screenshots.
+
+= 1.4.3 =
+* Add function to convert string to datetime.
+* Test up to WordPress 4.1
+* Update javascript function to format number.
+* Add function to get child terms.
+* Add functions for support theme sticky posts.
+
+= 1.4.2 =
+Update function to change breadcrumb separator.
 
 = 1.4.1 =
+Add function to get user local information.
 
 = 1.4.0 =
 * Add more statistics function.

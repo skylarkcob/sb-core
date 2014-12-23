@@ -27,6 +27,11 @@ class SB_Query {
         return self::get_post_by_term($term_id, 'category', $args);
     }
 
+    public static function get_sticky_posts($args = array()) {
+        $args['post__in'] = SB_Post::get_sticky_post_ids();
+        return new WP_Query($args);
+    }
+
     public static function get_post_by_recent_comment($args = array()) {
         $posts_per_page = self::get_posts_per_page();
         extract($args, EXTR_OVERWRITE);

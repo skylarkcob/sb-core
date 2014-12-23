@@ -911,6 +911,12 @@ class SB_PHP {
         return $value;
     }
 
+    public static function string_to_datetime($string, $format = 'Y-m-d H:i:s') {
+        $string = str_replace('/', '-', $string);
+        $string = trim($string);
+        return date($format, strtotime($string));
+    }
+
     public static function get_cookie($key) {
         return isset($_COOKIE[$key]) ? $_COOKIE[$key] : '';
     }

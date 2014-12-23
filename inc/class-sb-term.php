@@ -149,6 +149,12 @@ class SB_Term {
         return $terms;
     }
 
+    public static function get_childrens($parent_id, $taxonomy, $args = array()) {
+        $args['child_of'] = $parent_id;
+        $terms = self::get($taxonomy, $args);
+        return $terms;
+    }
+
     public static function get_category_no_childrens($args = array()) {
         return self::get_no_childrens('category', $args);
     }

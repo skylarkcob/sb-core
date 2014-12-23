@@ -35,7 +35,7 @@ class SB_Option {
     public static function edit_bcn_breadcrumb_sep() {
         $options = self::get_bcn_options();
         $sep = isset($options['hseparator']) ? $options['hseparator'] : '/';
-        if(SB_PHP::is_string_contain($sep, 'span')) {
+        if(SB_PHP::is_string_contain($sep, 'span') && !SB_PHP::is_string_contain($sep, 'class')) {
             $options['hseparator'] = '<span class="sep">' . trim($sep) . '</span>';
         }
         update_option('bcn_options', $options);
@@ -56,7 +56,7 @@ class SB_Option {
     public static function edit_breadcrumb_sep() {
         $options = self::get_wpseo_internallinks();
         $sep = isset($options['breadcrumbs-sep']) ? $options['breadcrumbs-sep'] : '/';
-        if(!SB_PHP::is_string_contain($sep, 'span')) {
+        if(!SB_PHP::is_string_contain($sep, 'span') && !SB_PHP::is_string_contain($sep, 'class')) {
             $options['breadcrumbs-sep'] = '<span class="sep">' . trim($sep) . '</span>';
         }
         update_option('wpseo_internallinks', $options);
@@ -204,6 +204,12 @@ class SB_Option {
             }
         }
         return $result;
+    }
+
+    public static function build_sb_theme_option_name($key_array) {
+        array_unshift($key_array, 'theme');
+        $key_name = self::build_sb_option_name($key_array);
+        return $key_name;
     }
 
     public static function build_sb_utility_option_name($key_array) {

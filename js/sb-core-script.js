@@ -7,7 +7,8 @@
     };
 
     window.sb_number_format = function(number, separator, currency) {
-        currency = currency || 'đ';
+        currency = currency || '₫';
+        separator = separator || ',';
         var number_string = number.toString(),
             decimal = '.',
             numbers = number_string.split('.'),
@@ -24,14 +25,16 @@
         number_len = parseInt(number_string.length);
         last = number_string.slice(-3);
         if(number_len > 3) {
-            result = separator + last;
+            result += separator + last;
         } else {
-            result = last;
+            result += last;
         }
+
         while(number_len > 3) {
             number_len -= 3;
             number_string = number_string.slice(0, number_len);
             last = number_string.slice(-3)
+
             if(number_len <= 3) {
                 result = last + result;
             } else {
@@ -42,6 +45,7 @@
             result += decimal + numbers[1];
         }
         result += currency;
+        result = $.trim(result);
         return result;
     };
 

@@ -216,32 +216,32 @@ class SB_Core {
         $value = $time_diff['value'];
         switch($type) {
             case 'second':
-                $phrase = sprintf(__('%d second ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d seconds ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d giây trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d giây trước', 'sb-core'), $value);
                 break;
             case 'minute':
-                $phrase = sprintf(__('%d minute ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d minutes ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d phút trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d phút trước', 'sb-core'), $value);
                 break;
             case 'hour':
-                $phrase = sprintf(__('%d hour ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d hours ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d giờ trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d giờ trước', 'sb-core'), $value);
                 break;
             case 'day':
-                $phrase = sprintf(__('%d day ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d days ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d ngày trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d ngày trước', 'sb-core'), $value);
                 break;
             case 'week':
-                $phrase = sprintf(__('%d week ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d weeks ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d tuần trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d tuần trước', 'sb-core'), $value);
                 break;
             case 'month':
-                $phrase = sprintf(__('%d month ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d months ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d tháng trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d tháng trước', 'sb-core'), $value);
                 break;
             case 'year':
-                $phrase = sprintf(__('%d year ago', 'sb-core'), $value);
-                $phrase_many = sprintf(__('%d years ago', 'sb-core'), $value);
+                $phrase = sprintf(__('%d năm trước', 'sb-core'), $value);
+                $phrase_many = sprintf(__('%d năm trước', 'sb-core'), $value);
                 break;
         }
         if($value <= 1) {
@@ -326,6 +326,7 @@ class SB_Core {
             SB_Option::change_widget_text_url($args);
             SB_Term::change_meta_url($url, $site_url);
             add_action('wp_head', array('SB_Core', 'regenerate_htaccess_file'));
+            SB_Post::change_all_url(array('url' => $url, 'site_url' => $site_url));
         } else {
             remove_action('wp_head', array('SB_Core', 'regenerate_htaccess_file'));
         }

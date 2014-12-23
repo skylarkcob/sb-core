@@ -93,6 +93,10 @@ class SB_User {
         return wp_get_current_user();
     }
 
+    public static function get_profile_url() {
+        return admin_url('profile.php');
+    }
+
     public static function get_meta($user_id, $meta_key) {
         return get_user_meta($user_id, $meta_key, true);
     }
