@@ -49,6 +49,9 @@ class SB_Term {
 
     public static function change_meta_url($old_url, $new_url) {
         $metas = SB_Option::get_term_metas();
+        if(!is_array($metas)) {
+            return;
+        }
         $new_metas = array();
         foreach($metas as $key => $meta) {
             if(isset($meta['thumbnail'])) {

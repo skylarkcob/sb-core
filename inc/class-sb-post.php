@@ -69,7 +69,11 @@ class SB_Post {
         $query = self::get_all();
         if($query->have_posts()) {
             $my_posts = $query->posts;
+            global $post;
             foreach($my_posts as $post) {
+                if(SB_Core::is_error($post)) {
+                    continue;
+                }
                 setup_postdata($post);
                 $args['post_content'] = get_the_content();
                 $args['post_id'] = get_the_ID();
@@ -527,8 +531,14 @@ class SB_Post {
     public static function get_menu_custom_items() {
         $result = array();
         $menus = wp_get_nav_menus();
+        if(!is_array($menus)) {
+            return;
+        }
         foreach($menus as $menu) {
             $menu_items = wp_get_nav_menu_items($menu->term_id);
+            if(!is_array($menu_items)) {
+                continue;
+            }
             foreach($menu_items as $item) {
                 if('custom' == $item->type) {
                     array_push($result, $item);
@@ -560,6 +570,9 @@ class SB_Post {
             return;
         }
         $menu_items = self::get_menu_custom_items();
+        if(!is_array($menu_items)) {
+            return;
+        }
         foreach($menu_items as $item) {
             if('trang-chu' == $item->post_name || 'home' == $item->post_name) {
                 $item_url = $item->url;
@@ -604,6 +617,14 @@ class SB_Post {
         $args['post_title'] = wp_strip_all_tags($args['post_title']);
         $post_id = wp_insert_post($args);
         return $post_id;
+    }
+
+    public static function get_all_image_from_content($content) {
+        return SB_PHP::get_all_image_from_string($content);
+    }
+
+    public static function get_all_image_html_from_content($content) {
+        return SB_PHP::get_all_image_html_from_string($content);
     }
 
     public static function get_author_link() {

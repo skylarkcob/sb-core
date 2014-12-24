@@ -369,6 +369,21 @@ class SB_PHP {
         return $matches;
     }
 
+    public static function get_all_image_html_from_string($data) {
+        $matches = self::get_all_image_from_string($data);
+        $result = array();
+        foreach($matches as $image) {
+            if(is_array($image)) {
+                foreach($image as $new_image) {
+                    array_push($result, $new_image);
+                }
+            } else {
+                array_push($result, $image);
+            }
+        }
+        return $result;
+    }
+
     public static function remove_all_image_from_string($data) {
         $data = preg_replace('/<img[^>]+\>/i', '', $data);
         return $data;

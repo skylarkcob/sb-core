@@ -399,6 +399,33 @@ class SB_Field {
         <?php
     }
 
+    public static function select_page($args = array()) {
+        $pages = SB_Post::get_all('page');
+        $id = '';
+        $name = '';
+        $description = '';
+        $container_class = '';
+        $value = '';
+        $field_class = '';
+        if(is_array($args)) {
+            extract($args, EXTR_OVERWRITE);
+        }
+        ?>
+        <div class="<?php echo $container_class; ?>">
+            <select id="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($name); ?>" class="<?php echo $field_class; ?>" autocomplete="off">
+                <option value="0"><?php _e('Select page:', 'sb-core'); ?></option>
+                <?php if($pages->have_posts()) : ?>
+                    <?php while($pages->have_posts()) : $pages->the_post(); ?>
+                        <?php $post_id = get_the_ID(); ?>
+                        <option value="<?php the_ID(); ?>" <?php selected($value, $post_id); ?>><?php the_title(); ?></option>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                <?php endif; ?>
+            </select>
+            <p class="description"><?php echo $description; ?></p>
+        </div>
+    <?php
+    }
+
     public static function select_term_field($args = array()) {
         self::select_term($args);
     }
