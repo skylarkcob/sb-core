@@ -14,6 +14,16 @@
         document.cookie = my_cookies;
     }
 
+    window.sb_stop_mouse_wheel = function(e) {
+        if(!e) {
+            e = window.event;
+        }
+        if(e.preventDefault) {
+            e.preventDefault();
+        }
+        e.returnValue = false;
+    }
+
     window.sb_number_format = function(number, separator, currency) {
         currency = currency || '₫';
         separator = separator || ',';

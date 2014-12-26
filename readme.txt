@@ -60,6 +60,7 @@ Please update all SB Plugins after you updated SB Core.
 
 = 1.4.8 =
 * Add function to set cookie via javascript.
+* Add function to stop mouse wheel via javascript.
 
 = 1.4.7 =
 * Add function to get admin email.
