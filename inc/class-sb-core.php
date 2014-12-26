@@ -30,6 +30,29 @@ class SB_Core {
         return $result;
     }
 
+    public static function create_page_template($args = array()) {
+        $plugin_path = isset($args['plugin_path']) ? $args['plugin_path'] : '';
+        $folder_path = isset($args['folder_path']) ? $args['folder_path'] : '';
+        $templates = isset($args['templates']) ? $args['templates'] : array();
+        if(empty($plugin_path) || !is_array($templates)) {
+            return;
+        }
+        $page_template = new SB_Page_Template();
+        $page_template->set_plugin_path($plugin_path);
+        if(!empty($folder_path)) {
+            $page_template->set_folder_path($folder_path);
+        }
+        $page_template->add_array_templates($templates);
+        $page_template->hook();
+    }
+
+    public static function the_recaptcha() {
+        $site_key = SB_Option::get_recaptcha_site_key();
+        if(!empty($site_key)) {
+            echo '<div class="g-recaptcha" data-sitekey="' . $site_key . '"></div>';
+        }
+    }
+
     public static function get_default_theme() {
         $themes = wp_get_themes();
         $wp_theme = '';

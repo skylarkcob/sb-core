@@ -35,6 +35,12 @@ require SB_CORE_INC_PATH . '/class-sb-meta-box.php';
 
 require SB_CORE_INC_PATH . '/class-sb-meta-field.php';
 
+require SB_CORE_INC_PATH . '/class-sb-page-template.php';
+
+if(!class_exists('ReCaptcha')) {
+    require SB_CORE_PATH . '/lib/recaptcha/recaptchalib.php';
+}
+
 require SB_CORE_INC_PATH . '/class-sb-geo.php';
 
 require SB_CORE_INC_PATH . '/class-sb-ajax.php';

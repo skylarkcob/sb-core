@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.1
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,7 +58,15 @@ Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
 
+= 1.4.7 =
+* Add function to get admin email.
+* Add function to create page template from plugin.
+* Add reCaptcha lib to project.
+
 = 1.4.6 =
+* Add select page field.
+* Update function to get all image from string.
+* Update function to change site url.
 
 = 1.4.5 =
 * Update function to replace url from post content.

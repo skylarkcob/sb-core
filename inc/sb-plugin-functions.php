@@ -11,7 +11,6 @@ function sb_core_session() {
     }
 }
 add_action('init', 'sb_core_session');
-//add_action('admin_init', 'sb_core_session');
 
 function sb_core_textdomain() {
     load_plugin_textdomain('sb-core', false, SB_CORE_DIRNAME . '/languages/');

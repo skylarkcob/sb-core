@@ -39,6 +39,31 @@ class SB_Admin_Custom {
         return isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
     }
 
+    public static function add_recaptcha_setting_field_callback() {
+        $options = SB_Option::get();
+        $value = isset($options['global']['recaptcha']['site_key']) ? $options['global']['recaptcha']['site_key'] : '';
+        $args = array(
+            'id' => 'sb_core_global_recaptcha_site_key',
+            'name' => SB_Option::build_sb_option_name(array('global', 'recaptcha', 'site_key')),
+            'value' => $value,
+            'description' => __('The Google reCaptcha Site key, you can use this in the HTML code your site serves to users.', 'sb-core'),
+            'container_class' => 'margin-bottom'
+        );
+        SB_Field::text($args);
+        $value = isset($options['global']['recaptcha']['secret_key']) ? $options['global']['recaptcha']['secret_key'] : '';
+        $args = array(
+            'id' => 'sb_core_global_recaptcha_secret_key',
+            'name' => SB_Option::build_sb_option_name(array('global', 'recaptcha', 'secret_key')),
+            'value' => $value,
+            'description' => __('The reCaptcha Secret key, you can use this for communication between your site and Google.', 'sb-core'),
+        );
+        SB_Field::text($args);
+    }
+
+    public static function add_recaptcha_setting_field($section_id, $page_id) {
+        self::add_setting_field('sb_core_global_recaptcha_key', 'reCAPTCHA', $section_id, array('SB_Admin_Custom', 'add_recaptcha_setting_field_callback'), $page_id);
+    }
+
     public static function add_media_upload_to_post_page() {
         $pagenow = SB_Admin_Custom::get_page_now();
         if('post.php' == $pagenow || 'post-new.php' == $pagenow) {

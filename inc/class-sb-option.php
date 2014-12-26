@@ -7,6 +7,22 @@ class SB_Option {
         return get_option('date_format');
     }
 
+    public static function get_admin_email() {
+        return get_option('admin_email');
+    }
+
+    public static function get_recaptcha_site_key() {
+        $options = self::get();
+        $value = isset($options['global']['recaptcha']['site_key']) ? $options['global']['recaptcha']['site_key'] : '';
+        return $value;
+    }
+
+    public static function get_recaptcha_secret_key() {
+        $options = self::get();
+        $value = isset($options['global']['recaptcha']['secret_key']) ? $options['global']['recaptcha']['secret_key'] : '';
+        return $value;
+    }
+
     public static function get_default_language() {
         global $sb_default_language;
         if(empty($sb_default_language)) {
