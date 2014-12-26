@@ -25,12 +25,31 @@ class SB_Meta_Field {
         $name = sb_build_meta_name($name);
         $container_class = isset($args['container_class']) ? trim($args['container_class']) : '';
         $container_class = SB_PHP::add_string_with_space_before($container_class, 'sb-media-upload');
-        $label = isset($args['label']) ? $args['label'] : ''; ?>
-        <p class="<?php echo $container_class; ?>">
+        $preview = isset($args['preview']) ? (bool)$args['preview'] : false;
+        $label = isset($args['label']) ? $args['label'] : '';
+        $container_class = SB_PHP::add_string_with_space_before($container_class, 'sb-post-meta-row');
+        $tag = 'p';
+        if($preview) {
+            $tag = 'div';
+        }
+        $value = isset($args['value']) ? $args['value'] : '';
+        $image_preview_class = 'image-preview';
+        if(!empty($value)) {
+            $image_preview_class = SB_PHP::add_string_with_space_before($image_preview_class, 'has-image');
+        }
+        ?>
+        <<?php echo $tag; ?> class="<?php echo $container_class; ?>">
             <label for="<?php echo esc_attr($name); ?>" class="display-block"><?php echo $label; ?>:</label>
             <?php SB_Field::media_upload_group($args); ?>
-        </p>
-        <?php
+            <?php if($preview) : ?>
+                <div class="<?php echo $image_preview_class; ?>">
+                    <?php if(!empty($value)) : ?>
+                        <img src="<?php echo $value; ?>" alt="">
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </<?php echo $tag; ?>>
+    <?php
     }
 
     public static function editor($args = array()) {

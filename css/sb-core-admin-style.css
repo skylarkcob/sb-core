@@ -818,7 +818,12 @@ ul.sb-sortable-list {
 .sb-meta .block {
     display: block;
 }
-
+div.sb-post-meta-row {
+    margin: 1em 0;
+}
+div.sb-post-meta-row .image-preview {
+    margin-top: 20px;
+}
 .sb-media-upload .image-upload-container input {
     margin-right: 5px;
     width: 60%;

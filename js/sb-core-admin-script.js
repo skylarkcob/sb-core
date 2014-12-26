@@ -471,6 +471,9 @@
                 media_container = that.closest('p.sb-media-upload');
                 image_input = media_container.find('input');
             }
+            if(!image_input.length) {
+                image_input = media_container.find('input.image-url');
+            }
             if(file_frame) {
                 file_frame.uploader.uploader.param('post_id', new_post_id);
                 file_frame.open();

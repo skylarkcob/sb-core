@@ -27,6 +27,10 @@ class SB_HTML {
         }
     }
 
+    public function set_class($class) {
+        $this->set_attribute('class', $class);
+    }
+
     public function set_html($value) {
         $this->set_attribute('text', $value);
     }
