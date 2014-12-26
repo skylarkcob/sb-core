@@ -6,6 +6,14 @@
         return false;
     };
 
+    window.sb_set_cookie = function(cname, cvalue, exmin) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exmin * 60 * 1000));
+        var expires = "expires=" + d.toGMTString(),
+            my_cookies = cname + "=" + cvalue + "; " + expires + "; path=/";
+        document.cookie = my_cookies;
+    }
+
     window.sb_number_format = function(number, separator, currency) {
         currency = currency || '₫';
         separator = separator || ',';
