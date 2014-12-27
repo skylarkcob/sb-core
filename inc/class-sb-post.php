@@ -152,6 +152,38 @@ class SB_Post {
         return apply_filters('sb_thumbnail_url', $result);
     }
 
+    public static function get_thumbnail_full_url($post_id = '') {
+        if(empty($post_id)) {
+            $post_id = get_the_ID();
+        }
+        $result = '';
+        if(has_post_thumbnail($post_id)) {
+            $image_path = get_attached_file(get_post_thumbnail_id($post_id));
+            if(file_exists($image_path)) {
+                $image_attributes = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
+                if($image_attributes) {
+                    $result = $image_attributes[0];
+                }
+            }
+        }
+        if(empty($result)) {
+            $result = apply_filters('hocwp_post_image_url', '');
+        }
+        if(empty($result)) {
+            $result = self::get_first_image_url($post_id);
+        }
+        if(empty($result)) {
+            $post = get_post($post_id);
+            if($post && !is_wp_error($post)) {
+                $result = SB_PHP::get_first_image($post->post_content);
+            }
+        }
+        if(empty($result)) {
+            $result = SB_Option::get_theme_thumbnail_url();
+        }
+        return apply_filters('sb_thumbnail_full_url', $result);
+    }
+
     public static function get_default_thumbnail_url() {
         return SB_CORE_URL . '/images/no-thumbnail-grey-100.png';
     }

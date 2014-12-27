@@ -63,8 +63,15 @@ class SB_Meta_Field {
             $id = $name;
         }
         $label = isset($args['label']) ? $args['label'] : '';
+        $container_class = isset($args['container_class']) ? $args['container_class'] : '';
+        $container_class = SB_PHP::add_string_with_space_before($container_class, 'sb-post-meta-editor');
+        echo '<div class="' . $container_class . '">';
         echo '<label for="' . $id . '">' . $label . ':</label>';
+        $args['textarea_name'] = $name;
+        $row = isset($args['row']) ? $args['row'] : 5;
+        $args['textarea_rows'] = $row;
         wp_editor($value, $id, $args);
+        echo '</div>';
     }
 
     public static function number($args = array()) {
