@@ -56,6 +56,9 @@ class SB_Page_Template {
 
     public function load_page_template($template) {
         global $post;
+        if(SB_Core::is_error($post)) {
+            return $template;
+        }
         $page_template = get_post_meta($post->ID, '_wp_page_template', true);
         if(!isset($this->templates[$page_template])) {
             return $template;

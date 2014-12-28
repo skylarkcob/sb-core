@@ -20,6 +20,49 @@ class SB_User {
         return current_user_can($action);
     }
 
+    public static function authenticate($login_name, $password) {
+        return wp_authenticate($login_name, $password);
+    }
+
+    public static function login($username, $password, $remember = true) {
+        $credentials = array();
+        $credentials['user_login'] = $username;
+        $credentials['user_password'] = $password;
+        $credentials['remember'] = $remember;
+        $user = wp_signon($credentials, false);
+        if(is_wp_error($user)) {
+            if(SB_PHP::is_email_valid($username)) {
+                $new_user = self::get_by('email', $username);
+                if(self::compare_user_password($new_user, $password)) {
+                    $credentials['user_login'] = $new_user->user_login;
+                    $credentials['user_password'] = $password;
+                    $credentials['remember'] = $remember;
+                    $user = wp_signon($credentials, false);
+                }
+            }
+        }
+        return $user;
+    }
+
+    public static function can_register() {
+        return (bool)get_option('users_can_register');
+    }
+
+    public static function compare_user_password($user, $new_password) {
+        if(is_wp_error($user)) {
+            return false;
+        }
+        return self::check_password($new_password, $user->user_pass, $user->ID);
+    }
+
+    public static function check_password($new_password, $hash_password, $user_id) {
+        return wp_check_password($new_password, $hash_password, $user_id);
+    }
+
+    public static function get_by($field, $value) {
+        return get_user_by($field, $value);
+    }
+
     public static function get_administrators($args = array()) {
         $args['role'] = 'administrator';
         return self::get($args);
