@@ -6,7 +6,7 @@ class SB_Mail {
 
     public static function send($to, $subject, $message, $headers = '', $attachments = '') {
         $done = wp_mail($to, $subject, $message, $headers, $attachments);
-        return $done;
+        return (bool)$done;
     }
 
     public static function send_html($to, $subject, $message, $headers = '', $attachments = '') {

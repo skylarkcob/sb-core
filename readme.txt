@@ -63,6 +63,7 @@ Please update all SB Plugins after you updated SB Core.
 * Add function to stop mouse wheel via javascript.
 * Add media upload with image preview for post meta box.
 * Update editor for post meta box.
+* Add function to check user.
 
 = 1.4.7 =
 * Add function to get admin email.

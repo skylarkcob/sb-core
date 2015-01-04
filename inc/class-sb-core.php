@@ -53,6 +53,23 @@ class SB_Core {
         }
     }
 
+    public static function check_recaptcha_response($secret_key, $response, $remote_ip = '') {
+        if(empty($secret_key)) {
+            return true;
+        }
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $url = add_query_arg(array('secret' => $secret_key, 'response' => $response, 'remoteip' => $remote_ip), $url);
+        $result = file_get_contents($url);
+        $result = json_decode($result);
+        $result = intval($result->success);
+        if(1 == $result) {
+            $result = true;
+        } else {
+            $result = false;
+        }
+        return $result;
+    }
+
     public static function get_default_theme() {
         $themes = wp_get_themes();
         $wp_theme = '';
@@ -512,6 +529,11 @@ class SB_Core {
         }
     }
 
+    public static function the_strength_indicator($class = '') {
+        $class = SB_PHP::add_string_with_space_before($class, 'sb-password-strength-indicator password-meter');
+        echo '<span class="' . $class . '">' . __('Độ mạnh mật khẩu', 'sb-core') . '</span>';
+    }
+
     public static function set_default_timezone() {
         date_default_timezone_set(SB_Option::get_timezone_string());
     }
@@ -538,6 +560,14 @@ class SB_Core {
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . home_url('/'));
         exit();
+    }
+
+    public static function the_ajax_security_nonce() {
+        wp_nonce_field('sb-core-ajax', 'security');
+    }
+
+    public static function check_ajax_referer() {
+        check_ajax_referer('sb-core-ajax', 'security');
     }
 
     public static function insert_attachment($attachment, $file_path, $parent_post_id = 0) {

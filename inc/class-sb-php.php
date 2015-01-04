@@ -989,6 +989,13 @@ class SB_PHP {
         return false;
     }
 
+    public static function is_image_url_exists($image_url) {
+        if(!@file_get_contents($image_url)) {
+            return false;
+        }
+        return true;
+    }
+
     public static function get_checkbox_value($value) {
         if(isset($value) && (bool)$value) {
             return 1;

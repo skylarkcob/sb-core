@@ -1,3 +1,8 @@
+window.sb_core = window.sb_core || {};
+
+var sb_password_strength,
+    sb_refresh;
+
 (function($){
     window.sb_is_array = function(variable){
         if((Object.prototype.toString.call(variable) === '[object Array]')) {
@@ -6,13 +11,50 @@
         return false;
     };
 
+    sb_core.sb_refresh = function() {
+        window.location.href = window.location.href;
+    };
+
+    sb_core.sb_password_strength = function($pass1, $pass2, $strengthResult, $submitButton, blacklistArray) {
+        var pass1 = $pass1.val(),
+            pass2 = $pass2.val(),
+            strength = 0;
+        if(!$.trim(pass1)) {
+            return;
+        }
+        $submitButton.attr('disabled', 'disabled');
+        $strengthResult.removeClass('short bad good strong');
+        blacklistArray = blacklistArray.concat(wp.passwordStrength.userInputBlacklist());
+        strength = wp.passwordStrength.meter(pass1, blacklistArray, pass2);
+        switch(strength) {
+            case 2:
+                $strengthResult.addClass('bad').html(pwsL10n.bad);
+                break;
+            case 3:
+                $strengthResult.addClass('good').html(pwsL10n.good);
+                break;
+            case 4:
+                $strengthResult.addClass('strong').html(pwsL10n.strong);
+                break;
+            case 5:
+                $strengthResult.addClass('short').html(pwsL10n.mismatch);
+                break;
+            default:
+                $strengthResult.addClass('short').html(pwsL10n.short);
+        }
+        if (3 <= strength && pass1 == pass2) {
+            $submitButton.removeAttr('disabled');
+        }
+        return strength;
+    };
+
     window.sb_set_cookie = function(cname, cvalue, exmin) {
         var d = new Date();
         d.setTime(d.getTime() + (exmin * 60 * 1000));
         var expires = "expires=" + d.toGMTString(),
             my_cookies = cname + "=" + cvalue + "; " + expires + "; path=/";
         document.cookie = my_cookies;
-    }
+    };
 
     window.sb_stop_mouse_wheel = function(e) {
         if(!e) {
@@ -22,7 +64,7 @@
             e.preventDefault();
         }
         e.returnValue = false;
-    }
+    };
 
     window.sb_number_format = function(number, separator, currency) {
         currency = currency || '₫';
@@ -73,6 +115,5 @@
             return this.hostname && this.hostname !== location.hostname;
         }).addClass('external');
     })();
-
 
 })(jQuery);

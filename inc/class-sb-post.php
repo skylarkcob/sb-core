@@ -42,6 +42,10 @@ class SB_Post {
         return '';
     }
 
+    public static function set_post_term($post_id, $terms, $taxonomy) {
+        return wp_set_post_terms($post_id, $terms, $taxonomy);
+    }
+
     public static function auto_set_thumbnail($post_id) {
         $first_image = self::get_first_image($post_id);
         if(empty($first_image)) {

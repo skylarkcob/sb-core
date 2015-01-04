@@ -79,6 +79,74 @@ class SB_Field {
         echo '</div>';
     }
 
+    public static function select_gender($args = array()) {
+        $field_class = isset($args['field_class']) ? $args['field_class'] : '';
+        $field_class = SB_PHP::add_string_with_space_before($field_class, 'sb-select-gender');
+        $name = isset($args['name']) ? $args['name'] : '';
+        $value = isset($args['value']) ? intval($args['value']) : 0;
+        ?>
+        <select class="<?php echo esc_attr($field_class); ?>" name="<?php echo esc_attr($name); ?>" autocomplete="off">
+            <option value="0" <?php selected(0, $value); ?>><?php _e('Male', 'sb-login-page'); ?></option>
+            <option value="1" <?php selected(1, $value); ?>><?php _e('Female', 'sb-login-page'); ?></option>
+        </select>
+        <?php
+    }
+
+    public static function select_birthday($args = array()) {
+        $lang = isset($args['language']) ? $args['language'] : 'en';
+        $birthday = isset($args['value']) ? $args['value'] : strtotime(SB_Core::get_current_datetime());
+        $birth_day = intval(date('d', $birthday));
+        $birth_month = intval(date('m', $birthday));
+        $birth_year = intval(date('Y', $birthday));
+        $year_max = intval(date('Y')) - 13;
+        $year_min = $year_max - 150;
+        ?>
+        <?php if('vi' == $lang) : ?>
+            <select class="user-birth-day" name="user_birth_day" autocomplete="off">
+                <?php for($i = 1; $i <= 31; $i++) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($birth_day, $i); ?>><?php printf('%02s', $i);; ?></option>
+                <?php endfor; ?>
+            </select>
+            <span class="sep">/</span>
+            <select class="user-birth-month" name="user_birth_month" autocomplete="off">
+                <?php for($i = 1; $i <= 12; $i++) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($birth_month, $i); ?>><?php printf('%02s', $i);; ?></option>
+                <?php endfor; ?>
+            </select>
+            <span class="sep">/</span>
+            <select class="user-birth-year" name="user_birth_year" autocomplete="off">
+                <?php for($i = $year_max; $i >= $year_min; $i--) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($birth_year, $i); ?>><?php echo $i; ?></option>
+                <?php endfor; ?>
+                <?php if($birth_year < $year_min || $birth_year > $year_max) : ?>
+                    <option value="<?php echo $birth_year; ?>" selected><?php echo $birth_year; ?></option>
+                <?php endif; ?>
+            </select>
+        <?php else : ?>
+            <select class="user-birth-year" name="user_birth_year" autocomplete="off">
+                <?php for($i = $year_max; $i >= $year_min; $i--) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($birth_year, $i); ?>><?php echo $i; ?></option>
+                <?php endfor; ?>
+                <?php if($birth_year < $year_min || $birth_year > $year_max) : ?>
+                    <option value="<?php echo $birth_year; ?>" selected><?php echo $birth_year; ?></option>
+                <?php endif; ?>
+            </select>
+            <span class="sep">/</span>
+            <select class="user-birth-month" name="user_birth_month" autocomplete="off">
+                <?php for($i = 1; $i <= 12; $i++) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($birth_month, $i); ?>><?php printf('%02s', $i); ?></option>
+                <?php endfor; ?>
+            </select>
+            <span class="sep">/</span>
+            <select class="user-birth-day" name="user_birth_day" autocomplete="off">
+                <?php for($i = 1; $i <= 31; $i++) : ?>
+                    <option value="<?php echo $i; ?>" <?php selected($birth_day, $i); ?>><?php printf('%02s', $i); ?></option>
+                <?php endfor; ?>
+            </select>
+        <?php endif; ?>
+        <?php
+    }
+
     public static function media_upload_group($args = array()) {
         $name = isset($args['name']) ? trim($args['name']) : '';
         if(empty($name)) {
