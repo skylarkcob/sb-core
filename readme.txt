@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
 Tested up to: 4.1
-Stable tag: 1.4.8
+Stable tag: 1.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,12 +58,17 @@ Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
 
+= 1.4.9 =
+* Add filter to change mail from name.
+* Re-struct SB Core plugin.
+
 = 1.4.8 =
 * Add function to set cookie via javascript.
 * Add function to stop mouse wheel via javascript.
 * Add media upload with image preview for post meta box.
 * Update editor for post meta box.
 * Add function to check user.
+* Update for SB Login Page plugin.
 
 = 1.4.7 =
 * Add function to get admin email.

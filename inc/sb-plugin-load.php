@@ -1,6 +1,10 @@
 <?php
 require SB_CORE_INC_PATH . '/sb-plugin-constant.php';
 
+require SB_CORE_INC_PATH . '/sb-plugin-install.php';
+
+require SB_CORE_INC_PATH . '/sb-plugin-functions.php';
+
 if(!function_exists('bfi_thumb')) {
     require SB_CORE_PATH . '/lib/bfi-thumb/BFI_Thumb.php';
 }
@@ -48,3 +52,5 @@ require SB_CORE_INC_PATH . '/class-sb-ajax.php';
 require SB_CORE_INC_PATH . '/sb-admin.php';
 
 require SB_CORE_INC_PATH . '/sb-plugin-ajax.php';
+
+require SB_CORE_INC_PATH . '/sb-plugin-hook.php';

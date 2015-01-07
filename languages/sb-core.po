@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sb-core\n"
-"POT-Creation-Date: 2014-11-23 21:15+0700\n"
-"PO-Revision-Date: 2014-11-23 21:15+0700\n"
-"Last-Translator: Lai Dinh Cuong <laidinhcuongvn@gmail.com>\n"
+"POT-Creation-Date: 2015-01-04 21:57+0700\n"
+"PO-Revision-Date: 2015-01-04 21:57+0700\n"
+"Last-Translator: Cuong Dinh Lai <laidinhcuongvn@gmail.com>\n"
 "Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.7.1\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -25,11 +25,23 @@ msgstr ""
 msgid "Last Updated:"
 msgstr ""
 
-#: ../inc/class-sb-admin-custom.php:94 ../inc/class-sb-admin.php:82
+#: ../inc/class-sb-admin-custom.php:49
+msgid ""
+"The Google reCaptcha Site key, you can use this in the HTML code your site "
+"serves to users."
+msgstr ""
+
+#: ../inc/class-sb-admin-custom.php:58
+msgid ""
+"The reCaptcha Secret key, you can use this for communication between your "
+"site and Google."
+msgstr ""
+
+#: ../inc/class-sb-admin-custom.php:126 ../inc/class-sb-admin.php:82
 msgid "Short description about SB Options."
 msgstr ""
 
-#: ../inc/class-sb-admin-custom.php:96 ../inc/class-sb-admin.php:84
+#: ../inc/class-sb-admin-custom.php:128 ../inc/class-sb-admin.php:84
 msgid "Change your settings below:"
 msgstr ""
 
@@ -38,153 +50,162 @@ msgstr ""
 msgid "About SB"
 msgstr ""
 
-#: ../inc/class-sb-core.php:139
-#, php-format
-msgid "%d second ago"
+#: ../inc/class-sb-core.php:220
+msgid "năm"
 msgstr ""
 
-#: ../inc/class-sb-core.php:140
-#, php-format
-msgid "%d seconds ago"
+#: ../inc/class-sb-core.php:221
+msgid "tháng"
 msgstr ""
 
-#: ../inc/class-sb-core.php:143
-#, php-format
-msgid "%d minute ago"
+#: ../inc/class-sb-core.php:222
+msgid "tuần"
 msgstr ""
 
-#: ../inc/class-sb-core.php:144
-#, php-format
-msgid "%d minutes ago"
+#: ../inc/class-sb-core.php:223
+msgid "ngày"
 msgstr ""
 
-#: ../inc/class-sb-core.php:147
-#, php-format
-msgid "%d hour ago"
+#: ../inc/class-sb-core.php:224
+msgid "giờ"
 msgstr ""
 
-#: ../inc/class-sb-core.php:148
-#, php-format
-msgid "%d hours ago"
+#: ../inc/class-sb-core.php:225
+msgid "phút"
 msgstr ""
 
-#: ../inc/class-sb-core.php:151
-#, php-format
-msgid "%d day ago"
+#: ../inc/class-sb-core.php:226
+msgid "giây"
 msgstr ""
 
-#: ../inc/class-sb-core.php:152
-#, php-format
-msgid "%d days ago"
+#: ../inc/class-sb-core.php:237
+msgid "Vài giây trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:155
-#, php-format
-msgid "%d week ago"
+#: ../inc/class-sb-core.php:247
+msgid "Vài giây"
 msgstr ""
 
-#: ../inc/class-sb-core.php:156
-#, php-format
-msgid "%d weeks ago"
+#: ../inc/class-sb-core.php:249
+msgid "trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:159
+#: ../inc/class-sb-core.php:259 ../inc/class-sb-core.php:260
 #, php-format
-msgid "%d month ago"
+msgid "%d giây trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:160
+#: ../inc/class-sb-core.php:263 ../inc/class-sb-core.php:264
 #, php-format
-msgid "%d months ago"
+msgid "%d phút trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:163
+#: ../inc/class-sb-core.php:267 ../inc/class-sb-core.php:268
 #, php-format
-msgid "%d year ago"
+msgid "%d giờ trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:164
+#: ../inc/class-sb-core.php:271 ../inc/class-sb-core.php:272
 #, php-format
-msgid "%d years ago"
+msgid "%d ngày trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:552 ../inc/sb-admin.php:18
+#: ../inc/class-sb-core.php:275 ../inc/class-sb-core.php:276
+#, php-format
+msgid "%d tuần trước"
+msgstr ""
+
+#: ../inc/class-sb-core.php:279 ../inc/class-sb-core.php:280
+#, php-format
+msgid "%d tháng trước"
+msgstr ""
+
+#: ../inc/class-sb-core.php:283 ../inc/class-sb-core.php:284
+#, php-format
+msgid "%d năm trước"
+msgstr ""
+
+#: ../inc/class-sb-core.php:534
+msgid "Độ mạnh mật khẩu"
+msgstr ""
+
+#: ../inc/class-sb-core.php:700 ../inc/sb-admin.php:18
 msgid "This website is temporarily unavailable, please try again later."
 msgstr ""
 
-#: ../inc/class-sb-core.php:780 ../inc/class-sb-core.php:847
+#: ../inc/class-sb-core.php:928 ../inc/class-sb-core.php:1071
 #, php-format
 msgid "Parent %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:781 ../inc/class-sb-core.php:848
+#: ../inc/class-sb-core.php:929 ../inc/class-sb-core.php:1072
 #, php-format
 msgid "Parent %s:"
 msgstr ""
 
-#: ../inc/class-sb-core.php:782 ../inc/class-sb-core.php:846
+#: ../inc/class-sb-core.php:930 ../inc/class-sb-core.php:1070
 #, php-format
 msgid "All %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:783
+#: ../inc/class-sb-core.php:931
 #, php-format
 msgid "View %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:784 ../inc/class-sb-core.php:850
+#: ../inc/class-sb-core.php:932 ../inc/class-sb-core.php:1074
 #, php-format
 msgid "Add New %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:785
+#: ../inc/class-sb-core.php:933
 msgid "Add New"
 msgstr ""
 
-#: ../inc/class-sb-core.php:786 ../inc/class-sb-core.php:851
+#: ../inc/class-sb-core.php:934 ../inc/class-sb-core.php:1075
 #, php-format
 msgid "Edit %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:787 ../inc/class-sb-core.php:852
+#: ../inc/class-sb-core.php:935 ../inc/class-sb-core.php:1076
 #, php-format
 msgid "Update %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:788 ../inc/class-sb-core.php:854
+#: ../inc/class-sb-core.php:936 ../inc/class-sb-core.php:1078
 #, php-format
 msgid "Search %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:789
+#: ../inc/class-sb-core.php:937
 msgid "Not found"
 msgstr ""
 
-#: ../inc/class-sb-core.php:790
+#: ../inc/class-sb-core.php:938
 msgid "Not found in Trash"
 msgstr ""
 
-#: ../inc/class-sb-core.php:849
+#: ../inc/class-sb-core.php:1073
 #, php-format
 msgid "New %s Name"
 msgstr ""
 
-#: ../inc/class-sb-core.php:853
+#: ../inc/class-sb-core.php:1077
 #, php-format
 msgid "Separate %s with commas"
 msgstr ""
 
-#: ../inc/class-sb-core.php:855
+#: ../inc/class-sb-core.php:1079
 #, php-format
 msgid "Add or remove %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:856
+#: ../inc/class-sb-core.php:1080
 #, php-format
 msgid "Choose from the most used %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:857
+#: ../inc/class-sb-core.php:1081
 msgid "Not Found"
 msgstr ""
 
@@ -192,60 +213,76 @@ msgstr ""
 msgid "Enter url for the image above."
 msgstr ""
 
-#: ../inc/class-sb-field.php:114
+#: ../inc/class-sb-field.php:89
+msgid "Male"
+msgstr ""
+
+#: ../inc/class-sb-field.php:90
+msgid "Female"
+msgstr ""
+
+#: ../inc/class-sb-field.php:165 ../inc/class-sb-field.php:202
 msgid "Insert image"
 msgstr ""
 
-#: ../inc/class-sb-field.php:114
+#: ../inc/class-sb-field.php:165 ../inc/class-sb-field.php:202
 msgid "Upload"
 msgstr ""
 
-#: ../inc/class-sb-field.php:115
+#: ../inc/class-sb-field.php:166 ../inc/class-sb-field.php:203
 msgid "Remove image"
 msgstr ""
 
-#: ../inc/class-sb-field.php:115
+#: ../inc/class-sb-field.php:166 ../inc/class-sb-field.php:203
 msgid "Remove"
 msgstr ""
 
-#: ../inc/class-sb-field.php:133 ../inc/class-sb-field.php:231
+#: ../inc/class-sb-field.php:221 ../inc/class-sb-field.php:319
 msgid "Are you sure you want to delete?"
 msgstr ""
 
-#: ../inc/class-sb-field.php:136
+#: ../inc/class-sb-field.php:224
 msgid "Sidebar name"
 msgstr ""
 
-#: ../inc/class-sb-field.php:137
+#: ../inc/class-sb-field.php:225
 msgid "Sidebar description"
 msgstr ""
 
-#: ../inc/class-sb-field.php:138
+#: ../inc/class-sb-field.php:226
 msgid "Sidebar id"
 msgstr ""
 
-#: ../inc/class-sb-field.php:168
+#: ../inc/class-sb-field.php:256
 msgid "Add new sidebar"
 msgstr ""
 
-#: ../inc/class-sb-field.php:208
+#: ../inc/class-sb-field.php:296
 msgid "Drag and drop the widget into right box to active it."
 msgstr ""
 
-#: ../inc/class-sb-field.php:259
+#: ../inc/class-sb-field.php:347
 msgid "Add new"
 msgstr ""
 
-#: ../inc/class-sb-field.php:260 ../inc/content/sb-setting-page.php:101
+#: ../inc/class-sb-field.php:348 ../inc/content/sb-setting-page.php:101
 msgid "Reset"
 msgstr ""
 
-#: ../inc/class-sb-field.php:346
+#: ../inc/class-sb-field.php:434
 msgid "On"
 msgstr ""
 
-#: ../inc/class-sb-field.php:347
+#: ../inc/class-sb-field.php:435
 msgid "Off"
+msgstr ""
+
+#: ../inc/class-sb-field.php:484
+msgid "Select page:"
+msgstr ""
+
+#: ../inc/class-sb-field.php:518
+msgid "Choose the term"
 msgstr ""
 
 #: ../inc/class-sb-mail.php:25
@@ -296,7 +333,7 @@ msgstr ""
 
 #: ../inc/class-sb-plugin.php:50
 #, php-format
-msgid "Install %s now"
+msgid "Install plugin %s now"
 msgstr ""
 
 #: ../inc/class-sb-plugin.php:50
@@ -305,27 +342,69 @@ msgstr ""
 
 #: ../inc/class-sb-plugin.php:55
 #, php-format
-msgid "Update %s now"
+msgid "Update plugin %s now"
 msgstr ""
 
 #: ../inc/class-sb-plugin.php:55
 msgid "Update Now"
 msgstr ""
 
-#: ../inc/class-sb-plugin.php:60
+#: ../inc/class-sb-plugin.php:59 ../inc/class-sb-plugin.php:62
 msgid "Installed"
 msgstr ""
 
-#: ../inc/class-sb-post.php:206
-msgid "comment"
+#: ../inc/class-sb-post.php:387
+msgid "bình  luận"
 msgstr ""
 
-#: ../inc/class-sb-post.php:206
-msgid "comments"
+#: ../inc/class-sb-post.php:691
+msgid "Chuyên mục:"
 msgstr ""
 
-#: ../inc/class-sb-post.php:379
-msgid "Posted in:"
+#: ../inc/class-sb-user.php:69
+msgid "Thông tin khôi phục mật khẩu của bạn"
+msgstr ""
+
+#: ../inc/class-sb-user.php:71
+#, php-format
+msgid ""
+"Chúng tôi nhận được thông tin yêu cầu lấy lại mật khẩu của bạn cho tài khoản "
+"%s."
+msgstr ""
+
+#: ../inc/class-sb-user.php:73
+msgid ""
+"Nếu bạn là người đã gửi yêu cầu, xin vui lòng nhấn vào nút bên dưới để tiến "
+"hành đổi lại mật khẩu mới. Nếu bạn không phải là người đã gửi yêu cầu, bạn "
+"có thể bỏ qua hoặc xóa đi thư yêu cầu khổi phục mật khẩu này."
+msgstr ""
+
+#: ../inc/class-sb-user.php:76
+msgid "Cập nhật lại mật khẩu của bạn"
+msgstr ""
+
+#: ../inc/class-sb-user.php:79 ../inc/class-sb-user.php:105
+msgid "Hoặc bạn có thể sử dụng đường dẫn bên dưới:"
+msgstr ""
+
+#: ../inc/class-sb-user.php:81 ../inc/class-sb-user.php:107
+#, php-format
+msgid "Mã xác nhận: %s"
+msgstr ""
+
+#: ../inc/class-sb-user.php:97
+msgid "Xác nhận đăng ký tài khoản"
+msgstr ""
+
+#: ../inc/class-sb-user.php:99
+#, php-format
+msgid ""
+"Cảm ơn bạn đã đăng ký với tên tài khoản của bạn là %s, hãy nhấn chuột vào "
+"nút bên dưới để xác thực địa chỉ email của bạn."
+msgstr ""
+
+#: ../inc/class-sb-user.php:102
+msgid "Xác nhận địa chỉ email"
 msgstr ""
 
 #: ../inc/class-sb-widget-field.php:17

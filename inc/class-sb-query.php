@@ -176,6 +176,17 @@ class SB_Query {
         return new WP_Query($args);
     }
 
+    public static function get_random_post($post_types = array()) {
+        if(!is_array($post_types) || count($post_types) < 1) {
+            $post_types = 'post';
+        }
+        $args = array(
+            'post_type' => $post_types,
+            'posts_per_page' => 1
+        );
+        return self::get_random_posts($args);
+    }
+
     public static function build_weekly_post_args($args = array()) {
         $date_item = array(
             'year' => date('Y'),

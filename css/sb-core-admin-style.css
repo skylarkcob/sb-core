@@ -868,3 +868,9 @@ div.sb-post-meta-row .image-preview {
 .image-upload-url {
     max-width: 80%;
 }
+
+/* ================= Dashboard Widget ================= */
+
+.sb-draft-post-widget li a.draft-post {
+    font-weight: 400;
+}

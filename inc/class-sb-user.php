@@ -1,6 +1,9 @@
 <?php
 class SB_User {
     public static function is_admin($user_id = 0) {
+        if($user_id == 0) {
+            return current_user_can('manage_options');
+        }
         if($user_id < 1) {
             $user = self::get_current();
         } else {
@@ -409,6 +412,10 @@ class SB_User {
 
     public static function get_current() {
         return wp_get_current_user();
+    }
+
+    public static function get_data($user_id) {
+        return get_userdata($user_id);
     }
 
     public static function get_meta($user_id, $meta_key) {

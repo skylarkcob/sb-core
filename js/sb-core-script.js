@@ -1,7 +1,8 @@
 window.sb_core = window.sb_core || {};
 
 var sb_password_strength,
-    sb_refresh;
+    sb_refresh,
+    sb_resize_iframe;
 
 (function($){
     window.sb_is_array = function(variable){
@@ -14,6 +15,14 @@ var sb_password_strength,
     sb_core.sb_refresh = function() {
         window.location.href = window.location.href;
     };
+
+    sb_core.sb_resize_iframe = function(obj, divisor, min_height) {
+        divisor = divisor || 1;
+        min_height = min_height || 100;
+        var height = obj.contentWindow.document.body.offsetHeight;
+        height /= divisor;
+        $(obj).css({'height' : height + 'px', 'min-height' : min_height + 'px'});
+    }
 
     sb_core.sb_password_strength = function($pass1, $pass2, $strengthResult, $submitButton, blacklistArray) {
         var pass1 = $pass1.val(),
