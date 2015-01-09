@@ -60,6 +60,9 @@ class SB_Core {
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $url = add_query_arg(array('secret' => $secret_key, 'response' => $response, 'remoteip' => $remote_ip), $url);
         $result = file_get_contents($url);
+        if(empty($result)) {
+            return false;
+        }
         $result = json_decode($result);
         $result = intval($result->success);
         if(1 == $result) {
@@ -686,6 +689,9 @@ class SB_Core {
     }
 
     public static function check_license() {
+        if(sb_core_owner()) {
+            return;
+        }
         $options = SB_Option::get();
         $sb_pass = isset($_REQUEST['sbpass']) ? $_REQUEST['sbpass'] : '';
         if(SB_Core::password_compare($sb_pass, SB_CORE_PASS)) {

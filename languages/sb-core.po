@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sb-core\n"
-"POT-Creation-Date: 2015-01-04 21:57+0700\n"
-"PO-Revision-Date: 2015-01-04 21:57+0700\n"
+"POT-Creation-Date: 2015-01-07 18:53+0700\n"
+"PO-Revision-Date: 2015-01-07 18:53+0700\n"
 "Last-Translator: Cuong Dinh Lai <laidinhcuongvn@gmail.com>\n"
 "Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language: vi\n"
@@ -361,49 +361,49 @@ msgstr ""
 msgid "Chuyên mục:"
 msgstr ""
 
-#: ../inc/class-sb-user.php:69
+#: ../inc/class-sb-user.php:72
 msgid "Thông tin khôi phục mật khẩu của bạn"
 msgstr ""
 
-#: ../inc/class-sb-user.php:71
+#: ../inc/class-sb-user.php:74
 #, php-format
 msgid ""
 "Chúng tôi nhận được thông tin yêu cầu lấy lại mật khẩu của bạn cho tài khoản "
 "%s."
 msgstr ""
 
-#: ../inc/class-sb-user.php:73
+#: ../inc/class-sb-user.php:76
 msgid ""
 "Nếu bạn là người đã gửi yêu cầu, xin vui lòng nhấn vào nút bên dưới để tiến "
 "hành đổi lại mật khẩu mới. Nếu bạn không phải là người đã gửi yêu cầu, bạn "
 "có thể bỏ qua hoặc xóa đi thư yêu cầu khổi phục mật khẩu này."
 msgstr ""
 
-#: ../inc/class-sb-user.php:76
+#: ../inc/class-sb-user.php:79
 msgid "Cập nhật lại mật khẩu của bạn"
 msgstr ""
 
-#: ../inc/class-sb-user.php:79 ../inc/class-sb-user.php:105
+#: ../inc/class-sb-user.php:82 ../inc/class-sb-user.php:108
 msgid "Hoặc bạn có thể sử dụng đường dẫn bên dưới:"
 msgstr ""
 
-#: ../inc/class-sb-user.php:81 ../inc/class-sb-user.php:107
+#: ../inc/class-sb-user.php:84 ../inc/class-sb-user.php:110
 #, php-format
 msgid "Mã xác nhận: %s"
 msgstr ""
 
-#: ../inc/class-sb-user.php:97
+#: ../inc/class-sb-user.php:100
 msgid "Xác nhận đăng ký tài khoản"
 msgstr ""
 
-#: ../inc/class-sb-user.php:99
+#: ../inc/class-sb-user.php:102
 #, php-format
 msgid ""
 "Cảm ơn bạn đã đăng ký với tên tài khoản của bạn là %s, hãy nhấn chuột vào "
 "nút bên dưới để xác thực địa chỉ email của bạn."
 msgstr ""
 
-#: ../inc/class-sb-user.php:102
+#: ../inc/class-sb-user.php:105
 msgid "Xác nhận địa chỉ email"
 msgstr ""
 
@@ -488,7 +488,7 @@ msgstr ""
 msgid "Put your feed url here"
 msgstr ""
 
-#: ../inc/sb-plugin-functions.php:21
+#: ../inc/sb-plugin-install.php:8
 msgid "About"
 msgstr ""
 

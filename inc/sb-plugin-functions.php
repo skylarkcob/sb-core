@@ -22,3 +22,7 @@ function sb_meta_box_nonce() {
 function sb_term_meta_nonce() {
     wp_nonce_field('sb_term_meta', 'sb_term_meta_nonce');
 }
+
+function sb_core_owner() {
+    return apply_filters('sb_core_owner', false);
+}
