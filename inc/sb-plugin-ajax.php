@@ -111,3 +111,15 @@ function sb_switch_to_default_theme() {
         switch_theme($theme->get('TextDomain'));
     }
 }
+
+function sb_core_captcha_reload_ajax_callback() {
+    $len = isset($_POST['len']) ? $_POST['len'] : 4;
+    $code = SB_PHP::random_string_number($len);
+    SB_Core::set_captcha_session($code);
+    $url = SB_Core::get_captcha_url();
+    $url = add_query_arg(array('code' => strtotime(SB_Core::get_current_datetime())), $url);
+    echo $url;
+    die();
+}
+add_action('wp_ajax_sb_reload_captcha', 'sb_core_captcha_reload_ajax_callback');
+add_action('wp_ajax_nopriv_sb_reload_captcha', 'sb_core_captcha_reload_ajax_callback');

@@ -8,7 +8,7 @@ function sb_testing() {
 }
 
 function sb_core_testing() {
-    return sb_testing();
+    return apply_filters('sb_core_testing', sb_testing());
 }
 
 function sb_build_meta_name($meta_name) {

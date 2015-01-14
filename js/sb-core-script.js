@@ -125,4 +125,24 @@ var sb_password_strength,
         }).addClass('external');
     })();
 
+    (function(){
+        $('.sb-captcha .reload').on('click', function(e){
+            e.preventDefault();
+            var that = $(this),
+                captcha = that.parent().find('.captcha-code'),
+                data = null;
+            if(that.hasClass('disabled')) {
+                return;
+            }
+            data = {
+                'action': 'sb_reload_captcha'
+            };
+            that.addClass('disabled');
+            $.post(sb_core_ajax.url, data, function(resp){
+                captcha.attr('src', resp);
+                that.removeClass('disabled');
+            });
+        });
+    })();
+
 })(jQuery);

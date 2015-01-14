@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sb-core\n"
-"POT-Creation-Date: 2015-01-07 18:53+0700\n"
-"PO-Revision-Date: 2015-01-07 18:53+0700\n"
+"POT-Creation-Date: 2015-01-09 22:58+0700\n"
+"PO-Revision-Date: 2015-01-09 22:58+0700\n"
 "Last-Translator: Cuong Dinh Lai <laidinhcuongvn@gmail.com>\n"
 "Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language: vi\n"
@@ -50,162 +50,162 @@ msgstr ""
 msgid "About SB"
 msgstr ""
 
-#: ../inc/class-sb-core.php:220
+#: ../inc/class-sb-core.php:223
 msgid "năm"
 msgstr ""
 
-#: ../inc/class-sb-core.php:221
+#: ../inc/class-sb-core.php:224
 msgid "tháng"
 msgstr ""
 
-#: ../inc/class-sb-core.php:222
+#: ../inc/class-sb-core.php:225
 msgid "tuần"
 msgstr ""
 
-#: ../inc/class-sb-core.php:223
+#: ../inc/class-sb-core.php:226
 msgid "ngày"
 msgstr ""
 
-#: ../inc/class-sb-core.php:224
+#: ../inc/class-sb-core.php:227
 msgid "giờ"
 msgstr ""
 
-#: ../inc/class-sb-core.php:225
+#: ../inc/class-sb-core.php:228
 msgid "phút"
 msgstr ""
 
-#: ../inc/class-sb-core.php:226
+#: ../inc/class-sb-core.php:229
 msgid "giây"
 msgstr ""
 
-#: ../inc/class-sb-core.php:237
+#: ../inc/class-sb-core.php:240
 msgid "Vài giây trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:247
+#: ../inc/class-sb-core.php:250
 msgid "Vài giây"
 msgstr ""
 
-#: ../inc/class-sb-core.php:249
+#: ../inc/class-sb-core.php:252
 msgid "trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:259 ../inc/class-sb-core.php:260
+#: ../inc/class-sb-core.php:262 ../inc/class-sb-core.php:263
 #, php-format
 msgid "%d giây trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:263 ../inc/class-sb-core.php:264
+#: ../inc/class-sb-core.php:266 ../inc/class-sb-core.php:267
 #, php-format
 msgid "%d phút trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:267 ../inc/class-sb-core.php:268
+#: ../inc/class-sb-core.php:270 ../inc/class-sb-core.php:271
 #, php-format
 msgid "%d giờ trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:271 ../inc/class-sb-core.php:272
+#: ../inc/class-sb-core.php:274 ../inc/class-sb-core.php:275
 #, php-format
 msgid "%d ngày trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:275 ../inc/class-sb-core.php:276
+#: ../inc/class-sb-core.php:278 ../inc/class-sb-core.php:279
 #, php-format
 msgid "%d tuần trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:279 ../inc/class-sb-core.php:280
+#: ../inc/class-sb-core.php:282 ../inc/class-sb-core.php:283
 #, php-format
 msgid "%d tháng trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:283 ../inc/class-sb-core.php:284
+#: ../inc/class-sb-core.php:286 ../inc/class-sb-core.php:287
 #, php-format
 msgid "%d năm trước"
 msgstr ""
 
-#: ../inc/class-sb-core.php:534
+#: ../inc/class-sb-core.php:537
 msgid "Độ mạnh mật khẩu"
 msgstr ""
 
-#: ../inc/class-sb-core.php:700 ../inc/sb-admin.php:18
+#: ../inc/class-sb-core.php:706 ../inc/sb-admin.php:18
 msgid "This website is temporarily unavailable, please try again later."
 msgstr ""
 
-#: ../inc/class-sb-core.php:928 ../inc/class-sb-core.php:1071
+#: ../inc/class-sb-core.php:934 ../inc/class-sb-core.php:1077
 #, php-format
 msgid "Parent %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:929 ../inc/class-sb-core.php:1072
+#: ../inc/class-sb-core.php:935 ../inc/class-sb-core.php:1078
 #, php-format
 msgid "Parent %s:"
 msgstr ""
 
-#: ../inc/class-sb-core.php:930 ../inc/class-sb-core.php:1070
+#: ../inc/class-sb-core.php:936 ../inc/class-sb-core.php:1076
 #, php-format
 msgid "All %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:931
+#: ../inc/class-sb-core.php:937
 #, php-format
 msgid "View %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:932 ../inc/class-sb-core.php:1074
+#: ../inc/class-sb-core.php:938 ../inc/class-sb-core.php:1080
 #, php-format
 msgid "Add New %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:933
+#: ../inc/class-sb-core.php:939
 msgid "Add New"
 msgstr ""
 
-#: ../inc/class-sb-core.php:934 ../inc/class-sb-core.php:1075
+#: ../inc/class-sb-core.php:940 ../inc/class-sb-core.php:1081
 #, php-format
 msgid "Edit %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:935 ../inc/class-sb-core.php:1076
+#: ../inc/class-sb-core.php:941 ../inc/class-sb-core.php:1082
 #, php-format
 msgid "Update %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:936 ../inc/class-sb-core.php:1078
+#: ../inc/class-sb-core.php:942 ../inc/class-sb-core.php:1084
 #, php-format
 msgid "Search %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:937
+#: ../inc/class-sb-core.php:943
 msgid "Not found"
 msgstr ""
 
-#: ../inc/class-sb-core.php:938
+#: ../inc/class-sb-core.php:944
 msgid "Not found in Trash"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1073
-#, php-format
-msgid "New %s Name"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1077
-#, php-format
-msgid "Separate %s with commas"
 msgstr ""
 
 #: ../inc/class-sb-core.php:1079
 #, php-format
+msgid "New %s Name"
+msgstr ""
+
+#: ../inc/class-sb-core.php:1083
+#, php-format
+msgid "Separate %s with commas"
+msgstr ""
+
+#: ../inc/class-sb-core.php:1085
+#, php-format
 msgid "Add or remove %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:1080
+#: ../inc/class-sb-core.php:1086
 #, php-format
 msgid "Choose from the most used %s"
 msgstr ""
 
-#: ../inc/class-sb-core.php:1081
+#: ../inc/class-sb-core.php:1087
 msgid "Not Found"
 msgstr ""
 

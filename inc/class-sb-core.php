@@ -53,13 +53,74 @@ class SB_Core {
         }
     }
 
+    public static function get_captcha_url() {
+        return SB_CORE_URL . '/inc/captcha/captcha.php';
+    }
+
+    public static function the_captcha_url() {
+        echo self::get_captcha_url();
+    }
+
+    public static function set_captcha_session($code = '') {
+        if(empty($code)) {
+            $code = random(1000, 9999);
+        }
+        $expire = strtotime('+30 seconds', strtotime(SB_Core::get_current_datetime()));
+        $captcha = array(
+            'code' => $code,
+            'expire' => $expire
+        );
+        $_SESSION['sb_captcha'] = json_encode($captcha);
+    }
+
+    public static function get_captcha_session() {
+        $captcha = isset($_SESSION['sb_captcha']) ? $_SESSION['sb_captcha'] : '';
+        return json_decode($captcha);
+    }
+
+    public static function check_captcha($code) {
+        $captcha = self::get_captcha_session();
+        $save_code = isset($captcha->code) ? $captcha->code : '';
+        $expire = isset($captcha->expire) ? $captcha->expire : '';
+        $result = true;
+        if(empty($save_code || empty($expire) || empty($code))) {
+            $result = false;
+        } else {
+            $timestamp = strtotime(self::get_current_datetime());
+            $expire = intval($expire);
+            if(($expire - $timestamp) <= 0) {
+                $result = false;
+            } else {
+                $code = trim($code);
+                if($save_code != $code) {
+                    $result = false;
+                }
+            }
+        }
+        return $result;
+    }
+
+    public static function the_captcha($len = 4) {
+        $captcha = SB_PHP::random_string_number($len);
+        self::set_captcha_session($captcha);
+        $url = self::get_captcha_url();
+        if(!empty($url)) {
+            ?>
+            <div class="sb-captcha">
+                <img class="captcha-code" alt="<?php _e('Mã bảo mật', 'sb-core'); ?>" src="<?php echo $url; ?>" title="<?php _e('Mã bảo mật', 'sb-core'); ?>">
+                <img data-len="<?php echo $len; ?>" class="reload" src="<?php echo SB_CORE_URL . '/inc/captcha/icon-reload.gif'; ?>" alt="">
+            </div>
+            <?php
+        }
+    }
+
     public static function check_recaptcha_response($secret_key, $response, $remote_ip = '') {
         if(empty($secret_key)) {
             return true;
         }
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $url = add_query_arg(array('secret' => $secret_key, 'response' => $response, 'remoteip' => $remote_ip), $url);
-        $result = file_get_contents($url);
+        $result = @file_get_contents($url);
         if(empty($result)) {
             return false;
         }

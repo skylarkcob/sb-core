@@ -1028,6 +1028,17 @@ class SB_PHP {
         return $characters;
     }
 
+    public static function random_string_number($length = 6) {
+        $characters = '0123456789';
+        $len = strlen($characters);
+        $result = '';
+        for($i = 0; $i < $length; $i++) {
+            $random_char = $characters[rand(0, $len - 1)];
+            $result .= $random_char;
+        }
+        return $result;
+    }
+
     public static function random_string($length = 10, $special_char = false) {
         $characters = self::get_all_safe_char($special_char);
         $len = strlen($characters);
