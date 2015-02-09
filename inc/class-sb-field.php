@@ -440,6 +440,20 @@ class SB_Field {
         <?php
     }
 
+    public static function button($args = array()) {
+        $text = isset($args['text']) ? $args['text'] : '';
+        if(empty($text)) {
+            return;
+        }
+        $class = isset($args['field_class']) ? $args['field_class'] : '';
+        $class = SB_PHP::add_string_with_space_before($class, 'sb-button');
+        $description = isset($args['description']) ? $args['description'] : '';
+        echo '<button class="' . $class . '">' . $text . '</button>';
+        if(!empty($description)) {
+            echo '<p class="description">' . $description . '</p>';
+        }
+    }
+
     public static function select($args = array()) {
         $id = '';
         $name = '';

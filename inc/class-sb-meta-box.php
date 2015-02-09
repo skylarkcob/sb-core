@@ -66,6 +66,9 @@ class SB_Meta_Box {
         foreach($this->fields as $field) {
             $type = isset($field['type']) ? $field['type'] : '';
             $name = isset($field['name']) ? $field['name'] : '';
+            if(empty($name)) {
+                continue;
+            }
             if('checkbox' == $type) {
                 $value = isset($_POST[$name]) ? 1 : 0;
             } else {

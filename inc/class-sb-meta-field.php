@@ -1,11 +1,19 @@
 <?php
 class SB_Meta_Field {
-    public static function text($args = array()) {
+    public static function get_name($args) {
         $name = isset($args['name']) ? trim($args['name']) : '';
         if(empty($name)) {
-            return;
+            return $name;
         }
-        $name = sb_build_meta_name($name);
+        $sbmb = substr($name, 0, 4);
+        if('sbmb' != $sbmb) {
+            $name = sb_build_meta_name($name);
+        }
+        return $name;
+    }
+
+    public static function text($args = array()) {
+        $name = self::get_name($args);
         $value = isset($args['value']) ? trim($args['value']) : '';
         $field_class = isset($args['field_class']) ? trim($args['field_class']) : '';
         $label = isset($args['label']) ? $args['label'] : '';
@@ -17,12 +25,20 @@ class SB_Meta_Field {
         <?php
     }
 
+    public static function checkbox($args = array()) {
+        $name = self::get_name($args);
+        $value = isset($args['value']) ? intval($args['value']) : 0;
+        $field_class = isset($args['field_class']) ? trim($args['field_class']) : '';
+        $label = isset($args['label']) ? $args['label'] : '';
+        ?>
+        <p>
+            <input type="checkbox" id="<?php echo esc_attr($name); ?>" autocomplete="off" name="<?php echo esc_attr($name); ?>" class="<?php echo $field_class; ?>" <?php checked(1, $value); ?>>&nbsp;<?php echo $label; ?>
+        </p>
+    <?php
+    }
+
     public static function image_upload($args = array()) {
-        $name = isset($args['name']) ? trim($args['name']) : '';
-        if(empty($name)) {
-            return;
-        }
-        $name = sb_build_meta_name($name);
+        $name = self::get_name($args);
         $container_class = isset($args['container_class']) ? trim($args['container_class']) : '';
         $container_class = SB_PHP::add_string_with_space_before($container_class, 'sb-media-upload');
         $preview = isset($args['preview']) ? (bool)$args['preview'] : false;
@@ -53,10 +69,7 @@ class SB_Meta_Field {
     }
 
     public static function editor($args = array()) {
-        $name = isset($args['name']) ? $args['name'] : '';
-        if(empty($name)) {
-            return;
-        }
+        $name = self::get_name($args);
         $value = isset($args['value']) ? $args['value'] : '';
         $id = isset($args['id']) ? $args['id'] : '';
         if(empty($id)) {
@@ -75,10 +88,7 @@ class SB_Meta_Field {
     }
 
     public static function number($args = array()) {
-        $name = isset($args['name']) ? $args['name'] : '';
-        if(empty($name)) {
-            return;
-        }
+        $name = self::get_name($args);
         $value = isset($args['value']) ? $args['value'] : '';
         $id = isset($args['id']) ? $args['id'] : '';
         if(empty($id)) {

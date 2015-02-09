@@ -83,7 +83,7 @@ class SB_Core {
         $save_code = isset($captcha->code) ? $captcha->code : '';
         $expire = isset($captcha->expire) ? $captcha->expire : '';
         $result = true;
-        if(empty($save_code || empty($expire) || empty($code))) {
+        if(empty($save_code) || empty($expire) || empty($code)) {
             $result = false;
         } else {
             $timestamp = strtotime(self::get_current_datetime());
@@ -467,6 +467,11 @@ class SB_Core {
             $items = self::get_menu_items($menu->term_id, $args);
         }
         return $items;
+    }
+
+    public static function allow_anonymous_comment() {
+        update_option('require_name_email', 0);
+        update_option('comment_whitelist', 0);
     }
 
     public static function regenerate_htaccess_file() {
@@ -910,6 +915,9 @@ class SB_Core {
     }
 
     public static function build_meta_box_field_name($name) {
+        if(empty($name)) {
+            return $name;
+        }
         $name = str_replace('sbmb_', '', $name);
         return 'sbmb_' . $name;
     }

@@ -50,6 +50,13 @@ class SB_PHP {
         return $result;
     }
 
+    public static function is_array_has_value($arr) {
+        if(is_array($arr) && count($arr) > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public static function get_user_agent() {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         return $user_agent;
@@ -619,7 +626,7 @@ class SB_PHP {
 
     public static function add_http_to_url($url) {
         $url = self::strtolower($url);
-        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
+        if(!empty($url) && !preg_match('~^(?:f|ht)tps?://~i', $url)) {
             $url = 'http://' . $url;
         }
         return $url;
@@ -924,6 +931,26 @@ class SB_PHP {
         $value = (array)$value;
         $value = array_filter($value);
         return $value;
+    }
+
+    public static function is_monday($date_string = '') {
+        if(empty($date_string)) {
+            $date_string = date('D');
+        } else {
+            $date_string = date('D', strtotime(self::string_to_datetime($date_string)));
+        }
+        if($date_string === 'Mon') {
+            return true;
+        }
+        return false;
+    }
+
+    public static function is_first_day_of_month() {
+        $date = date('d');
+        if($date == '01') {
+            return true;
+        }
+        return false;
     }
 
     public static function string_to_datetime($string, $format = 'Y-m-d H:i:s') {

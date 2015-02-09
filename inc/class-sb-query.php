@@ -13,6 +13,21 @@ class SB_Query {
         return $products->post_count;
     }
 
+    public static function get_product_by_price_range($price_min, $price_max, $args = array()) {
+        $args['post_type'] = 'product';
+        if(!isset($args['posts_per_page'])) {
+            $args['posts_per_page'] = -1;
+        }
+        $meta_item = array(
+            'key' => '_price',
+            'value' => array($price_min, $price_max),
+            'type' => 'numeric',
+            'compare' => 'BETWEEN'
+        );
+        $args = self::build_meta_query($meta_item, $args);
+        return new WP_Query($args);
+    }
+
     public static function get_post_by_term($term_id, $taxonomy, $args = array()) {
         $tax_item = array(
             'taxonomy' => $taxonomy,
@@ -21,6 +36,95 @@ class SB_Query {
         );
         $args = SB_Query::build_tax_query($tax_item, $args);
         return new WP_Query($args);
+    }
+
+    public static function get_full_post_by_meta($args = array()) {
+        $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : self::get_posts_per_page();
+        $orderby = isset($args['orderby']) ? $args['orderby'] : '';
+        $meta_key = isset($args['meta_key']) ? $args['meta_key'] : '';
+        $query = new WP_Query($args);
+        if($query->have_posts() && $query->post_count < $posts_per_page) {
+            $tmp_query = $query;
+            $post_ids = array();
+            $my_posts = $query->posts;
+            foreach($my_posts as $game) {
+                array_push($post_ids, $game->ID);
+            }
+            $posts_per_page -= $query->post_count;
+            unset($args['orderby']);
+            unset($args['meta_key']);
+            $args['posts_per_page'] = $posts_per_page;
+            $args['post__not_in'] = $post_ids;
+            $query = new WP_Query($args);
+            if($query->have_posts()) {
+                $my_posts = $query->posts;
+                foreach($my_posts as $game) {
+                    array_push($tmp_query->posts, $game);
+                }
+                $tmp_query->post_count = $tmp_query->post_count + $query->post_count;
+            }
+            return $tmp_query;
+        } else {
+            if($query->post_count >= $posts_per_page) {
+                return $query;
+            }
+            unset($args['orderby']);
+            unset($args['meta_key']);
+            return new WP_Query($args);
+        }
+    }
+
+    public static function get_oldest_post($args = array()) {
+        $args['order'] = 'ASC';
+        return new WP_Query($args);
+    }
+
+    public static function get_most_view_of_week($args = array()) {
+        $args['orderby'] = 'meta_value_num';
+        $args['meta_key'] = 'views_week';
+        return new WP_Query($args);
+    }
+
+    public static function get_paged() {
+        return get_query_var('paged', 1);
+    }
+
+    public static function get_recent_post_by_view($args = array()) {
+        $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : 8;
+        $new_args = array(
+            'posts_per_page' => $posts_per_page * 3,
+            'post_type' => isset($args['post_type']) ? $args['post_type'] : 'post'
+        );
+        if(isset($args['post__not_in'])) {
+            $new_args['post__not_in'] = $args['post__not_in'];
+        }
+        $query = self::get_recent_post($new_args);
+        $post_ids = array();
+        if($query->have_posts()) {
+            $my_posts = $query->posts;
+            $temp_posts = array();
+            foreach($my_posts as $post) {
+                $post_id = $post->ID;
+                $item = array('id' => $post_id, 'views' => SB_Post::get_views($post_id));
+                array_push($temp_posts, $item);
+            }
+            $temp_posts = SB_PHP::array_sort($temp_posts, 'views', 'DESC');
+            $count = 0;
+            foreach($temp_posts as $temp) {
+                if($count >= $posts_per_page) {
+                    break;
+                }
+                array_push($post_ids, $temp['id']);
+                $count++;
+            }
+            if(count($post_ids) > 0) {
+                $args['post__in'] = $post_ids;
+            }
+            $args['orderby'] = 'meta_value_num';
+            $args['meta_key'] = 'views';
+            $query = new WP_Query($args);
+        }
+        return $query;
     }
 
     public static function get_post_by_category($term_id, $args = array()) {
@@ -134,6 +238,17 @@ class SB_Query {
                 array_push($args['tax_query'], $tax_item);
             } else {
                 $args['tax_query'] = array($tax_item);
+            }
+        }
+        return $args;
+    }
+
+    public static function build_meta_query($meta_item, $args) {
+        if(is_array($args)) {
+            if(isset($args['meta_query'])) {
+                array_push($args['meta_query'], $meta_item);
+            } else {
+                $args['meta_query'] = array($meta_item);
             }
         }
         return $args;

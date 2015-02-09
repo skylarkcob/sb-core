@@ -22,12 +22,11 @@ class SB_Mail {
         if($comment) {
             $post = get_post($comment->comment_post_ID);
             if($post) {
-                $subject = sprintf(__('Your comment on %s is approved', 'sb-core'), $post->post_title);
-                $body = sprintf(sprintf('<p>%s,</p>', __('Dear %s', 'sb-core')), $comment->comment_author);
-                $body .= sprintf(sprintf('<p>%s</p>', __('Your comment on %s is approved. You can click these links below for more detail.', 'sb-core')), $post->post_title);
-                $body .= sprintf(sprintf('<p>%s</p>', __('Post link: %s', 'sb-core')), get_permalink($post));
-                $body .= sprintf(sprintf('<p>%s</p>', __('Comment link: %s', 'sb-core')), get_comment_link($comment));
-                $body = SB_HTML::build_mail_body($body);
+                $subject = sprintf(__('Bình luận của bạn cho bài viết %s đã được duyệt', 'sb-core'), $post->post_title);
+                $body = sprintf(sprintf('<p>%s,</p>', __('Chào bạn %s', 'sb-core')), $comment->comment_author);
+                $body .= sprintf(sprintf('<p>%s</p>', __('Bình luận của bạn cho bài viết %s đã được xét duyệt. Bạn có thể truy cập vào các đường link bên dưới để biết thêm thông tin chi tiết.', 'sb-core')), $post->post_title);
+                $body .= sprintf(sprintf('<p>%s</p>', __('Đường dẫn bài viết: %s', 'sb-core')), get_permalink($post));
+                $body .= sprintf(sprintf('<p>%s</p>', __('Đường dẫn bình luận của bạn: %s', 'sb-core')), get_comment_link($comment));
                 self::send_html($comment->comment_author_email, $subject, $body);
             }
         }

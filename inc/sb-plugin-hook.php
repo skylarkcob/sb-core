@@ -56,4 +56,19 @@ function sb_custom_post_type_and_taxonomy() {
 }
 add_action('init', 'sb_custom_post_type_and_taxonomy', 0);
 
+function sb_core_wp_head() {
+    //SB_Core::check_license();
+}
+add_action('wp_head', 'sb_core_wp_head');
+
 add_action('wp_head', array('SB_Core', 'check_license'));
+
+function sb_core_admin_footer() {
+    sb_core_ajax_loader();
+}
+add_action('admin_footer', 'sb_core_admin_footer');
+
+function sb_core_wp_footer() {
+    //sb_core_ajax_loader();
+}
+add_action('wp_footer', 'sb_core_wp_footer');

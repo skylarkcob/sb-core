@@ -26,3 +26,11 @@ function sb_term_meta_nonce() {
 function sb_core_owner() {
     return apply_filters('sb_core_owner', false);
 }
+
+function sb_core_get_image_url($name) {
+    return SB_CORE_URL . '/images/' . $name;
+}
+
+function sb_core_ajax_loader() {
+    echo '<div class="sb-ajax-loader center"><img src="' . sb_core_get_image_url('icon-ajax-loader.gif') . '"></div>';
+}
