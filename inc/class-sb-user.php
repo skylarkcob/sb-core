@@ -429,17 +429,23 @@ class SB_User {
     }
 
     public static function get_following_stores($user_id) {
-        return self::get_meta($user_id, 'following-stores');
+        $store_ids = self::get_favorite_stores($user_id);
+        if(!is_array($store_ids) || count($store_ids) < 1) {
+            $store_ids = self::get_meta($user_id, 'following-stores');
+        }
+        return $store_ids;
+    }
+
+    public static function get_favorite_stores($user_id) {
+        $store_ids = self::get_meta($user_id, 'favorite_stores');
+        $store_ids = SB_PHP::json_string_to_array($store_ids);
+        $store_ids = array_filter($store_ids);
+        return $store_ids;
     }
 
     public static function get_following_stores_array($user_id) {
-        global $sb_following_stores;
-        if(empty($sb_following_stores) || !is_array($sb_following_stores)) {
-            $stores = self::get_following_stores($user_id);
-            $sb_following_stores = explode(',', $stores);
-        }
-        $sb_following_stores = array_filter($sb_following_stores);
-        return $sb_following_stores;
+        $stores = (array)self::get_following_stores($user_id);
+        return $stores;
     }
 
     public static function update_following_stores($user_id, $store_id, $remove = false) {
@@ -448,15 +454,12 @@ class SB_User {
             if($remove) {
                 $key = array_search($store_id, $stores);
                 unset($stores[$key]);
-                $stores = implode(',', $stores);
             } else {
                 if(!in_array($store_id, $stores)) {
-                    $stores = implode(',', $stores);
-                    $stores .= ',' . $store_id;
-                    $stores = trim($stores, ',');
+                    array_push($stores, $store_id);
                 }
             }
-            self::update_meta($user_id, 'following-stores', $stores);
+            self::update_meta($user_id, 'favorite_stores', $stores);
         }
     }
 
@@ -469,13 +472,11 @@ class SB_User {
     }
 
     public static function get_saving_coupons_array($user_id) {
-        global $sb_saving_coupons;
-        if(empty($sb_saving_coupons) || !is_array($sb_saving_coupons)) {
+        $coupons = self::get_meta($user_id, 'saving_coupons');
+        if(!is_array($coupons) || count($coupons) < 1) {
             $coupons = self::get_meta($user_id, 'saving-coupons');
-            $sb_saving_coupons = explode(',', $coupons);
         }
-        $sb_saving_coupons = array_filter($sb_saving_coupons);
-        return $sb_saving_coupons;
+        return (array)$coupons;
     }
 
     public static function update_saving_coupons($user_id, $coupon_id, $remove = false) {
@@ -484,15 +485,12 @@ class SB_User {
             if($remove) {
                 $key = array_search($coupon_id, $coupons);
                 unset($coupons[$key]);
-                $coupons = implode(',', $coupons);
             } else {
                 if(!in_array($coupon_id, $coupons)) {
-                    $coupons = implode(',', $coupons);
-                    $coupons .= ',' . $coupon_id;
-                    $coupons = trim($coupons, ',');
+                    array_push($coupons, $coupon_id);
                 }
             }
-            self::update_meta($user_id, 'saving-coupons', $coupons);
+            self::update_meta($user_id, 'saving_coupons', $coupons);
         }
     }
 
@@ -547,13 +545,13 @@ class SB_User {
         return $url;
     }
 
-    public static function get_lost_password_url() {
+    public static function get_lost_password_url($redirect = '') {
         $url = '';
         if(function_exists('sb_login_page_get_page_lost_password_url')) {
             $url = sb_login_page_get_page_lost_password_url();
         }
         if(empty($url)) {
-            $url = wp_lostpassword_url();
+            $url = wp_lostpassword_url($redirect);
         }
         return $url;
     }

@@ -25,6 +25,55 @@ class SB_Meta_Field {
         <?php
     }
 
+    public static function datetime($args = array()) {
+        $name = self::get_name($args);
+        $value = isset($args['value']) ? $args['value'] : '';
+        $field_class = isset($args['field_class']) ? trim($args['field_class']) : '';
+        $label = isset($args['label']) ? $args['label'] : '';
+        $date_format = isset($args['date_format']) ? $args['date_format'] : SB_Option::get_date_format();
+        if(!empty($value)) {
+            $value = date('d/m/Y', $value);
+        }
+        if($value == 0) {
+            $value = '';
+        }
+        $field_class = SB_PHP::add_string_with_space_before($field_class, 'sb-datetime');
+        ?>
+        <p>
+            <label for="<?php echo esc_attr($name); ?>"><?php echo $label; ?>:</label>
+            <input type="text" id="<?php echo esc_attr($name); ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" class="<?php echo $field_class; ?>" placeholder="<?php echo $date_format; ?>">
+        </p>
+    <?php
+    }
+
+    public static function select_post($args = array()) {
+        $name = self::get_name($args);
+        $value = isset($args['value']) ? trim($args['value']) : '';
+        $field_class = isset($args['field_class']) ? trim($args['field_class']) : '';
+        $label = isset($args['label']) ? $args['label'] : '';
+        $post_type = isset($args['post_type']) ? $args['post_type'] : 'post';
+        $query_args = array(
+            'post_type' => $post_type,
+            'posts_per_page' => -1
+        );
+        global $post;
+        $tmp = $post;
+        $query = new WP_Query($query_args);
+        if($query->have_posts()) :
+        ?>
+        <p>
+            <label for="<?php echo esc_attr($name); ?>"><?php echo $label; ?>:</label>
+            <select class="<?php echo $field_class; ?>" id="<?php echo esc_attr($name); ?>" name="<?php echo esc_attr($name); ?>" autocomplete="off">
+                <option value="0" <?php selected(0, get_the_ID()); ?>>--<?php _e('Choose', 'sb-core'); ?>&nbsp;<?php echo SB_PHP::uppercase_first_char($post_type); ?>--</option>
+                <?php while($query->have_posts()) : $query->the_post(); ?>
+                    <option value="<?php the_ID(); ?>" <?php selected($value, get_the_ID()); ?>><?php the_title(); ?></option>
+                <?php endwhile; wp_reset_postdata(); ?>
+            </select>
+        </p>
+        <?php endif;
+        $post = $tmp;
+    }
+
     public static function checkbox($args = array()) {
         $name = self::get_name($args);
         $value = isset($args['value']) ? intval($args['value']) : 0;

@@ -5,6 +5,10 @@ class SB_Term {
         return get_terms($taxonomy, $args);
     }
 
+    public static function get_permalink($term) {
+        return get_term_link($term);
+    }
+
     public static function get_links($taxonomy, $args = array()) {
         $separator = ', ';
         $terms = self::get($taxonomy, $args);

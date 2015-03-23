@@ -228,6 +228,11 @@ class SB_Option {
         return $key_name;
     }
 
+    public static function get_color_schemes() {
+        $options = (array)self::get_theme_option_single_key('color_schemes');
+        return $options;
+    }
+
     public static function build_sb_utility_option_name($key_array) {
         if(!is_array($key_array)) {
             return '';

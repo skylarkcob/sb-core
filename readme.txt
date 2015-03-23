@@ -3,8 +3,8 @@ Contributors: skylarkcob
 Donate link: http://hocwp.net/donate/
 Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
 Requires at least: 3.9
-Tested up to: 4.1
-Stable tag: 1.5.7
+Tested up to: 4.1.1
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,21 @@ Please visit [homepage](http://hocwp.net) for more details.
 Please update all SB Plugins after you updated SB Core.
 
 == Changelog ==
+
+= 1.6.0 =
+* Update function for SB Login Page plugin.
+* Update function for SB BIC HealthCare plugin.
+
+= 1.5.9 =
+* Add color picker field.
+* Update core style.
+* Update for Retail theme.
+
+= 1.5.8 =
+* Update function to get current week day and date time.
+* Add function to check WPCF installed.
+* Update select term field.
+* Update for Retail Coupon theme.
 
 = 1.5.7 =
 Update for game theme.

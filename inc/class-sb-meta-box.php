@@ -71,6 +71,11 @@ class SB_Meta_Box {
             }
             if('checkbox' == $type) {
                 $value = isset($_POST[$name]) ? 1 : 0;
+            } elseif('datetime' == $type) {
+                $value = isset($_POST[$name]) ? SB_PHP::string_to_datetime($_POST[$name], 'Y-m-d') : '';
+                if(!empty($value)) {
+                    $value = strtotime($value);
+                }
             } else {
                 $value = isset($_POST[$name]) ? $_POST[$name] : '';
             }

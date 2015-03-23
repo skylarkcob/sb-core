@@ -511,7 +511,6 @@ a:focus {
 }
 
 .sbtheme-about .sb-version {
-    color: #666;
     font-size: 17px;
 }
 
@@ -573,8 +572,22 @@ a:focus {
     font-style: normal;
 }
 
+.sb-option .form-table .sb-color-options .description {
+    margin-top: 0;
+}
+
+.sb-option .form-table .sb-color-options .color-area {
+    float: left;
+    margin-top: 20px;
+    width: 50%;
+}
+
+.sb-option .form-table .sb-color-options .color-area:nth-of-type(1),
+.sb-option .form-table .sb-color-options .color-area:nth-of-type(2) {
+    margin-top: 0;
+}
+
 .sb-plugins .sub-tabs {
-    color: #666;
     float: left;
     font-size: 13px;
     list-style: none outside none;
@@ -923,3 +936,7 @@ div.sb-post-meta-row .image-preview {
     display: block;
 }
 
+.sbtheme-about .sb-version,
+.sb-plugins .sub-tabs {
+    color: #666;
+}

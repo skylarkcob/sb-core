@@ -214,10 +214,9 @@ class SB_Post {
     }
 
     public static function get_thumbnail_url($args = array()) {
-        $post_id = get_the_ID();
+        $post_id = isset($args['post_id']) ? $args['post_id'] : get_the_ID();
         $result = '';
-        $size = '';
-        extract($args, EXTR_OVERWRITE);
+        $size = isset($args['size']) ? $args['size'] : '';
         if(has_post_thumbnail($post_id)) {
             $image_path = get_attached_file(get_post_thumbnail_id($post_id));
             if(file_exists($image_path)) {
@@ -282,13 +281,13 @@ class SB_Post {
     }
 
     public static function get_thumbnail_html($args = array()) {
-        $size = '';
-        $post_id = get_the_ID();
-        $width = '';
-        $height = '';
-        $style = '';
-        $crop = false;
-        extract($args, EXTR_OVERWRITE);
+        $size = isset($args['size']) ? $args['size'] : '';
+        $post_id = isset($args['post_id']) ? $args['post_id'] : get_the_ID();
+        $width = isset($args['width']) ? $args['width'] : '';
+        $height = isset($args['height']) ? $args['height'] : '';
+        $style = isset($args['style']) ? $args['style'] : '';
+        $crop = isset($args['crop']) ? (bool)$args['crop'] : false;
+        $bfi_thumb = isset($args['bfi_thumb']) ? (bool)$args['bfi_thumb'] : true;
         if(is_array($size) && count($size) == 1) {
             $size = array($size, $size);
         }
@@ -300,19 +299,32 @@ class SB_Post {
         $args['size'] = $size;
         $result = self::get_thumbnail_url($args);
         if(!empty($result)) {
-            $tmp = bfi_thumb($result, array('width' => $width, 'height' => $height, 'crop' => $crop));
-            if(!empty($tmp)) {
-                $result = $tmp;
+            if($bfi_thumb) {
+                $height = intval($height);
+                if($height > 0) {
+                    $tmp = bfi_thumb($result, array('width' => $width, 'height' => $height, 'crop' => $crop));
+                } else {
+                    $tmp = bfi_thumb($result, array('width' => $width, 'crop' => $crop));
+                }
+                if(!empty($tmp)) {
+                    $result = $tmp;
+                }
             }
             $result = '<img class="wp-post-image sb-post-image img-responsive thumbnail-image" alt="' . get_the_title($post_id) . '" width="' . $width . '" height="' . $height . '" src="' . $result . '"' . $style . '>';
         }
         return apply_filters('sb_thumbnail_html', $result);
     }
 
+    public static function is($post) {
+        if(!is_a($post, 'WP_Post') || SB_Core::is_error($post) || empty($post)) {
+            return false;
+        }
+        return true;
+    }
+
     public static function the_thumbnail_html($args = array()) {
         $post_id = get_the_ID();
-        $thumbnail_url = '';
-        extract($args, EXTR_OVERWRITE);
+        $thumbnail_url = isset($args['thumbnail_url']) ? $args['thumbnail_url'] : '';
         if(empty($thumbnail_url)) {
             $thumbnail_url = self::get_thumbnail_html($args);
         } else {
@@ -326,9 +338,8 @@ class SB_Post {
     }
 
     public static function the_thumbnail_only_link_image_html($args = array()) {
-        $post_id = get_the_ID();
-        $thumbnail_url = '';
-        extract($args, EXTR_OVERWRITE);
+        $post_id = isset($args['post_id']) ? $args['post_id'] : get_the_ID();
+        $thumbnail_url = isset($args['thumbnail_url']) ? $args['thumbnail_url'] : '';
         if(empty($thumbnail_url)) {
             $thumbnail_url = self::get_thumbnail_html($args);
         } else {
@@ -340,9 +351,8 @@ class SB_Post {
     }
 
     public static function the_thumbnail_only_image_html($args = array()) {
-        $post_id = get_the_ID();
-        $thumbnail_url = '';
-        extract($args, EXTR_OVERWRITE);
+        $post_id = isset($args['post_id']) ? $args['post_id'] : get_the_ID();
+        $thumbnail_url = isset($args['thumbnail_url']) ? $args['thumbnail_url'] : '';
         if(empty($thumbnail_url)) {
             $thumbnail_url = self::get_thumbnail_html($args);
         } else {
@@ -497,11 +507,10 @@ class SB_Post {
     }
 
     public static function the_term_link($post_id, $taxonomy, $args = array()) {
-        $separator = ', ';
-        $number = -1;
-        $link = true;
-        $top_level = false;
-        extract($args, EXTR_OVERWRITE);
+        $separator = isset($args['separator']) ? $args['separator'] : ', ';
+        $number = isset($args['number']) ? $args['number'] : -1;
+        $link = isset($args['link']) ? $args['link'] : true;
+        $top_level = isset($args['top_level']) ? $args['top_level'] : false;
         $terms = self::get_terms($post_id, $taxonomy);
         $result = '';
         $count = 0;
@@ -700,9 +709,8 @@ class SB_Post {
     }
 
     public static function change_custom_menu_url($args = array()) {
-        $site_url = '';
-        $url = '';
-        extract($args, EXTR_OVERWRITE);
+        $site_url = isset($args['site_url']) ? $args['site_url'] : '';
+        $url = isset($args['url']) ? $args['url'] : '';
         if(empty($url)) {
             $url = SB_Option::get_site_url();
         }
