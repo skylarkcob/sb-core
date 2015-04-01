@@ -12,6 +12,10 @@ class SB_Post {
         return $result;
     }
 
+    public static function get_media_url($media_id) {
+        return wp_get_attachment_url($media_id);
+    }
+
     public static function get_comment_number($post_id = '') {
         $comment_number = get_comments_number($post_id);
         if($comment_number == 1) {

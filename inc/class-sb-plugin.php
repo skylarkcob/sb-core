@@ -66,20 +66,24 @@ class SB_Plugin {
     }
 
     public function get_information() {
-        if(!function_exists('plugins_api')) {
-            require ABSPATH . 'wp-admin/includes/plugin-install.php';
+        $key = str_replace('_', '_', $this->slug) . '_information';
+        if(false === ($this->information = get_transient($key))) {
+            if(!function_exists('plugins_api')) {
+                require ABSPATH . 'wp-admin/includes/plugin-install.php';
+            }
+            $fields = array(
+                'short_description' => true,
+                'screenshots' => false,
+                'changelog' => false,
+                'installation' => false,
+                'description' => false
+            );
+            $args = array(
+                'slug' => $this->slug,
+                'fields' => $fields);
+            $this->information = plugins_api('plugin_information', $args);
+            set_transient($key, $this->information, DAY_IN_SECONDS);
         }
-        $fields = array(
-            'short_description' => true,
-            'screenshots' => false,
-            'changelog' => false,
-            'installation' => false,
-            'description' => false
-        );
-        $args = array(
-            'slug' => $this->slug,
-            'fields' => $fields);
-        $this->information = plugins_api('plugin_information', $args);
         return $this->information;
     }
 

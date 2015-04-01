@@ -5,6 +5,11 @@ class SB_Message {
         return apply_filters('sb_confirm_text', $text);
     }
 
+    public static function get_confirm_delete_text() {
+        $text = __('Are you sure you want to delete?', 'sb-core');
+        return apply_filters('sb_confirm_delete_text', $text);
+    }
+
     public static function get_redirecting_text() {
         $text = __('Redirecting', 'sb-core');
         return apply_filters('sb_redirecting_text', $text);

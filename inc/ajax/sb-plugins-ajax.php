@@ -1,9 +1,13 @@
 <?php
 $plugin_slug = isset($_POST['sb_plugin_slug']) ? $_POST['sb_plugin_slug'] : '';
-if(empty($plugin_slug)) return;
+if(empty($plugin_slug)) {
+    return;
+}
 $plugin = new SB_Plugin($plugin_slug);
 $info = $plugin->get_information();
-if(is_wp_error($info)) return; ?>
+if(is_wp_error($info)) {
+    return;
+} ?>
 <div class="plugin-card">
     <div class="plugin-card-top">
         <div class="name column-name">

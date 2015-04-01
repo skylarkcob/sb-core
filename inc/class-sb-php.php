@@ -57,6 +57,12 @@ class SB_PHP {
         return false;
     }
 
+    public static function array_to_string($delimiter, $text) {
+        $datas = explode($delimiter, $text);
+        $datas = array_filter($datas);
+        return $datas;
+    }
+
     public static function get_user_agent() {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         return $user_agent;
@@ -181,6 +187,26 @@ class SB_PHP {
             return implode( ' ', $arr_words ) . $more;
         }
         return $str;
+    }
+
+    public static function get_substring($args = array()) {
+        $text = isset($args['text']) ? $args['text'] : '';
+        if(empty($text)) {
+            $text = isset($args['string']) ? $args['string'] : '';
+        }
+        $more = isset($args['more']) ? $args['more'] : '...';
+        $read_more = isset($args['read_more']) ? $args['read_more'] : '';
+        $len = isset($args['len']) ? absint($args['len']) : 0;
+        if($len == 0) {
+            $len = isset($args['length']) ? absint($args['length']) : 0;
+        }
+        $old_length = mb_strlen($text, 'utf-8');
+        $sub_str = self::substr($text, $len, $more);
+        $new_length = mb_strlen($sub_str, 'utf-8') - strlen($more);
+        if(!empty($read_more) && $new_length < $old_length) {
+            $sub_str .= ' ' . $read_more;
+        }
+        return $sub_str;
     }
 
     public static function array_shift( &$array, $number = 1 ) {
@@ -641,6 +667,26 @@ class SB_PHP {
     public static function get_domain_name( $url ) {
         $parse = parse_url( $url );
         return isset( $parse['host'] ) ? $parse['host'] : '';
+    }
+
+    public static function get_root_domain($url) {
+        $domain_name = self::get_domain_name($url);
+        $data = explode('.', $domain_name);
+        while(count($data) > 2) {
+            array_shift($data);
+        }
+        $domain_name = implode('.', $data);
+        $last = $data[count($data) - 1];
+        if('localhost' == $last || strlen($last) > 6) {
+            $domain_name = $last;
+        }
+        return $domain_name;
+    }
+
+    public static function get_domain_name_only($url) {
+        $root_domain = self::get_root_domain($url);
+        $data = explode('.', $root_domain);
+        return array_shift($data);
     }
 
     public static function get_domain_name_with_http( $url ) {

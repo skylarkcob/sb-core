@@ -30,6 +30,15 @@ class SB_Core {
         return $result;
     }
 
+    public static function is_my_domain($url) {
+        $domain = SB_PHP::get_domain_name_only(get_bloginfo('url'));
+        $url = SB_PHP::get_domain_name_only($url);
+        if($domain == $url) {
+            return true;
+        }
+        return false;
+    }
+
     public static function page_template_init($args = array()) {
         $plugin_path = isset($args['plugin_path']) ? untrailingslashit($args['plugin_path']) : '';
         $folder_path = isset($args['folder_path']) ? untrailingslashit($args['folder_path']) : '';
@@ -89,39 +98,14 @@ class SB_Core {
     }
 
     public static function check_captcha($code) {
-        $captcha = self::get_captcha_session();
-        $save_code = isset($captcha->code) ? $captcha->code : '';
-        $expire = isset($captcha->expire) ? $captcha->expire : '';
-        $result = true;
-        if(empty($save_code) || empty($expire) || empty($code)) {
-            $result = false;
-        } else {
-            $timestamp = strtotime(self::get_current_datetime());
-            $expire = intval($expire);
-            if(($expire - $timestamp) <= 0) {
-                $result = false;
-            } else {
-                $code = trim($code);
-                if($save_code != $code) {
-                    $result = false;
-                }
-            }
-        }
-        return $result;
+        return SB_Captcha::check($code);
     }
 
-    public static function the_captcha($len = 4) {
-        $captcha = SB_PHP::random_string_number($len);
-        self::set_captcha_session($captcha);
-        $url = self::get_captcha_url();
-        if(!empty($url)) {
-            ?>
-            <div class="sb-captcha">
-                <img class="captcha-code" alt="<?php _e('Mã bảo mật', 'sb-core'); ?>" src="<?php echo $url; ?>" title="<?php _e('Mã bảo mật', 'sb-core'); ?>">
-                <img data-len="<?php echo $len; ?>" class="reload" src="<?php echo SB_CORE_URL . '/inc/captcha/icon-reload.gif'; ?>" alt="">
-            </div>
-            <?php
+    public static function the_captcha($args = array()) {
+        if(!class_exists('SB_Captcha')) {
+            return;
         }
+        SB_Captcha::the_image($args);
     }
 
     public static function check_recaptcha_response($secret_key, $response, $remote_ip = '') {

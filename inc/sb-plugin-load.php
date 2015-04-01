@@ -17,6 +17,8 @@ require SB_CORE_INC_PATH . '/class-sb-core.php';
 
 require SB_CORE_INC_PATH . '/class-sb-option.php';
 
+require SB_CORE_INC_PATH . '/class-sb-captcha.php';
+
 require SB_CORE_INC_PATH . '/class-sb-mail.php';
 
 require SB_CORE_INC_PATH . '/class-sb-user.php';

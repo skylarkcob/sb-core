@@ -136,21 +136,25 @@ var sb_password_strength,
     })();
 
     (function(){
-        $('.sb-captcha .reload').on('click', function(e){
+        $('.sb-captcha .reload, .sb-captcha-image').on('click', function(e){
             e.preventDefault();
+
             var that = $(this),
                 captcha = that.parent().find('.captcha-code'),
                 data = null;
             if(that.hasClass('disabled')) {
                 return;
             }
+            captcha.css({opacity: 0.2});
             data = {
-                'action': 'sb_reload_captcha'
+                'action': 'sb_reload_captcha',
+                len: captcha.attr('data-len')
             };
             that.addClass('disabled');
             $.post(sb_core_ajax.url, data, function(resp){
                 captcha.attr('src', resp);
                 that.removeClass('disabled');
+                captcha.css({opacity: 1});
             });
         });
     })();

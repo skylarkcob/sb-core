@@ -5,6 +5,7 @@ class SB_Term_Meta {
     public $fields = array();
     private $create_callback;
     private $translate = false;
+    public $column = false;
 
     public function __construct($args = array()) {
         $this->extract($args);
@@ -15,17 +16,17 @@ class SB_Term_Meta {
         if(!is_array($args)) {
             return;
         }
-        $taxonomies = array();
-        $callback = '';
-        $create_callback = '';
-        $fields = array();
-        $translate = false;
-        extract($args, EXTR_OVERWRITE);
+        $taxonomies = isset($args['taxonomies']) ? $args['taxonomies'] : array();
+        $callback = isset($args['callback']) ? $args['callback'] : '';
+        $create_callback = isset($args['create_callback']) ? $args['create_callback'] : '';
+        $fields = isset($args['fields']) ? $args['fields']: array();
+        $translate = isset($args['translate']) ? $args['translate'] : false;
         $this->taxonomies = $taxonomies;
         $this->callback = $callback;
         $this->fields = $fields;
         $this->create_callback = $create_callback;
         $this->translate = $translate;
+        $this->column = isset($args['column']) ? $args['column'] : false;
     }
 
     public function qtranslate_plus_field() {
@@ -52,9 +53,22 @@ class SB_Term_Meta {
             }
             add_action('edited_' . $tax_name, array($this, 'save'));
             add_action('created_' . $tax_name, array($this, 'save'));
+            if($this->column) {
+                add_filter( 'manage_edit-' . $tax_name . '_columns', array($this, 'term_meta_column_header'), 10);
+                add_action( 'manage_' . $tax_name . '_custom_column', array($this, 'term_meta_column_content'), 10, 3);
+            }
         }
     }
 
+    public function term_meta_column_header( $columns ){
+        $columns = apply_filters('sb_term_meta_column_header', $columns);
+        return $columns;
+    }
+
+    public function term_meta_column_content( $value, $column_name, $tax_id ){
+        do_action('sb_term_meta_column_content', $value, $column_name, $tax_id);
+    }
+    
     public function save($term_id) {
         if(!SB_Core::verify_nonce('sb_term_meta', 'sb_term_meta_nonce')) {
             return $term_id;

@@ -12,14 +12,12 @@ class SB_Option {
     }
 
     public static function get_recaptcha_site_key() {
-        $options = self::get();
-        $value = isset($options['global']['recaptcha']['site_key']) ? $options['global']['recaptcha']['site_key'] : '';
+        $value = self::get_option_by_key(array('global', 'recaptcha', 'site_key'));
         return $value;
     }
 
     public static function get_recaptcha_secret_key() {
-        $options = self::get();
-        $value = isset($options['global']['recaptcha']['secret_key']) ? $options['global']['recaptcha']['secret_key'] : '';
+        $value = self::get_option_by_key(array('global', 'recaptcha', 'secret_key'));
         return $value;
     }
 
@@ -113,8 +111,27 @@ class SB_Option {
         return $sb_options;
     }
 
+    public static function get_media_detail($value) {
+        $value_id = (is_array($value)) ? (isset($value['id']) ? absint($value['id']) : '') : '';
+        $value_url = (is_array($value)) ? (isset($value['url']) ? $value['url'] : '') : $value;
+        if($value_id > 0) {
+            $media_url = SB_Post::get_media_url($value_id);
+            if(!empty($media_url)) {
+                $value_url = $media_url;
+            }
+        }
+        return array('id' => $value_id, 'url' => $value_url);
+    }
+
+    public static function get_media_url($array_key = array()) {
+        $value = self::get_option_by_key($array_key);
+        $media_detail = self::get_media_detail($value);
+        $value = $media_detail['url'];
+        return $value;
+    }
+
     public static function get_favicon_url() {
-        return self::get_theme_option(array('keys' => array('favicon')));
+        return self::get_media_url(array('keys' => array('favicon')));
     }
 
     public static function get_logo_url() {
@@ -156,8 +173,7 @@ class SB_Option {
     }
 
     public static function get_login_logo_url() {
-        $options = self::get();
-        $logo_url = isset($options['login_page']['logo']) ? $options['login_page']['logo'] : '';
+        $logo_url = self::get_media_url(array('keys' => array('login_page', 'logo')));
         if(empty($logo_url) && defined('SB_THEME_VERSION')) {
             $logo_url = self::get_logo_url();
         }
@@ -166,7 +182,7 @@ class SB_Option {
 
     public static function get_theme_thumbnail_url() {
         $options = self::get();
-        $url = self::get_theme_option(array('keys' => array('thumbnail')));
+        $url = self::get_media_url(array('keys' => array('thumbnail')));
         if(empty($url)) {
             $url = isset($options['post_widget']['no_thumbnail']) ? $options['post_widget']['no_thumbnail'] : '';
         }
@@ -188,6 +204,14 @@ class SB_Option {
         return $url;
     }
 
+    public static function get_option_by_key($array_key = array(), $default = '') {
+        $args = array(
+            'keys' => $array_key,
+            'default' => $default
+        );
+        return self::get_by_key($args);
+    }
+
     public static function get_by_key($args = array()) {
         $default = isset($args['default']) ? $args['default'] : '';
         $options = self::get();
@@ -198,8 +222,12 @@ class SB_Option {
             return $value;
         }
         foreach($keys as $key) {
+            $tmp = (array)$tmp;
+            if(is_array($key)) {
+                continue;
+            }
             $tmp = isset($tmp[$key]) ? $tmp[$key] : '';
-            if(empty($tmp)) {
+            if(empty($tmp) || !is_array($tmp)) {
                 break;
             }
         }
@@ -207,6 +235,18 @@ class SB_Option {
             $value = $tmp;
         }
         return $value;
+    }
+
+    public static function get_option_single_key($base_name, $key_name, $default = '') {
+        $keys = array(
+            $base_name,
+            $key_name
+        );
+        return self::get_option_by_key($keys, $default);
+    }
+
+    public static function get_theme_option_single_key($key_name, $default = '') {
+        return self::get_option_single_key('theme', $key_name, $default);
     }
 
     public static function build_sb_option_name($key_array) {
@@ -292,11 +332,6 @@ class SB_Option {
             $result = explode(',', $channel_ids);
         }
         return $result;
-    }
-
-    public static function get_theme_option_single_key($key_name) {
-        $args = array('keys' => array($key_name));
-        return self::get_theme_option($args);
     }
 
     public static function get_theme_footer_text() {

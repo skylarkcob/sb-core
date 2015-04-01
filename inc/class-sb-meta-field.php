@@ -17,10 +17,11 @@ class SB_Meta_Field {
         $value = isset($args['value']) ? trim($args['value']) : '';
         $field_class = isset($args['field_class']) ? trim($args['field_class']) : '';
         $label = isset($args['label']) ? $args['label'] : '';
+        $placeholder = isset($args['placeholder']) ? $args['placeholder'] : '';
         ?>
         <p>
             <label for="<?php echo esc_attr($name); ?>"><?php echo $label; ?>:</label>
-            <input type="text" id="<?php echo esc_attr($name); ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" class="<?php echo $field_class; ?>">
+            <input type="text" id="<?php echo esc_attr($name); ?>" placeholder="<?php echo $placeholder; ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" class="<?php echo $field_class; ?>">
         </p>
         <?php
     }
@@ -32,16 +33,20 @@ class SB_Meta_Field {
         $label = isset($args['label']) ? $args['label'] : '';
         $date_format = isset($args['date_format']) ? $args['date_format'] : SB_Option::get_date_format();
         if(!empty($value)) {
-            $value = date('d/m/Y', $value);
+            $value = date($date_format, $value);
         }
         if($value == 0) {
             $value = '';
         }
         $field_class = SB_PHP::add_string_with_space_before($field_class, 'sb-datetime');
+        $current = isset($args['current']) ? $args['current'] : false;
+        if($current && empty($value)) {
+            $value = date($date_format);
+        }
         ?>
         <p>
             <label for="<?php echo esc_attr($name); ?>"><?php echo $label; ?>:</label>
-            <input type="text" id="<?php echo esc_attr($name); ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" class="<?php echo $field_class; ?>" placeholder="<?php echo $date_format; ?>">
+            <input type="text" id="<?php echo esc_attr($name); ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo $value; ?>" class="<?php echo $field_class; ?>" placeholder="<?php echo $date_format; ?>" autocomplete="off">
         </p>
     <?php
     }
