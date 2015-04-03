@@ -36,7 +36,6 @@ function sb_core_admin_style_and_script() {
 add_action( 'admin_enqueue_scripts', 'sb_core_admin_style_and_script' );
 
 function sb_core_style_and_script() {
-    sb_theme_custom_load_nivo_slider();
     wp_register_script( 'sb-core', SB_CORE_URL . '/js/sb-core-script.js', array( 'jquery' ), false, true );
     wp_localize_script( 'sb-core', 'sb_core_ajax', array( 'url' => SB_Core::get_admin_ajax_url() ) );
     wp_enqueue_script( 'sb-core' );

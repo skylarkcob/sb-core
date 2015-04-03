@@ -15,15 +15,6 @@ function sb_build_meta_name( $meta_name ) {
     return SB_Core::build_meta_box_field_name( $meta_name );
 }
 
-function sb_theme_custom_load_nivo_slider() {
-    wp_enqueue_style('nivo-slider-style', SB_THEME_LIB_URL . '/nivo-slider/nivo-slider.css');
-    wp_enqueue_style('nivo-slider-theme-default-style', SB_THEME_LIB_URL . '/nivo-slider/themes/default/default.css');
-    wp_enqueue_style('nivo-slider-theme-light-style', SB_THEME_LIB_URL . '/nivo-slider/themes/light/light.css');
-    wp_enqueue_style('nivo-slider-theme-dark-style', SB_THEME_LIB_URL . '/nivo-slider/themes/dark/dark.css');
-    wp_enqueue_style('nivo-slider-theme-bar-style', SB_THEME_LIB_URL . '/nivo-slider/themes/bar/bar.css');
-    wp_enqueue_script('nivo-slider', SB_THEME_LIB_URL . '/nivo-slider/jquery.nivo.slider.min.js', array('jquery'), false, true);
-}
-
 function sb_meta_box_nonce() {
     wp_nonce_field( 'sb_meta_box', 'sb_meta_box_nonce' );
 }
