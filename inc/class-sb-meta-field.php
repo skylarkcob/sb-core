@@ -63,7 +63,7 @@ class SB_Meta_Field {
         );
         global $post;
         $tmp = $post;
-        $query = new WP_Query($query_args);
+        $query = SB_Query::get($query_args);
         if($query->have_posts()) :
         ?>
         <p>

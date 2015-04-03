@@ -8,8 +8,19 @@ class SB_Query {
         return get_pages($args);
     }
 
+    public static function get($args = array()) {
+        $transient_name = isset($args['transient_name']) ? $args['transient_name'] : '';
+        if(!empty($transient_name) && false === ($query = get_transient($transient_name))) {
+            $query = new WP_Query($args);
+            set_transient($transient_name, $query, DAY_IN_SECONDS);
+        } else {
+            $query = new WP_Query($args);
+        }
+        return $query;
+    }
+
     public static function count_product() {
-        $products = new WP_Query(array('post_type' => 'product', 'posts_per_page' => -1));
+        $products = self::get(array('post_type' => 'product', 'posts_per_page' => -1));
         return $products->post_count;
     }
 
@@ -25,7 +36,7 @@ class SB_Query {
             'compare' => 'BETWEEN'
         );
         $args = self::build_meta_query($meta_item, $args);
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_post_by_term($term_id, $taxonomy, $args = array()) {
@@ -35,14 +46,14 @@ class SB_Query {
             'terms' => $term_id
         );
         $args = SB_Query::build_tax_query($tax_item, $args);
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_full_post_by_meta($args = array()) {
         $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : self::get_posts_per_page();
         $orderby = isset($args['orderby']) ? $args['orderby'] : '';
         $meta_key = isset($args['meta_key']) ? $args['meta_key'] : '';
-        $query = new WP_Query($args);
+        $query = self::get($args);
         if($query->have_posts() && $query->post_count < $posts_per_page) {
             $tmp_query = $query;
             $post_ids = array();
@@ -55,7 +66,7 @@ class SB_Query {
             unset($args['meta_key']);
             $args['posts_per_page'] = $posts_per_page;
             $args['post__not_in'] = $post_ids;
-            $query = new WP_Query($args);
+            $query = self::get($args);
             if($query->have_posts()) {
                 $my_posts = $query->posts;
                 foreach($my_posts as $game) {
@@ -70,19 +81,19 @@ class SB_Query {
             }
             unset($args['orderby']);
             unset($args['meta_key']);
-            return new WP_Query($args);
+            return self::get($args);
         }
     }
 
     public static function get_oldest_post($args = array()) {
         $args['order'] = 'ASC';
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_most_view_of_week($args = array()) {
         $args['orderby'] = 'meta_value_num';
         $args['meta_key'] = 'views_week';
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_paged() {
@@ -122,7 +133,7 @@ class SB_Query {
             }
             $args['orderby'] = 'meta_value_num';
             $args['meta_key'] = 'views';
-            $query = new WP_Query($args);
+            $query = self::get($args);
         }
         return $query;
     }
@@ -133,7 +144,7 @@ class SB_Query {
 
     public static function get_sticky_posts($args = array()) {
         $args['post__in'] = SB_Post::get_sticky_post_ids();
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_post_by_recent_comment($args = array()) {
@@ -166,7 +177,7 @@ class SB_Query {
             'paged'             => 1
         );
         $args = wp_parse_args($args, $defaults);
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_related_post($args = array()) {
@@ -181,12 +192,12 @@ class SB_Query {
         $tags = SB_Post::get_tag_ids($post_id);
         $defaults = array('post_type' => $post_type, 'tag__in' => $tags, 'posts_per_page' => -1);
         $defaults = wp_parse_args($defaults, $args);
-        $posts = new WP_Query($defaults);
+        $posts = self::get($defaults);
         $tag_posts = $posts->posts;
         $cats = SB_Post::get_category_ids($post_id);
         $defaults = array('post_type' => $post_type, 'category__in' => $cats, 'posts_per_page' => -1);
         $defaults = wp_parse_args($defaults, $args);
-        $posts = new WP_Query($defaults);
+        $posts = self::get($defaults);
         $cat_posts = $posts->posts;
         $a_part = SB_PHP::get_part_of(2/3, $posts_per_page);
         foreach($tag_posts as $post) {
@@ -283,12 +294,12 @@ class SB_Query {
 
     public static function get_today_posts($args = array()) {
         $args = self::build_daily_post_args($args);
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_random_posts($args = array()) {
         $args['orderby'] = 'rand';
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function get_random_post($post_types = array()) {
@@ -313,7 +324,7 @@ class SB_Query {
 
     public static function get_this_week_posts($args = array()) {
         $args = self::build_weekly_post_args($args);
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function build_monthly_post_args($args = array()) {
@@ -328,7 +339,7 @@ class SB_Query {
 
     public static function get_this_month_posts($args = array()) {
         $args = self::build_monthly_post_args($args);
-        return new WP_Query($args);
+        return self::get($args);
     }
 
     public static function build_yearly_post_args($args = array()) {
@@ -342,6 +353,6 @@ class SB_Query {
 
     public static function get_this_year_posts($args = array()) {
         $args = self::build_yearly_post_args($args);
-        return new WP_Query($args);
+        return self::get($args);
     }
 }

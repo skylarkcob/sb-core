@@ -214,7 +214,7 @@ class SB_Post {
             'post_type' => $post_type,
             'posts_per_page' => -1
         );
-        return new WP_Query($args);
+        return SB_Query::get($args);
     }
 
     public static function get_thumbnail_url($args = array()) {

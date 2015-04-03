@@ -73,7 +73,7 @@ class SB_Core {
     }
 
     public static function get_captcha_url() {
-        return SB_CORE_URL . '/inc/captcha/captcha.php';
+        return SB_Captcha::generate_image();
     }
 
     public static function the_captcha_url() {
@@ -631,6 +631,15 @@ class SB_Core {
 
     public static function check_ajax_referer() {
         check_ajax_referer('sb-core-ajax', 'security');
+    }
+
+    public static function delete_transient($transient_name, $blog_id = '') {
+        global $wpdb;
+        if(!empty($blog_id)) {
+            $wpdb->set_blog_id($blog_id);
+        }
+        $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name like %s", '_transient_' . $transient_name . '_%' ) );
+        $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name like %s", '_transient_timeout_' . $transient_name . '_%' ) );
     }
 
     public static function insert_attachment($attachment, $file_path, $parent_post_id = 0) {
