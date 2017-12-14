@@ -1,67 +1,95 @@
-=== SB Core ===
-Contributors: skylarkcob
+=== Extensions by HocWP Team ===
+Contributors: skylarkcob, hocwp, sauhi
 Donate link: http://hocwp.net/donate/
-Tags: sb, sb plugin, sb theme, sb team, sb core, sb options, wordpress options
-Requires at least: 3.9
-Tested up to: 4.1.1
-Stable tag: 1.6.2
+Tags: hocwp, hocwp theme, extensions
+Requires at least: 4.8
+Tested up to: 4.9
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-SB Core is not only a plugin, it contains core function for all plugins and themes that are created by SB Team.
+The list of extensions for using in theme which is created by HocWP Team.
 
 == Description ==
 
-SB Core is not only a plugin but also a framework, it contains core function for all plugins and themes that are created by SB Team. You can use it to create option page for plugin and theme.
+SB Core plugin is changed name to Extensions by HocWP Team now. This plugin contains extensions for using in theme which is created by HocWP Team. This plugin only works with theme created by HocWP Team.
 
 **Features**
 
-* Includes many useful PHP functions.
-* You can create option page for your plugins and themes.
+Includes many useful extensions for using in theme which is created by HocWP Team. The list of extensions is shown below:
+
+* Change base slug for custom post type and custom taxonomy.
+* Remove base slug for custom post type and custom taxonomy.
+* Remove category base slug and tag base slug: change `/category/` and `/tag/` into `/`.
+* Support WooCommerce plugin.
+* Playing media with JW Player.
+* Remind the programmer to relax after every 25 minutes.
 
 **Translations**
 
 * English
 * Vietnamese
 
-**Recommended WordPress Plugins**
-
-* [SB Banner Widget](https://wordpress.org/plugins/sb-banner-widget/)
-* [SB Clean](https://wordpress.org/plugins/sb-clean/)
-* [SB Comment](https://wordpress.org/plugins/sb-comment/)
-* [SB Login Page](https://wordpress.org/plugins/sb-login-page/)
-* [SB Paginate](https://wordpress.org/plugins/sb-paginate/)
-* [SB Post Widget](https://wordpress.org/plugins/sb-post-widget/)
-* [SB Tab Widget](https://wordpress.org/plugins/sb-tab-widget/)
-* [SB TBFA](https://wordpress.org/plugins/sb-tbfa/)
-
 == Installation ==
 
 Install this plugin from your WordPress site Dashboard or follow these steps below:
 
 1. Download plugin from WordPress Plugins directory and extract it.
-1. Upload the `sb-core` folder to the `/wp-content/plugins/` directory.
-1. Activate the SB Core plugin through the 'Plugins' menu in WordPress.
-1. Configure the plugin by going to the `SB Options` menu that appears in your admin menu.
+2. Upload the `sb-core` folder to the `/wp-content/plugins/` directory.
+3. Activate the Extensions by HocWP Team plugin through the `Plugins` menu in WordPress.
+4. Configure the plugin by going to the `Appearance` → `Settings` → `Extensions` menu that appears in your admin menu.
 
 == Frequently Asked Questions ==
 
-Please visit [homepage](http://hocwp.net) for more details.
+Please visit [www.hocwp.net](http://hocwp.net) for more details.
+
+= Where is the settings page for Extensions by HocWP Team? =
+
+Go to Appearance → Settings → Extensions and look for the extension you want to use, just activate it then configure in another tab if needed.
 
 == Screenshots ==
-
-1. The main option page supported by SB Core.
+1. The list extensions for using in theme.
+2. Change or remove base slug for custom post type and taxonomy.
 
 == Upgrade Notice ==
-
-Please update all SB Plugins after you updated SB Core.
+This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
 
 == Changelog ==
+= 2.0.3 =
+* Update development functions, skip checking work time when activate plugin.
+
+= 2.0.2 =
+* Added countdown function for the remaining break time.
+
+= 2.0.1 =
+* Add functions for WooCommerce plugin.
+* Add Google Code Prettify.
+* Add JW Player.
+* Add functions development.
+* Require theme core version at least 6.1.6.
+
+= 2.0.0 =
+* Change plugin name to `Extensions by HocWP Team`.
+* Stop supporting for old theme on `SB Options` code.
+
+= 1.6.8 =
+* Update post_id param for the post thumbnail function.
+
+= 1.6.6 =
+* Update sortable UI
+* Control WP_Query
+
+= 1.6.5 =
+* Update for theme can use old versions with split core plugin and theme.
+
+= 1.6.4 =
+* Small update for check theme support SB Core or not.
+
+= 1.6.3 =
+* Force deactivate all SB Plugins if current theme doesn't support.
 
 = 1.6.2 =
-* Update fields.
-* Update for S3 theme.
-* Update function for listing all SB's plugins faster.
+* Stop using SB Plugins if current theme doesn't support.
 
 = 1.6.1 =
 * Update for Retail Coupon theme
@@ -83,7 +111,7 @@ Please update all SB Plugins after you updated SB Core.
 * Update for Retail Coupon theme.
 
 = 1.5.7 =
-Update for game theme.
+* Update for game theme.
 
 = 1.5.6 =
 * Update for SB Comment mail message.
@@ -95,7 +123,7 @@ Update for game theme.
 * Add function to update product.
 
 = 1.5.4 =
-Update missing action.
+* Update missing action.
 
 = 1.5.3 =
 * Hide loading image.
@@ -110,7 +138,7 @@ Update missing action.
 * Add new captcha functional.
 
 = 1.5.0 =
-Add small update for SB Login Page plugin.
+* Add small update for SB Login Page plugin.
 
 = 1.4.9 =
 * Add filter to change mail from name.
@@ -150,10 +178,10 @@ Add small update for SB Login Page plugin.
 * Add functions for support theme sticky posts.
 
 = 1.4.2 =
-Update function to change breadcrumb separator.
+* Update function to change breadcrumb separator.
 
 = 1.4.1 =
-Add function to get user local information.
+* Add function to get user local information.
 
 = 1.4.0 =
 * Add more statistics function.
@@ -202,10 +230,10 @@ Add function to get user local information.
 * Update function get domain from email.
 
 = 1.3.0 =
-Update functions for SBT Globe theme.
+* Update functions for SBT Globe theme.
 
 = 1.2.9 =
-Support more utilities functional.
+* Support more utilities functional.
 
 = 1.2.8 =
 * Update function to change term url.
@@ -217,14 +245,14 @@ Support more utilities functional.
 * Add functions to count post temperature.
 
 = 1.2.6 =
-Update to test all plugins and themes are compatible with SB Core.
+* Update to test all plugins and themes are compatible with SB Core.
 
 = 1.2.5 =
 * Hide SB Core plugin update messages on plugins page.
 * Update new check core functions.
 
 = 1.2.4 =
-Update function to check thing error.
+* Update function to check thing error.
 
 = 1.2.3 =
 * Integrate Breadcrumb NavXT with theme.
@@ -242,7 +270,7 @@ Update function to check thing error.
 * Make custom post type and custom taxonomy not show on nav-menus.php page by default.
 
 = 1.2.0 =
-Update functions for add media button.
+* Update functions for add media button.
 
 = 1.1.9 =
 * Update all fields in SB_Field class.
@@ -259,7 +287,7 @@ Update functions for add media button.
 * Support term extra fields.
 
 = 1.1.6 =
-Update list plugins created by SB Team.
+* Update list plugins created by SB Team.
 
 = 1.1.5 =
 * Support Shopping theme.
@@ -281,7 +309,7 @@ Update list plugins created by SB Team.
 * Check array before extract arguments on SB Field class.
 
 = 1.1.1 =
-Update function to check array arguments on SB Field class.
+* Update function to check array arguments on SB Field class.
 
 = 1.1.0 =
 * Update option field argument.
@@ -289,31 +317,34 @@ Update function to check array arguments on SB Field class.
 * Add function to change site url when moving hosting.
 
 = 1.0.9 =
-Fix function to show warning when user click deactivate SB Core plugin.
+* Fix function to show warning when user click deactivate SB Core plugin.
 
 = 1.0.8 =
-New: Support SB Login Page.
+* New: Support SB Login Page.
 
 = 1.0.7 =
-Bugs: Fix SB Core admin url.
+* Bugs: Fix SB Core admin url.
 
 = 1.0.6 =
-New: Support SB Banner Widget.
+* New: Support SB Banner Widget.
 
 = 1.0.5 =
-New: Support SB Tab Widget.
+* New: Support SB Tab Widget.
 
 = 1.0.4 =
-New: Update for SBT WAP theme.
+* New: Update for SBT WAP theme.
 
 = 1.0.3 =
-New: Support SB Post Widget.
+* New: Support SB Post Widget.
 
 = 1.0.2 =
-New: Add function to deactive SB Theme after SB Core is deativated.
+* New: Add function to deactive SB Theme after SB Core is deativated.
 
 = 1.0.1 =
-New: Split core functions to many classes, support SB Comment plugin.
+* New: Split core functions to many classes, support SB Comment plugin.
 
 = 1.0.0 =
-First release of this plugin.
+* First release of this plugin.
+
+== Updates ==
+Updates to the plugin will be posted on [www.hocwp.net](https://hocwp.net/) and the [Extensions by HocWP Team homepage](https://wordpress.org/plugins/sb-core/) will always link to the newest version.

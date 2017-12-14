@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sb-core\n"
-"POT-Creation-Date: 2015-01-15 19:55+0700\n"
-"PO-Revision-Date: 2015-01-15 19:55+0700\n"
+"POT-Creation-Date: 2017-09-25 13:22+0700\n"
+"PO-Revision-Date: 2017-09-25 13:22+0700\n"
 "Last-Translator: Cuong Dinh Lai <laidinhcuongvn@gmail.com>\n"
 "Language-Team: SB Team <laidinhcuongvn@gmail.com>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -17,508 +17,50 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../inc/ajax/sb-plugins-ajax.php:21
-msgid "Downloads:"
-msgstr ""
-
-#: ../inc/ajax/sb-plugins-ajax.php:31
-msgid "Last Updated:"
-msgstr ""
-
-#: ../inc/class-sb-admin-custom.php:49
+#: ../ext/base-slug.php:100
 msgid ""
-"The Google reCaptcha Site key, you can use this in the HTML code your site "
-"serves to users."
+"If you like, you may enter custom structures for your custom taxonomy term "
+"and custom post type URLs here. If you leave these blank the defaults will "
+"be used."
 msgstr ""
 
-#: ../inc/class-sb-admin-custom.php:58
+#: ../ext/base-slug.php:105
+msgid "Custom Base Slug"
+msgstr ""
+
+#: ../ext/base-slug.php:110
 msgid ""
-"The reCaptcha Secret key, you can use this for communication between your "
-"site and Google."
+"We do not encourage you to do this but if you like you can still remove the "
+"base slug from permalink."
 msgstr ""
 
-#: ../inc/class-sb-admin-custom.php:126 ../inc/class-sb-admin.php:82
-msgid "Short description about SB Options."
+#: ../ext/base-slug.php:115
+msgid "Remove Base Slug"
 msgstr ""
 
-#: ../inc/class-sb-admin-custom.php:128 ../inc/class-sb-admin.php:84
-msgid "Change your settings below:"
-msgstr ""
-
-#: ../inc/class-sb-admin.php:59 ../inc/class-sb-admin.php:89
-#: ../inc/class-sb-admin.php:134
-msgid "About SB"
-msgstr ""
-
-#: ../inc/class-sb-core.php:110
-msgid "Mã bảo mật"
-msgstr ""
-
-#: ../inc/class-sb-core.php:284
-msgid "năm"
-msgstr ""
-
-#: ../inc/class-sb-core.php:285
-msgid "tháng"
-msgstr ""
-
-#: ../inc/class-sb-core.php:286
-msgid "tuần"
-msgstr ""
-
-#: ../inc/class-sb-core.php:287
-msgid "ngày"
-msgstr ""
-
-#: ../inc/class-sb-core.php:288
-msgid "giờ"
-msgstr ""
-
-#: ../inc/class-sb-core.php:289
-msgid "phút"
-msgstr ""
-
-#: ../inc/class-sb-core.php:290
-msgid "giây"
-msgstr ""
-
-#: ../inc/class-sb-core.php:301
-msgid "Vài giây trước"
-msgstr ""
-
-#: ../inc/class-sb-core.php:311
-msgid "Vài giây"
-msgstr ""
-
-#: ../inc/class-sb-core.php:313
-msgid "trước"
-msgstr ""
-
-#: ../inc/class-sb-core.php:323 ../inc/class-sb-core.php:324
+#: ../ext/base-slug.php:132 ../ext/base-slug.php:147
 #, php-format
-msgid "%d giây trước"
+msgid "%s base"
 msgstr ""
 
-#: ../inc/class-sb-core.php:327 ../inc/class-sb-core.php:328
+#: ../ext/base-slug.php:135
 #, php-format
-msgid "%d phút trước"
+msgid "Base slug for custom post type %s."
 msgstr ""
 
-#: ../inc/class-sb-core.php:331 ../inc/class-sb-core.php:332
+#: ../ext/base-slug.php:150
 #, php-format
-msgid "%d giờ trước"
+msgid "Base slug for custom taxonomy %s."
 msgstr ""
 
-#: ../inc/class-sb-core.php:335 ../inc/class-sb-core.php:336
+#: ../ext/base-slug.php:168
 #, php-format
-msgid "%d ngày trước"
+msgid "Remove taxonomy base slug for %s."
 msgstr ""
 
-#: ../inc/class-sb-core.php:339 ../inc/class-sb-core.php:340
-#, php-format
-msgid "%d tuần trước"
-msgstr ""
-
-#: ../inc/class-sb-core.php:343 ../inc/class-sb-core.php:344
-#, php-format
-msgid "%d tháng trước"
-msgstr ""
-
-#: ../inc/class-sb-core.php:347 ../inc/class-sb-core.php:348
-#, php-format
-msgid "%d năm trước"
-msgstr ""
-
-#: ../inc/class-sb-core.php:598
-msgid "Độ mạnh mật khẩu"
-msgstr ""
-
-#: ../inc/class-sb-core.php:767 ../inc/sb-admin.php:18
-msgid "This website is temporarily unavailable, please try again later."
-msgstr ""
-
-#: ../inc/class-sb-core.php:995 ../inc/class-sb-core.php:1138
-#, php-format
-msgid "Parent %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:996 ../inc/class-sb-core.php:1139
-#, php-format
-msgid "Parent %s:"
-msgstr ""
-
-#: ../inc/class-sb-core.php:997 ../inc/class-sb-core.php:1137
-#, php-format
-msgid "All %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:998
-#, php-format
-msgid "View %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:999 ../inc/class-sb-core.php:1141
-#, php-format
-msgid "Add New %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1000
-msgid "Add New"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1001 ../inc/class-sb-core.php:1142
-#, php-format
-msgid "Edit %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1002 ../inc/class-sb-core.php:1143
-#, php-format
-msgid "Update %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1003 ../inc/class-sb-core.php:1145
-#, php-format
-msgid "Search %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1004
-msgid "Not found"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1005
-msgid "Not found in Trash"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1140
-#, php-format
-msgid "New %s Name"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1144
-#, php-format
-msgid "Separate %s with commas"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1146
-#, php-format
-msgid "Add or remove %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1147
-#, php-format
-msgid "Choose from the most used %s"
-msgstr ""
-
-#: ../inc/class-sb-core.php:1148
-msgid "Not Found"
-msgstr ""
-
-#: ../inc/class-sb-field.php:73
-msgid "Enter url for the image above."
-msgstr ""
-
-#: ../inc/class-sb-field.php:89
-msgid "Male"
-msgstr ""
-
-#: ../inc/class-sb-field.php:90
-msgid "Female"
-msgstr ""
-
-#: ../inc/class-sb-field.php:165 ../inc/class-sb-field.php:202
-msgid "Insert image"
-msgstr ""
-
-#: ../inc/class-sb-field.php:165 ../inc/class-sb-field.php:202
-msgid "Upload"
-msgstr ""
-
-#: ../inc/class-sb-field.php:166 ../inc/class-sb-field.php:203
-msgid "Remove image"
-msgstr ""
-
-#: ../inc/class-sb-field.php:166 ../inc/class-sb-field.php:203
-msgid "Remove"
-msgstr ""
-
-#: ../inc/class-sb-field.php:221 ../inc/class-sb-field.php:319
-msgid "Are you sure you want to delete?"
-msgstr ""
-
-#: ../inc/class-sb-field.php:224
-msgid "Sidebar name"
-msgstr ""
-
-#: ../inc/class-sb-field.php:225
-msgid "Sidebar description"
-msgstr ""
-
-#: ../inc/class-sb-field.php:226
-msgid "Sidebar id"
-msgstr ""
-
-#: ../inc/class-sb-field.php:256
-msgid "Add new sidebar"
-msgstr ""
-
-#: ../inc/class-sb-field.php:296
-msgid "Drag and drop the widget into right box to active it."
-msgstr ""
-
-#: ../inc/class-sb-field.php:347
-msgid "Add new"
-msgstr ""
-
-#: ../inc/class-sb-field.php:348 ../inc/content/sb-setting-page.php:101
-msgid "Reset"
-msgstr ""
-
-#: ../inc/class-sb-field.php:434
-msgid "On"
-msgstr ""
-
-#: ../inc/class-sb-field.php:435
-msgid "Off"
-msgstr ""
-
-#: ../inc/class-sb-field.php:484
-msgid "Select page:"
-msgstr ""
-
-#: ../inc/class-sb-field.php:518
-msgid "Choose the term"
-msgstr ""
-
-#: ../inc/class-sb-mail.php:25
-#, php-format
-msgid "Your comment on %s is approved"
-msgstr ""
-
-#: ../inc/class-sb-mail.php:26
-#, php-format
-msgid "Dear %s"
-msgstr ""
-
-#: ../inc/class-sb-mail.php:27
-#, php-format
+#: ../sb-core.php:20
 msgid ""
-"Your comment on %s is approved. You can click these links below for more "
-"detail."
-msgstr ""
-
-#: ../inc/class-sb-mail.php:28
-#, php-format
-msgid "Post link: %s"
-msgstr ""
-
-#: ../inc/class-sb-mail.php:29
-#, php-format
-msgid "Comment link: %s"
-msgstr ""
-
-#: ../inc/class-sb-message.php:4 ../inc/content/sb-setting-page.php:34
-msgid "Are you sure?"
-msgstr ""
-
-#: ../inc/class-sb-message.php:9
-msgid "Redirecting"
-msgstr ""
-
-#: ../inc/class-sb-message.php:14
-#, php-format
-msgid "Redirecting to %s"
-msgstr ""
-
-#: ../inc/class-sb-message.php:19
-msgid ""
-"All plugins and themes that are created by SB Team will be deactivated! Are "
-"you sure?"
-msgstr ""
-
-#: ../inc/class-sb-plugin.php:50
-#, php-format
-msgid "Install plugin %s now"
-msgstr ""
-
-#: ../inc/class-sb-plugin.php:50
-msgid "Install Now"
-msgstr ""
-
-#: ../inc/class-sb-plugin.php:55
-#, php-format
-msgid "Update plugin %s now"
-msgstr ""
-
-#: ../inc/class-sb-plugin.php:55
-msgid "Update Now"
-msgstr ""
-
-#: ../inc/class-sb-plugin.php:59 ../inc/class-sb-plugin.php:62
-msgid "Installed"
-msgstr ""
-
-#: ../inc/class-sb-post.php:387
-msgid "bình  luận"
-msgstr ""
-
-#: ../inc/class-sb-post.php:691
-msgid "Chuyên mục:"
-msgstr ""
-
-#: ../inc/class-sb-user.php:72
-msgid "Thông tin khôi phục mật khẩu của bạn"
-msgstr ""
-
-#: ../inc/class-sb-user.php:74
-#, php-format
-msgid ""
-"Chúng tôi nhận được thông tin yêu cầu lấy lại mật khẩu của bạn cho tài khoản "
-"%s."
-msgstr ""
-
-#: ../inc/class-sb-user.php:76
-msgid ""
-"Nếu bạn là người đã gửi yêu cầu, xin vui lòng nhấn vào nút bên dưới để tiến "
-"hành đổi lại mật khẩu mới. Nếu bạn không phải là người đã gửi yêu cầu, bạn "
-"có thể bỏ qua hoặc xóa đi thư yêu cầu khổi phục mật khẩu này."
-msgstr ""
-
-#: ../inc/class-sb-user.php:79
-msgid "Cập nhật lại mật khẩu của bạn"
-msgstr ""
-
-#: ../inc/class-sb-user.php:82 ../inc/class-sb-user.php:108
-msgid "Hoặc bạn có thể sử dụng đường dẫn bên dưới:"
-msgstr ""
-
-#: ../inc/class-sb-user.php:84 ../inc/class-sb-user.php:110
-#, php-format
-msgid "Mã xác nhận: %s"
-msgstr ""
-
-#: ../inc/class-sb-user.php:100
-msgid "Xác nhận đăng ký tài khoản"
-msgstr ""
-
-#: ../inc/class-sb-user.php:102
-#, php-format
-msgid ""
-"Cảm ơn bạn đã đăng ký với tên tài khoản của bạn là %s, hãy nhấn chuột vào "
-"nút bên dưới để xác thực địa chỉ email của bạn."
-msgstr ""
-
-#: ../inc/class-sb-user.php:105
-msgid "Xác nhận địa chỉ email"
-msgstr ""
-
-#: ../inc/class-sb-widget-field.php:17
-msgid "Title:"
-msgstr ""
-
-#: ../inc/content/sb-about.php:4 ../inc/content/sb-setting-page.php:57
-msgid "Version:"
-msgstr ""
-
-#: ../inc/content/sb-about.php:5
-#, php-format
-msgid ""
-"SB Framework is a PHP framework that created by SB Team, the purposes of "
-"this framework are to help coding WordPress more easier. You can download "
-"the latest version from %s."
-msgstr ""
-
-#: ../inc/content/sb-about.php:6
-#, php-format
-msgid ""
-"SB Framework is writen by %1$s and %2$s, if you have any questions please "
-"send mail via the email address below this panel or write a post on learn "
-"WordPress forum."
-msgstr ""
-
-#: ../inc/content/sb-about.php:7
-#, php-format
-msgid ""
-"If you feel this framework helpful, you can use the PayPal donate button "
-"below to send a beer or a coffee cup to these founders. It will help us to "
-"create more functional on this framework. You can visit %s for more "
-"information."
-msgstr ""
-
-#: ../inc/content/sb-about.php:7
-msgid "the donation page"
-msgstr ""
-
-#: ../inc/content/sb-plugins.php:10
-#, php-format
-msgid "List all plugins are written by %s."
-msgstr ""
-
-#: ../inc/content/sb-setting-page.php:35
-msgid "Options page will not work if your browser doesn't support javascript!"
-msgstr ""
-
-#: ../inc/content/sb-setting-page.php:39
-msgid "All your changes have been saved successfully."
-msgstr ""
-
-#: ../inc/content/sb-setting-page.php:48
-msgid "No name theme"
-msgstr ""
-
-#: ../inc/content/sb-setting-page.php:99
-#: ../inc/content/sb-setting-page.php:100
-msgid "Save changes"
-msgstr ""
-
-#: ../inc/content/sb-setting-page.php:107
-#, php-format
-msgid "Created by %s."
-msgstr ""
-
-#: ../inc/content/sb-setting-page.php:107
-#, php-format
-msgid "If you have any question, please send us an email via: %s"
-msgstr ""
-
-#: ../inc/loop/loop-rss-feed.php:19
-msgid "Title"
-msgstr ""
-
-#: ../inc/loop/loop-rss-feed.php:20
-msgid "Number of post"
-msgstr ""
-
-#: ../inc/loop/loop-rss-feed.php:21
-msgid "Put your feed url here"
-msgstr ""
-
-#: ../inc/sb-plugin-install.php:8
-msgid "About"
-msgstr ""
-
-#: ../lib/bfi-thumb/BFI_Thumb.php:145
-msgid ""
-"The server does not have ImageMagick or GD installed and/or enabled! Any of "
-"these libraries are required for WordPress to be able to resize images. "
-"Please contact your server administrator to enable this before continuing."
-msgstr ""
-
-#: ../lib/bfi-thumb/BFI_Thumb.php:273
-msgid "Image rotate failed."
-msgstr ""
-
-#: ../lib/bfi-thumb/BFI_Thumb.php:296
-msgid "Image opacity change failed."
-msgstr ""
-
-#: ../lib/bfi-thumb/BFI_Thumb.php:383
-msgid "Image color change failed."
-msgstr ""
-
-#: ../lib/bfi-thumb/BFI_Thumb.php:400
-msgid "Image grayscale failed."
-msgstr ""
-
-#: ../lib/bfi-thumb/BFI_Thumb.php:417
-msgid "Image negate failed."
+"<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme "
+"written by the HocWP Team or the directory of the theme must be named as "
+"<code>hocwp-theme</code>."
 msgstr ""

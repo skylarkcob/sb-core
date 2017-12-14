@@ -1,0 +1,31 @@
+#login {
+    width: 350px;
+}
+
+#login form p.connected-accounts {
+    margin-bottom: 15px;
+}
+
+#login form p.connected-accounts button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 8px 15px;
+    border-radius: 3px;
+}
+
+#login form p.connected-accounts button:hover {
+    opacity: 0.75;
+}
+
+#login form p.connected-accounts button.connect-facebook {
+    background-color: #4267b2;
+}
+
+#login form p.connected-accounts button.connect-google {
+    background-color: #db4437;
+}

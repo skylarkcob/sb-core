@@ -1,0 +1,74 @@
+.woocommerce .star-rating::before,
+.woocommerce .star-rating span::before {
+    color: #ffb900;
+}
+
+.woocommerce #customer_details + #order_review_heading,
+.woocommerce-Reviews #comments > h2,
+.woocommerce-table.customer_details + h3,
+.woocommerce-customer-details > h2,
+.woocommerce-order-details > h2,
+.cart_totals > h2 {
+    margin-bottom: 10px;
+}
+
+.woocommerce form .form-row .required {
+    text-decoration: none;
+}
+
+.woocommerce #review_form #respond textarea,
+.woocommerce #review_form #respond input[type="text"],
+.woocommerce #review_form #respond input[type="email"],
+.woocommerce form .form-row .input-text, .woocommerce-page form .form-row .input-text {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+.woocommerce form .form-row .input-text:focus, .woocommerce-page form .form-row .input-text:focus {
+    border: 1px solid #4d90fe;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
+    outline: medium none;
+}
+
+.woocommerce form .form-row.woocommerce-invalid .select2-container, .woocommerce form .form-row.woocommerce-invalid input.input-text, .woocommerce form .form-row.woocommerce-invalid select {
+    border-color: #dd4b39;
+}
+
+.woocommerce form .form-row.woocommerce-invalid label {
+    color: #dd4b39;
+}
+
+.woocommerce #reviews #comments h2 {
+    font-size: 20px;
+}
+
+.woocommerce-Reviews .commentlist {
+    font-size: 14px;
+}
+
+.woocommerce-Reviews .comment-respond .comment-reply-title {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.woocommerce-Reviews .comment-respond .comment-form-rating label {
+    font-weight: 400;
+}
+
+.woocommerce-MyAccount-content fieldset > legend {
+    margin-bottom: 10px;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.woocommerce form .form-row .input-checkbox {
+    position: relative;
+}
