@@ -11,3 +11,4 @@ require HOCWP_EXT_PATH . '/ext/recent-activity-post.php';
 require HOCWP_EXT_PATH . '/ext/woocommerce.php';
 require HOCWP_EXT_PATH . '/ext/add-post-frontend.php';
 require HOCWP_EXT_PATH . '/ext/account.php';
+require HOCWP_EXT_PATH . '/ext/ads.php';

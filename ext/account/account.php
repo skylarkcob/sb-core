@@ -45,19 +45,19 @@ function hocwp_ext_account_connect_social_buttons() {
 			<?php
 			if ( $google ) {
 				?>
-                <button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'hocwp-theme' ); ?>"
+                <button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'hocwp-ext' ); ?>"
                         class="btn btn-danger connect-google" data-login="1" type="button">
-                    <i class="fa fa-google" aria-hidden="true"></i><?php _e( 'Continue with Google', 'hocwp-theme' ); ?>
+                    <i class="fa fa-google" aria-hidden="true"></i><?php _e( 'Continue with Google', 'hocwp-ext' ); ?>
                 </button>
 				<?php
 			}
 			if ( $facebook ) {
 				?>
                 <button id="connect-facebook"
-                        title="<?php _e( 'Sign up with your Facebook account', 'hocwp-theme' ); ?>"
+                        title="<?php _e( 'Sign up with your Facebook account', 'hocwp-ext' ); ?>"
                         class="btn btn-primary connect-facebook" data-login="1" type="button">
                     <i class="fa fa-facebook"
-                       aria-hidden="true"></i><?php _e( 'Continue with Facebook', 'hocwp-theme' ); ?>
+                       aria-hidden="true"></i><?php _e( 'Continue with Facebook', 'hocwp-ext' ); ?>
                 </button>
 				<?php
 			}

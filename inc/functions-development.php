@@ -229,6 +229,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 		$folder = array_unique( $folder );
 		foreach ( $folder as $fn ) {
 			$tr_name = 'hocwp_dev_backup_folder_' . md5( $fn );
+
 			if ( false === get_transient( $tr_name ) ) {
 				hocwp_theme_dev_backup_wp_content_folder( $fn );
 				set_transient( $tr_name, 1, 20 * MINUTE_IN_SECONDS );
@@ -279,7 +280,7 @@ function _hocwp_theme_compress_all_css_and_js( $dir ) {
 		hocwp_theme_debug( '---------------------------------------------------------------------------------------------' );
 		$files = scandir( $dir );
 		if ( ! class_exists( 'HOCWP_Theme_Minify' ) ) {
-			require HOCWP_THEME_CORE_PATH . ' / inc /class- hocwp - theme - minify . php';
+			require HOCWP_THEME_CORE_PATH . ' / inc /class-hocwp-theme-minify.php';
 		}
 		foreach ( $files as $file ) {
 			if ( ! _hocwp_theme_is_css_or_js_file( $file ) ) {
@@ -358,14 +359,11 @@ if ( is_admin() ) {
 add_action( 'wp_footer', 'hocwp_theme_debug_save_queries', 9999 );
 
 function hocwp_theme_dev_global_scripts() {
-	if ( defined( 'HOCWP_THEME_OVERTIME' ) && HOCWP_THEME_OVERTIME ) {
-		return;
-	}
 	$domain = HOCWP_Theme::get_domain_name( home_url(), true );
 	if ( 'localhost' == $domain ) {
-		wp_enqueue_script( 'taking - breaks', HOCWP_EXT_URL . ' / js / taking - breaks' . HOCWP_THEME_JS_SUFFIX, array(
+		wp_enqueue_script( 'taking-breaks', HOCWP_EXT_URL . '/js/taking-breaks' . HOCWP_THEME_JS_SUFFIX, array(
 			'jquery',
-			'hocwp - theme'
+			'hocwp-theme'
 		), false, true );
 	}
 }
@@ -405,7 +403,7 @@ function hocwp_theme_dev_taking_breaks_ajax_callback() {
 				set_transient( 'hocwp_theme_dev_taking_breaks_until', strtotime( ' + ' . $minute . ' minutes', $current ) );
 				set_transient( $tb, $minute, $minute * MINUTE_IN_SECONDS );
 			} elseif ( ( $interval - 5 ) <= $diff ) {
-				$result['message'] = 'You will take a break for the next 5 minutes . ';
+				$result['message'] = 'You will take a break for the next 5 minutes.';
 			}
 		}
 	} else {
@@ -419,24 +417,24 @@ add_action( 'wp_ajax_nopriv_hocwp_theme_dev_taking_breaks', 'hocwp_theme_dev_tak
 
 function hocwp_theme_dev_init_action() {
 	$tr_name = 'hocwp_theme_dev_export_database';
+
 	if ( false === get_transient( $tr_name ) ) {
 		hocwp_theme_dev_export_database();
 		set_transient( $tr_name, 1, DAY_IN_SECONDS );
 	}
-	if ( defined( 'HOCWP_THEME_OVERTIME' ) && HOCWP_THEME_OVERTIME ) {
-		return;
-	}
 
 	if ( ! is_admin() ) {
 		$tr_name = 'hocwp_theme_dev_taking_breaks';
+
 		if ( false !== ( $minute = get_transient( $tr_name ) ) ) {
 			if ( ! wp_doing_ajax() && ! wp_doing_cron() ) {
 				delete_transient( 'hocwp_theme_dev_taking_breaks_timestamp' );
 				$minute    = absint( $minute );
 				$time_left = get_transient( 'hocwp_theme_dev_taking_breaks_until' );
-				date_default_timezone_set( 'Asia / Ho_Chi_Minh' );
+				date_default_timezone_set( 'Asia/Ho_Chi_Minh' );
 				$diff = time();
 				$left = '';
+
 				if ( is_numeric( $time_left ) ) {
 					$diff = abs( $time_left - $diff );
 					$min  = $diff / MINUTE_IN_SECONDS;
@@ -444,20 +442,23 @@ function hocwp_theme_dev_init_action() {
 					$sec  = $diff % MINUTE_IN_SECONDS;
 					$sec  = round( $sec, 0, PHP_ROUND_HALF_DOWN );
 					$sec --;
-					$left      = $min . 'm ' . $sec . 's';
+					$left = $min . 'm ' . $sec . 's';
+
 					$time_left = date( 'F j, Y H:i:s', $time_left );
 				}
-				$message = sprintf( 'You should take a break and relax for %d minutes . Waiting until < span id = "timeUntil" >%s </span >, time left < span id = "timeLeft" > ' . $left . '</span >.', $minute, $time_left );
+
+				$message = sprintf( 'You should take a break and relax for %d minutes . Waiting until <span id="timeUntil">%s</span>, time left <span id="timeLeft">' . $left . '</span>.', $minute, $time_left );
 				hocwp_theme_dev_add_clock_to_message( $message );
-				$message .= ' < script>setInterval( function () {
-		window . location . reload()}, 5e3 );</script > ';
-				$message .= '<script >var countDownDate = new Date( document . getElementById( "timeUntil" ) . innerHTML ) . getTime(),x = setInterval( function () {
-		var
-		e = ( new Date ) . getTime(),t = countDownDate - e,n = Math . floor( t % 36e5 / 6e4 );0 > n && ( window . location . reload() );var o = Math . floor( t % 6e4 / 1e3 );document . getElementById( "timeLeft" ) . innerHTML = n + "m " + o + "s",0 > t && ( clearInterval( x ),window . location . href = window . location . href)}, 1e3 );</script > ';
+				$script  = 'setInterval(function(){window.location.reload();},5e3);';
+				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
+				$script  = 'var countDownDate=new Date(document.getElementById("timeUntil").innerHTML).getTime(),x=setInterval(function(){var e=(new Date).getTime(),t=countDownDate-e,n=Math.floor(t%36e5/6e4);0>n&&(window.location.reload());var o=Math.floor(t%6e4/1e3);document.getElementById("timeLeft").innerHTML=n+"m "+o+"s",0>t&&(clearInterval(x),window.location.reload())},1e3);';
+				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
 				$title   = 'Taking Short Beaks';
+
 				if ( 15 <= $minute ) {
 					$title = 'Taking Long Breaks';
 				}
+
 				wp_die( $message, $title );
 				exit;
 			}
@@ -582,8 +583,10 @@ function hocwp_team_dev_backup_files_in_footer() {
 add_action( 'admin_footer', 'hocwp_team_dev_backup_files_in_footer' );
 
 function hocwp_dev_backup_wp_content_folder_ajax_callback() {
-	$data            = array();
+	$data = array();
+
 	$clear_transient = isset( $_POST['clear_transient'] ) ? $_POST['clear_transient'] : '';
+
 	if ( 1 == $clear_transient ) {
 		delete_transient( 'hocwp_team_backup_wp_content' );
 	} else {
@@ -596,6 +599,7 @@ function hocwp_dev_backup_wp_content_folder_ajax_callback() {
 
 		$data['index'] = $index;
 	}
+
 	wp_send_json_success( $data );
 }
 
@@ -609,7 +613,7 @@ add_action( 'wp_ajax_hocwp_dev_backup_wp_content_folder', 'hocwp_dev_backup_wp_c
  * @return string
  */
 function hocwp_theme_dev_remove_url_ver( $src ) {
-	if ( strpos( $src, 'ver = ' ) ) {
+	if ( strpos( $src, 'ver=' ) ) {
 		$src = remove_query_arg( 'ver', $src );
 	}
 
