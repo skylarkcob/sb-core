@@ -416,6 +416,10 @@ add_action( 'wp_ajax_hocwp_theme_dev_taking_breaks', 'hocwp_theme_dev_taking_bre
 add_action( 'wp_ajax_nopriv_hocwp_theme_dev_taking_breaks', 'hocwp_theme_dev_taking_breaks_ajax_callback' );
 
 function hocwp_theme_dev_init_action() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	$tr_name = 'hocwp_theme_dev_export_database';
 
 	if ( false === get_transient( $tr_name ) ) {

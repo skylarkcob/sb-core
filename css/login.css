@@ -29,3 +29,27 @@
 #login form p.connected-accounts button.connect-google {
     background-color: #db4437;
 }
+
+#login form .social-wrapper-title,
+form[name="loginform"] .social-wrapper-title {
+    margin-bottom: 15px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #777;
+    text-align: center;
+}
+
+#login form .social-wrapper-title:before,
+form[name="loginform"] .social-wrapper-title:before {
+    content: "";
+    display: block;
+    margin-top: 25px;
+    margin-bottom: -10px;
+    border-bottom: 1px solid #eee;
+}
+
+#login form .social-wrapper-title span,
+form[name="loginform"] .social-wrapper-title span {
+    background-color: #fff;
+    padding: 0 10px;
+}

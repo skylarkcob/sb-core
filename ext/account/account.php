@@ -171,6 +171,7 @@ function hocwp_ext_account_connect_social_buttons() {
 
 function hocwp_ext_account_login_form_top( $html, $args ) {
 	$html .= hocwp_ext_account_connect_social_buttons();
+	$html .= hocwp_ext_connected_socials_horizontal_bar();
 
 	return $html;
 }
@@ -203,7 +204,12 @@ add_action( 'login_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 add_action( 'register_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 add_action( 'lostpassword_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 
+function hocwp_ext_connected_socials_horizontal_bar() {
+	return '<div class="social-wrapper-title ng-scope"><span>' . _x( 'Or', 'connected socials', 'hocwp-ext' ) . '</span></div>';
+}
+
 function hocwp_ext_account_add_connect_social_buttons() {
+	echo hocwp_ext_connected_socials_horizontal_bar();
 	echo hocwp_ext_account_connect_social_buttons();
 }
 

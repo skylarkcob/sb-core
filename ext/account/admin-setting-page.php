@@ -24,6 +24,30 @@ function hocwp_theme_settings_page_account_field() {
 	$field    = hocwp_theme_create_setting_field( 'captcha', __( 'Captcha', 'hocwp-ext' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
+	$args     = array(
+		'class' => 'regular-text'
+	);
+	$field    = hocwp_theme_create_setting_field( 'login_page', __( 'Login Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account' );
+	$fields[] = $field;
+
+	$args     = array(
+		'class' => 'regular-text'
+	);
+	$field    = hocwp_theme_create_setting_field( 'register_page', __( 'Register Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account' );
+	$fields[] = $field;
+
+	$args     = array(
+		'class' => 'regular-text'
+	);
+	$field    = hocwp_theme_create_setting_field( 'lostpassword_page', __( 'Lost Password Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account' );
+	$fields[] = $field;
+
+	$args     = array(
+		'class' => 'regular-text'
+	);
+	$field    = hocwp_theme_create_setting_field( 'profile_page', __( 'Profile Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account' );
+	$fields[] = $field;
+
 	return $fields;
 }
 
