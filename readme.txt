@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 4.8
 Tested up to: 4.9
-Stable tag: 2.0.3
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,14 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
 
 == Changelog ==
+= 2.0.5 =
+* Update development functions.
+
+= 2.0.4 =
+* Add ads extension.
+* Add account extension.
+* Add extension for user can create post from front-end.
+
 = 2.0.3 =
 * Update development functions, skip checking work time when activate plugin.
 

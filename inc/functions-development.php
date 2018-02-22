@@ -102,9 +102,9 @@ function hocwp_theme_zip_current_theme() {
 	$version = $theme->get( 'Version' );
 	$source  = untrailingslashit( get_template_directory() );
 	$dest    = dirname( $source ) . '/' . $sheet;
-	$dest    .= '_v' . $version;
-	$dest    .= '_' . $time;
-	$dest    .= '.zip';
+	$dest .= '_v' . $version;
+	$dest .= '_' . $time;
+	$dest .= '.zip';
 
 	return hocwp_theme_zip_folder( $source, $dest );
 }
@@ -212,7 +212,7 @@ function hocwp_theme_dev_export_database() {
 	if ( ! is_dir( $dir ) ) {
 		mkdir( $dir, 0777, true );
 	}
-	$dir  .= $file_name;
+	$dir .= $file_name;
 	$root = dirname( $_SERVER['DOCUMENT_ROOT'] );
 	$cmd  = trailingslashit( $root ) . "mysql/bin/mysqldump -u$user -p$pass $name > $dir";
 	exec( $cmd );
@@ -370,16 +370,23 @@ function hocwp_theme_dev_global_scripts() {
 
 add_action( 'hocwp_theme_global_enqueue_scripts', 'hocwp_theme_dev_global_scripts' );
 
+function hocwp_theme_dev_break_minutes() {
+	return ( defined( 'HOCWP_THEME_BREAK_MINUTES' ) ) ? absint( HOCWP_THEME_BREAK_MINUTES ) : 45;
+}
+
 function hocwp_theme_dev_taking_breaks_ajax_callback() {
 	$result = array(
 		'taking_break' => false,
 		'message'      => ''
 	);
-	$tb     = 'hocwp_theme_dev_taking_breaks';
+
+	$tb = 'hocwp_theme_dev_taking_breaks';
+
 	if ( false === get_transient( $tb ) ) {
 		$tr_name   = 'hocwp_theme_dev_taking_breaks_timestamp';
 		$timestamp = get_transient( $tr_name );
 		$current   = time();
+
 		if ( false === $timestamp ) {
 			delete_transient( $tb );
 			set_transient( $tr_name, $current );
@@ -387,8 +394,14 @@ function hocwp_theme_dev_taking_breaks_ajax_callback() {
 			$diff = absint( $current - $timestamp );
 
 			$result['diff'] = $diff;
-			$diff           /= MINUTE_IN_SECONDS;
-			$interval       = 25;
+
+			$diff /= MINUTE_IN_SECONDS;
+			$interval = hocwp_theme_dev_break_minutes();
+
+			if ( $interval < 1 ) {
+				wp_send_json( $result );
+			}
+
 			if ( $interval <= $diff ) {
 				$result['taking_break'] = true;
 
@@ -409,6 +422,7 @@ function hocwp_theme_dev_taking_breaks_ajax_callback() {
 	} else {
 		$result['taking_break'] = true;
 	}
+
 	wp_send_json( $result );
 }
 
@@ -428,6 +442,12 @@ function hocwp_theme_dev_init_action() {
 	}
 
 	if ( ! is_admin() ) {
+		$interval = hocwp_theme_dev_break_minutes();
+
+		if ( $interval < 1 ) {
+			return;
+		}
+
 		$tr_name = 'hocwp_theme_dev_taking_breaks';
 
 		if ( false !== ( $minute = get_transient( $tr_name ) ) ) {
@@ -453,11 +473,11 @@ function hocwp_theme_dev_init_action() {
 
 				$message = sprintf( 'You should take a break and relax for %d minutes . Waiting until <span id="timeUntil">%s</span>, time left <span id="timeLeft">' . $left . '</span>.', $minute, $time_left );
 				hocwp_theme_dev_add_clock_to_message( $message );
-				$script  = 'setInterval(function(){window.location.reload();},5e3);';
+				$script = 'setInterval(function(){window.location.reload();},5e3);';
 				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
-				$script  = 'var countDownDate=new Date(document.getElementById("timeUntil").innerHTML).getTime(),x=setInterval(function(){var e=(new Date).getTime(),t=countDownDate-e,n=Math.floor(t%36e5/6e4);0>n&&(window.location.reload());var o=Math.floor(t%6e4/1e3);document.getElementById("timeLeft").innerHTML=n+"m "+o+"s",0>t&&(clearInterval(x),window.location.reload())},1e3);';
+				$script = 'var countDownDate=new Date(document.getElementById("timeUntil").innerHTML).getTime(),x=setInterval(function(){var e=(new Date).getTime(),t=countDownDate-e,n=Math.floor(t%36e5/6e4);0>n&&(window.location.reload());var o=Math.floor(t%6e4/1e3);document.getElementById("timeLeft").innerHTML=n+"m "+o+"s",0>t&&(clearInterval(x),window.location.reload())},1e3);';
 				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
-				$title   = 'Taking Short Beaks';
+				$title = 'Taking Short Beaks';
 
 				if ( 15 <= $minute ) {
 					$title = 'Taking Long Breaks';
@@ -524,62 +544,65 @@ function hocwp_team_dev_backup_files_in_footer() {
 		$folders = array_filter( $folders );
 		$folders = json_encode( $folders );
 		?>
-        <script>
-            jQuery(document).ready(function ($) {
-                (function () {
-                    var folders = <?php echo $folders; ?>;
-                    folders = JSON.stringify(folders);
-                    folders = JSON.parse(folders);
-                    var tmp = [];
-                    $.each(folders, function (i, val) {
-                        if ($.trim(val)) {
-                            tmp.push(val);
-                        }
-                    });
-                    if (tmp.length) {
-                        var i, current = 0, backupNotice = $("#backupFolderNotice");
-                        var interval = setInterval(function () {
-                            if (current >= (tmp.length - 1)) {
-                                clearInterval(interval);
-                                $.ajax({
-                                    type: "POST",
-                                    dataType: "JSON",
-                                    url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
-                                    cache: true,
-                                    data: {
-                                        action: "hocwp_dev_backup_wp_content_folder",
-                                        clear_transient: 1
-                                    },
-                                    success: function (response) {
-                                        if (response.success) {
-                                            backupNotice.find("button").trigger("click");
-                                        }
-                                    }
-                                });
-                            }
-                        }, 100);
-                        for (i = 0; i < tmp.length; i++) {
-                            $.ajax({
-                                type: "POST",
-                                dataType: "JSON",
-                                url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
-                                cache: true,
-                                data: {
-                                    action: "hocwp_dev_backup_wp_content_folder",
-                                    folders: tmp[i],
-                                    index: i
-                                },
-                                success: function (response) {
-                                    if (response.success) {
-                                        current++;
-                                    }
-                                }
-                            });
-                        }
-                    }
-                })();
-            });
-        </script>
+		<script>
+			jQuery(document).ready(function ($) {
+				(function () {
+					var folders = <?php echo $folders; ?>;
+					if (!folders) {
+						folders = [];
+					}
+					folders = JSON.stringify(folders);
+					folders = JSON.parse(folders);
+					var tmp = [];
+					$.each(folders, function (i, val) {
+						if ($.trim(val)) {
+							tmp.push(val);
+						}
+					});
+					if (tmp.length) {
+						var i, current = 0, backupNotice = $("#backupFolderNotice");
+						var interval = setInterval(function () {
+							if (current >= (tmp.length - 1)) {
+								clearInterval(interval);
+								$.ajax({
+									type: "POST",
+									dataType: "JSON",
+									url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
+									cache: true,
+									data: {
+										action: "hocwp_dev_backup_wp_content_folder",
+										clear_transient: 1
+									},
+									success: function (response) {
+										if (response.success) {
+											backupNotice.find("button").trigger("click");
+										}
+									}
+								});
+							}
+						}, 100);
+						for (i = 0; i < tmp.length; i++) {
+							$.ajax({
+								type: "POST",
+								dataType: "JSON",
+								url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
+								cache: true,
+								data: {
+									action: "hocwp_dev_backup_wp_content_folder",
+									folders: tmp[i],
+									index: i
+								},
+								success: function (response) {
+									if (response.success) {
+										current++;
+									}
+								}
+							});
+						}
+					}
+				})();
+			});
+		</script>
 		<?php
 	}
 }
@@ -653,8 +676,80 @@ function hocwp_team_dev_backup_wp_content_folders_plugin( $folders ) {
 
 add_filter( 'hocwp_theme_backup_wp_content_folders', 'hocwp_team_dev_backup_wp_content_folders_plugin' );
 
-function hocwp_theme_development_admin_notices() {
+function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css' ) {
+	$path = trailingslashit( $path ) . $extension;
+	if ( HT()->is_dir( $path ) ) {
+		$files = scandir( $path );
+		if ( HT()->array_has_value( $files ) ) {
+			foreach ( $files as $file ) {
+				$info = pathinfo( $file );
+				if ( isset( $info['extension'] ) && $info['extension'] == $extension ) {
+					if ( isset( $info['filename'] ) ) {
+						$info = pathinfo( $info['filename'] );
+						if ( isset( $info['extension'] ) && $info['extension'] == 'min' ) {
+							if ( isset( $info['filename'] ) ) {
+								$info = pathinfo( $info['filename'] );
+								if ( isset( $info['extension'] ) && $info['extension'] == 'min' ) {
+									wp_delete_file( $file );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
+function hocwp_teme_dev_load_themes_action() {
+	global $hocwp_theme;
+	$paths = $hocwp_theme->defaults['compress_css_and_js_paths'];
+	if ( HT()->array_has_value( $paths ) ) {
+		foreach ( $paths as $path ) {
+			if ( HT()->is_dir( $path ) ) {
+				hocwp_theme_delete_duplicate_min_file( $path );
+				hocwp_theme_delete_duplicate_min_file( $path, 'js' );
+			}
+		}
+	}
+}
+
+add_action( 'load-themes.php', 'hocwp_teme_dev_load_themes_action' );
+
+if ( function_exists( 'qtranxf_postsFilter' ) && has_filter( 'the_posts', 'qtranxf_postsFilter' ) ) {
+	remove_filter( 'the_posts', 'qtranxf_postsFilter', 5 );
+
+	function hocwp_theme_dev_the_posts_filter( $posts, $query ) {
+		qtranxf_postsFilter( $posts, $query );
+
+		return $posts;
+	}
+
+	add_filter( 'the_posts', 'hocwp_theme_dev_the_posts_filter', 5, 2 );
+}
+
+function hocwp_theme_development_admin_notices() {
+	/*
+	$params  = array(
+		'limit'        => 999999,
+		'access_token' => 'EAACEdEose0cBALsWgIcQ136ZAX0mI0ZArCmYlXrdSeG7evqW6QzffAVRyFTy3Af9bZCpv5uIeKcZAq8qNoNuwAA9zhTRxmIadSzX7MaHNgdyr6OsqiCpiwk4vjUhKmHj2xWai0buG0GE5ZCcAUYl7lLafEnZAeFg2PTFJ2i77kA5NhZCP8xhYvpRpfa5d9Bd3cZD'
+	);
+	$url     = 'https://graph.facebook.com/185949141488683_262848923798704/comments/?access_token=';
+	$url     = add_query_arg( $params, $url );
+	$content = HT_Util()->get_contents( $url );
+	$content = json_decode( $content );
+	$data    = $content->data;
+	$emails  = '';
+	foreach ( $data as $comment ) {
+		$email = HT()->get_email_from_string( $comment->message );
+		if ( is_array( $email ) ) {
+			$email = array_shift( $email );
+		}
+		if ( is_email( $email ) ) {
+			$emails .= $email . "\n";
+		}
+	}
+	*/
 }
 
 add_action( 'admin_notices', 'hocwp_theme_development_admin_notices' );

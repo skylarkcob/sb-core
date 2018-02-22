@@ -23,8 +23,14 @@ function hocwp_ext_ads_meta_box() {
 	$field = hocwp_theme_create_meta_field( 'expire', __( 'Expiry date:', 'hocwp-ext' ), 'input', $args, 'timestamp' );
 	$meta->add_field( $field );
 
+	$field = hocwp_theme_create_meta_field( 'image', __( 'Image:', 'hocwp-ext' ), 'media_upload' );
+	$meta->add_field( $field );
+
+	$field = hocwp_theme_create_meta_field( 'url', __( 'Url:', 'hocwp-ext' ), 'input_url', '', 'url' );
+	$meta->add_field( $field );
+
 	$args  = array( 'row' => 10 );
-	$field = hocwp_theme_create_meta_field( 'code', __( 'Code:', 'hocwp-ext' ), 'textarea', $args );
+	$field = hocwp_theme_create_meta_field( 'code', __( 'Code:', 'hocwp-ext' ), 'textarea', $args, 'html' );
 	$meta->add_field( $field );
 
 	$args  = array( 'type' => 'checkbox' );

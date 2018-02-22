@@ -16,13 +16,18 @@ add_action( 'init', 'hocwp_ext_ads_register_object', 0 );
 
 function hocwp_ext_get_ads_positions() {
 	global $hocwp_theme;
+
 	if ( ! isset( $hocwp_theme->ads_positions ) || ! is_array( $hocwp_theme->ads_positions ) ) {
 		$hocwp_theme->ads_positions = array();
 	}
+
+	$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'hocwp-theme' );
 
 	return apply_filters( 'hocwp_theme_ads_positions', $hocwp_theme->ads_positions );
 }
 
 if ( is_admin() ) {
 	load_template( dirname( __FILE__ ) . '/admin.php' );
+} else {
+	require dirname( __FILE__ ) . '/front-end.php';
 }
