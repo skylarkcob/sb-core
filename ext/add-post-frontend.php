@@ -8,6 +8,7 @@ function hocwp_theme_load_extension_add_post_frontend() {
 }
 
 $load = hocwp_theme_load_extension_add_post_frontend();
+
 if ( ! $load ) {
 	return;
 }

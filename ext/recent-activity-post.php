@@ -4,6 +4,7 @@
  * Description: Tracking recent activity posts on your site.
  */
 $load = apply_filters( 'hocwp_theme_load_extension_recent_activity_post', hocwp_theme_is_extension_active( __FILE__ ) );
+
 if ( ! $load ) {
 	return;
 }

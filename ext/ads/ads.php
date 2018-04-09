@@ -8,6 +8,7 @@ function hocwp_ext_ads_register_object() {
 		'show_in_menu' => false,
 		'supports'     => array( 'title' )
 	);
+
 	$args = HT_Util()->post_type_args( $args );
 	register_post_type( 'hocwp_ads', $args );
 }

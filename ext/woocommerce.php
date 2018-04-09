@@ -14,6 +14,7 @@ function hocwp_theme_load_extension_woocommerce() {
 }
 
 $load = hocwp_theme_load_extension_woocommerce();
+
 if ( ! $load || ! hocwp_theme_woocommerce_activated() ) {
 	return;
 }

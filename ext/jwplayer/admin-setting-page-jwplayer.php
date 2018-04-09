@@ -1,5 +1,6 @@
 <?php
-$load = $load = hocwp_theme_load_extension_jwplayer();
+$load = hocwp_theme_load_extension_jwplayer();
+
 if ( ! $load ) {
 	return;
 }

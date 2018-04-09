@@ -4,7 +4,7 @@ Plugin Name: Extensions by HocWP Team
 Plugin URI: http://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
-Version: 2.0.5
+Version: 2.0.8
 Author URI: http://hocwp.net/
 Donate link: http://hocwp.net/donate/
 Text Domain: hocwp-ext
@@ -61,18 +61,25 @@ function hocwp_ext_load() {
 
 		return;
 	}
+
 	global $hocwp_theme;
+
 	if ( ! is_object( $hocwp_theme ) ) {
 		$hocwp_theme = new stdClass();
 	}
+
 	$path = get_template_directory() . '/hocwp/inc/functions-extensions.php';
+
 	if ( file_exists( $path ) ) {
 		require_once $path;
 	}
+
 	if ( ! function_exists( 'hocwp_theme_is_extension_active' ) ) {
 		return;
 	}
+
 	require HOCWP_EXT_PATH . '/inc/global.php';
+
 	if ( is_admin() ) {
 		require HOCWP_EXT_PATH . '/inc/admin.php';
 	} else {

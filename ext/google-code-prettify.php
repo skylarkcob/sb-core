@@ -4,6 +4,7 @@
  * Description: Using Google Code Prettify for displaying source code.
  */
 $load = apply_filters( 'hocwp_theme_load_extension_google_code_prettify', hocwp_theme_is_extension_active( __FILE__ ) );
+
 if ( ! $load ) {
 	return;
 }

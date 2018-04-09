@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 4.8
 Tested up to: 4.9
-Stable tag: 2.0.5
+Stable tag: 2.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,16 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
 
 == Changelog ==
+= 2.0.8 =
+* Auto load extension.
+* Add Dynamic Sidebar extension.
+
+= 2.0.7 =
+* Just notify backup once per day.
+
+= 2.0.6 =
+* Update style for WooCommerce site.
+
 = 2.0.5 =
 * Update development functions.
 

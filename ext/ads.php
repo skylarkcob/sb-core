@@ -8,6 +8,7 @@ function hocwp_theme_load_extension_ads() {
 }
 
 $load = hocwp_theme_load_extension_ads();
+
 if ( ! $load ) {
 	return;
 }
