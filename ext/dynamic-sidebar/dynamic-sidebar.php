@@ -1,8 +1,8 @@
 <?php
 function hocwp_ext_dynamic_sidebar_init_action() {
 	$args = array(
-		'name'          => __( 'Sidebars', 'hocwp-theme' ),
-		'singular_name' => __( 'Sidebar', 'hocwp-theme' ),
+		'name'          => __( 'Sidebars', 'hocwp-ext' ),
+		'singular_name' => __( 'Sidebar', 'hocwp-ext' ),
 		'supports'      => array( 'title', 'excerpt' ),
 		'public'        => false,
 		'show_in_menu'  => false,
@@ -15,6 +15,27 @@ function hocwp_ext_dynamic_sidebar_init_action() {
 }
 
 add_action( 'init', 'hocwp_ext_dynamic_sidebar_init_action', 0 );
+
+function hocwp_ext_dynamic_sidebar_widgets_init() {
+	$types = get_post_types( array( '_builtin' => false, 'public' => true ) );
+	//$types[] = 'post';
+
+	$types = array_map( 'get_post_type_object', $types );
+
+	foreach ( $types as $post_type ) {
+		$name = $post_type->labels->singular_name;
+
+		$args = array(
+			'id'          => $post_type->name,
+			'name'        => sprintf( __( '%s Sidebar', 'hocwp-ext' ), $name ),
+			'description' => sprintf( __( 'Display widget on %s singular page and archive page.', 'hocwp-ext' ), $name )
+		);
+
+		register_sidebar( $args );
+	}
+}
+
+add_action( 'widgets_init', 'hocwp_ext_dynamic_sidebar_widgets_init', 99 );
 
 if ( is_admin() ) {
 	load_template( dirname( __FILE__ ) . '/admin.php' );

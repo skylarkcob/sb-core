@@ -31,9 +31,11 @@ function hocwp_ext_account_login_enqueue_scripts() {
 
 		if ( 1 == $cs ) {
 			wp_enqueue_script( 'hocwp-theme' );
+
 			$args = array(
 				'load' => true
 			);
+
 			HT_Util()->load_facebook_javascript_sdk( $args );
 			wp_enqueue_script( 'hocwp-ext-connected-accounts' );
 		}
@@ -42,6 +44,21 @@ function hocwp_ext_account_login_enqueue_scripts() {
 
 add_action( 'login_enqueue_scripts', 'hocwp_ext_account_login_enqueue_scripts' );
 add_action( 'wp_enqueue_scripts', 'hocwp_ext_account_login_enqueue_scripts' );
+
+function hocwp_ext_account_default_login_page_scripts() {
+	global $pagenow;
+
+	if ( 'wp-login.php' == $pagenow ) {
+		$options = HT_Util()->get_theme_options( 'account' );
+		$cs      = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
+
+		if ( 1 == $cs ) {
+			wp_enqueue_style( 'hocwp-ext-account-login-default-style', HOCWP_EXT_URL . '/css/login-default' . HOCWP_THEME_CSS_SUFFIX );
+		}
+	}
+}
+
+add_action( 'login_enqueue_scripts', 'hocwp_ext_account_default_login_page_scripts' );
 
 function hocwp_ext_account_login_init() {
 	$action = HT()->get_method_value( 'action', 'get' );

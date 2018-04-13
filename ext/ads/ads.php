@@ -22,7 +22,7 @@ function hocwp_ext_get_ads_positions() {
 		$hocwp_theme->ads_positions = array();
 	}
 
-	$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'hocwp-theme' );
+	$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'hocwp-ext' );
 
 	return apply_filters( 'hocwp_theme_ads_positions', $hocwp_theme->ads_positions );
 }

@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 4.8
 Tested up to: 4.9
-Stable tag: 2.0.8
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,12 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
 
 == Changelog ==
+= 2.1.0 =
+* Add back compat function for older theme version.
+
+= 2.0.9 =
+* Fix Call to undefined function hocwp_load_all_extensions.
+
 = 2.0.8 =
 * Auto load extension.
 * Add Dynamic Sidebar extension.
