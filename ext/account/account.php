@@ -4,6 +4,8 @@ define( 'HOCWP_EXT_ACCOUNT_URL', HOCWP_EXT_URL . '/ext/account' );
 
 require HOCWP_EXT_ACCOUNT_PATH . '/functions.php';
 
+global $pagenow;
+
 function hocwp_ext_account_global_scripts() {
 	wp_register_script( 'hocwp-ext-connected-accounts', HOCWP_EXT_URL . '/js/connected-accounts' . HOCWP_THEME_JS_SUFFIX, array(
 		'jquery',
@@ -15,10 +17,15 @@ add_action( 'wp_enqueue_scripts', 'hocwp_ext_account_global_scripts' );
 add_action( 'admin_enqueue_scripts', 'hocwp_ext_account_global_scripts' );
 add_action( 'login_enqueue_scripts', 'hocwp_ext_account_global_scripts' );
 
+
 if ( is_admin() ) {
 	require HOCWP_EXT_ACCOUNT_PATH . '/admin.php';
 } else {
 	require HOCWP_EXT_ACCOUNT_PATH . '/front-end.php';
+}
+
+if ( 'wp-login.php' == $pagenow ) {
+	require HOCWP_EXT_ACCOUNT_PATH . '/default-login-page.php';
 }
 
 function hocwp_ext_account_connect_social_buttons() {

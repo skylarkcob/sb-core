@@ -67,7 +67,7 @@ function hocwp_theme_settings_page_account_field() {
 	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
 	if ( 1 == $cs ) {
-		$field = hocwp_theme_create_setting_field( 'login_logo', __( 'Login Logo', 'hocwp-ext' ), 'media_upload', array(), 'positive_integer', 'account', 'custom_default_login_page' );
+		$field    = hocwp_theme_create_setting_field( 'login_logo', __( 'Login Logo', 'hocwp-ext' ), 'media_upload', array(), 'positive_integer', 'account', 'custom_default_login_page' );
 		$fields[] = $field;
 	}
 
@@ -112,3 +112,9 @@ function hocwp_theme_sanitize_option_account( $input ) {
 }
 
 add_filter( 'hocwp_theme_sanitize_option_account', 'hocwp_theme_sanitize_option_account' );
+
+function hocwp_theme_admin_setting_page_account_scripts() {
+	HT_Util()->enqueue_media();
+}
+
+add_action( 'hocwp_theme_admin_setting_page_account_scripts', 'hocwp_theme_admin_setting_page_account_scripts' );

@@ -57,6 +57,7 @@ This plugin only supports for theme which is created by HocWP Team since version
 == Changelog ==
 = 2.1.0 =
 * Add back compat function for older theme version.
+* Customize style for default login page.
 
 = 2.0.9 =
 * Fix Call to undefined function hocwp_load_all_extensions.

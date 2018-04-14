@@ -10,6 +10,14 @@ body {
     display: none;
 }
 
+#login > h1 a {
+    background: none;
+    text-indent: inherit;
+    display: block;
+    width: auto;
+    height: auto;
+}
+
 .login #backtoblog, .login #nav,
 #nav {
     font-size: 0;
@@ -32,7 +40,7 @@ body {
 }
 
 .login #nav a:first-child {
-    padding: 5px 10px 5px 10px;
+    padding: 8px 20px;
     background: #449700;
     color: #fff;
     border-radius: 3px;
@@ -40,4 +48,41 @@ body {
 
 .login #nav a:first-child:hover {
     background: #448a0b;
+}
+
+.login form .forgetmenot {
+    float: none;
+}
+
+#login form p.submit {
+    clear: both;
+    float: none;
+    margin-top: 20px;
+}
+
+#login form p.submit input[type="submit"] {
+    background-color: #0070ba;
+    box-shadow: none;
+    display: block;
+    width: 100%;
+    height: auto;
+    font-weight: 700;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+}
+
+#login form p.submit input[type="submit"]:hover {
+    background-color: #005ea6;
+    outline: 0;
+}
+
+#login form p.submit input[type="submit"]:focus {
+    background-color: #005ea6;
+    text-decoration: underline;
+    outline: 0;
+}
+
+#login form p.submit input[type="submit"]:active {
+    background: #00598e;
 }
