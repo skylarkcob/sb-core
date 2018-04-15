@@ -1,6 +1,6 @@
 <?php
 function hocwp_theme_settings_page_vip_tab( $tabs ) {
-	$tabs['vip'] = __( 'VIP', 'hocwp-ext' );
+	$tabs['vip'] = __( 'VIP', 'sb-core' );
 
 	return $tabs;
 }
@@ -24,9 +24,9 @@ function hocwp_theme_settings_page_vip_field( $fields ) {
 	$args     = array(
 		'type'        => 'number',
 		'class'       => 'small-text',
-		'description' => __( 'VIP post costs by day.', 'hocwp-ext' )
+		'description' => __( 'VIP post costs by day.', 'sb-core' )
 	);
-	$field    = hocwp_theme_create_setting_field( 'post_price', __( 'Post Price', 'hocwp-ext' ), 'input', $args, 'positive_integer', 'vip' );
+	$field    = hocwp_theme_create_setting_field( 'post_price', __( 'Post Price', 'sb-core' ), 'input', $args, 'positive_integer', 'vip' );
 	$fields[] = $field;
 
 	return $fields;

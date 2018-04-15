@@ -758,6 +758,7 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css' ) {
 								$info = pathinfo( $info['filename'] );
 
 								if ( isset( $info['extension'] ) && $info['extension'] == 'min' ) {
+									$file = trailingslashit( $path ) . $file;
 									wp_delete_file( $file );
 								}
 							}
@@ -766,6 +767,8 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css' ) {
 				}
 			}
 		}
+
+		unset( $files, $file, $info );
 	}
 }
 

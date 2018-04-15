@@ -1,8 +1,8 @@
 <?php
 function hocwp_ext_dynamic_sidebar_init_action() {
 	$args = array(
-		'name'          => __( 'Sidebars', 'hocwp-ext' ),
-		'singular_name' => __( 'Sidebar', 'hocwp-ext' ),
+		'name'          => __( 'Sidebars', 'sb-core' ),
+		'singular_name' => __( 'Sidebar', 'sb-core' ),
 		'supports'      => array( 'title', 'excerpt' ),
 		'public'        => false,
 		'show_in_menu'  => false,
@@ -27,8 +27,8 @@ function hocwp_ext_dynamic_sidebar_widgets_init() {
 
 		$args = array(
 			'id'          => $post_type->name,
-			'name'        => sprintf( __( '%s Sidebar', 'hocwp-ext' ), $name ),
-			'description' => sprintf( __( 'Display widget on %s singular page and archive page.', 'hocwp-ext' ), $name )
+			'name'        => sprintf( __( '%s Sidebar', 'sb-core' ), $name ),
+			'description' => sprintf( __( 'Display widget on %s singular page and archive page.', 'sb-core' ), $name )
 		);
 
 		register_sidebar( $args );

@@ -17,19 +17,19 @@ function hocwp_add_post_frontend_post_meta() {
 		$post_types = hocwp_add_post_frontend_post_type();
 		$meta->set_post_types( $post_types );
 
-		$meta->set_title( __( 'VIP Content Information', 'hocwp-ext' ) );
+		$meta->set_title( __( 'VIP Content Information', 'sb-core' ) );
 		$meta->set_id( 'vip-content-information' );
 
 		$args  = array( 'disabled' => 'disabled', 'autocomlete' => 'off' );
-		$field = hocwp_theme_create_meta_field( 'vip_expired', __( 'Expiry day:', 'hocwp-ext' ), 'input', $args, 'timestamp' );
+		$field = hocwp_theme_create_meta_field( 'vip_expired', __( 'Expiry day:', 'sb-core' ), 'input', $args, 'timestamp' );
 		$meta->add_field( $field );
 
 		$args  = array(
 			'type'        => 'number',
-			'description' => sprintf( __( 'Add more day for your VIP content. %s coins per day.', 'hocwp-ext' ), $post_price ),
+			'description' => sprintf( __( 'Add more day for your VIP content. %s coins per day.', 'sb-core' ), $post_price ),
 			'value'       => ''
 		);
-		$field = hocwp_theme_create_meta_field( 'add_vip_day', __( 'Add more day:', 'hocwp-ext' ), 'input', $args, 'positive_integer' );
+		$field = hocwp_theme_create_meta_field( 'add_vip_day', __( 'Add more day:', 'sb-core' ), 'input', $args, 'positive_integer' );
 		$meta->add_field( $field );
 	}
 }
@@ -54,7 +54,7 @@ function hocwp_add_post_frontend_save_post( $post_id ) {
 		$cost       = $day * $post_price;
 		if ( $coin < $post_price || $coin < $cost ) {
 			$params = array(
-				'message' => __( 'You do not have enough coin to add more day for VIP content.', 'hocwp-ext' ),
+				'message' => __( 'You do not have enough coin to add more day for VIP content.', 'sb-core' ),
 				'type'    => 'error',
 				'echo'    => false
 			);
@@ -73,7 +73,7 @@ function hocwp_add_post_frontend_save_post( $post_id ) {
 				$coin -= $cost;
 				update_user_meta( $author, 'coin', $coin );
 				$params = array(
-					'message' => sprintf( __( 'You have added %s more VIP days for this post.', 'hocwp-ext' ), $day ),
+					'message' => sprintf( __( 'You have added %s more VIP days for this post.', 'sb-core' ), $day ),
 					'type'    => 'success',
 					'echo'    => false
 				);
@@ -125,7 +125,7 @@ function hocwp_add_post_frontend_wp_handle_upload_prefilter( $file ) {
 		}
 		$limit = absint( $limit );
 		if ( $count > $limit ) {
-			$file['error'] = sprintf( __( 'You can only upload %s media file per day.', 'hocwp-ext' ), $limit );
+			$file['error'] = sprintf( __( 'You can only upload %s media file per day.', 'sb-core' ), $limit );
 		} else {
 			$counts[ $year ][ $yday ] = $count;
 			update_user_meta( $user_id, 'media_upload_counts', $counts );

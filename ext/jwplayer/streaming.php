@@ -5,7 +5,7 @@ $load = hocwp_theme_load_extension_jwplayer();
 $rs   = array();
 if ( ! $load ) {
 	$rs['status'] = 0;
-	$rs['why']    = __( 'JW Player extension not loaded!', 'hocwp-ext' );
+	$rs['why']    = __( 'JW Player extension not loaded!', 'sb-core' );
 	echo wp_json_encode( $rs );
 
 	return;
@@ -13,7 +13,7 @@ if ( ! $load ) {
 $url = isset( $_REQUEST['url'] ) ? $_REQUEST['url'] : '';
 if ( empty( $url ) ) {
 	$rs['status'] = 0;
-	$rs['why']    = __( 'Link not valid', 'hocwp-ext' );
+	$rs['why']    = __( 'Link not valid', 'sb-core' );
 	echo wp_json_encode( $rs );
 
 	return;

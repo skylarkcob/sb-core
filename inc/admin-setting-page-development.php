@@ -8,6 +8,7 @@ function hocwp_theme_settings_page_development_tab( $tabs ) {
 add_filter( 'hocwp_theme_settings_page_tabs', 'hocwp_theme_settings_page_development_tab' );
 
 global $hocwp_theme;
+
 if ( ! is_object( $hocwp_theme ) || 'development' != $hocwp_theme->option->tab ) {
 	return;
 }

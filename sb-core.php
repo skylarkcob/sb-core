@@ -7,7 +7,7 @@ Author: HocWP Team
 Version: 2.1.0
 Author URI: http://hocwp.net/
 Donate link: http://hocwp.net/donate/
-Text Domain: hocwp-ext
+Text Domain: sb-core
 Domain Path: /languages/
 */
 function hocwp_ext_check_theme() {
@@ -21,7 +21,7 @@ function hocwp_ext_check_theme() {
 }
 
 function hocwp_ext_check_theme_notices() {
-	$msg = __( '<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as <code>hocwp-theme</code>.', 'hocwp-ext' );
+	$msg = __( '<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as <code>hocwp-theme</code>.', 'sb-core' );
 	?>
 	<div class="alert alert-error updated error is-dismissible alert-danger">
 		<?php echo wpautop( $msg ); ?>
@@ -41,7 +41,7 @@ define( 'HOCWP_EXT_URL', plugins_url( '', HOCWP_EXT_FILE ) );
 define( 'HOCWP_EXT_REQUIRE_THEME_CORE_VERSION', '6.3.4' );
 
 function hocwp_ext_check_theme_core_notices() {
-	$msg = sprintf( __( '<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core version at least %s. Please upgrade your theme or contact theme author for more details. You may also downgrade this plugin to older version but it is not recommended.', 'hocwp-ext' ), '<strong>' . HOCWP_EXT_REQUIRE_THEME_CORE_VERSION . '</strong>' );
+	$msg = sprintf( __( '<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core version at least %s. Please upgrade your theme or contact theme author for more details. You may also downgrade this plugin to older version but it is not recommended.', 'sb-core' ), '<strong>' . HOCWP_EXT_REQUIRE_THEME_CORE_VERSION . '</strong>' );
 	?>
 	<div class="alert alert-info is-dismissible notice notice-info">
 		<?php echo wpautop( $msg ); ?>
@@ -91,9 +91,15 @@ function hocwp_ext_load() {
 add_action( 'hocwp_theme_setup_after', 'hocwp_ext_load' );
 
 function hocwp_ext_plugin_action_links_filter( $links ) {
-	$links[] = '<a href="' . esc_url( admin_url( 'themes.php?page=hocwp_theme&tab=extension' ) ) . '">' . __( 'Settings', 'hocwp-ext' ) . '</a>';
+	$links[] = '<a href="' . esc_url( admin_url( 'themes.php?page=hocwp_theme&tab=extension' ) ) . '">' . __( 'Settings', 'sb-core' ) . '</a>';
 
 	return $links;
 }
 
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'hocwp_ext_plugin_action_links_filter' );
+
+function hocwp_ext_plugins_loaded_action() {
+	load_plugin_textdomain( 'sb-core', false, basename( dirname( __FILE__ ) ) . '/languages' );
+}
+
+add_action( 'plugins_loaded', 'hocwp_ext_plugins_loaded_action' );

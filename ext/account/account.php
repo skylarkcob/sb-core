@@ -55,9 +55,9 @@ function hocwp_ext_account_connect_social_buttons() {
 			<?php
 			if ( $google ) {
 				?>
-				<button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'hocwp-ext' ); ?>"
+				<button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'sb-core' ); ?>"
 				        class="btn btn-danger connect-google" data-login="1" type="button">
-					<i class="fa fa-google" aria-hidden="true"></i><?php _e( 'Continue with Google', 'hocwp-ext' ); ?>
+					<i class="fa fa-google" aria-hidden="true"></i><?php _e( 'Continue with Google', 'sb-core' ); ?>
 				</button>
 				<?php
 			}
@@ -65,10 +65,10 @@ function hocwp_ext_account_connect_social_buttons() {
 			if ( $facebook ) {
 				?>
 				<button id="connect-facebook"
-				        title="<?php _e( 'Sign up with your Facebook account', 'hocwp-ext' ); ?>"
+				        title="<?php _e( 'Sign up with your Facebook account', 'sb-core' ); ?>"
 				        class="btn btn-primary connect-facebook" data-login="1" type="button">
 					<i class="fa fa-facebook"
-					   aria-hidden="true"></i><?php _e( 'Continue with Facebook', 'hocwp-ext' ); ?>
+					   aria-hidden="true"></i><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
 				</button>
 				<?php
 			}
@@ -225,7 +225,7 @@ function hocwp_ext_connected_socials_horizontal_bar() {
 		return '';
 	}
 
-	return '<div class="social-wrapper-title ng-scope"><span>' . _x( 'Or', 'connected socials', 'hocwp-ext' ) . '</span></div>';
+	return '<div class="social-wrapper-title ng-scope"><span>' . _x( 'Or', 'connected socials', 'sb-core' ) . '</span></div>';
 }
 
 function hocwp_ext_account_add_connect_social_buttons() {
@@ -245,7 +245,7 @@ function hocwp_ext_account_wp_authenticate_user( $user ) {
 			$response = HT_Util()->recaptcha_valid();
 
 			if ( ! $response ) {
-				$user = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'hocwp-ext' ) );
+				$user = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
 			}
 		}
 	}
@@ -264,9 +264,9 @@ function hocwp_ext_account_registration_errors( $errors ) {
 
 		if ( ! $response ) {
 			if ( ! is_wp_error( $errors ) || ! ( $errors instanceof WP_Error ) ) {
-				$errors = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'hocwp-ext' ) );
+				$errors = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
 			} else {
-				$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'hocwp-ext' ) );
+				$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
 			}
 		}
 	}
@@ -285,9 +285,9 @@ function hocwp_ext_account_lostpassword_post( $errors ) {
 
 		if ( ! $response ) {
 			if ( ! is_wp_error( $errors ) || ! ( $errors instanceof WP_Error ) ) {
-				$errors = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'hocwp-ext' ) );
+				$errors = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
 			} else {
-				$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'hocwp-ext' ) );
+				$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
 			}
 		}
 	}

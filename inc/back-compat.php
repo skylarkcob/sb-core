@@ -1,5 +1,5 @@
 <?php
-global $hocwp_theme;
+global $hocwp_theme, $pagenow;
 
 if ( ! is_object( $hocwp_theme ) ) {
 	$hocwp_theme = new stdClass();

@@ -103,22 +103,22 @@ function hocwp_ext_settings_page_permalinks_section( $sections ) {
 	$taxs  = hocwp_theme_get_custom_taxonomies();
 
 	if ( HOCWP_Theme::array_has_value( $types ) || HOCWP_Theme::array_has_value( $taxs ) ) {
-		$desc = __( 'If you like, you may enter custom structures for your custom taxonomy term and custom post type URLs here. If you leave these blank the defaults will be used. Note: This function may affect the performance of the site.', 'hocwp-ext' );
+		$desc = __( 'If you like, you may enter custom structures for your custom taxonomy term and custom post type URLs here. If you leave these blank the defaults will be used. Note: This function may affect the performance of the site.', 'sb-core' );
 
 		$sections['custom_base'] = array(
 			'tab'         => 'permalinks',
 			'id'          => 'custom_base',
-			'title'       => __( 'Custom Base Slug', 'hocwp-ext' ),
+			'title'       => __( 'Custom Base Slug', 'sb-core' ),
 			'description' => $desc
 		);
 	}
 
-	$desc = __( 'We do not encourage you to do this but if you like you can still remove the base slug from permalink.', 'hocwp-ext' );
+	$desc = __( 'We do not encourage you to do this but if you like you can still remove the base slug from permalink.', 'sb-core' );
 
 	$sections['remove_base'] = array(
 		'tab'         => 'permalinks',
 		'id'          => 'remove_base',
-		'title'       => __( 'Remove Base Slug', 'hocwp-ext' ),
+		'title'       => __( 'Remove Base Slug', 'sb-core' ),
 		'description' => $desc
 	);
 
@@ -135,10 +135,10 @@ function hocwp_ext_settings_page_permalinks_field( $fields ) {
 			'tab'     => 'permalinks',
 			'section' => 'custom_base',
 			'id'      => $type->name . '_base',
-			'title'   => sprintf( __( '%s base', 'hocwp-ext' ), ucwords( $type->labels->singular_name ) ),
+			'title'   => sprintf( __( '%s base', 'sb-core' ), ucwords( $type->labels->singular_name ) ),
 			'args'    => array(
 				'label_for'   => true,
-				'description' => sprintf( __( 'Base slug for custom post type %s', 'hocwp-ext' ), '<code>' . $type->name . '</code>' )
+				'description' => sprintf( __( 'Base slug for custom post type %s', 'sb-core' ), '<code>' . $type->name . '</code>' )
 			)
 		);
 	}
@@ -153,7 +153,7 @@ function hocwp_ext_settings_page_permalinks_field( $fields ) {
 				'label_for'     => true,
 				'callback_args' => array(
 					'type'  => 'checkbox',
-					'label' => sprintf( __( 'Remove base slug for post type %s', 'hocwp-ext' ), '<code>' . $type->name . '</code>' )
+					'label' => sprintf( __( 'Remove base slug for post type %s', 'sb-core' ), '<code>' . $type->name . '</code>' )
 				)
 			)
 		);
@@ -166,10 +166,10 @@ function hocwp_ext_settings_page_permalinks_field( $fields ) {
 			'tab'     => 'permalinks',
 			'section' => 'custom_base',
 			'id'      => $tax->name . '_base',
-			'title'   => sprintf( __( '%s base', 'hocwp-ext' ), ucwords( $tax->labels->singular_name ) ),
+			'title'   => sprintf( __( '%s base', 'sb-core' ), ucwords( $tax->labels->singular_name ) ),
 			'args'    => array(
 				'label_for'   => true,
-				'description' => sprintf( __( 'Base slug for custom taxonomy %s', 'hocwp-ext' ), '<code>' . $tax->name . '</code>' )
+				'description' => sprintf( __( 'Base slug for custom taxonomy %s', 'sb-core' ), '<code>' . $tax->name . '</code>' )
 			)
 		);
 	}
@@ -187,7 +187,7 @@ function hocwp_ext_settings_page_permalinks_field( $fields ) {
 				'label_for'     => true,
 				'callback_args' => array(
 					'type'  => 'checkbox',
-					'label' => sprintf( __( 'Remove base slug for taxonomy %s', 'hocwp-ext' ), '<code>' . $tax->name . '</code>' )
+					'label' => sprintf( __( 'Remove base slug for taxonomy %s', 'sb-core' ), '<code>' . $tax->name . '</code>' )
 				)
 			)
 		);

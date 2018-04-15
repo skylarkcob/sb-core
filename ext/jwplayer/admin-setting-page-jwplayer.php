@@ -6,7 +6,7 @@ if ( ! $load ) {
 }
 
 function hocwp_theme_settings_page_jwplayer_tab( $tabs ) {
-	$tabs['jwplayer'] = __( 'JW Player', 'hocwp-ext' );
+	$tabs['jwplayer'] = __( 'JW Player', 'sb-core' );
 
 	return $tabs;
 }
@@ -23,14 +23,14 @@ function hocwp_theme_settings_page_jwplayer_section() {
 		'streamango'   => array(
 			'tab'         => 'jwplayer',
 			'id'          => 'streamango',
-			'title'       => __( 'Streamango', 'hocwp-ext' ),
-			'description' => __( 'Streamango streaming API settings.', 'hocwp-ext' )
+			'title'       => __( 'Streamango', 'sb-core' ),
+			'description' => __( 'Streamango streaming API settings.', 'sb-core' )
 		),
 		'streamcherry' => array(
 			'tab'         => 'jwplayer',
 			'id'          => 'streamcherry',
-			'title'       => __( 'Streamcherry', 'hocwp-ext' ),
-			'description' => __( 'Streamcherry streaming API settings.', 'hocwp-ext' )
+			'title'       => __( 'Streamcherry', 'sb-core' ),
+			'description' => __( 'Streamcherry streaming API settings.', 'sb-core' )
 		)
 	);
 	$fields = array();
@@ -44,7 +44,7 @@ function hocwp_theme_settings_page_jwplayer_field() {
 	$fields    = array();
 	$fields[]  = array(
 		'id'    => 'key',
-		'title' => __( 'Key', 'hocwp-ext' ),
+		'title' => __( 'Key', 'sb-core' ),
 		'tab'   => 'jwplayer',
 		'args'  => array(
 			'type'      => 'string',
@@ -57,7 +57,7 @@ function hocwp_theme_settings_page_jwplayer_field() {
 		unset( $files[0], $files[1] );
 		if ( HOCWP_Theme::array_has_value( $files ) ) {
 			$opts = array(
-				__( '-- Choose skin --', 'hocwp-ext' )
+				__( '-- Choose skin --', 'sb-core' )
 			);
 			foreach ( $files as $file ) {
 				$info                      = pathinfo( $file );
@@ -65,7 +65,7 @@ function hocwp_theme_settings_page_jwplayer_field() {
 			}
 			$fields[] = array(
 				'id'    => 'skin',
-				'title' => __( 'Skin', 'hocwp-ext' ),
+				'title' => __( 'Skin', 'sb-core' ),
 				'tab'   => 'jwplayer',
 				'args'  => array(
 					'type'          => 'string',

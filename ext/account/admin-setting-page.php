@@ -1,6 +1,6 @@
 <?php
 function hocwp_theme_settings_page_account_tab( $tabs ) {
-	$tabs['account'] = __( 'Account', 'hocwp-ext' );
+	$tabs['account'] = __( 'Account', 'sb-core' );
 
 	return $tabs;
 }
@@ -14,60 +14,60 @@ function hocwp_theme_settings_page_account_field() {
 
 	$args = array(
 		'type'  => 'checkbox',
-		'label' => __( 'Allow users can login and register via their social accounts.', 'hocwp-ext' )
+		'label' => __( 'Allow users can login and register via their social accounts.', 'sb-core' )
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'connect_social', __( 'Connect Social', 'hocwp-ext' ), 'input', $args, 'boolean', 'account' );
+	$field    = hocwp_theme_create_setting_field( 'connect_social', __( 'Connect Social', 'sb-core' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
 	$args = array(
 		'type'  => 'checkbox',
-		'label' => __( 'Using captcha for account form?', 'hocwp-ext' )
+		'label' => __( 'Using captcha for account form?', 'sb-core' )
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'captcha', __( 'Captcha', 'hocwp-ext' ), 'input', $args, 'boolean', 'account' );
+	$field    = hocwp_theme_create_setting_field( 'captcha', __( 'Captcha', 'sb-core' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
 	$args = array(
 		'type'  => 'checkbox',
-		'label' => __( 'Change style of default WordPress login page for displaying nicely?', 'hocwp-ext' )
+		'label' => __( 'Change style of default WordPress login page for displaying nicely?', 'sb-core' )
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'custom_style', __( 'Custom Style', 'hocwp-ext' ), 'input', $args, 'boolean', 'account' );
+	$field    = hocwp_theme_create_setting_field( 'custom_style', __( 'Custom Style', 'sb-core' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
 	$args = array(
 		'class' => 'regular-text'
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'login_page', __( 'Login Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
+	$field    = hocwp_theme_create_setting_field( 'login_page', __( 'Login Page', 'sb-core' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
 	$fields[] = $field;
 
 	$args = array(
 		'class' => 'regular-text'
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'register_page', __( 'Register Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
+	$field    = hocwp_theme_create_setting_field( 'register_page', __( 'Register Page', 'sb-core' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
 	$fields[] = $field;
 
 	$args = array(
 		'class' => 'regular-text'
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'lostpassword_page', __( 'Lost Password Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
+	$field    = hocwp_theme_create_setting_field( 'lostpassword_page', __( 'Lost Password Page', 'sb-core' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
 	$fields[] = $field;
 
 	$args = array(
 		'class' => 'regular-text'
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'profile_page', __( 'Profile Page', 'hocwp-ext' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
+	$field    = hocwp_theme_create_setting_field( 'profile_page', __( 'Profile Page', 'sb-core' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
 	$fields[] = $field;
 
 	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
 	if ( 1 == $cs ) {
-		$field    = hocwp_theme_create_setting_field( 'login_logo', __( 'Login Logo', 'hocwp-ext' ), 'media_upload', array(), 'positive_integer', 'account', 'custom_default_login_page' );
+		$field    = hocwp_theme_create_setting_field( 'login_logo', __( 'Login Logo', 'sb-core' ), 'media_upload', array(), 'positive_integer', 'account', 'custom_default_login_page' );
 		$fields[] = $field;
 	}
 
@@ -79,7 +79,7 @@ add_filter( 'hocwp_theme_settings_page_account_settings_field', 'hocwp_theme_set
 function hocwp_theme_settings_page_account_settings_section( $sections ) {
 	$section = array(
 		'id'    => 'account_tools_page',
-		'title' => __( 'Account Tools Page', 'hocwp-ext' ),
+		'title' => __( 'Account Tools Page', 'sb-core' ),
 		'tab'   => 'account'
 	);
 
@@ -91,7 +91,7 @@ function hocwp_theme_settings_page_account_settings_section( $sections ) {
 	if ( 1 == $cs ) {
 		$section = array(
 			'id'    => 'custom_default_login_page',
-			'title' => __( 'Customize Default Login Page', 'hocwp-ext' ),
+			'title' => __( 'Customize Default Login Page', 'sb-core' ),
 			'tab'   => 'account'
 		);
 

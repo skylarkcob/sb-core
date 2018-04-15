@@ -1,6 +1,6 @@
 <?php
 function hocwp_ext_dynamic_sidebar_admin_menu_action() {
-	$title = __( 'Sidebar Manager', 'hocwp-ext' );
+	$title = __( 'Sidebar Manager', 'sb-core' );
 	add_theme_page( $title, $title, 'manage_options', 'edit.php?post_type=hocwp_sidebar' );
 }
 

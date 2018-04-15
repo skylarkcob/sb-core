@@ -12,7 +12,7 @@ function hocwp_add_post_frontend_user_profile_fields( $user ) {
 		?>
         <tr class="user-coin-wrap">
             <th>
-                <label for="coin"><?php _e( 'Coin', 'hocwp-ext' ); ?></label>
+                <label for="coin"><?php _e( 'Coin', 'sb-core' ); ?></label>
             </th>
             <td>
                 <input type="number" name="coin" id="coin" min="0" value="<?php echo esc_attr( $coin ); ?>"

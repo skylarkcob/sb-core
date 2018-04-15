@@ -36,4 +36,4 @@ function hocwp_theme_gcp_the_content_filter( $post_content ) {
 	return $post_content;
 }
 
-add_filter( 'the_content', 'hocwp_theme_gcp_the_content_filter', 99 );
+add_filter( 'the_content', 'hocwp_theme_gcp_the_content_filter', 9 );

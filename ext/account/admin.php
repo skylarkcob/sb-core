@@ -106,7 +106,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 
 						$user_id = wp_insert_user( $user_data );
 					} else {
-						$user_id = new WP_Error( 'registration_not_allowed', __( 'This site does not allow users to register.', 'hocwp-ext' ) );
+						$user_id = new WP_Error( 'registration_not_allowed', __( 'This site does not allow users to register.', 'sb-core' ) );
 					}
 				}
 			}
@@ -180,11 +180,11 @@ function hocwp_ext_account_admin_notices_action() {
 		$rse = isset( $options['recaptcha_secret_key'] ) ? $options['recaptcha_secret_key'] : '';
 
 		if ( empty( $fai ) || empty( $gak ) || empty( $gci ) || empty( $rsk ) || empty( $rse ) ) {
-			$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for account extension works normally.', 'hocwp-ext' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
+			$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for account extension works normally.', 'sb-core' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
 
 			$args = array(
 				'type'    => 'info',
-				'message' => sprintf( '<strong>%s</strong> %s', __( 'Account Extension:', 'hocwp-ext' ), $msg )
+				'message' => sprintf( '<strong>%s</strong> %s', __( 'Account Extension:', 'sb-core' ), $msg )
 			);
 
 			HT_Util()->admin_notice( $args );

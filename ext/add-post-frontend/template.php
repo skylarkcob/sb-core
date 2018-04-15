@@ -27,7 +27,7 @@ $post_content = '';
 $messages     = array();
 if ( isset( $_POST['add_post_type'] ) ) {
 	if ( ! HT_Util()->verify_nonce() ) {
-		$messages[] = '<p class="alert alert-danger">' . __( 'Invalid form data.', 'hocwp-ext' ) . '</p>';
+		$messages[] = '<p class="alert alert-danger">' . __( 'Invalid form data.', 'sb-core' ) . '</p>';
 	} else {
 		$title        = isset( $_POST['add_post_title'] ) ? $_POST['add_post_title'] : '';
 		$post_content = isset( $_POST['add_post_content'] ) ? $_POST['add_post_content'] : '';
@@ -55,7 +55,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 				if ( $id instanceof WP_Error ) {
 					$messages[] = '<p class="alert alert-danger">' . $id->get_error_message() . '</p>';
 				} else {
-					$msg = sprintf( __( 'Your post has been added successfully. You can <a href="%s">click here</a> to update it.', 'hocwp-ext' ), get_edit_post_link( $id ) );
+					$msg = sprintf( __( 'Your post has been added successfully. You can <a href="%s">click here</a> to update it.', 'sb-core' ), get_edit_post_link( $id ) );
 
 					$messages[] = '<p class="alert alert-success">' . $msg . '</p>';
 					if ( isset( $_POST['submit_vip'] ) ) {
@@ -79,10 +79,10 @@ if ( isset( $_POST['add_post_type'] ) ) {
 					$_POST = array();
 				}
 			} else {
-				$messages[] = '<p class="alert alert-danger">' . __( 'You do not have enough coin to post VIP content.', 'hocwp-ext' ) . '</p>';
+				$messages[] = '<p class="alert alert-danger">' . __( 'You do not have enough coin to post VIP content.', 'sb-core' ) . '</p>';
 			}
 		} else {
-			$messages[] = '<p class="alert alert-danger">' . __( 'Post title and post content must not be empty.', 'hocwp-ext' ) . '</p>';
+			$messages[] = '<p class="alert alert-danger">' . __( 'Post title and post content must not be empty.', 'sb-core' ) . '</p>';
 		}
 	}
 }
@@ -99,7 +99,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 		wp_nonce_field();
 		?>
         <div class="form-group">
-            <label for="post-title"><?php _e( 'Post title:', 'hocwp-ext' ); ?></label>
+            <label for="post-title"><?php _e( 'Post title:', 'sb-core' ); ?></label>
             <input type="text" name="add_post_title" id="post-title" class="form-control" value="<?php echo $title; ?>">
         </div>
         <div class="form-group">
@@ -127,7 +127,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
                 <select name="<?php echo esc_attr( $name ); ?>"
                         id="taxonomy-<?php echo $taxonomy->name; ?>"
                         class="form-control">
-                    <option value=""><?php echo esc_html( sprintf( __( 'Choose %s', 'hocwp-ext' ), $taxonomy->labels->singular_name ) ); ?></option>
+                    <option value=""><?php echo esc_html( sprintf( __( 'Choose %s', 'sb-core' ), $taxonomy->labels->singular_name ) ); ?></option>
 					<?php
 					foreach ( $terms as $term ) {
 						$selected = ( isset( $_POST[ $name ] ) && $term->term_id == $_POST[ $name ] ) ? true : false;
@@ -145,7 +145,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 			<?php
 			if ( is_array( $post_type ) ) {
 				?>
-                <label for="add-post-type"><?php _e( 'Post type:', 'hocwp-ext' ); ?>:</label>
+                <label for="add-post-type"><?php _e( 'Post type:', 'sb-core' ); ?>:</label>
                 <select name="add_post_type" id="add-post-type"
                         class="form-control">
 					<?php
@@ -168,18 +168,18 @@ if ( isset( $_POST['add_post_type'] ) ) {
         <div class="form-group text-right">
 			<?php
 			if ( 0 < $post_price ) {
-				$confirm = sprintf( __( 'You will pay %s coins for posting VIP content.', 'hocwp-ext' ), number_format( $post_price ) );
+				$confirm = sprintf( __( 'You will pay %s coins for posting VIP content.', 'sb-core' ), number_format( $post_price ) );
 				?>
                 <button class="btn btn-warning" name="submit_vip"
                         type="submit"
-                        onclick="return (confirm('<?php echo $confirm; ?>')) || false;"><?php _e( 'Add VIP Post', 'hocwp-ext' ); ?></button>
+                        onclick="return (confirm('<?php echo $confirm; ?>')) || false;"><?php _e( 'Add VIP Post', 'sb-core' ); ?></button>
 				<?php
 			}
 			?>
             <button class="btn btn-success" name="submit"
-                    type="submit"><?php _e( 'Add Post', 'hocwp-ext' ); ?></button>
+                    type="submit"><?php _e( 'Add Post', 'sb-core' ); ?></button>
             <a href="<?php echo esc_url( home_url() ); ?>"
-               class="btn btn-info"><?php _e( 'Back to home', 'hocwp-ext' ); ?></a>
+               class="btn btn-info"><?php _e( 'Back to home', 'sb-core' ); ?></a>
         </div>
     </form>
 </div>

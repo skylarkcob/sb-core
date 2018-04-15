@@ -13,7 +13,7 @@ class HOCWP_Theme_Streaming_Streamango extends HOCWP_Theme_Streaming {
 		$matches = $this->sanitize_url();
 		if ( empty( $matches ) ) {
 			$rs['status'] = 0;
-			$rs['why']    = __( 'Link not valid', 'hocwp-ext' );
+			$rs['why']    = __( 'Link not valid', 'sb-core' );
 
 			return wp_json_encode( $rs );
 		}
@@ -37,7 +37,7 @@ class HOCWP_Theme_Streaming_Streamango extends HOCWP_Theme_Streaming {
 		$data       = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( $data['status'] != 200 ) {
 			$rs['status'] = 0;
-			$rs['why']    = __( 'Cannot get download ticket!', 'hocwp-ext' );
+			$rs['why']    = __( 'Cannot get download ticket!', 'sb-core' );
 
 			return wp_json_encode( $rs );
 		} else {

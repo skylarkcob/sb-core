@@ -12,8 +12,8 @@ if ( ! $facebook && ! $google ) {
 	return;
 }
 ?>
-<h2><?php _e( 'Connected Accounts', 'hocwp-ext' ); ?></h2>
-<p><?php _e( 'If you would like to use a 3rd party account such as Facebook or Google to Sign In to this site, you can add it below. You can disconnect these accounts at any time.', 'hocwp-ext' ); ?></p>
+<h2><?php _e( 'Connected Accounts', 'sb-core' ); ?></h2>
+<p><?php _e( 'If you would like to use a 3rd party account such as Facebook or Google to Sign In to this site, you can add it below. You can disconnect these accounts at any time.', 'sb-core' ); ?></p>
 <table class="form-table">
     <tbody>
 	<?php
@@ -21,7 +21,7 @@ if ( ! $facebook && ! $google ) {
 		?>
         <tr id="connect_facebook" class="connect-facebook-wrap">
             <th>
-                <label for="connect_with_facebook"><?php _ex( 'Facebook', 'connect social account', 'hocwp-ext' ); ?></label>
+                <label for="connect_with_facebook"><?php _ex( 'Facebook', 'connect social account', 'sb-core' ); ?></label>
             </th>
             <td>
 				<?php
@@ -29,9 +29,9 @@ if ( ! $facebook && ! $google ) {
 
 				$data_connect = 0;
 
-				$data_text = _x( 'Connect', 'connect social account', 'hocwp-ext' );
+				$data_text = _x( 'Connect', 'connect social account', 'sb-core' );
 
-				$data_disconnect_text = _x( 'Disconnect', 'connect social account', 'hocwp-ext' );
+				$data_disconnect_text = _x( 'Disconnect', 'connect social account', 'sb-core' );
 
 				$text = $data_text;
 
@@ -44,7 +44,7 @@ if ( ! $facebook && ! $google ) {
 				}
 				?>
                 <button type="button" data-connect="<?php echo esc_attr( $data_connect ); ?>"
-                        data-loading-text="<?php echo esc_attr( __( 'Fetching data...', 'hocwp-ext' ) ); ?>"
+                        data-loading-text="<?php echo esc_attr( __( 'Fetching data...', 'sb-core' ) ); ?>"
                         data-text="<?php echo esc_attr( $data_text ); ?>"
                         data-disconnect-text="<?php echo esc_attr( $data_disconnect_text ); ?>"
                         class="button connect-facebook hide-if-no-js"><?php echo esc_html( $text ); ?></button>
@@ -56,7 +56,7 @@ if ( ! $facebook && ! $google ) {
 		?>
         <tr id="connect_google" class="connect-google-wrap">
             <th>
-                <label for="connect_with_google"><?php _ex( 'Google', 'connect social account', 'hocwp-ext' ); ?></label>
+                <label for="connect_with_google"><?php _ex( 'Google', 'connect social account', 'sb-core' ); ?></label>
             </th>
             <td>
 				<?php
@@ -64,9 +64,9 @@ if ( ! $facebook && ! $google ) {
 
 				$data_connect = 0;
 
-				$data_text = _x( 'Connect', 'connect social account', 'hocwp-ext' );
+				$data_text = _x( 'Connect', 'connect social account', 'sb-core' );
 
-				$data_disconnect_text = _x( 'Disconnect', 'connect social account', 'hocwp-ext' );
+				$data_disconnect_text = _x( 'Disconnect', 'connect social account', 'sb-core' );
 
 				$text = $data_text;
 
@@ -79,7 +79,7 @@ if ( ! $facebook && ! $google ) {
 				}
 				?>
                 <button id="connect-google" type="button" data-connect="<?php echo esc_attr( $data_connect ); ?>"
-                        data-loading-text="<?php echo esc_attr( __( 'Fetching data...', 'hocwp-ext' ) ); ?>"
+                        data-loading-text="<?php echo esc_attr( __( 'Fetching data...', 'sb-core' ) ); ?>"
                         data-text="<?php echo esc_attr( $data_text ); ?>"
                         data-disconnect-text="<?php echo esc_attr( $data_disconnect_text ); ?>"
                         class="button connect-google hide-if-no-js"><?php echo esc_html( $text ); ?></button>

@@ -2,7 +2,7 @@
 function hocwp_ext_ads_register_object() {
 	$args = array(
 		'labels'       => array(
-			'name' => __( 'Ads', 'hocwp-ext' )
+			'name' => __( 'Ads', 'sb-core' )
 		),
 		'private'      => true,
 		'show_in_menu' => false,
@@ -22,7 +22,7 @@ function hocwp_ext_get_ads_positions() {
 		$hocwp_theme->ads_positions = array();
 	}
 
-	$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'hocwp-ext' );
+	$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'sb-core' );
 
 	return apply_filters( 'hocwp_theme_ads_positions', $hocwp_theme->ads_positions );
 }
