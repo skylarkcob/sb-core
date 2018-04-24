@@ -57,6 +57,7 @@ This plugin only supports for theme which is created by HocWP Team since version
 == Changelog ==
 = 2.1.1 =
 * Change textdomain for translate plugin.
+* Fix error on old themes version.
 
 = 2.1.0 =
 * Add back compat function for older theme version.
