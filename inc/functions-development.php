@@ -739,8 +739,20 @@ function hocwp_team_dev_backup_wp_content_folders_plugin( $folders ) {
 
 add_filter( 'hocwp_theme_backup_wp_content_folders', 'hocwp_team_dev_backup_wp_content_folders_plugin' );
 
-function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css' ) {
-	$path = trailingslashit( $path ) . $extension;
+function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root = false, $recursive = false ) {
+	if ( HT()->is_file( $path ) ) {
+		$info = pathinfo( $path );
+
+		if ( isset( $info['extension'] ) && $extension == $info['extension'] ) {
+			wp_delete_file( $path );
+
+			return;
+		}
+	}
+
+	if ( ! $root ) {
+		$path = trailingslashit( $path ) . $extension;
+	}
 
 	if ( HT()->is_dir( $path ) ) {
 		$files = scandir( $path );
@@ -748,6 +760,22 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css' ) {
 		if ( HT()->array_has_value( $files ) ) {
 			foreach ( $files as $file ) {
 				$info = pathinfo( $file );
+
+				if ( '.' == $file || '..' == $file ) {
+					continue;
+				}
+
+				if ( ! isset( $info['extension'] ) || empty( $info['extension'] ) ) {
+					if ( $recursive ) {
+						$tmp = trailingslashit( $path ) . $file;
+
+						if ( HT()->is_dir( $tmp ) ) {
+							hocwp_theme_delete_duplicate_min_file( $tmp, $extension, $root, $recursive );
+						}
+					}
+
+					continue;
+				}
 
 				if ( isset( $info['extension'] ) && $info['extension'] == $extension ) {
 					if ( isset( $info['filename'] ) ) {
@@ -776,6 +804,8 @@ function hocwp_teme_dev_load_themes_action() {
 	global $hocwp_theme;
 	$paths = $hocwp_theme->defaults['compress_css_and_js_paths'];
 
+	$td = get_template_directory();
+
 	if ( HT()->array_has_value( $paths ) ) {
 		foreach ( $paths as $path ) {
 			if ( HT()->is_dir( $path ) ) {
@@ -784,9 +814,23 @@ function hocwp_teme_dev_load_themes_action() {
 			}
 		}
 	}
+
+	hocwp_theme_delete_duplicate_min_file( $td, 'css', true );
+	hocwp_theme_delete_duplicate_min_file( $td, 'js', true );
+	hocwp_theme_delete_duplicate_min_file( $td . '/style.min.css' );
+
+	hocwp_theme_delete_duplicate_min_file( $td . '/layouts', 'css', true );
+	hocwp_theme_delete_duplicate_min_file( $td, 'js' );
+	hocwp_theme_delete_duplicate_min_file( HOCWP_THEME_CORE_PATH . '/lib', 'css', true, true );
+	hocwp_theme_delete_duplicate_min_file( HOCWP_THEME_CORE_PATH . '/lib', 'js', true, true );
+	hocwp_theme_delete_duplicate_min_file( $td . '/custom/lib', 'css', true, true );
+	hocwp_theme_delete_duplicate_min_file( $td . '/custom/lib', 'js', true, true );
+
+	unset( $td, $paths, $path );
 }
 
 add_action( 'load-themes.php', 'hocwp_teme_dev_load_themes_action' );
+add_action( 'load-plugins.php', 'hocwp_teme_dev_load_themes_action' );
 
 if ( function_exists( 'qtranxf_postsFilter' ) && has_filter( 'the_posts', 'qtranxf_postsFilter' ) ) {
 	remove_filter( 'the_posts', 'qtranxf_postsFilter', 5 );
