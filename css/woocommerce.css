@@ -69,6 +69,63 @@
     padding-bottom: 10px;
 }
 
+.woocommerce-MyAccount-content > * {
+    margin-bottom: 20px;
+}
+
 .woocommerce form .form-row .input-checkbox {
     position: relative;
+}
+
+.woocommerce #content table.cart td.actions .input-text[name="coupon_code"],
+.woocommerce table.cart td.actions .input-text[name="coupon_code"],
+.woocommerce-page #content table.cart td.actions .input-text[name="coupon_code"],
+.woocommerce-page table.cart td.actions .input-text[name="coupon_code"] {
+    font-size: 13px;
+    width: 150px;
+    padding: 0 10px;
+    line-height: 24px;
+    margin-right: 5px;
+}
+
+#add_payment_method #payment ul.payment_methods,
+.woocommerce-cart #payment ul.payment_methods,
+.woocommerce-checkout #payment ul.payment_methods {
+    white-space: normal;
+}
+
+.woocommerce ul.order_details {
+    margin-top: 10px;
+}
+
+.woocommerce .woocommerce-customer-details address,
+.woocommerce ul.order_details li {
+    line-height: 2;
+}
+
+.woocommerce .woocommerce-customer-details p[class^=woocommerce-customer-details-]::before {
+    line-height: 2.4;
+}
+
+.woocommerce .woocommerce-column h2,
+.woocommerce #customer_details + #order_review_heading,
+.woocommerce-Reviews #comments > h2,
+.woocommerce-table.customer_details + h3,
+.woocommerce-customer-details > h2,
+.woocommerce-order-details > h2,
+.cart_totals > h2 {
+    padding-bottom: 0;
+    margin: 10px 0;
+}
+
+.woocommerce table.my_account_orders {
+    font-size: 11px;
+}
+
+.woocommerce table.my_account_orders td .button:not(:first-child) {
+    margin-left: 5px;
+}
+
+.woocommerce-checkout #payment .wc_payment_methods .wc_payment_method:not(:last-child) {
+    margin-bottom: 8px;
 }

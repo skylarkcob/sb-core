@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-04-15 07:34+0700\n"
+"POT-Creation-Date: 2018-05-07 15:19+0700\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,36 +246,48 @@ msgstr ""
 msgid "Ads Management"
 msgstr ""
 
-#: ext/ads/admin.php:12
+#: ext/ads/admin.php:13
 msgid "Ads Information"
 msgstr ""
 
-#: ext/ads/admin.php:16
+#: ext/ads/admin.php:17
 msgid "-- Choose position --"
 msgstr ""
 
-#: ext/ads/admin.php:17
+#: ext/ads/admin.php:18
 msgid "Position:"
 msgstr ""
 
-#: ext/ads/admin.php:23
+#: ext/ads/admin.php:24
 msgid "Expiry date:"
 msgstr ""
 
-#: ext/ads/admin.php:26
+#: ext/ads/admin.php:27
 msgid "Image:"
 msgstr ""
 
-#: ext/ads/admin.php:29
+#: ext/ads/admin.php:30
 msgid "Url:"
 msgstr ""
 
-#: ext/ads/admin.php:33
+#: ext/ads/admin.php:34
 msgid "Code:"
 msgstr ""
 
-#: ext/ads/admin.php:37
+#: ext/ads/admin.php:38
 msgid "Make this ads as active status?"
+msgstr ""
+
+#: ext/ads/admin.php:98
+msgid "Position"
+msgstr ""
+
+#: ext/ads/admin.php:99
+msgid "Expiry date"
+msgstr ""
+
+#: ext/ads/admin.php:100
+msgid "Active"
 msgstr ""
 
 #: ext/ads/ads.php:5
@@ -393,6 +405,14 @@ msgstr ""
 
 #: ext/jwplayer/streaming.php:8
 msgid "JW Player extension not loaded!"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:3
+msgid "WooCommerce"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:20
+msgid "USD to Vietnam Dong Rate"
 msgstr ""
 
 #: sb-core.php:24
