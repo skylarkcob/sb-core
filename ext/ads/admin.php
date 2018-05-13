@@ -6,7 +6,7 @@ function hocwp_ext_ads_sub_menu() {
 
 add_action( 'admin_menu', 'hocwp_ext_ads_sub_menu', 99 );
 
-if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || HT_Util()->is_post_new_update_page() ) {
+if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
 	function hocwp_ext_ads_meta_box() {
 		$meta = new HOCWP_Theme_Meta_Post();
 		$meta->add_post_type( 'hocwp_ads' );
@@ -74,12 +74,12 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || HT_U
 	add_action( 'add_meta_boxes', 'hocwp_ext_ads_add_meta_box_action', 0 );
 }
 
-if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) || HT_Util()->is_edit_post_new_update_page() ) {
+if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_edit_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_edit_post_new_update_page() ) ) {
 	function hocwp_ext_ads_admin_enqueue_scripts() {
 		global $post_type, $pagenow;
 
 		if ( 'hocwp_ads' == $post_type ) {
-			if ( HT_Util()->is_post_new_update_page() ) {
+			if ( ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
 				HT_Util()->enqueue_datepicker();
 			}
 
@@ -93,7 +93,7 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) ||
 	add_action( 'admin_enqueue_scripts', 'hocwp_ext_ads_admin_enqueue_scripts', 99 );
 }
 
-if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || HT_Util()->is_admin_page( 'edit.php' ) ) {
+if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_admin_page( 'edit.php' ) ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_admin_page( 'edit.php' ) ) ) {
 	function hocwp_ext_ads_posts_columns( $columns ) {
 		$columns = HT()->insert_to_array( $columns, __( 'Position', 'sb-core' ), 'before_tail', 'position' );
 		$columns = HT()->insert_to_array( $columns, __( 'Expiry date', 'sb-core' ), 'before_tail', 'expire_date' );
