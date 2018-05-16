@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-07 15:19+0700\n"
-"PO-Revision-Date: 2018-05-07 15:20+0700\n"
+"POT-Creation-Date: 2018-05-15 19:17+0700\n"
+"PO-Revision-Date: 2018-05-15 19:37+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -381,12 +381,12 @@ msgstr "Sidebar"
 msgid "Sidebar"
 msgstr "Sidebar"
 
-#: ext/dynamic-sidebar/dynamic-sidebar.php:30
+#: ext/dynamic-sidebar/dynamic-sidebar.php:29
 #, php-format
 msgid "%s Sidebar"
 msgstr "%s sidebar"
 
-#: ext/dynamic-sidebar/dynamic-sidebar.php:31
+#: ext/dynamic-sidebar/dynamic-sidebar.php:30
 #, php-format
 msgid "Display widget on %s singular page and archive page."
 msgstr "Hiển thị widget %s trên trang single và trang lưu trữ."
@@ -464,7 +464,7 @@ msgid ""
 msgstr ""
 "<strong>Plugin Extensions by HocWP Team:</strong> Bạn phải dùng phiên bản "
 "nhân của giao diện từ %s trở lên. Xin vui lòng nâng cấp giao diện của bạn "
-"hoặc liên hệ với tác giả để biết thêm thông tin. Bạn cũng có thể hạn phiên "
+"hoặc liên hệ với tác giả để biết thêm thông tin. Bạn cũng có thể hạ phiên "
 "bản của plugin xuống phiên bản thấp hơn, nhưng chúng tôi không khuyến khích "
 "bạn làm việc này."
 

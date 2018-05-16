@@ -849,3 +849,9 @@ function hocwp_theme_development_admin_notices() {
 }
 
 add_action( 'admin_notices', 'hocwp_theme_development_admin_notices' );
+
+function hocwp_theme_dev_init_action_check() {
+
+}
+
+add_action( 'init', 'hocwp_theme_dev_init_action_check' );
