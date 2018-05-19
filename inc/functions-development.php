@@ -197,11 +197,11 @@ function hocwp_theme_compress_all_css_and_js( $paths = null ) {
 	foreach ( $paths as $path ) {
 		if ( is_dir( $path ) ) {
 			$css = $path . '/css';
-			_hocwp_theme_compress_all_css_and_js( $css );
+			hocwp_theme_compress_all_css_and_js_helper( $css );
 			$js = $path . '/js';
-			_hocwp_theme_compress_all_css_and_js( $js );
+			hocwp_theme_compress_all_css_and_js_helper( $js );
 		} elseif ( is_readable( $path ) ) {
-			_hocwp_theme_compress_all_css_and_js( $path );
+			hocwp_theme_compress_all_css_and_js_helper( $path );
 		}
 	}
 }
@@ -316,7 +316,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 	}
 }
 
-function _hocwp_theme_compress_all_css_and_js( $dir ) {
+function hocwp_theme_compress_all_css_and_js_helper( $dir ) {
 	if ( is_dir( $dir ) ) {
 		hocwp_theme_debug( '---------------------------------------------------------------------------------------------' );
 		hocwp_theme_debug( sprintf( 'Scanning directory % s', $dir ) );
@@ -598,6 +598,28 @@ function hocwp_team_dev_backup_files() {
 }
 
 add_action( 'admin_notices', 'hocwp_team_dev_backup_files' );
+
+function hocwp_dev_check_theme_core_new_version() {
+	$data = wp_remote_get( 'https://api.github.com/repos/skylarkcob/hocwp-theme/releases/latest' );
+	$data = wp_remote_retrieve_body( $data );
+	$data = json_decode( $data );
+
+	if ( is_object( $data ) ) {
+		$version = $data->tag_name;
+		$version = str_replace( 'v', '', $version );
+
+		if ( version_compare( $version, HOCWP_THEME_CORE_VERSION, '>' ) ) {
+			$args = array(
+				'message' => sprintf( __( '<strong>Note:</strong> New theme core version has been released. Please take time to <a href="%s" target="_blank">update it</a>. If you are not theme author, just leave this message.', 'sb-core' ), 'https://github.com/skylarkcob/hocwp-theme/releases' ),
+				'type'    => 'info'
+			);
+
+			HT_Admin()->admin_notice( $args );
+		}
+	}
+}
+
+add_action( 'admin_notices', 'hocwp_dev_check_theme_core_new_version' );
 
 function hocwp_team_dev_backup_files_in_footer() {
 	if ( ! current_user_can( 'manage_options' ) ) {

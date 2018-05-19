@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-19 22:01+0700\n"
-"PO-Revision-Date: 2018-05-19 22:23+0700\n"
+"POT-Creation-Date: 2018-05-19 23:27+0700\n"
+"PO-Revision-Date: 2018-05-19 23:28+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -173,7 +173,7 @@ msgstr "Chính sách bảo mật"
 
 #: ext/account/default-login-page.php:106
 msgid "Select the language:"
-msgstr ""
+msgstr "Chọn ngôn ngữ:"
 
 #: ext/add-post-frontend/add-post-frontend.php:24
 msgid "VIP Content Information"
@@ -459,6 +459,17 @@ msgstr "Tỷ giá USD sang VNĐ"
 #: inc/admin-setting-page-development.php:8
 msgid "Development"
 msgstr "Phát triển"
+
+#: inc/functions-development.php:613
+#, php-format
+msgid ""
+"<strong>Note:</strong> New theme core version has been released. Please take "
+"time to <a href=\"%s\" target=\"_blank\">update it</a>. If you are not theme "
+"author, just leave this message."
+msgstr ""
+"<strong>Chú ý:</strong> Phiên bản giao diện mới đã được phát hành. Xin vui "
+"lòng dành thời gian để <a href=\"%s\" target=\"_blank\">nâng cấp nó</a>. Nếu "
+"bạn không phải là tác giả của giao diện, bạn chỉ việc tắt thông báo này đi."
 
 #: sb-core.php:29
 msgid ""
