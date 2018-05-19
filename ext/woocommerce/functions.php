@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_ext_wc_usd_to_vnd_rate() {
 	$rate = HT_Util()->get_theme_option( 'usd_vnd_rate', '', 'woocommerce' );
 

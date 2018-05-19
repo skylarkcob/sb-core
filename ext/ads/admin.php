@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_ext_ads_sub_menu() {
 	$title = __( 'Ads Management', 'sb-core' );
 	add_theme_page( $title, $title, 'manage_options', 'edit.php?post_type=hocwp_ads' );

@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 global $hocwp_theme, $pagenow;
 
 if ( ! is_object( $hocwp_theme ) ) {

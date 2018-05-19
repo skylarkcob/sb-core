@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 require HOCWP_EXT_ACCOUNT_PATH . '/admin-setting-page.php';
 
 function hocwp_ext_account_profile_fields( $user ) {

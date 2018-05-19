@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! is_user_logged_in() ) {
 	$url = wp_login_url( get_the_permalink() );
 	?>

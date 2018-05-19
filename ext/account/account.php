@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 define( 'HOCWP_EXT_ACCOUNT_PATH', dirname( __FILE__ ) );
 define( 'HOCWP_EXT_ACCOUNT_URL', HOCWP_EXT_URL . '/ext/account' );
 
@@ -57,7 +61,7 @@ function hocwp_ext_account_connect_social_buttons() {
 				?>
 				<button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'sb-core' ); ?>"
 				        class="btn btn-danger connect-google" data-login="1" type="button">
-					<i class="fa fa-google" aria-hidden="true"></i><?php _e( 'Continue with Google', 'sb-core' ); ?>
+					<i class="fa fa-google" aria-hidden="true"></i><span class="dashicons dashicons-googleplus"></span><?php _e( 'Continue with Google', 'sb-core' ); ?>
 				</button>
 				<?php
 			}
@@ -68,7 +72,7 @@ function hocwp_ext_account_connect_social_buttons() {
 				        title="<?php _e( 'Sign up with your Facebook account', 'sb-core' ); ?>"
 				        class="btn btn-primary connect-facebook" data-login="1" type="button">
 					<i class="fa fa-facebook"
-					   aria-hidden="true"></i><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
+					   aria-hidden="true"></i><span class="dashicons dashicons-facebook"></span><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
 				</button>
 				<?php
 			}
@@ -294,3 +298,9 @@ function hocwp_ext_account_lostpassword_post( $errors ) {
 }
 
 add_action( 'lostpassword_post', 'hocwp_ext_account_lostpassword_post' );
+
+function hocwp_ext_account_after_setup_theme_action() {
+	register_nav_menu( 'login', __( 'Login footer', 'sb-core' ) );
+}
+
+add_action( 'after_setup_theme', 'hocwp_ext_account_after_setup_theme_action' );

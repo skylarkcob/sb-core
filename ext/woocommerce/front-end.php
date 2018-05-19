@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_wc_pre_get_posts( WP_Query $query ) {
 	if ( $query instanceof WP_Query ) {
 		if ( $query->is_main_query() ) {

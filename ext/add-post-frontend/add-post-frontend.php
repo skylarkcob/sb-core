@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_add_post_frontend_template() {
 	include dirname( __FILE__ ) . '/template.php';
 }

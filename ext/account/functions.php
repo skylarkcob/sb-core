@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_ext_account_connect_social_avatar_html( $url ) {
 	return ( ! empty( $url ) ) ? '<img src="' . $url . '" style="float:left;margin-right:10px;width:50px;height:50px;">' : '';
 }

@@ -3,6 +3,11 @@
  * Name: Dynamic Sidebar
  * Description: Create and display sidebar dynamically.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_load_extension_dynamic_sidebar() {
 	return apply_filters( 'hocwp_theme_load_extension_dynamic_sidebar', hocwp_theme_is_extension_active( __FILE__ ) );
 }

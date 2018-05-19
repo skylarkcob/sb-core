@@ -1,5 +1,10 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+}
+
+#login {
+    padding-top: 5%;
 }
 
 #backtoblog {
@@ -85,4 +90,123 @@ body {
 
 #login form p.submit input[type="submit"]:active {
     background: #00598e;
+}
+
+.login .privacy-policy-page-link {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    background: #fafafa;
+    border-top: 1px solid #e4e4e4;
+    padding: 10px 20px;
+    margin: 0;
+    z-index: 499;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login .privacy-policy-page-link form {
+    box-shadow: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.login .screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.language-switcher label {
+    margin-right: .5em;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.footer-left {
+    float: left;
+}
+
+.footer-right {
+    float: right;
+}
+
+.footer-right select {
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .07);
+    -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .07);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .07);
+}
+
+.footer-right select {
+    height: 25px;
+    font-size: 14px;
+    border-radius: 0;
+    padding: 0 5px 0 0;
+    margin: 0;
+    border: 1px solid #ddd;
+    outline: 0;
+    transition: 50ms border-color ease-in-out;
+    color: #32373c;
+}
+
+.language-switcher span.dashicons {
+    line-height: 25px;
+}
+
+.footer-right select:focus {
+    border-color: #5b9dd9;
+}
+
+.footer-right select:focus {
+    -webkit-box-shadow: 0 0 2px rgba(30, 140, 190, .8);
+    -moz-box-shadow: 0 0 2px rgba(30, 140, 190, .8);
+    box-shadow: 0 0 2px rgba(30, 140, 190, .8);
+}
+
+.footer-left a {
+    color: #666;
+    margin-right: 27px;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 25px;
+    font-size: small;
+}
+
+.footer-left a:hover {
+    text-decoration: underline;
+}
+
+@media only screen and (max-height: 820px) {
+    #login {
+        padding-top: 20px;
+    }
+}
+
+@media only screen and (max-height: 750px) {
+    .login {
+        padding-bottom: 82px;
+        min-height: 750px;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .footer-right {
+        width: 100%;
+        margin-top: 10px;
+    }
 }

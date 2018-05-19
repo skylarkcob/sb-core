@@ -3,6 +3,11 @@
  * Name: Ads
  * Description: Create and display ads on your site.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_load_extension_ads() {
 	return apply_filters( 'hocwp_theme_load_extension_ads', hocwp_theme_is_extension_active( __FILE__ ) );
 }

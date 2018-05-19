@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class HOCWP_Remove_Base_Slug_Taxonomy extends HOCWP_Remove_Base_Slug {
 

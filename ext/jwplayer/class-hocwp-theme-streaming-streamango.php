@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class HOCWP_Theme_Streaming_Streamango extends HOCWP_Theme_Streaming {
 	public $pattern = '/^https?:\/\/streamango.com\/(f|embed)\/?(.*?)\/(.*)(.mp4)?/';

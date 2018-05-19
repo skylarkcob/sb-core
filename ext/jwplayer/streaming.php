@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 error_reporting( 0 );
 header( 'Content-Type: application/json' );
 $load = hocwp_theme_load_extension_jwplayer();

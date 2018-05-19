@@ -16,10 +16,26 @@
     text-align: left;
     padding: 8px 15px;
     border-radius: 3px;
+    line-height: 20px;
 }
 
 #login form p.connected-accounts button:hover {
     opacity: 0.75;
+}
+
+#login form p.connected-accounts button .dashicons {
+    font-size: 25px;
+    line-height: 20px;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+#login form p.connected-accounts button .dashicons.dashicons-googleplus {
+    margin-top: -1px;
+}
+
+#login form p.connected-accounts button .dashicons.dashicons-facebook-alt {
+    margin-left: -4px;
 }
 
 #login form p.connected-accounts button.connect-facebook {

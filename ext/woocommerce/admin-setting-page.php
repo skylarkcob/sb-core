@@ -1,6 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_settings_page_woocommerce_tab( $tabs ) {
-	$tabs['woocommerce'] = __( 'WooCommerce', 'sb-core' );
+	$tabs['woocommerce'] = array(
+		'text' => __( 'WooCommerce', 'sb-core' ),
+		'icon' => '<span class="dashicons dashicons-products"></span>'
+	);
 
 	return $tabs;
 }

@@ -3,6 +3,11 @@
  * Name: JW Player
  * Description: The easiest way to distribute, manage and monetize videos on the web and mobile apps.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_load_extension_jwplayer() {
 	return apply_filters( 'hocwp_theme_load_extension_jwplayer', hocwp_theme_is_extension_active( __FILE__ ) );
 }

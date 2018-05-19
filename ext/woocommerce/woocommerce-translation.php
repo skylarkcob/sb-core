@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_translation_gettext_woocommerce( $translation, $text ) {
 	switch ( $text ) {
 		case 'SKU:':

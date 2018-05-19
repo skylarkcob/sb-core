@@ -3,6 +3,11 @@
  * Name: Account
  * Description: Custom login page and user management.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_load_extension_account() {
 	return apply_filters( 'hocwp_theme_load_extension_account', hocwp_theme_is_extension_active( __FILE__ ) );
 }

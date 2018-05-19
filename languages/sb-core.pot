@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-15 19:17+0700\n"
+"POT-Creation-Date: 2018-05-19 19:35+0700\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,421 +13,429 @@ msgstr ""
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.7\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: ext/account/account.php:58
+#: ext/account/account.php:62
 msgid "Sign up with your Google account"
 msgstr ""
 
-#: ext/account/account.php:60
+#: ext/account/account.php:64
 msgid "Continue with Google"
 msgstr ""
 
-#: ext/account/account.php:68
+#: ext/account/account.php:72
 msgid "Sign up with your Facebook account"
 msgstr ""
 
-#: ext/account/account.php:71
+#: ext/account/account.php:75
 msgid "Continue with Facebook"
 msgstr ""
 
-#: ext/account/account.php:228
+#: ext/account/account.php:232
 msgctxt "connected socials"
 msgid "Or"
 msgstr ""
 
-#: ext/account/account.php:248 ext/account/account.php:267 ext/account/account.php:269 ext/account/account.php:288 ext/account/account.php:290
+#: ext/account/account.php:252 ext/account/account.php:271 ext/account/account.php:273 ext/account/account.php:292 ext/account/account.php:294
 msgid "<strong>Error:</strong> Please correct the captcha."
 msgstr ""
 
-#: ext/account/admin-setting-page.php:3
+#: ext/account/admin-setting-page.php:8
 msgid "Account"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:17
+#: ext/account/admin-setting-page.php:24
 msgid "Allow users can login and register via their social accounts."
 msgstr ""
 
-#: ext/account/admin-setting-page.php:20
+#: ext/account/admin-setting-page.php:27
 msgid "Connect Social"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:25
+#: ext/account/admin-setting-page.php:32
 msgid "Using captcha for account form?"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:28
+#: ext/account/admin-setting-page.php:35
 msgid "Captcha"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:33
+#: ext/account/admin-setting-page.php:40
 msgid "Change style of default WordPress login page for displaying nicely?"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:36
+#: ext/account/admin-setting-page.php:43
 msgid "Custom Style"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:43
+#: ext/account/admin-setting-page.php:50
 msgid "Login Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:50
+#: ext/account/admin-setting-page.php:57
 msgid "Register Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:57
+#: ext/account/admin-setting-page.php:64
 msgid "Lost Password Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:64
+#: ext/account/admin-setting-page.php:71
 msgid "Profile Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:70
+#: ext/account/admin-setting-page.php:77
 msgid "Login Logo"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:82
+#: ext/account/admin-setting-page.php:89
 msgid "Account Tools Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:94
+#: ext/account/admin-setting-page.php:101
 msgid "Customize Default Login Page"
 msgstr ""
 
-#: ext/account/admin.php:109
+#: ext/account/admin.php:113
 msgid "This site does not allow users to register."
 msgstr ""
 
-#: ext/account/admin.php:183
+#: ext/account/admin.php:187
 #, php-format
 msgid "You must fully input settings in <a href=\"%s\">Social tab</a> for account extension works normally."
 msgstr ""
 
-#: ext/account/admin.php:187
+#: ext/account/admin.php:191
 msgid "Account Extension:"
 msgstr ""
 
-#: ext/account/connected-accounts.php:15
+#: ext/account/connected-accounts.php:19
 msgid "Connected Accounts"
 msgstr ""
 
-#: ext/account/connected-accounts.php:16
+#: ext/account/connected-accounts.php:20
 msgid ""
 "If you would like to use a 3rd party account such as Facebook or Google to Sign In to this site, you can add it below. You can disconnect these "
 "accounts at any time."
 msgstr ""
 
-#: ext/account/connected-accounts.php:24
+#: ext/account/connected-accounts.php:28
 msgctxt "connect social account"
 msgid "Facebook"
 msgstr ""
 
-#: ext/account/connected-accounts.php:32 ext/account/connected-accounts.php:67
+#: ext/account/connected-accounts.php:36 ext/account/connected-accounts.php:71
 msgctxt "connect social account"
 msgid "Connect"
 msgstr ""
 
-#: ext/account/connected-accounts.php:34 ext/account/connected-accounts.php:69
+#: ext/account/connected-accounts.php:38 ext/account/connected-accounts.php:73
 msgctxt "connect social account"
 msgid "Disconnect"
 msgstr ""
 
-#: ext/account/connected-accounts.php:47 ext/account/connected-accounts.php:82
+#: ext/account/connected-accounts.php:51 ext/account/connected-accounts.php:86
 msgid "Fetching data..."
 msgstr ""
 
-#: ext/account/connected-accounts.php:59
+#: ext/account/connected-accounts.php:63
 msgctxt "connect social account"
 msgid "Google"
 msgstr ""
 
-#: ext/add-post-frontend/add-post-frontend.php:20
-msgid "VIP Content Information"
+#: ext/account/default-login-page.php:58
+msgid "Privacy Policy"
 msgstr ""
 
 #: ext/add-post-frontend/add-post-frontend.php:24
+msgid "VIP Content Information"
+msgstr ""
+
+#: ext/add-post-frontend/add-post-frontend.php:28
 msgid "Expiry day:"
 msgstr ""
 
-#: ext/add-post-frontend/add-post-frontend.php:29
+#: ext/add-post-frontend/add-post-frontend.php:33
 #, php-format
 msgid "Add more day for your VIP content. %s coins per day."
 msgstr ""
 
-#: ext/add-post-frontend/add-post-frontend.php:32
+#: ext/add-post-frontend/add-post-frontend.php:36
 msgid "Add more day:"
 msgstr ""
 
-#: ext/add-post-frontend/add-post-frontend.php:57
+#: ext/add-post-frontend/add-post-frontend.php:61
 msgid "You do not have enough coin to add more day for VIP content."
 msgstr ""
 
-#: ext/add-post-frontend/add-post-frontend.php:76
+#: ext/add-post-frontend/add-post-frontend.php:80
 #, php-format
 msgid "You have added %s more VIP days for this post."
 msgstr ""
 
-#: ext/add-post-frontend/add-post-frontend.php:128
+#: ext/add-post-frontend/add-post-frontend.php:132
 #, php-format
 msgid "You can only upload %s media file per day."
 msgstr ""
 
-#: ext/add-post-frontend/admin-setting-page.php:3
+#: ext/add-post-frontend/admin-setting-page.php:8
 msgid "VIP"
 msgstr ""
 
-#: ext/add-post-frontend/admin-setting-page.php:27
+#: ext/add-post-frontend/admin-setting-page.php:34
 msgid "VIP post costs by day."
 msgstr ""
 
-#: ext/add-post-frontend/admin-setting-page.php:29
+#: ext/add-post-frontend/admin-setting-page.php:36
 msgid "Post Price"
 msgstr ""
 
-#: ext/add-post-frontend/template.php:30
+#: ext/add-post-frontend/template.php:34
 msgid "Invalid form data."
 msgstr ""
 
-#: ext/add-post-frontend/template.php:58
+#: ext/add-post-frontend/template.php:62
 #, php-format
 msgid "Your post has been added successfully. You can <a href=\"%s\">click here</a> to update it."
 msgstr ""
 
-#: ext/add-post-frontend/template.php:82
+#: ext/add-post-frontend/template.php:86
 msgid "You do not have enough coin to post VIP content."
 msgstr ""
 
-#: ext/add-post-frontend/template.php:85
+#: ext/add-post-frontend/template.php:89
 msgid "Post title and post content must not be empty."
 msgstr ""
 
-#: ext/add-post-frontend/template.php:102
+#: ext/add-post-frontend/template.php:106
 msgid "Post title:"
 msgstr ""
 
-#: ext/add-post-frontend/template.php:130
+#: ext/add-post-frontend/template.php:134
 #, php-format
 msgid "Choose %s"
 msgstr ""
 
-#: ext/add-post-frontend/template.php:148
+#: ext/add-post-frontend/template.php:152
 msgid "Post type:"
 msgstr ""
 
-#: ext/add-post-frontend/template.php:171
+#: ext/add-post-frontend/template.php:175
 #, php-format
 msgid "You will pay %s coins for posting VIP content."
 msgstr ""
 
-#: ext/add-post-frontend/template.php:175
+#: ext/add-post-frontend/template.php:179
 msgid "Add VIP Post"
 msgstr ""
 
-#: ext/add-post-frontend/template.php:180
+#: ext/add-post-frontend/template.php:184
 msgid "Add Post"
 msgstr ""
 
-#: ext/add-post-frontend/template.php:182
+#: ext/add-post-frontend/template.php:186
 msgid "Back to home"
 msgstr ""
 
-#: ext/add-post-frontend/user-profile.php:15
+#: ext/add-post-frontend/user-profile.php:19
 msgid "Coin"
 msgstr ""
 
-#: ext/ads/admin.php:3
+#: ext/ads/admin.php:7
 msgid "Ads Management"
 msgstr ""
 
-#: ext/ads/admin.php:13
+#: ext/ads/admin.php:17
 msgid "Ads Information"
 msgstr ""
 
-#: ext/ads/admin.php:17
+#: ext/ads/admin.php:21
 msgid "-- Choose position --"
 msgstr ""
 
-#: ext/ads/admin.php:18
+#: ext/ads/admin.php:22
 msgid "Position:"
 msgstr ""
 
-#: ext/ads/admin.php:24
+#: ext/ads/admin.php:28
 msgid "Expiry date:"
 msgstr ""
 
-#: ext/ads/admin.php:27
+#: ext/ads/admin.php:31
 msgid "Image:"
 msgstr ""
 
-#: ext/ads/admin.php:30
+#: ext/ads/admin.php:34
 msgid "Url:"
 msgstr ""
 
-#: ext/ads/admin.php:34
+#: ext/ads/admin.php:38
 msgid "Code:"
 msgstr ""
 
-#: ext/ads/admin.php:38
+#: ext/ads/admin.php:42
 msgid "Make this ads as active status?"
 msgstr ""
 
-#: ext/ads/admin.php:98
+#: ext/ads/admin.php:102
 msgid "Position"
 msgstr ""
 
-#: ext/ads/admin.php:99
+#: ext/ads/admin.php:103
 msgid "Expiry date"
 msgstr ""
 
-#: ext/ads/admin.php:100
+#: ext/ads/admin.php:104
 msgid "Active"
 msgstr ""
 
-#: ext/ads/ads.php:5
+#: ext/ads/ads.php:9
 msgid "Ads"
 msgstr ""
 
-#: ext/ads/ads.php:25
+#: ext/ads/ads.php:29
 msgid "Leaderboard"
 msgstr ""
 
-#: ext/base-slug.php:106
+#: ext/base-slug.php:110
 msgid ""
 "If you like, you may enter custom structures for your custom taxonomy term and custom post type URLs here. If you leave these blank the defaults "
 "will be used. Note: This function may affect the performance of the site."
 msgstr ""
 
-#: ext/base-slug.php:111
+#: ext/base-slug.php:115
 msgid "Custom Base Slug"
 msgstr ""
 
-#: ext/base-slug.php:116
+#: ext/base-slug.php:120
 msgid "We do not encourage you to do this but if you like you can still remove the base slug from permalink."
 msgstr ""
 
-#: ext/base-slug.php:121
+#: ext/base-slug.php:125
 msgid "Remove Base Slug"
 msgstr ""
 
-#: ext/base-slug.php:138 ext/base-slug.php:169
+#: ext/base-slug.php:142 ext/base-slug.php:173
 #, php-format
 msgid "%s base"
 msgstr ""
 
-#: ext/base-slug.php:141
+#: ext/base-slug.php:145
 #, php-format
 msgid "Base slug for custom post type %s"
 msgstr ""
 
-#: ext/base-slug.php:156
+#: ext/base-slug.php:160
 #, php-format
 msgid "Remove base slug for post type %s"
 msgstr ""
 
-#: ext/base-slug.php:172
+#: ext/base-slug.php:176
 #, php-format
 msgid "Base slug for custom taxonomy %s"
 msgstr ""
 
-#: ext/base-slug.php:190
+#: ext/base-slug.php:194
 #, php-format
 msgid "Remove base slug for taxonomy %s"
 msgstr ""
 
-#: ext/dynamic-sidebar/admin.php:3
+#: ext/dynamic-sidebar/admin.php:7
 msgid "Sidebar Manager"
 msgstr ""
 
-#: ext/dynamic-sidebar/dynamic-sidebar.php:4
+#: ext/dynamic-sidebar/dynamic-sidebar.php:8
 msgid "Sidebars"
 msgstr ""
 
-#: ext/dynamic-sidebar/dynamic-sidebar.php:5
+#: ext/dynamic-sidebar/dynamic-sidebar.php:9
 msgid "Sidebar"
 msgstr ""
 
-#: ext/dynamic-sidebar/dynamic-sidebar.php:29
+#: ext/dynamic-sidebar/dynamic-sidebar.php:33
 #, php-format
 msgid "%s Sidebar"
 msgstr ""
 
-#: ext/dynamic-sidebar/dynamic-sidebar.php:30
+#: ext/dynamic-sidebar/dynamic-sidebar.php:34
 #, php-format
 msgid "Display widget on %s singular page and archive page."
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:9
-msgid "JW Player"
-msgstr ""
-
-#: ext/jwplayer/admin-setting-page-jwplayer.php:26
-msgid "Streamango"
-msgstr ""
-
-#: ext/jwplayer/admin-setting-page-jwplayer.php:27
-msgid "Streamango streaming API settings."
-msgstr ""
-
-#: ext/jwplayer/admin-setting-page-jwplayer.php:32
-msgid "Streamcherry"
+#: ext/jwplayer/admin-setting-page-jwplayer.php:14
+msgid "Media Player"
 msgstr ""
 
 #: ext/jwplayer/admin-setting-page-jwplayer.php:33
+msgid "Streamango"
+msgstr ""
+
+#: ext/jwplayer/admin-setting-page-jwplayer.php:34
+msgid "Streamango streaming API settings."
+msgstr ""
+
+#: ext/jwplayer/admin-setting-page-jwplayer.php:39
+msgid "Streamcherry"
+msgstr ""
+
+#: ext/jwplayer/admin-setting-page-jwplayer.php:40
 msgid "Streamcherry streaming API settings."
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:47
+#: ext/jwplayer/admin-setting-page-jwplayer.php:54
 msgid "Key"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:60
+#: ext/jwplayer/admin-setting-page-jwplayer.php:67
 msgid "-- Choose skin --"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:68
+#: ext/jwplayer/admin-setting-page-jwplayer.php:75
 msgid "Skin"
 msgstr ""
 
-#: ext/jwplayer/class-hocwp-theme-streaming-streamango.php:16 ext/jwplayer/streaming.php:16
+#: ext/jwplayer/class-hocwp-theme-streaming-streamango.php:19 ext/jwplayer/streaming.php:20
 msgid "Link not valid"
 msgstr ""
 
-#: ext/jwplayer/class-hocwp-theme-streaming-streamango.php:40
+#: ext/jwplayer/class-hocwp-theme-streaming-streamango.php:43
 msgid "Cannot get download ticket!"
 msgstr ""
 
-#: ext/jwplayer/streaming.php:8
+#: ext/jwplayer/streaming.php:12
 msgid "JW Player extension not loaded!"
 msgstr ""
 
-#: ext/woocommerce/admin-setting-page.php:3
+#: ext/woocommerce/admin-setting-page.php:8
 msgid "WooCommerce"
 msgstr ""
 
-#: ext/woocommerce/admin-setting-page.php:20
+#: ext/woocommerce/admin-setting-page.php:27
 msgid "USD to Vietnam Dong Rate"
 msgstr ""
 
-#: sb-core.php:24
+#: inc/admin-setting-page-development.php:8
+msgid "Development"
+msgstr ""
+
+#: sb-core.php:29
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as "
 "<code>hocwp-theme</code>."
 msgstr ""
 
-#: sb-core.php:44
+#: sb-core.php:49
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core version at least %s. Please upgrade your theme or contact theme author "
 "for more details. You may also downgrade this plugin to older version but it is not recommended."
 msgstr ""
 
-#: sb-core.php:94
+#: sb-core.php:99
 msgid "Settings"
 msgstr ""

@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class HOCWP_Remove_Base_Slug_Post_Type extends HOCWP_Remove_Base_Slug {
 

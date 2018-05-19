@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 $load = hocwp_theme_load_extension_jwplayer();
 
 if ( ! $load ) {
@@ -6,7 +10,10 @@ if ( ! $load ) {
 }
 
 function hocwp_theme_settings_page_jwplayer_tab( $tabs ) {
-	$tabs['jwplayer'] = __( 'JW Player', 'sb-core' );
+	$tabs['jwplayer'] = array(
+		'text' => __( 'Media Player', 'sb-core' ),
+		'icon' => '<span class="dashicons dashicons-controls-play"></span>'
+	);
 
 	return $tabs;
 }

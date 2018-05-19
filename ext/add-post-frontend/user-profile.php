@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_add_post_frontend_user_profile_fields( $user ) {
 	global $hocwp_theme;
 	$options    = $hocwp_theme->options;

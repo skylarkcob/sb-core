@@ -4,6 +4,10 @@
  * Description: Change or remove custom post type and custom taxonomy base slug.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 $load = apply_filters( 'hocwp_theme_load_extension_base_slug', hocwp_theme_is_extension_active( __FILE__ ) );
 
 if ( ! $load ) {

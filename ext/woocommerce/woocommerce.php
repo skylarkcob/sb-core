@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 define( 'HOCWP_EXT_WC_PATH', dirname( __FILE__ ) );
 define( 'HOCWP_EXT_WC_URL', HOCWP_EXT_URL . '/ext/woocommerce' );
 

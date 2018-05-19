@@ -1,6 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_settings_page_development_tab( $tabs ) {
-	$tabs['development'] = 'Development';
+	$tabs['development'] = array(
+		'text' => __( 'Development', 'sb-core' ),
+		'icon' => '<span class="dashicons dashicons-hammer"></span>'
+	);
 
 	return $tabs;
 }
@@ -109,24 +116,24 @@ function hocwp_theme_admin_settings_page_development_compress_css_and_js_callbac
 		_hocwp_theme_admin_settings_page_list_css_and_js_files_checkbox( $js );
 	}
 	?>
-    <script>
-        jQuery(document).ready(function ($) {
-            $('.compress_css_and_js .directory input[type="checkbox"]').on('change', function () {
-                var $element = $(this),
-                    $fieldset = $element.closest('fieldset'),
-                    path = $fieldset.attr('data-path');
-                document.getSelection().removeAllRanges();
-                if ($.trim(path)) {
-                    var $sames = $element.closest('td').find('fieldset[data-path="' + path + '"] input');
-                    if ($element.is(':checked')) {
-                        $sames.prop('checked', true);
-                    } else {
-                        $sames.prop('checked', false);
-                    }
-                }
-            });
-        });
-    </script>
+	<script>
+		jQuery(document).ready(function ($) {
+			$('.compress_css_and_js .directory input[type="checkbox"]').on('change', function () {
+				var $element = $(this),
+					$fieldset = $element.closest('fieldset'),
+					path = $fieldset.attr('data-path');
+				document.getSelection().removeAllRanges();
+				if ($.trim(path)) {
+					var $sames = $element.closest('td').find('fieldset[data-path="' + path + '"] input');
+					if ($element.is(':checked')) {
+						$sames.prop('checked', true);
+					} else {
+						$sames.prop('checked', false);
+					}
+				}
+			});
+		});
+	</script>
 	<?php
 }
 

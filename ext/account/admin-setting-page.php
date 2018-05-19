@@ -1,6 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_settings_page_account_tab( $tabs ) {
-	$tabs['account'] = __( 'Account', 'sb-core' );
+	$tabs['account'] = array(
+		'text' => __( 'Account', 'sb-core' ),
+		'icon' => '<span class="dashicons dashicons-businessman"></span>'
+	);
 
 	return $tabs;
 }

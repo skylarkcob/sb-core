@@ -1,6 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function hocwp_theme_settings_page_vip_tab( $tabs ) {
-	$tabs['vip'] = __( 'VIP', 'sb-core' );
+	$tabs['vip'] = array(
+		'text' => __( 'VIP', 'sb-core' ),
+		'icon' => '<span class="dashicons dashicons-awards"></span>'
+	);
 
 	return $tabs;
 }

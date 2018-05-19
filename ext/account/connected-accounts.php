@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
 global $hocwp_theme;
 $user_id   = get_current_user_id();
 $social    = HT_Util()->get_theme_options( 'social' );

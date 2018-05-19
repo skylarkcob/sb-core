@@ -3,6 +3,11 @@
  * Name: Optimize
  * Description: Optimize your site for better performance.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 $load = apply_filters( 'hocwp_theme_load_extension_optimize', hocwp_theme_is_extension_active( __FILE__ ) );
 
 if ( ! $load ) {
