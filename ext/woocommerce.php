@@ -13,7 +13,7 @@ function hocwp_theme_woocommerce_activated() {
 }
 
 function hocwp_theme_load_extension_woocommerce() {
-	$load = apply_filters( 'hocwp_theme_load_extension_woocommerce', hocwp_theme_is_extension_active( __FILE__ ) );
+	$load = apply_filters( 'hocwp_theme_load_extension_woocommerce', HT_extension()->is_active( __FILE__ ) );
 
 	return $load;
 }

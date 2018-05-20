@@ -15,7 +15,7 @@ if ( file_exists( $path ) ) {
 	require_once $path;
 }
 
-if ( ! function_exists( 'hocwp_theme_is_extension_active' ) ) {
+if ( ! function_exists( 'HT_extension' ) ) {
 	return;
 }
 

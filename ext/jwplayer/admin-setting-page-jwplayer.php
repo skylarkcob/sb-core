@@ -11,7 +11,7 @@ if ( ! $load ) {
 
 function hocwp_theme_settings_page_jwplayer_tab( $tabs ) {
 	$tabs['jwplayer'] = array(
-		'text' => __( 'Media Player', 'sb-core' ),
+		'text' => __( 'JW Player', 'sb-core' ),
 		'icon' => '<span class="dashicons dashicons-controls-play"></span>'
 	);
 
@@ -21,6 +21,7 @@ function hocwp_theme_settings_page_jwplayer_tab( $tabs ) {
 add_filter( 'hocwp_theme_settings_page_tabs', 'hocwp_theme_settings_page_jwplayer_tab' );
 
 global $hocwp_theme;
+
 if ( 'jwplayer' != $hocwp_theme->option->tab ) {
 	return;
 }

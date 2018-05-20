@@ -8,8 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+$extension = new HOCWP_Theme_Extension( __FILE__ );
+
+HT_Extension()->deprecated( $extension->name, '6.4.2', 'Media Player' );
+
 function hocwp_theme_load_extension_jwplayer() {
-	return apply_filters( 'hocwp_theme_load_extension_jwplayer', hocwp_theme_is_extension_active( __FILE__ ) );
+	return apply_filters( 'hocwp_theme_load_extension_jwplayer', HT_extension()->is_active( __FILE__ ) );
 }
 
 $load = hocwp_theme_load_extension_jwplayer();

@@ -43,7 +43,7 @@ if ( ! hocwp_ext_check_theme() ) {
 define( 'HOCWP_EXT_FILE', __FILE__ );
 define( 'HOCWP_EXT_PATH', dirname( HOCWP_EXT_FILE ) );
 define( 'HOCWP_EXT_URL', plugins_url( '', HOCWP_EXT_FILE ) );
-define( 'HOCWP_EXT_REQUIRE_THEME_CORE_VERSION', '6.3.4' );
+define( 'HOCWP_EXT_REQUIRE_THEME_CORE_VERSION', '6.4.2' );
 
 function hocwp_ext_check_theme_core_notices() {
 	$msg = sprintf( __( '<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core version at least %s. Please upgrade your theme or contact theme author for more details. You may also downgrade this plugin to older version but it is not recommended.', 'sb-core' ), '<strong>' . HOCWP_EXT_REQUIRE_THEME_CORE_VERSION . '</strong>' );
@@ -80,7 +80,7 @@ function hocwp_ext_load() {
 		require_once $path;
 	}
 
-	if ( ! function_exists( 'hocwp_theme_is_extension_active' ) ) {
+	if ( ! function_exists( 'HT_extension' ) ) {
 		return;
 	}
 

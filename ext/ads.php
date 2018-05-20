@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function hocwp_theme_load_extension_ads() {
-	return apply_filters( 'hocwp_theme_load_extension_ads', hocwp_theme_is_extension_active( __FILE__ ) );
+	return apply_filters( 'hocwp_theme_load_extension_ads', HT_extension()->is_active( __FILE__ ) );
 }
 
 $load = hocwp_theme_load_extension_ads();
