@@ -13,6 +13,8 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 	public $taxonomies_args = array();
 
 	public function __construct() {
+		$this->add_required_extension( 'media-player' );
+
 		parent::__construct( __FILE__ );
 
 		$this->get_taxonomies_args();

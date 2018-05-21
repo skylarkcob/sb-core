@@ -59,6 +59,8 @@ This plugin only supports for theme which is created by HocWP Team since version
 = 2.1.4 =
 * Update extension to OOP. Now you can add new extension by declare a class.
 * Allow theme to add custom post types and custom taxonomies.
+* Add Anime extension.
+* Add Media Player extension.
 
 = 2.1.3 =
 * Stop direct access plugin files.

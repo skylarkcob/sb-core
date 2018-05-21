@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-19 23:27+0700\n"
+"POT-Creation-Date: 2018-05-21 14:02+0700\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -310,6 +310,36 @@ msgstr ""
 msgid "Leaderboard"
 msgstr ""
 
+#: ext/anime.php:28
+msgctxt "taxonomy"
+msgid "Release Years"
+msgstr ""
+
+#: ext/anime.php:29
+msgctxt "taxonomy"
+msgid "Release Year"
+msgstr ""
+
+#: ext/anime.php:30
+msgctxt "taxonomy"
+msgid "Years"
+msgstr ""
+
+#: ext/anime.php:45
+msgctxt "taxonomy"
+msgid "Status"
+msgstr ""
+
+#: ext/anime.php:65
+msgctxt "post type"
+msgid "Episodes"
+msgstr ""
+
+#: ext/anime.php:66
+msgctxt "post type"
+msgid "Episode"
+msgstr ""
+
 #: ext/base-slug.php:110
 msgid ""
 "If you like, you may enter custom structures for your custom taxonomy term and custom post type URLs here. If you leave these blank the defaults "
@@ -376,34 +406,34 @@ msgid "Display widget on %s singular page and archive page."
 msgstr ""
 
 #: ext/jwplayer/admin-setting-page-jwplayer.php:14
-msgid "Media Player"
-msgstr ""
-
-#: ext/jwplayer/admin-setting-page-jwplayer.php:33
-msgid "Streamango"
+msgid "JW Player"
 msgstr ""
 
 #: ext/jwplayer/admin-setting-page-jwplayer.php:34
+msgid "Streamango"
+msgstr ""
+
+#: ext/jwplayer/admin-setting-page-jwplayer.php:35
 msgid "Streamango streaming API settings."
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:39
+#: ext/jwplayer/admin-setting-page-jwplayer.php:40
 msgid "Streamcherry"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:40
+#: ext/jwplayer/admin-setting-page-jwplayer.php:41
 msgid "Streamcherry streaming API settings."
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:54
+#: ext/jwplayer/admin-setting-page-jwplayer.php:55
 msgid "Key"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:67
+#: ext/jwplayer/admin-setting-page-jwplayer.php:68
 msgid "-- Choose skin --"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:75
+#: ext/jwplayer/admin-setting-page-jwplayer.php:76
 msgid "Skin"
 msgstr ""
 

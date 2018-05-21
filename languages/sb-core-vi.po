@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-19 23:27+0700\n"
-"PO-Revision-Date: 2018-05-19 23:28+0700\n"
+"POT-Creation-Date: 2018-05-21 14:02+0700\n"
+"PO-Revision-Date: 2018-05-21 14:03+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -329,6 +329,36 @@ msgstr "Quảng cáo"
 msgid "Leaderboard"
 msgstr "Đầu trang"
 
+#: ext/anime.php:28
+msgctxt "taxonomy"
+msgid "Release Years"
+msgstr "Năm phát hành"
+
+#: ext/anime.php:29
+msgctxt "taxonomy"
+msgid "Release Year"
+msgstr "Năm phát hành"
+
+#: ext/anime.php:30
+msgctxt "taxonomy"
+msgid "Years"
+msgstr "Năm phát hành"
+
+#: ext/anime.php:45
+msgctxt "taxonomy"
+msgid "Status"
+msgstr "Trạng thái"
+
+#: ext/anime.php:65
+msgctxt "post type"
+msgid "Episodes"
+msgstr "Tập phim"
+
+#: ext/anime.php:66
+msgctxt "post type"
+msgid "Episode"
+msgstr "Tập phim"
+
 #: ext/base-slug.php:110
 msgid ""
 "If you like, you may enter custom structures for your custom taxonomy term "
@@ -404,34 +434,34 @@ msgid "Display widget on %s singular page and archive page."
 msgstr "Hiển thị widget %s trên trang single và trang lưu trữ."
 
 #: ext/jwplayer/admin-setting-page-jwplayer.php:14
-msgid "Media Player"
-msgstr "Trình phát media"
+msgid "JW Player"
+msgstr "JW Player"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:33
+#: ext/jwplayer/admin-setting-page-jwplayer.php:34
 msgid "Streamango"
 msgstr "Streamango"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:34
+#: ext/jwplayer/admin-setting-page-jwplayer.php:35
 msgid "Streamango streaming API settings."
 msgstr "Cài đặt Streamango API."
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:39
+#: ext/jwplayer/admin-setting-page-jwplayer.php:40
 msgid "Streamcherry"
 msgstr "Streamcherry"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:40
+#: ext/jwplayer/admin-setting-page-jwplayer.php:41
 msgid "Streamcherry streaming API settings."
 msgstr "Cài đặt Streamcherry API."
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:54
+#: ext/jwplayer/admin-setting-page-jwplayer.php:55
 msgid "Key"
 msgstr "Mã"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:67
+#: ext/jwplayer/admin-setting-page-jwplayer.php:68
 msgid "-- Choose skin --"
 msgstr "-- Chọn giao diện --"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:75
+#: ext/jwplayer/admin-setting-page-jwplayer.php:76
 msgid "Skin"
 msgstr "Giao diện"
 
