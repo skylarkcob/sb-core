@@ -26,12 +26,14 @@ function hocwp_theme_force_inline_css_and_js() {
 					if ( false != strpos( $src, 'themes/hocwp-theme' ) ) {
 						$name = basename( $src );
 						if ( 'style.css' == $name ) {
-							$src                             = HOCWP_THEME_CORE_URL . '/css/default' . HOCWP_THEME_CSS_SUFFIX;
-							$src                             = add_query_arg( array(
+							$src = HOCWP_THEME_CORE_URL . '/css/default' . HOCWP_THEME_CSS_SUFFIX;
+							$src = add_query_arg( array(
 								'ver'  => $GLOBALS['wp_version'],
 								'test' => 't'
 							), $src );
-							$data->src                       = $src;
+
+							$data->src = $src;
+
 							$wp_styles->registered[ $queue ] = $data;
 						}
 						$filesystem = HOCWP_Theme_Utility::filesystem();

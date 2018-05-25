@@ -45,6 +45,7 @@ function hocwp_add_post_frontend_save_post( $post_id ) {
 	if ( ! HT_Util()->can_save_post( $post_id, 'vip-content-information', 'vip-content-information_nonce' ) ) {
 		return;
 	}
+
 	if ( isset( $_POST['add_vip_day'] ) && ! empty( $_POST['add_vip_day'] ) ) {
 		global $hocwp_theme;
 		$options    = $hocwp_theme->options;
@@ -56,6 +57,7 @@ function hocwp_add_post_frontend_save_post( $post_id ) {
 		$coin       = absint( $coin );
 		$day        = absint( $_POST['add_vip_day'] );
 		$cost       = $day * $post_price;
+
 		if ( $coin < $post_price || $coin < $cost ) {
 			$params = array(
 				'message' => __( 'You do not have enough coin to add more day for VIP content.', 'sb-core' ),
@@ -105,29 +107,36 @@ if ( is_admin() ) {
 }
 
 function hocwp_add_post_frontend_wp_handle_upload_prefilter( $file ) {
-	if ( is_user_logged_in() ) {
+	if ( is_user_logged_in() && ! current_user_can( 'manage_options' ) ) {
 		global $hocwp_theme;
 		$options = isset( $hocwp_theme->options['media'] ) ? $hocwp_theme->options['media'] : '';
+
 		if ( ! is_array( $options ) ) {
 			$options = array();
 		}
+
 		$user    = wp_get_current_user();
 		$user_id = $user->ID;
 		$info    = getdate();
 		$counts  = get_user_meta( $user_id, 'media_upload_counts', true );
+
 		if ( ! is_array( $counts ) ) {
 			$counts = array();
 		}
+
 		$year  = $info['year'];
 		$yday  = $info['yday'];
 		$count = isset( $counts[ $year ][ $yday ] ) ? absint( $counts[ $year ][ $yday ] ) : 0;
 		$count ++;
 		$limit = isset( $options['upload_per_day'] ) ? absint( $options['upload_per_day'] ) : 10;
 		$limit = apply_filters( 'hocwp_theme_limit_media_upload_per_day', $limit );
+
 		if ( ! is_numeric( $limit ) ) {
 			$limit = 10;
 		}
+
 		$limit = absint( $limit );
+
 		if ( $count > $limit ) {
 			$file['error'] = sprintf( __( 'You can only upload %s media file per day.', 'sb-core' ), $limit );
 		} else {

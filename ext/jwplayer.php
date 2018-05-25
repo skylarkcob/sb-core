@@ -1,7 +1,7 @@
 <?php
 /*
  * Name: JW Player
- * Description: The easiest way to distribute, manage and monetize videos on the web and mobile apps.
+ * Description: The easiest way to distribute, manage and monetize videos on the web and mobile apps. (This extension is deprecated, please use Media Player instead).
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

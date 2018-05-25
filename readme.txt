@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 4.8
 Tested up to: 4.9
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -61,6 +61,7 @@ This plugin only supports for theme which is created by HocWP Team since version
 * Allow theme to add custom post types and custom taxonomies.
 * Add Anime extension.
 * Add Media Player extension.
+* Add extension requirements.
 
 = 2.1.3 =
 * Stop direct access plugin files.

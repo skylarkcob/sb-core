@@ -600,11 +600,19 @@ function hocwp_team_dev_backup_files() {
 add_action( 'admin_notices', 'hocwp_team_dev_backup_files' );
 
 function hocwp_dev_check_theme_core_new_version() {
-	$data = wp_remote_get( 'https://api.github.com/repos/skylarkcob/hocwp-theme/releases/latest' );
-	$data = wp_remote_retrieve_body( $data );
-	$data = json_decode( $data );
+	$tr_name = 'hocwp_theme_release_data';
 
-	if ( is_object( $data ) ) {
+	if ( false === ( $data = get_transient( $tr_name ) ) ) {
+		$data = wp_remote_get( 'https://api.github.com/repos/skylarkcob/hocwp-theme/releases/latest' );
+		$data = wp_remote_retrieve_body( $data );
+		$data = json_decode( $data );
+
+		if ( is_object( $data ) && isset( $data->tag_name ) ) {
+			set_transient( $tr_name, $data, HOUR_IN_SECONDS );
+		}
+	}
+
+	if ( is_object( $data ) && isset( $data->tag_name ) ) {
 		$version = $data->tag_name;
 		$version = str_replace( 'v', '', $version );
 

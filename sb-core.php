@@ -4,7 +4,7 @@ Plugin Name: Extensions by HocWP Team
 Plugin URI: http://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
-Version: 2.1.3
+Version: 2.1.4
 Author URI: http://hocwp.net/
 Donate link: http://hocwp.net/donate/
 Text Domain: sb-core

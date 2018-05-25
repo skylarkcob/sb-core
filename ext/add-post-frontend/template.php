@@ -29,6 +29,7 @@ $taxonomies   = get_object_taxonomies( $post_type, OBJECT );
 $title        = '';
 $post_content = '';
 $messages     = array();
+
 if ( isset( $_POST['add_post_type'] ) ) {
 	if ( ! HT_Util()->verify_nonce() ) {
 		$messages[] = '<p class="alert alert-danger">' . __( 'Invalid form data.', 'sb-core' ) . '</p>';
@@ -37,9 +38,11 @@ if ( isset( $_POST['add_post_type'] ) ) {
 		$post_content = isset( $_POST['add_post_content'] ) ? $_POST['add_post_content'] : '';
 		$post_content = stripslashes( $post_content );
 		$post_content = str_replace( '\\', '', $post_content );
+
 		if ( ! empty( $title ) && ! empty( $post_content ) ) {
 			$user_id = get_current_user_id();
 			$enough  = true;
+
 			if ( isset( $_POST['submit_vip'] ) ) {
 				$coin = get_user_meta( $user_id, 'coin', true );
 				$coin = absint( $coin );
@@ -47,6 +50,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 					$enough = false;
 				}
 			}
+
 			if ( $enough ) {
 				$data = array(
 					'post_type'    => $_POST['add_post_type'],
@@ -55,27 +59,34 @@ if ( isset( $_POST['add_post_type'] ) ) {
 					'post_status'  => 'pending',
 					'post_author'  => $user_id
 				);
+
 				$id   = wp_insert_post( $data, true );
+
 				if ( $id instanceof WP_Error ) {
 					$messages[] = '<p class="alert alert-danger">' . $id->get_error_message() . '</p>';
 				} else {
 					$msg = sprintf( __( 'Your post has been added successfully. You can <a href="%s">click here</a> to update it.', 'sb-core' ), get_edit_post_link( $id ) );
 
 					$messages[] = '<p class="alert alert-success">' . $msg . '</p>';
+
 					if ( isset( $_POST['submit_vip'] ) ) {
 						$coin -= $post_price;
 						update_user_meta( $user_id, 'coin', $coin );
 						update_post_meta( $id, 'vip_expired', strtotime( '+1 day' ) );
 					}
+
 					foreach ( $taxonomies as $taxonomy ) {
 						$name = 'add_' . $taxonomy->name;
+
 						if ( isset( $_POST[ $name ] ) ) {
 							$term_id = absint( $_POST[ $name ] );
+
 							if ( HT()->is_positive_number( $term_id ) ) {
 								wp_set_post_terms( $id, array( $term_id ), $taxonomy->name );
 							}
 						}
 					}
+
 					$title = '';
 
 					$post_content = '';
@@ -100,6 +111,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 				echo $message;
 			}
 		}
+
 		wp_nonce_field();
 		?>
         <div class="form-group">
@@ -118,11 +130,14 @@ if ( isset( $_POST['add_post_type'] ) ) {
 				'taxonomy'   => $taxonomy->name,
 				'hide_empty' => false
 			);
+
 			$query = new WP_Term_Query( $args );
 			$terms = $query->get_terms();
+
 			if ( ! is_array( $terms ) || 1 > count( $terms ) ) {
 				continue;
 			}
+
 			$name = 'add_' . $taxonomy->name;
 			?>
             <div class="form-group">

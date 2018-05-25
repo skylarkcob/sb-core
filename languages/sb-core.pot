@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-21 14:02+0700\n"
+"POT-Creation-Date: 2018-05-21 22:03+0700\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -330,12 +330,12 @@ msgctxt "taxonomy"
 msgid "Status"
 msgstr ""
 
-#: ext/anime.php:65
+#: ext/anime.php:66
 msgctxt "post type"
 msgid "Episodes"
 msgstr ""
 
-#: ext/anime.php:66
+#: ext/anime.php:67
 msgctxt "post type"
 msgid "Episode"
 msgstr ""
@@ -461,7 +461,7 @@ msgstr ""
 msgid "Development"
 msgstr ""
 
-#: inc/functions-development.php:613
+#: inc/functions-development.php:621
 #, php-format
 msgid ""
 "<strong>Note:</strong> New theme core version has been released. Please take time to <a href=\"%s\" target=\"_blank\">update it</a>. If you are "
