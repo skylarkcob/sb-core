@@ -15,6 +15,8 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 	public $taxonomies_args = array();
 	public $admin_notices_transient_name = 'hocwp_ext_anime_admin_notices';
 
+	public $order_episode_by = 'menu_order';
+
 	public static function get_instance() {
 		if ( ! self::$instance instanceof self ) {
 			self::$instance = new self();
@@ -29,6 +31,7 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 		}
 
 		$this->add_required_extension( 'media-player' );
+		$this->folder_url = HOCWP_EXT_URL . '/ext';
 
 		parent::__construct( __FILE__ );
 
@@ -81,21 +84,23 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 	}
 
 	public function get_pagenum_link_filter( $result ) {
-		if ( false !== strpos( $result, 'page' ) ) {
-			$result = str_replace( '/page/', '/episode-list/', $result );
+		if ( is_single() && ! is_page() ) {
+			if ( false !== strpos( $result, 'page' ) ) {
+				$result = str_replace( '/page/', '/episode-list/', $result );
+			}
+
+			$ep_list = $this->get_current_anime_episode_list_paged();
+
+			$rp = '/episode-list/' . $ep_list;
+
+			$result = str_replace( $rp, '', $result );
 		}
-
-		$ep_list = $this->get_current_anime_episode_list_paged();
-
-		$rp = '/episode-list/' . $ep_list;
-
-		$result = str_replace( $rp, '', $result );
 
 		return $result;
 	}
 
 	public function paginate_links_filter( $result ) {
-		if ( is_single() ) {
+		if ( is_single() && ! is_page() ) {
 			$ep_list = $this->get_current_anime_episode_list_paged();
 
 			$rp = '/episode-list/' . $ep_list;
@@ -158,6 +163,7 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 			$parent = get_post( $obj->post_parent );
 
 			echo '<a href="' . get_edit_post_link( $parent ) . '">' . $parent->post_title . '</a>';
+			echo ' (<a class="" href="' . get_permalink( $parent ) . '">' . __( 'View', 'sb-core' ) . '</a>)';
 		}
 	}
 
@@ -170,21 +176,6 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 
 				if ( 'post_parent' == $orderby ) {
 					$query->set( 'orderby', 'parent' );
-				}
-
-				if ( ! isset( $query->query_vars['orderby'] ) || ( 'menu_order title' == $query->query_vars['orderby'] && empty( $orderby ) ) ) {
-					$query->set( 'orderby', 'meta_value parent' );
-
-					$query->set( 'meta_query', array(
-						'relation' => 'or',
-						array(
-							'key' => 'order_key'
-						),
-						array(
-							'key'     => 'order_key',
-							'compare' => 'not exists'
-						)
-					) );
 				}
 			}
 		}
@@ -217,13 +208,13 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 	}
 
 	public function wp_action() {
-		if ( is_single() ) {
+		if ( is_single() && ! is_page() ) {
 			global $wp_query;
 
 			if ( isset( $wp_query->query_vars['episode'] ) ) {
-				$menu_order = get_query_var( 'episode' );
+				$viewing = get_query_var( 'episode' );
 
-				$episode = $this->get_episode( get_the_ID(), $menu_order );
+				$episode = $this->get_episode( get_the_ID(), $viewing );
 
 				if ( ! ( $episode instanceof WP_Post ) || 'episode' != $episode->post_type ) {
 					wp_redirect( get_the_permalink() );
@@ -242,25 +233,31 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 
 	/**
 	 * @param int $parent_id The ID of parent Anime.
-	 * @param int $number The menu order of episode.
+	 * @param string $prefix The menu order of episode.
 	 *
 	 * @return array|null|WP_Post
 	 */
-	public function get_episode( $parent_id, $number ) {
-		if ( HT()->is_positive_number( $number ) ) {
-			$args = array(
-				'post_type'   => 'episode',
-				'post_status' => 'publish',
-				'menu_order'  => $number,
-				'fields'      => 'ids',
-				'post_parent' => $parent_id
-			);
+	public function get_episode( $parent_id, $prefix ) {
+		$args = array(
+			'post_type'   => 'episode',
+			'post_status' => 'publish',
+			'fields'      => 'ids',
+			'post_parent' => $parent_id,
+			'meta_key'    => 'prefix_slug',
+			'meta_value'  => $this->sanitize_episode_slug( $prefix )
+		);
+
+		$query = new WP_Query( $args );
+
+		if ( ! $query->have_posts() ) {
+			unset( $args['meta_value'], $args['meta_key'] );
+			$args['menu_order'] = $prefix;
 
 			$query = new WP_Query( $args );
+		}
 
-			if ( $query->have_posts() ) {
-				return get_post( $query->posts[0] );
-			}
+		if ( $query->have_posts() ) {
+			return get_post( $query->posts[0] );
 		}
 
 		return null;
@@ -271,12 +268,14 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 			'post_type'      => 'episode',
 			'post_parent'    => $parent_id,
 			'post_status'    => 'publish',
-			'orderby'        => 'menu_order',
+			'orderby'        => $this->order_episode_by,
 			'order'          => 'asc',
 			'posts_per_page' => - 1
 		);
 
 		$args = wp_parse_args( $args, $defaults );
+
+		$args = apply_filters( 'hocwp_theme_extension_anime_episodes_args', $args );
 
 		return new WP_Query( $args );
 	}
@@ -291,6 +290,13 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 		return $post_link;
 	}
 
+	public function sanitize_episode_slug( $prefix ) {
+		$prefix = str_replace( '.', '-', $prefix );
+		$prefix = sanitize_title( $prefix );
+
+		return $prefix;
+	}
+
 	public function get_episode_permalink( $post ) {
 		if ( HT()->is_positive_number( $post ) ) {
 			$post = get_post( $post );
@@ -302,7 +308,11 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 
 		$url = get_permalink( $post->post_parent );
 		$url = trailingslashit( $url );
-		$url .= 'episode/' . $post->menu_order;
+		$url .= 'episode/';
+
+		$prefix = $this->get_episode_prefix( $post->ID, false );
+		$prefix = $this->sanitize_episode_slug( $prefix );
+		$url .= $prefix;
 
 		return trailingslashit( $url );
 	}
@@ -356,33 +366,31 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 		}
 	}
 
+	public function get_episode_prefix( $post_id, $number = true ) {
+		$prefix = get_post_meta( $post_id, 'prefix', true );
+
+		if ( $number ) {
+			$prefix = HT()->keep_only_number( $prefix );
+			$prefix = trim( $prefix, '.,' );
+		}
+
+		if ( '' == $prefix ) {
+			$obj    = get_post( $post_id );
+			$prefix = $obj->menu_order;
+		}
+
+		return $prefix;
+	}
+
 	public function the_title( $title, $post_id ) {
 		if ( 'episode' == get_post_type( $post_id ) ) {
 			$obj = get_post( $post_id );
 
-			$prefix = get_post_meta( $post_id, 'prefix', true );
+			$prefix = $this->get_episode_prefix( $post_id );
 
-			if ( empty( $prefix ) ) {
-				$title = sprintf( __( 'Ep. %s - %s', 'sb-core' ), $obj->menu_order, $obj->post_title );
-			} else {
-				$search = array(
-					'MENU_ORDER',
-					'POST_TITLE'
-				);
+			$prefix = sprintf( _x( 'Ep. %s', 'episode prefix', 'sb-core' ), $prefix );
 
-				$replace = array(
-					$obj->menu_order,
-					$obj->post_title
-				);
-
-				$prefix = str_replace( $search, $replace, $prefix );
-
-				if ( false === strpos( $prefix, $obj->post_title ) ) {
-					$prefix .= ' - ' . $obj->post_title;
-				}
-
-				$title = $prefix;
-			}
+			$title = $prefix . ' - ' . $title;
 		}
 
 		return $title;
@@ -434,7 +442,12 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 
 	public function save_post( $post_id ) {
 		if ( ( HT_Admin()->can_save_post( $post_id, 'add-post' ) || HT_Admin()->can_save_post( $post_id, 'update-post_' . $post_id ) ) && 'episode' == get_post_type( $post_id ) ) {
-			$obj              = get_post( $post_id );
+			$obj = get_post( $post_id );
+
+			if ( 'trash' == $obj->post_status ) {
+				return;
+			}
+
 			$post_type_object = get_post_type_object( $obj->post_type );
 
 			$notice = '';
@@ -448,45 +461,18 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 				);
 
 				$notice = HT_Admin()->admin_notice( $args );
-			} elseif ( 1 > $obj->menu_order ) {
-				$args = array(
-					'message' => sprintf( __( 'Please set a valid episode number (menu order) in <strong>%s</strong> box.', 'sb-core' ), $post_type_object->labels->attributes ),
-					'type'    => 'error'
-				);
-
-				$notice = HT_Admin()->admin_notice( $args );
 			} else {
-				$args = array(
-					'post_type'      => $post_type_object->name,
-					'posts_per_page' => 1,
-					'fields'         => 'ids',
-					'post_parent'    => $obj->post_parent,
-					'post_status'    => 'any',
-					'menu_order'     => $obj->menu_order,
-					'post__not_in'   => array( $post_id )
-				);
-
-				$query = new WP_Query( $args );
-
-				if ( $query->have_posts() ) {
-					$args = array(
-						'message' => sprintf( __( 'Duplicate menu order with <strong>%s</strong>.', 'sb-core' ), get_the_title( $query->posts[0] ) ),
-						'type'    => 'error'
-					);
-
-					$notice = HT_Admin()->admin_notice( $args );
-				} else {
-					do_action( 'hocwp_ext_anime_save_episode', $post_id, $obj );
-				}
+				do_action( 'hocwp_ext_anime_save_episode', $post_id, $obj );
 			}
 
 			if ( isset( $_POST['prefix'] ) ) {
 				update_post_meta( $post_id, 'prefix', $_POST['prefix'] );
+				update_post_meta( $post_id, 'prefix_slug', $this->sanitize_episode_slug( $_POST['prefix'] ) );
 
-				if ( ! empty( $_POST['prefix'] ) ) {
+				if ( '' != $_POST['prefix'] ) {
 					$order_key = $_POST['prefix'];
 
-					$tmp = preg_replace( '/[^0-9\.,]/', '', $order_key );
+					$tmp = HT()->keep_only_number( $order_key );
 
 					if ( null != $tmp && false != $tmp ) {
 						$order_key = $tmp;
@@ -570,7 +556,8 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 			'exclude_from_search' => true,
 			'show_ui'             => true,
 			'hierarchical'        => true,
-			'supports'            => array( 'title', 'page-attributes', 'thumbnail', 'editor' )
+			'supports'            => array( 'title', 'page-attributes', 'thumbnail', 'editor' ),
+			'menu_position'       => 5
 		);
 
 		$args = HT_Util()->post_type_args( $args );

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
+final class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 	protected static $instance;
 
 	public static function get_instance() {
@@ -27,6 +27,7 @@ class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 		}
 
 		$this->folder_name = 'media-player';
+		$this->folder_url  = HOCWP_EXT_URL . '/ext';
 
 		parent::__construct( __FILE__ );
 
@@ -54,13 +55,18 @@ class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 
 		if ( 1 == HT_Util()->get_theme_option( 'jwplayer', '', $this->option_name ) ) {
 			$sections[] = array(
-				'id'    => 'jwplayer-section',
-				'title' => __( 'JW Player Configuration', 'sb-core' ),
-				'tab'   => $this->option_name
+				'id'       => 'jwplayer-section',
+				'title'    => __( 'JW Player Configuration', 'sb-core' ),
+				'tab'      => $this->option_name,
+				'callback' => array( $this, 'section_jwplayer_callback' )
 			);
 		}
 
 		return $sections;
+	}
+
+	public function section_jwplayer_callback() {
+		echo wpautop( __( 'Provide informations for player working. JW Player is the most powerful & flexible video platform powered by the fastest, most-used HTML5 online video player.', 'sb-core' ) );
 	}
 
 	public function option_fields() {
@@ -239,7 +245,7 @@ class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 
 	private function get_facebook_url_onsite( $url ) {
 		$tmp  = $url;
-		$res  = wp_remote_post( $tmp );
+		$res  = wp_remote_get( $tmp );
 		$body = wp_remote_retrieve_body( $res );
 		$dom  = new DomDocument();
 		$save = false;
@@ -292,6 +298,7 @@ class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 
 	public function get_facebook_url( $url ) {
 		$key = md5( $url );
+		$bk  = $url;
 		$tmp = $this->get_cached_url( $key );
 
 		if ( empty( $tmp ) ) {
@@ -360,7 +367,24 @@ class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 			$url = $tmp;
 		}
 
+		if ( $url == $bk ) {
+			$video_id = $this->get_facebook_video_id( $url );
+
+			if ( is_numeric( $video_id ) ) {
+				$tmp = $this->get_facebook_video_graph( $video_id );
+
+				if ( isset( $tmp->source ) && ! empty( $tmp->source ) ) {
+					$url = $tmp->source;
+					$this->cache_url( $key, $url );
+				}
+			}
+		}
+
 		return $url;
+	}
+
+	public function get_facebook_video_graph( $video_id ) {
+		return $this->facebook_graph( $video_id );
 	}
 
 	public function get_facebook_video_embed_url( $url ) {
@@ -384,6 +408,58 @@ class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 		$embed = 'https://www.facebook.com/video/embed?video_id=' . $id;
 
 		return $embed;
+	}
+
+	public function get_facebook_video_id( $url ) {
+		if ( ! empty( $url ) ) {
+			if ( is_numeric( $url ) ) {
+				return $url;
+			}
+
+			$url   = untrailingslashit( $url );
+			$parts = explode( '/videos/', $url );
+
+			if ( isset( $parts[1] ) && is_numeric( $parts[1] ) ) {
+				return $parts[1];
+			}
+		}
+
+		return '';
+	}
+
+	public function facebook_graph( $slug, $access_token = '' ) {
+		if ( empty( $access_token ) ) {
+			$access_token = HT_Util()->get_theme_option( 'facebook_access_token', '', 'social' );
+		}
+
+		if ( ! empty( $access_token ) ) {
+			$base = 'https://graph.facebook.com/' . $slug;
+			$base = add_query_arg( 'access_token', $access_token, $base );
+
+			$data = wp_remote_get( $base );
+
+			if ( ! empty( $data ) && ! is_wp_error( $data ) ) {
+				$data = wp_remote_retrieve_body( $data );
+
+				return json_decode( $data );
+			}
+		}
+
+		return '';
+	}
+
+	public function get_facebook_video_thumbnail_url( $video_id ) {
+		if ( ! is_numeric( $video_id ) ) {
+			$video_id = $this->get_facebook_video_id( $video_id );
+		}
+
+		$result = $this->facebook_graph( $video_id . '/thumbnails' );
+
+		if ( isset( $result->data ) && HT()->array_has_value( $result->data ) ) {
+			return $result->data[0]->uri;
+		}
+
+		return '';
 	}
 }
 

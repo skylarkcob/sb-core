@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-21 22:03+0700\n"
-"PO-Revision-Date: 2018-05-21 22:04+0700\n"
+"POT-Creation-Date: 2018-05-27 07:01+0700\n"
+"PO-Revision-Date: 2018-05-27 07:05+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -192,16 +192,16 @@ msgstr "Thêm số ngày vào nội dung VIP của bạn. %s coin mỗi ngày."
 msgid "Add more day:"
 msgstr "Thêm ngày:"
 
-#: ext/add-post-frontend/add-post-frontend.php:61
+#: ext/add-post-frontend/add-post-frontend.php:63
 msgid "You do not have enough coin to add more day for VIP content."
 msgstr "Bạn không có đủ coin để thêm ngày vào nội dung VIP."
 
-#: ext/add-post-frontend/add-post-frontend.php:80
+#: ext/add-post-frontend/add-post-frontend.php:82
 #, php-format
 msgid "You have added %s more VIP days for this post."
 msgstr "Bạn vừa mới thêm %s ngày VIP cho bài viết này."
 
-#: ext/add-post-frontend/add-post-frontend.php:132
+#: ext/add-post-frontend/add-post-frontend.php:141
 #, php-format
 msgid "You can only upload %s media file per day."
 msgstr "Bạn có thể tải lên %s tập tin đa phương tiện mỗi ngày."
@@ -218,11 +218,11 @@ msgstr "Chi phí cho bài viết VIP mỗi ngày."
 msgid "Post Price"
 msgstr "Chi phí viết bài"
 
-#: ext/add-post-frontend/template.php:34
+#: ext/add-post-frontend/template.php:35
 msgid "Invalid form data."
 msgstr "Dữ liệu của form không đúng."
 
-#: ext/add-post-frontend/template.php:62
+#: ext/add-post-frontend/template.php:68
 #, php-format
 msgid ""
 "Your post has been added successfully. You can <a href=\"%s\">click here</a> "
@@ -231,41 +231,41 @@ msgstr ""
 "Bài viết của bạn đã được thêm thành công. Bạn có thể <a href=\"%s\">nhấn vào "
 "đây</a> để cập nhật nó."
 
-#: ext/add-post-frontend/template.php:86
+#: ext/add-post-frontend/template.php:97
 msgid "You do not have enough coin to post VIP content."
 msgstr "Bạn không có đủ coin để đăng nội dung VIP."
 
-#: ext/add-post-frontend/template.php:89
+#: ext/add-post-frontend/template.php:100
 msgid "Post title and post content must not be empty."
 msgstr "Tiêu đề bài viết và nội dung bài viết phải không được để trống."
 
-#: ext/add-post-frontend/template.php:106
+#: ext/add-post-frontend/template.php:118
 msgid "Post title:"
 msgstr "Tiêu đề bài viết:"
 
-#: ext/add-post-frontend/template.php:134
+#: ext/add-post-frontend/template.php:149
 #, php-format
 msgid "Choose %s"
 msgstr "Chọn %s"
 
-#: ext/add-post-frontend/template.php:152
+#: ext/add-post-frontend/template.php:167
 msgid "Post type:"
 msgstr "Loại bài viết:"
 
-#: ext/add-post-frontend/template.php:175
+#: ext/add-post-frontend/template.php:190
 #, php-format
 msgid "You will pay %s coins for posting VIP content."
 msgstr "Bạn sẽ phải trả %s coin để đăng nội dung VIP."
 
-#: ext/add-post-frontend/template.php:179
+#: ext/add-post-frontend/template.php:194
 msgid "Add VIP Post"
 msgstr "Thêm bài viết VIP"
 
-#: ext/add-post-frontend/template.php:184
+#: ext/add-post-frontend/template.php:199
 msgid "Add Post"
 msgstr "Thêm bài viết"
 
-#: ext/add-post-frontend/template.php:186
+#: ext/add-post-frontend/template.php:201
 msgid "Back to home"
 msgstr "Trở lại trang chủ"
 
@@ -329,32 +329,76 @@ msgstr "Quảng cáo"
 msgid "Leaderboard"
 msgstr "Đầu trang"
 
-#: ext/anime.php:28
+#: ext/anime.php:119
+msgid "Prefix:"
+msgstr "Tiền tố:"
+
+#: ext/anime.php:130
+#, php-format
+msgid "Edit %s"
+msgstr "Chỉnh sửa %s"
+
+#: ext/anime.php:130
+msgid "Edit Anime"
+msgstr "Chỉnh sửa phim"
+
+#: ext/anime.php:135
+#, php-format
+msgid "View %s"
+msgstr "Xem %s"
+
+#: ext/anime.php:144
+msgid "Post parent"
+msgstr "Bài viết cha"
+
+#: ext/anime.php:203
+msgid "View video"
+msgstr "Xem video"
+
+#: ext/anime.php:329
+#, php-format
+msgid "View &#8220;%s&#8221;"
+msgstr "Xem &#8220;%s&#8221;"
+
+#: ext/anime.php:330
+msgid "View"
+msgstr "Xem"
+
+#: ext/anime.php:337 ext/anime.php:338
+msgid "Add New Episode"
+msgstr "Thêm tập phim mới"
+
+#: ext/anime.php:449
+#, php-format
+msgid "Please set parent for this <strong>%s</strong>."
+msgstr "Thiết lập cha cho <strong>%s</strong> này."
+
+#: ext/anime.php:495
 msgctxt "taxonomy"
 msgid "Release Years"
 msgstr "Năm phát hành"
 
-#: ext/anime.php:29
+#: ext/anime.php:496
 msgctxt "taxonomy"
 msgid "Release Year"
 msgstr "Năm phát hành"
 
-#: ext/anime.php:30
+#: ext/anime.php:497
 msgctxt "taxonomy"
 msgid "Years"
 msgstr "Năm phát hành"
 
-#: ext/anime.php:45
+#: ext/anime.php:512
 msgctxt "taxonomy"
 msgid "Status"
 msgstr "Trạng thái"
 
-#: ext/anime.php:66
+#: ext/anime.php:540
 msgctxt "post type"
 msgid "Episodes"
 msgstr "Tập phim"
 
-#: ext/anime.php:67
+#: ext/anime.php:541
 msgctxt "post type"
 msgid "Episode"
 msgstr "Tập phim"
@@ -478,6 +522,47 @@ msgstr "Không thể lấy download ticket!"
 msgid "JW Player extension not loaded!"
 msgstr "Gói mở rộng JW Player không được tải!"
 
+#: ext/media-player.php:45
+msgid "Media Player"
+msgstr "Trình phát video"
+
+#: ext/media-player.php:58
+msgid "JW Player Configuration"
+msgstr "Cài đặt JW Player"
+
+#: ext/media-player.php:68
+msgid ""
+"Provide informations for player working. JW Player is the most powerful & "
+"flexible video platform powered by the fastest, most-used HTML5 online video "
+"player."
+msgstr ""
+"Cung cấp thông tin cho trình phát video hoạt động. JW Player là trình phát "
+"video mạnh mẽ và linh hoạt được hỗ trợ trên nền tảng nhanh nhất, đây trình "
+"phát video HTML5 được sử dụng nhiều nhất."
+
+#: ext/media-player.php:76
+msgid "Background"
+msgstr "Hình nền"
+
+#: ext/media-player.php:80
+msgid "Using JW Player as your main player?"
+msgstr "Sử dụng JW Player làm trình phát chính?"
+
+#: ext/media-player.php:82
+msgid "Use JW Player"
+msgstr "Sử dụng JW Player"
+
+#: ext/media-player.php:87
+#, fuzzy
+#| msgid "Key"
+msgctxt "jw player"
+msgid "Key"
+msgstr "Mã"
+
+#: ext/media-player.php:141
+msgid "Loading mirror..."
+msgstr "Đang tải..."
+
 #: ext/woocommerce/admin-setting-page.php:8
 msgid "WooCommerce"
 msgstr "Trang shop"
@@ -501,17 +586,11 @@ msgstr ""
 "lòng dành thời gian để <a href=\"%s\" target=\"_blank\">nâng cấp nó</a>. Nếu "
 "bạn không phải là tác giả của giao diện, bạn chỉ việc tắt thông báo này đi."
 
-#: sb-core.php:29
-msgid ""
-"<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme "
-"written by the HocWP Team or the directory of the theme must be named as "
-"<code>hocwp-theme</code>."
-msgstr ""
-"<strong>Plugin Extensions by HocWP Team:</strong> Bạn phải dùng giao diện "
-"được thực hiện bởi HocWP Team hoặc đường dẫn thư mục của giao diện phải là "
-"<code>hocwp-theme</code>."
+#: sb-core.php:70
+msgid "Settings"
+msgstr "Cài đặt"
 
-#: sb-core.php:49
+#: sb-core.php:144
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core "
@@ -525,6 +604,12 @@ msgstr ""
 "bản của plugin xuống phiên bản thấp hơn, nhưng chúng tôi không khuyến khích "
 "bạn làm việc này."
 
-#: sb-core.php:99
-msgid "Settings"
-msgstr "Cài đặt"
+#: sb-core.php:163
+msgid ""
+"<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme "
+"written by the HocWP Team or the directory of the theme must be named as "
+"<code>hocwp-theme</code>."
+msgstr ""
+"<strong>Plugin Extensions by HocWP Team:</strong> Bạn phải dùng giao diện "
+"được thực hiện bởi HocWP Team hoặc đường dẫn thư mục của giao diện phải là "
+"<code>hocwp-theme</code>."

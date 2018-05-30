@@ -889,3 +889,5 @@ function hocwp_theme_dev_init_action_check() {
 }
 
 add_action( 'init', 'hocwp_theme_dev_init_action_check' );
+
+require $this->path . '/inc/admin-setting-page-development.php';

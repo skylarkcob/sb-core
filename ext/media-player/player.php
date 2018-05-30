@@ -19,6 +19,8 @@ $post_id = isset( $_GET['post_id'] ) ? $_GET['post_id'] : '';
 
 $domain = HT()->get_domain_name( $src );
 
+$thumbnail = isset( $_GET['thumbnail'] ) ? $_GET['thumbnail'] : '';
+
 switch ( $domain ) {
 	case 'www.drive.google.com':
 	case 'drive.google.com':
@@ -34,8 +36,11 @@ if ( ! defined( 'HTE_MEDIA_PLAYER' ) ) {
 	define( 'HTE_MEDIA_PLAYER', true );
 }
 
-$poster    = HTE_Media_Player()->get_background_url();
-$thumbnail = isset( $_GET['thumbnail'] ) ? $_GET['thumbnail'] : '';
+$poster = HTE_Media_Player()->get_background_url();
+
+if ( empty( $thumbnail ) && HT()->is_positive_number( $post_id ) ) {
+	$thumbnail = get_post_meta( $post_id, '_thumbnail_url', true );
+}
 
 if ( ! empty( $thumbnail ) ) {
 	$poster = $thumbnail;

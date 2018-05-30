@@ -16,7 +16,7 @@ add_filter( 'hocwp_theme_settings_page_tabs', 'hocwp_theme_settings_page_develop
 
 global $hocwp_theme;
 
-if ( ! is_object( $hocwp_theme ) || 'development' != $hocwp_theme->option->tab ) {
+if ( ! is_object( $hocwp_theme ) || ! is_object( $hocwp_theme->option ) || 'development' != $hocwp_theme->option->tab ) {
 	return;
 }
 
