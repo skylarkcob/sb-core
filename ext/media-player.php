@@ -21,6 +21,9 @@ final class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 
 	public $hide_source = true;
 
+	public $width = 640;
+	public $height = 360;
+
 	public function __construct() {
 		if ( self::$instance instanceof self ) {
 			return;
@@ -144,10 +147,6 @@ final class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 		);
 
 		$args = wp_parse_args( $args, $defaults );
-
-		if ( $this->hide_source ) {
-			$args['src'] = '';
-		}
 		?>
 		<div class="mirror-video embed-responsive main-player embed-responsive-16by9">
 			<div class="film-grain"></div>
@@ -167,31 +166,56 @@ final class HOCWP_Ext_Media_Player extends HOCWP_Theme_Extension {
 			$src = $args['src'];
 
 			if ( is_array( $src ) ) {
-				$src = '';
+				$src = current( $src );
 			}
 
-			if ( false !== strpos( $src, 'iframe' ) ) {
+			if ( false !== strpos( $src, '<iframe' ) ) {
 				echo $src;
 			} else {
-				$oembed = ! ( $this->use_jwplayer() ) ? wp_oembed_get( $src ) : '';
+				$oembed = '';
 
-				if ( empty( $oembed ) ) {
-					$url = home_url( 'player' );
+				if ( false !== strpos( $src, 'embed|' ) || false !== strpos( $src, '|embed' ) ) {
+					$src   = str_replace( 'embed|', 'HOCWP_SPLIT', $src );
+					$src   = str_replace( '|embed', 'HOCWP_SPLIT', $src );
+					$parts = explode( 'HOCWP_SPLIT', $src );
+					$parts = array_filter( $parts );
 
-					$params = array(
-						'src'   => $src,
-						'nonce' => wp_create_nonce()
-					);
+					$src = array_shift( $parts );
 
-					$params = wp_parse_args( $params, $args );
-
-					if ( $this->hide_source ) {
-						unset( $params['src'] );
+					while ( false === strpos( $src, 'http' ) && false === strpos( $src, 'www' ) && HT()->array_has_value( $parts ) ) {
+						$src = array_shift( $parts );
 					}
 
-					$url = add_query_arg( $params, $url );
+					$src = esc_url( $src );
 
-					$oembed = '<iframe width="640" height="360" src="' . $url . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+					if ( ! empty( $src ) ) {
+						$oembed = '<iframe width="' . $this->width . '" height="' . $this->height . '" src="' . $src . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+					}
+				} else {
+					if ( $this->hide_source ) {
+						$args['src'] = '';
+					} else {
+						$oembed = ! ( $this->use_jwplayer() ) ? wp_oembed_get( $src ) : '';
+					}
+
+					if ( empty( $oembed ) ) {
+						$url = home_url( 'player' );
+
+						$params = array(
+							'src'   => $src,
+							'nonce' => wp_create_nonce()
+						);
+
+						$params = wp_parse_args( $params, $args );
+
+						if ( $this->hide_source ) {
+							unset( $params['src'] );
+						}
+
+						$url = add_query_arg( $params, $url );
+
+						$oembed = '<iframe width="' . $this->width . '" height="' . $this->height . '" src="' . $url . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+					}
 				}
 
 				echo $oembed;

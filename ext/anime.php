@@ -68,9 +68,46 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 			add_action( 'wp', array( $this, 'wp_action' ) );
 			add_filter( 'get_pagenum_link', array( $this, 'get_pagenum_link_filter' ) );
 			add_filter( 'paginate_links', array( $this, 'paginate_links_filter' ) );
+			add_filter( 'get_edit_post_link', array( $this, 'edit_single_episode_link' ), 10, 2 );
+			add_filter( 'document_title_parts', array( $this, 'wp_title_filter' ) );
 		}
 
 		add_filter( 'post_type_link', array( $this, 'post_type_link' ), 10, 2 );
+	}
+
+	public function wp_title_filter( $parts ) {
+		if ( is_singular( 'post' ) ) {
+			$episode = $this->get_current_episode();
+
+			if ( $this->is_episode( $episode ) && ! empty( $episode->post_title ) ) {
+				$sep   = apply_filters( 'document_title_separator', '-' );
+				$title = isset( $parts['title'] ) ? $parts['title'] : '';
+				$title = $episode->post_title . " $sep " . $title;
+				$title = trim( $title, " $sep " );
+
+				$parts['title'] = $title;
+			}
+		}
+
+		return $parts;
+	}
+
+	public function edit_single_episode_link( $link, $post_id ) {
+		if ( is_single( $post_id ) ) {
+			$episode = $this->get_current_episode();
+
+			if ( $this->is_episode( $episode ) ) {
+				remove_filter( 'get_edit_post_link', array( $this, 'edit_single_episode_link' ) );
+				$link = get_edit_post_link( $episode );
+				add_filter( 'get_edit_post_link', array( $this, 'edit_single_episode_link' ), 10, 2 );
+			}
+		}
+
+		return $link;
+	}
+
+	public function is_episode( $post ) {
+		return ( $post instanceof WP_Post && 'episode' == $post->post_type );
 	}
 
 	public function get_current_anime_episode_list_paged() {
@@ -205,6 +242,20 @@ class HOCWP_EXT_Anime extends HOCWP_Theme_Extension {
 		}
 
 		return $messages;
+	}
+
+	public function get_current_episode() {
+		if ( is_single() && ! is_page() ) {
+			global $wp_query;
+
+			if ( isset( $wp_query->query_vars['episode'] ) ) {
+				$viewing = get_query_var( 'episode' );
+
+				return $this->get_episode( get_the_ID(), $viewing );
+			}
+		}
+
+		return null;
 	}
 
 	public function wp_action() {
