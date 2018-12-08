@@ -3,6 +3,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+if ( function_exists( 'hocwp_theme_settings_page_development_tab' ) ) {
+	return;
+}
+
 function hocwp_theme_settings_page_development_tab( $tabs ) {
 	$tabs['development'] = array(
 		'text' => __( 'Development', 'sb-core' ),

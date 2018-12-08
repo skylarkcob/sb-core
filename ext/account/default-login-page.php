@@ -10,18 +10,7 @@ function hocwp_ext_account_default_login_page_scripts() {
 
 	$options = HT_Util()->get_theme_options( 'account' );
 
-	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
-
-	if ( 1 == $cs ) {
-		wp_enqueue_script( 'hocwp-theme' );
-
-		$args = array(
-			'load' => true
-		);
-
-		HT_Util()->load_facebook_javascript_sdk( $args );
-		wp_enqueue_script( 'hocwp-ext-connected-accounts' );
-	}
+	HTE_Account()->load_connected_socials_script();
 
 	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
@@ -55,6 +44,13 @@ function hocwp_ext_account_default_login_page_scripts() {
 add_action( 'login_enqueue_scripts', 'hocwp_ext_account_default_login_page_scripts' );
 
 function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
+	$options = HT_Util()->get_theme_options( 'account' );
+	$cs      = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
+
+	if ( 1 != $cs ) {
+		return $link;
+	}
+
 	$params = isset( $_SERVER['QUERY_STRING'] ) ? $_SERVER['QUERY_STRING'] : '';
 	parse_str( $params, $params );
 

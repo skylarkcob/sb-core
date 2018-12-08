@@ -15,6 +15,7 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 		$meta = new HOCWP_Theme_Meta_Post();
 		$meta->add_post_type( 'hocwp_ads' );
 		$meta->set_title( __( 'Ads Information', 'sb-core' ) );
+		$meta->form_table = true;
 
 		$options = hocwp_ext_get_ads_positions();
 
@@ -38,8 +39,8 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 		$field = hocwp_theme_create_meta_field( 'code', __( 'Code:', 'sb-core' ), 'textarea', $args, 'html' );
 		$meta->add_field( $field );
 
-		$args  = array( 'type' => 'checkbox' );
-		$field = hocwp_theme_create_meta_field( 'active', __( 'Make this ads as active status?', 'sb-core' ), 'input', $args, 'boolean' );
+		$args  = array( 'type' => 'checkbox', 'text' => __( 'Make this ads as active status?', 'sb-core' ) );
+		$field = hocwp_theme_create_meta_field( 'active', __( 'Active', 'sb-core' ), 'input', $args, 'boolean' );
 		$meta->add_field( $field );
 	}
 
@@ -84,7 +85,11 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) ||
 
 		if ( 'hocwp_ads' == $post_type ) {
 			if ( ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
-				HT_Util()->enqueue_datepicker();
+				if ( function_exists( 'HT_Enqueue' ) ) {
+					HT_Enqueue()->datepicker();
+				} else {
+					HT_Util()->enqueue_datepicker();
+				}
 			}
 
 			if ( 'edit.php' == $pagenow ) {
@@ -117,11 +122,13 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exi
 		} elseif ( 'expire_date' == $column ) {
 			$expire = get_post_meta( $post_id, 'expire', true );
 
-			if ( is_numeric( $expire ) ) {
+			if ( is_numeric( $expire ) && 0 != $expire ) {
 				$expire = date_i18n( get_option( 'date_format' ), $expire );
 			}
 
-			echo $expire;
+			if ( ! empty( $expire ) ) {
+				echo $expire;
+			}
 		} elseif ( 'active' == $column ) {
 			$value = get_post_meta( $post_id, 'active', true );
 			$value = absint( $value );

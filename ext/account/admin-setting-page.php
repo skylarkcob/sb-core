@@ -71,6 +71,9 @@ function hocwp_theme_settings_page_account_field() {
 	$field    = hocwp_theme_create_setting_field( 'profile_page', __( 'Profile Page', 'sb-core' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
 	$fields[] = $field;
 
+	$field    = hocwp_theme_create_setting_field( 'saved_posts_page', __( 'Saved Posts Page', 'sb-core' ), 'select_page', $args, 'numeric', 'account', 'account_tools_page' );
+	$fields[] = $field;
+
 	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
 	if ( 1 == $cs ) {
@@ -85,9 +88,10 @@ add_filter( 'hocwp_theme_settings_page_account_settings_field', 'hocwp_theme_set
 
 function hocwp_theme_settings_page_account_settings_section( $sections ) {
 	$section = array(
-		'id'    => 'account_tools_page',
-		'title' => __( 'Account Tools Page', 'sb-core' ),
-		'tab'   => 'account'
+		'id'          => 'account_tools_page',
+		'title'       => __( 'Account Tools Page', 'sb-core' ),
+		'tab'         => 'account',
+		'description' => __( 'If you want to use custom page for user functions instead of using <code>wp-login.php</code>, you can choose the page for these settings below.', 'sb-core' )
 	);
 
 	$sections[] = $section;
@@ -97,9 +101,10 @@ function hocwp_theme_settings_page_account_settings_section( $sections ) {
 
 	if ( 1 == $cs ) {
 		$section = array(
-			'id'    => 'custom_default_login_page',
-			'title' => __( 'Customize Default Login Page', 'sb-core' ),
-			'tab'   => 'account'
+			'id'          => 'custom_default_login_page',
+			'title'       => __( 'Customize Default Login Page', 'sb-core' ),
+			'tab'         => 'account',
+			'description' => __( 'You can customize some styles to make the default WordPress login page more pretty.', 'sb-core' )
 		);
 
 		$sections[] = $section;
@@ -121,7 +126,11 @@ function hocwp_theme_sanitize_option_account( $input ) {
 add_filter( 'hocwp_theme_sanitize_option_account', 'hocwp_theme_sanitize_option_account' );
 
 function hocwp_theme_admin_setting_page_account_scripts() {
-	HT_Util()->enqueue_media();
+	if ( function_exists( 'HT_Enqueue' ) ) {
+		HT_Enqueue()->media_upload();
+	} else {
+		HT_Util()->enqueue_media();
+	}
 }
 
 add_action( 'hocwp_theme_admin_setting_page_account_scripts', 'hocwp_theme_admin_setting_page_account_scripts' );

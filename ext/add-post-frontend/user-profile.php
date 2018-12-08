@@ -5,24 +5,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hocwp_add_post_frontend_user_profile_fields( $user ) {
 	global $hocwp_theme;
+
 	$options    = $hocwp_theme->options;
 	$post_price = isset( $options['vip']['post_price'] ) ? $options['vip']['post_price'] : '';
 	$post_price = absint( $post_price );
+
 	if ( 0 < $post_price ) {
 		$user_id  = $user->ID;
-		$coin    = get_user_meta( $user_id, 'coin', true );
-		$coin    = absint( $coin );
+		$coin     = get_user_meta( $user_id, 'coin', true );
+		$coin     = absint( $coin );
 		$disabled = ( current_user_can( 'edit_users' ) ) ? false : true;
 		?>
-        <tr class="user-coin-wrap">
-            <th>
-                <label for="coin"><?php _e( 'Coin', 'sb-core' ); ?></label>
-            </th>
-            <td>
-                <input type="number" name="coin" id="coin" min="0" value="<?php echo esc_attr( $coin ); ?>"
-                       class="medium-text"<?php disabled( $disabled, true ); ?>>
-            </td>
-        </tr>
+		<tr class="user-coin-wrap">
+			<th>
+				<label for="coin"><?php _e( 'Coin', 'sb-core' ); ?></label>
+			</th>
+			<td>
+				<input type="number" name="coin" id="coin" min="0" value="<?php echo esc_attr( $coin ); ?>"
+				       class="medium-text"<?php disabled( $disabled, true ); ?>>
+			</td>
+		</tr>
 		<?php
 	}
 }

@@ -115,7 +115,21 @@ function hocwp_theme_zip_current_theme() {
 	$sheet   = $theme->get_stylesheet();
 	$version = $theme->get( 'Version' );
 	$source  = untrailingslashit( get_template_directory() );
-	$dest    = dirname( $source ) . '/' . $sheet;
+
+	$style = get_template_directory() . '/style.css';
+
+	if ( ! function_exists( 'get_file_data' ) ) {
+		require ABSPATH . 'wp-includes/functions.php';
+	}
+
+	$name = get_file_data( $style, array( 'real_name' => 'Real Theme Name' ) );
+	$name = ( is_array( $name ) && isset( $name['real_name'] ) ) ? $name['real_name'] : '';
+
+	if ( empty( $name ) ) {
+		$name = $sheet;
+	}
+
+	$dest = dirname( $source ) . '/' . $name;
 	$dest .= '_v' . $version;
 	$dest .= '_' . $time;
 	$dest .= '.zip';
@@ -578,21 +592,30 @@ function hocwp_team_backup_wp_content_event_callback() {
 
 add_action( 'hocwp_team_backup_wp_content', 'hocwp_team_backup_wp_content_event_callback' );
 
+function hocwp_team_dev_is_localhost() {
+	$domain = home_url();
+	$domain = HT()->get_domain_name( $domain, true );
+
+	return ( 'localhost' == $domain || HT()->is_IP( $domain ) );
+}
+
 function hocwp_team_dev_backup_files() {
 	if ( current_user_can( 'manage_options' ) ) {
 		$tr_name = 'hocwp_team_backup_wp_content';
 
 		if ( false !== get_transient( $tr_name ) ) {
-			$img = '<img src="' . admin_url( 'images/loading.gif' ) . '" style="display: inline-block;vertical-align: middle;margin-left: 5px;max-width: 16px;height: auto;">';
-			$msg = '<strong>Notices:</strong> Copying themes and plugins to new directory. Please wait and do not close the browser... ' . $img;
+			if ( hocwp_team_dev_is_localhost() ) {
+				$img = '<img src="' . admin_url( 'images/loading.gif' ) . '" style="display: inline-block;vertical-align: middle;margin-left: 5px;max-width: 16px;height: auto;">';
+				$msg = '<strong>Notices:</strong> Copying themes and plugins to new directory. Please wait and do not close the browser... ' . $img;
 
-			$args = array(
-				'type'    => 'warning',
-				'message' => $msg,
-				'id'      => 'backupFolderNotice'
-			);
+				$args = array(
+					'type'    => 'warning',
+					'message' => $msg,
+					'id'      => 'backupFolderNotice'
+				);
 
-			HT_Util()->admin_notice( $args );
+				HT_Util()->admin_notice( $args );
+			}
 		}
 	}
 }
@@ -616,7 +639,7 @@ function hocwp_dev_check_theme_core_new_version() {
 		$version = $data->tag_name;
 		$version = str_replace( 'v', '', $version );
 
-		if ( version_compare( $version, HOCWP_THEME_CORE_VERSION, '>' ) ) {
+		if ( version_compare( $version, HOCWP_THEME_CORE_VERSION, '>' ) && hocwp_team_dev_is_localhost() ) {
 			$args = array(
 				'message' => sprintf( __( '<strong>Note:</strong> New theme core version has been released. Please take time to <a href="%s" target="_blank">update it</a>. If you are not theme author, just leave this message.', 'sb-core' ), 'https://github.com/skylarkcob/hocwp-theme/releases' ),
 				'type'    => 'info'
@@ -889,5 +912,3 @@ function hocwp_theme_dev_init_action_check() {
 }
 
 add_action( 'init', 'hocwp_theme_dev_init_action_check' );
-
-require $this->path . '/inc/admin-setting-page-development.php';

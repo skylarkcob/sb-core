@@ -34,7 +34,8 @@ if ( 'wp-login.php' == $pagenow ) {
 
 function hocwp_ext_account_connect_social_buttons() {
 	$options = HT_Util()->get_theme_options( 'account' );
-	$cs      = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
+
+	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
 
 	if ( 1 == $cs ) {
 		$social    = HT_Util()->get_theme_options( 'social' );
@@ -52,6 +53,7 @@ function hocwp_ext_account_connect_social_buttons() {
 				'load'     => true,
 				'callback' => 'hocwp_theme_connect_google'
 			);
+
 			HT_Util()->load_google_javascript_sdk( $args );
 		}
 		?>
@@ -60,8 +62,9 @@ function hocwp_ext_account_connect_social_buttons() {
 			if ( $google ) {
 				?>
 				<button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'sb-core' ); ?>"
-				        class="btn btn-danger connect-google" data-login="1" type="button">
-					<i class="fa fa-google" aria-hidden="true"></i><span class="dashicons dashicons-googleplus"></span><?php _e( 'Continue with Google', 'sb-core' ); ?>
+				        class="btn btn-danger connect-google w-full mb-10" data-login="1" type="button">
+					<i class="fa fab fa-google mr-5" aria-hidden="true"></i><span
+						class="dashicons dashicons-googleplus mr-5"></span><?php _e( 'Continue with Google', 'sb-core' ); ?>
 				</button>
 				<?php
 			}
@@ -70,9 +73,10 @@ function hocwp_ext_account_connect_social_buttons() {
 				?>
 				<button id="connect-facebook"
 				        title="<?php _e( 'Sign up with your Facebook account', 'sb-core' ); ?>"
-				        class="btn btn-primary connect-facebook" data-login="1" type="button">
-					<i class="fa fa-facebook"
-					   aria-hidden="true"></i><span class="dashicons dashicons-facebook"></span><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
+				        class="btn btn-primary connect-facebook w-full" data-login="1" type="button">
+					<i class="fa fab fa-facebook-f mr-5"
+					   aria-hidden="true"></i><span
+						class="dashicons dashicons-facebook mr-5"></span><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
 				</button>
 				<?php
 			}
@@ -108,12 +112,14 @@ function hocwp_ext_account_connect_social_buttons() {
 				}
 
 				function initClient() {
-					gapi.client.init({
+					var settings = {
 						apiKey: apiKey,
 						discoveryDocs: discoveryDocs,
 						clientId: clientId,
 						scope: scopes
-					}).then(function () {
+					};
+
+					gapi.client.init(settings).then(function () {
 						gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 						authorizeButton.onclick = handleAuthClick;
 					});
@@ -223,13 +229,14 @@ add_action( 'lostpassword_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 
 function hocwp_ext_connected_socials_horizontal_bar() {
 	$options = HT_Util()->get_theme_options( 'account' );
-	$cs      = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
+
+	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
 
 	if ( 1 != $cs ) {
 		return '';
 	}
 
-	return '<div class="social-wrapper-title ng-scope"><span>' . _x( 'Or', 'connected socials', 'sb-core' ) . '</span></div>';
+	return '<div class="social-wrapper-title ng-scope text-center mt-10 mb-10"><span>' . _x( 'Or', 'connected socials', 'sb-core' ) . '</span></div>';
 }
 
 function hocwp_ext_account_add_connect_social_buttons() {
@@ -245,7 +252,7 @@ function hocwp_ext_account_wp_authenticate_user( $user ) {
 		$options = HT_Util()->get_theme_options( 'account' );
 		$captcha = isset( $options['captcha'] ) ? $options['captcha'] : '';
 
-		if ( 1 == $captcha ) {
+		if ( 1 == $captcha && HTE_Account()->check_recaptcha_config_valid() ) {
 			$response = HT_Util()->recaptcha_valid();
 
 			if ( ! $response ) {
@@ -259,32 +266,11 @@ function hocwp_ext_account_wp_authenticate_user( $user ) {
 
 add_filter( 'wp_authenticate_user', 'hocwp_ext_account_wp_authenticate_user' );
 
-function hocwp_ext_account_registration_errors( $errors ) {
-	$options = HT_Util()->get_theme_options( 'account' );
-	$captcha = isset( $options['captcha'] ) ? $options['captcha'] : '';
-
-	if ( 1 == $captcha ) {
-		$response = HT_Util()->recaptcha_valid();
-
-		if ( ! $response ) {
-			if ( ! is_wp_error( $errors ) || ! ( $errors instanceof WP_Error ) ) {
-				$errors = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
-			} else {
-				$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
-			}
-		}
-	}
-
-	return $errors;
-}
-
-add_filter( 'registration_errors', 'hocwp_ext_account_registration_errors' );
-
 function hocwp_ext_account_lostpassword_post( $errors ) {
 	$options = HT_Util()->get_theme_options( 'account' );
 	$captcha = isset( $options['captcha'] ) ? $options['captcha'] : '';
 
-	if ( 1 == $captcha ) {
+	if ( 1 == $captcha && HTE_Account()->check_recaptcha_config_valid() ) {
 		$response = HT_Util()->recaptcha_valid();
 
 		if ( ! $response ) {

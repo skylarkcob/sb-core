@@ -4,7 +4,7 @@ Plugin Name: Extensions by HocWP Team
 Plugin URI: http://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
-Version: 2.1.4
+Version: 2.3.2
 Author URI: http://hocwp.net/
 Donate link: http://hocwp.net/donate/
 Text Domain: sb-core
@@ -15,10 +15,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+define( 'HOCWP_EXT_VERSION', '2.3.3' );
 define( 'HOCWP_EXT_FILE', __FILE__ );
 define( 'HOCWP_EXT_PATH', dirname( HOCWP_EXT_FILE ) );
 define( 'HOCWP_EXT_URL', plugins_url( '', HOCWP_EXT_FILE ) );
-define( 'HOCWP_EXT_REQUIRE_THEME_CORE_VERSION', '6.4.3' );
+define( 'HOCWP_EXT_REQUIRE_THEME_CORE_VERSION', '6.6.0' );
+
+/*
+ * Check current PHP version.
+ */
+$php_version = phpversion();
+
+$require_version = '5.6';
+
+if ( version_compare( $php_version, $require_version, '<' ) ) {
+	if ( ! function_exists( 'deactivate_plugins' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+
+	$msg   = sprintf( __( '<strong>Error:</strong> You are using PHP version %s, please upgrade PHP version to at least %s.', 'sb-core' ), $php_version, $require_version );
+	$title = __( 'Invalid PHP Version', 'sb-core' );
+
+	$args = array(
+		'back_link' => admin_url( 'plugins.php' )
+	);
+
+	wp_die( $msg, $title, $args );
+	exit;
+}
+
+unset( $php_version, $require_version );
 
 final class SB_Core {
 	protected static $instance;
@@ -39,31 +67,57 @@ final class SB_Core {
 
 	public $plugin_basename;
 
+	private function check_requirements() {
+		if ( ! $this->check_theme() ) {
+			add_action( 'admin_notices', array( $this, 'check_theme_notices' ) );
+
+			return false;
+		}
+
+		if ( ! defined( 'HOCWP_THEME_CORE_VERSION' ) ) {
+			add_action( 'admin_notices', array( $this, 'check_theme_core_notices' ) );
+
+			return false;
+		}
+
+		if ( version_compare( HOCWP_THEME_CORE_VERSION, $this->require_theme_core_version, '<' ) || ! function_exists( 'HT_extension' ) ) {
+			global $pagenow;
+
+			if ( ! is_admin() && 'wp-login.php' != $pagenow ) {
+				$title = __( 'Invalid Theme Core Version', 'sb-core' );
+				$name  = get_file_data( __FILE__, array( 'Name' => 'Plugin Name' ) );
+				$name  = isset( $name['Name'] ) ? $name['Name'] : $this->plugin_basename;
+				$msg   = sprintf( __( '<strong>Error:</strong> Plugin <code>%s</code> requires theme core version <code>%s</code> or higher. Please upgrade your theme or downgrade this plugin to older version.', 'sb-core' ), $name, $this->require_theme_core_version );
+				wp_die( $msg, $title, array( 'back_link' => admin_url( 'plugins.php' ) ) );
+				exit;
+			}
+
+			add_action( 'admin_notices', array( $this, 'check_theme_core_notices' ) );
+			require $this->path . '/inc/back-compat.php';
+
+			return false;
+		}
+
+		return true;
+	}
+
 	public function __construct() {
 		if ( self::$instance instanceof self ) {
 			return;
 		}
 
-		if ( ! $this->check_theme() ) {
-			add_action( 'admin_notices', array( $this, 'check_theme_notices' ) );
+		$this->plugin_basename = plugin_basename( $this->file );
 
+		if ( ! $this->check_requirements() ) {
 			return;
 		}
 
-		$this->plugin_basename = plugin_basename( $this->file );
-
-		add_action( 'hocwp_theme_setup_after', array( $this, 'load' ) );
+		add_action( 'hocwp_theme_setup_after', array( $this, 'load' ), 99 );
 
 		add_filter( 'plugin_action_links_' . $this->plugin_basename, array(
 			$this,
 			'plugin_action_links_filter'
 		) );
-
-		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
-	}
-
-	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'sb-core', false, basename( $this->path ) . '/languages' );
 	}
 
 	public function plugin_action_links_filter( $links ) {
@@ -73,19 +127,6 @@ final class SB_Core {
 	}
 
 	public function load() {
-		if ( ! defined( 'HOCWP_THEME_CORE_VERSION' ) ) {
-			add_action( 'admin_notices', array( $this, 'check_theme_core_notices' ) );
-
-			return;
-		}
-
-		if ( version_compare( HOCWP_THEME_CORE_VERSION, $this->require_theme_core_version, '<' ) || ! function_exists( 'HT_extension' ) ) {
-			add_action( 'admin_notices', array( $this, 'check_theme_core_notices' ) );
-			require $this->path . '/inc/back-compat.php';
-
-			return;
-		}
-
 		if ( defined( 'HOCWP_THEME_DEVELOPING' ) && HOCWP_THEME_DEVELOPING ) {
 			require $this->path . '/inc/functions-development.php';
 		}
@@ -93,7 +134,9 @@ final class SB_Core {
 		add_filter( 'hocwp_theme_extension_paths', array( $this, 'extension_paths_filter' ) );
 
 		if ( function_exists( 'HOCWP_Theme' ) ) {
-			HOCWP_Theme()->load_extensions( HOCWP_EXT_PATH );
+			add_action( 'after_setup_theme', function () {
+				HOCWP_Theme()->load_extensions( HOCWP_EXT_PATH );
+			}, 99 );
 		}
 
 		add_action( 'init', array( $this, 'register_custom_post_types_and_taxonomies' ) );
@@ -116,7 +159,7 @@ final class SB_Core {
 				$post_type = isset( $data['post_type'] ) ? $data['post_type'] : '';
 
 				if ( ! empty( $post_type ) ) {
-					$args = isset( $data['args'] ) ? $data['args'] : '';
+					$args = isset( $data['args'] ) ? $data['args'] : $data;
 
 					$args = HT_Util()->taxonomy_args( $args );
 
@@ -160,7 +203,8 @@ final class SB_Core {
 	}
 
 	public function check_theme_notices() {
-		$msg = __( '<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as <code>hocwp-theme</code>.', 'sb-core' );
+		$msg = __( '<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as <code>hocwp-theme</code>, you can change your theme <a href="%s">here</a>.', 'sb-core' );
+		$msg = sprintf( $msg, admin_url( 'themes.php' ) );
 		?>
 		<div class="alert alert-error updated error is-dismissible alert-danger">
 			<?php echo wpautop( $msg ); ?>
@@ -173,6 +217,23 @@ function SB_Core() {
 	return SB_Core::get_instance();
 }
 
-add_action( 'plugins_loaded', function () {
+function sb_core_start_instance() {
 	SB_Core();
-} );
+}
+
+add_action( 'hocwp_theme_setup', 'sb_core_start_instance' );
+
+$stylesheet = get_option( 'stylesheet' );
+
+if ( 'hocwp-theme' !== $stylesheet ) {
+	add_action( 'plugins_loaded', 'sb_core_start_instance' );
+}
+
+function sb_core_load_plugin_textdomain() {
+	$path = basename( dirname( __FILE__ ) ) . '/languages';
+	load_plugin_textdomain( 'sb-core', false, $path );
+
+	unset( $path );
+}
+
+add_action( 'plugins_loaded', 'sb_core_load_plugin_textdomain', 99 );

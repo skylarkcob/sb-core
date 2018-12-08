@@ -45,6 +45,8 @@ if ( empty( $thumbnail ) && HT()->is_positive_number( $post_id ) ) {
 if ( ! empty( $thumbnail ) ) {
 	$poster = $thumbnail;
 }
+
+$player = isset( $_GET['player'] ) ? $_GET['player'] : 'jwplayer';
 ?>
 <!DOCTYPE html>
 <html style="margin: 0 !important; padding: 0 !important;">
@@ -66,28 +68,42 @@ if ( ! empty( $thumbnail ) ) {
 <body>
 <div class="embedded">
 	<?php
-	if ( HT_Util()->get_theme_option( 'jwplayer', '', HTE_Media_Player()->option_name ) ) {
-		do_action( 'hocwp_theme_extension_media_player_load_jwplayer', $src, $poster, $post_id );
+	$html = apply_filters( 'hocwp_theme_extension_media_player_html', '', $src, $post_id, $post_id );
+
+	if ( empty( $html ) ) {
+		if ( HTE_Media_Player()->use_jwplayer() ) {
+			do_action( 'hocwp_theme_extension_media_player_load_jwplayer', $src, $poster, $post_id );
+		} else {
+			if ( empty( $html ) ) {
+				if ( 'mediaelementplayer' == $player ) {
+					?>
+					<video id="videoPlayer" controls>
+						<source src="<?php echo esc_url( $src ); ?>">
+					</video>
+					<script>
+						jQuery(document).ready(function ($) {
+							$('#videoPlayer').mediaelementplayer({
+								videoWidth: "100%",
+								videoHeight: "100%",
+								enableAutosize: true,
+								controls: true,
+								success: function (mediaElement, originalNode, instance) {
+									instance.setPoster("<?php echo $poster; ?>");
+								}
+							});
+						});
+					</script>
+					<?php
+				} elseif ( 'dplayer' == $player ) {
+					do_action( 'hocwp_theme_extension_media_player_load_dplayer', $src, $poster, $post_id );
+				}
+			}
+		}
 	} else {
-		?>
-		<video id="videoPlayer" controls>
-			<source src="<?php echo esc_url( $src ); ?>">
-		</video>
-		<script>
-			jQuery(document).ready(function ($) {
-				$('#videoPlayer').mediaelementplayer({
-					videoWidth: "100%",
-					videoHeight: "100%",
-					enableAutosize: true,
-					controls: true,
-					success: function (mediaElement, originalNode, instance) {
-						instance.setPoster("<?php echo $poster; ?>");
-					}
-				});
-			});
-		</script>
-		<?php
+		echo $html;
 	}
+
+	do_action( 'hocwp_theme_extension_media_player_load_player', $src, $poster, $post_id );
 	?>
 </div>
 <?php do_action( 'hocwp_theme_extension_media_player_footer' ); ?>

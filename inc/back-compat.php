@@ -85,7 +85,7 @@ if ( ! function_exists( 'hocwp_load_all_extensions' ) && ! function_exists( 'HOC
 }
 
 if ( is_admin() ) {
-	require HOCWP_EXT_PATH . '/inc/admin.php';
+	require HOCWP_EXT_PATH . '/inc/back-compat/admin.php';
 } else {
-	require HOCWP_EXT_PATH . '/inc/frontend.php';
+	require HOCWP_EXT_PATH . '/inc/back-compat/frontend.php';
 }

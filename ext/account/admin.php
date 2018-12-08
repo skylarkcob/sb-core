@@ -29,20 +29,29 @@ function hocwp_ext_account_admin_scripts() {
 	global $pagenow;
 
 	if ( 'profile.php' == $pagenow ) {
-		$args = array(
-			'load' => true
-		);
+		wp_enqueue_script( 'hocwp-theme' );
 
-		HT_Util()->load_facebook_javascript_sdk( $args );
 		wp_enqueue_script( 'hocwp-ext-connected-accounts' );
 	}
 }
 
 add_action( 'admin_enqueue_scripts', 'hocwp_ext_account_admin_scripts' );
 
+function hocwp_ext_account_admin_footer() {
+	global $pagenow;
+
+	if ( 'profile.php' == $pagenow ) {
+		HTE_Account()->load_facebook_sdk();
+	}
+}
+
+add_action( 'admin_footer', 'hocwp_ext_account_admin_footer' );
+
 function hocwp_ext_account_connect_social_ajax_callback() {
 	global $hocwp_theme;
-	$type        = HT()->get_method_value( 'type' );
+
+	$type = HT()->get_method_value( 'type' );
+
 	$social_data = HT()->get_method_value( 'social_data' );
 	$disconnect  = HT()->get_method_value( 'disconnect' );
 
@@ -50,10 +59,12 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 	$data    = array();
 
 	if ( ! empty( $type ) && ( $social_data || 1 == $disconnect ) ) {
-		$login       = HT()->get_method_value( 'login' );
-		$type        = strtolower( $type );
+		$login = HT()->get_method_value( 'login' );
+		$type  = strtolower( $type );
+
 		$profile_key = $type . '_profile';
-		$id_key      = $type . '_id';
+
+		$id_key = $type . '_id';
 
 		$id = HT()->get_method_value( 'id' );
 
@@ -109,6 +120,10 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 						$user_data['user_email'] = $email;
 
 						$user_id = wp_insert_user( $user_data );
+
+						if ( HT()->is_positive_number( $user_id ) ) {
+							do_action( 'hocwp_theme_extension_account_user_added', $user_id );
+						}
 					} else {
 						$user_id = new WP_Error( 'registration_not_allowed', __( 'This site does not allow users to register.', 'sb-core' ) );
 					}
@@ -118,6 +133,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 			if ( HT()->is_positive_number( $user_id ) ) {
 				wp_set_auth_cookie( $user_id, true );
 				update_user_meta( $user_id, 'last_login', time() );
+				do_action( 'hocwp_theme_extension_account_user_logged_in', $user_id );
 			}
 		}
 

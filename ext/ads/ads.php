@@ -20,15 +20,7 @@ function hocwp_ext_ads_register_object() {
 add_action( 'init', 'hocwp_ext_ads_register_object', 0 );
 
 function hocwp_ext_get_ads_positions() {
-	global $hocwp_theme;
-
-	if ( ! isset( $hocwp_theme->ads_positions ) || ! is_array( $hocwp_theme->ads_positions ) ) {
-		$hocwp_theme->ads_positions = array();
-	}
-
-	$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'sb-core' );
-
-	return apply_filters( 'hocwp_theme_ads_positions', $hocwp_theme->ads_positions );
+	return HTE_Ads()->get_positions();
 }
 
 if ( is_admin() ) {

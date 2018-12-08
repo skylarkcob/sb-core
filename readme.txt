@@ -4,7 +4,7 @@ Donate link: http://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 4.8
 Tested up to: 4.9
-Stable tag: 2.1.4
+Stable tag: 2.3.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -52,10 +52,101 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 1. The list extensions for using in theme.
 2. Change or remove base slug for custom post type and taxonomy.
 
-== Upgrade Notice ==
-This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
-
 == Changelog ==
+= 2.3.2 =
+* 09/12/2018: Now developer can filter author contact info in VIP Management extension.
+* 09/12/2018: Check image upload first by Javascript in Add Post Frontend extension.
+* 09/12/2018: Force code get meta address first in Add Post Frontend extension.
+* 09/12/2018: Add filter enable/disable price and acreage meta in Add Post Frontend extension.
+* 09/12/2018: Allow user select taxonomies which allow author choose one term in Add Post Frontend extension.
+* 07/12/2018: Update get administrative boundary for Classifieds extension, now It requires theme core version 6.6.1.
+* 07/12/2018: Add some section description for Account extension setting page.
+* 29/11/2018: Update style for frontend account profile page. Update style for add post and vip post from frontend page. Add functions for enable or disable upload post thumbnail, insert media post frontend.
+* 29/11/2018: Add functions for use combobox in add post frontend. Add ajax autocomplete for nonhierarchical taxonomies input. Support query VIP post in RSS Feed.
+* 29/11/2018: Now require theme core version 6.6.0, so please update your theme before use new plugin version.
+* 29/11/2018: Update Anime Episode page attributes.
+* Requires Theme Core version 6.5.8.
+* Update Account extension.
+* Update VIP Management extension.
+* Update Anime extension.
+* Update custom update profile page style.
+* Update redirect to url when users login or signup.
+* Add current password to profile page.
+* Only show vip post added message for vip content.
+* Make account extension loads scripts as priority 99.
+* Check errors before insert post frontend.
+* Check user data errors before registration.
+
+= 2.3.1 =
+* Update VIP Management extension.
+* Update Account extension.
+* Update Add Post Frontend extension.
+* Update Classifieds extension.
+* Update Google Maps extension.
+
+= 2.3.0 =
+* Stop support for PHP version below 5.6.
+
+= 2.2.9 =
+* Fix Account extension.
+* Update Anime extension.
+* Add shortcode supports for Ads extension.
+
+= 2.2.8 =
+* Update Classifieds extension.
+* Add function for creating custom login page.
+* Update Google Maps extension.
+
+= 2.2.7 =
+* Add extension Google Maps.
+* Update extension Account;
+* Update extension Add Post Frontend.
+* Update extension Ads.
+* Update extension Anime.
+* Update extension Classifieds.
+* Update extension Media Player.
+* Update extension VIP Management.
+
+= 2.2.6 =
+* Add function to init SB Core when HocWP Theme not activated.
+* Add Classifieds extension.
+* Update Google Code Prettify extension.
+
+= 2.2.5 =
+* Update Media Player extension.
+
+= 2.2.4 =
+* Update Link Manager extension.
+
+= 2.2.3 =
+* Add function to manage bookmark links.
+
+= 2.2.2 =
+* Add RSS Feed extension for user can customize what post type appears on site feed.
+
+= 2.2.1 =
+* Add Trending extension.
+* Update development functions.
+
+= 2.2.0 =
+* Update Ads extension. Allow third party custom query args.
+
+= 2.1.9 =
+* Update Media Player extension.
+
+= 2.1.8 =
+* Update register taxonomy function.
+* Update check theme and core requirements.
+
+= 2.1.7 =
+* Fix check class and function exists.
+
+= 2.1.6 =
+* Fix bugs.
+
+= 2.1.5 =
+* Fix bugs on theme old version.
+
 = 2.1.4 =
 * Update extension to OOP. Now you can add new extension by declare a class.
 * Allow theme to add custom post types and custom taxonomies.
@@ -395,6 +486,13 @@ This plugin only supports for theme which is created by HocWP Team since version
 
 = 1.0.0 =
 * First release of this plugin.
+
+== Upgrade Notice ==
+= 2.2.8 =
+Please read changelog first before you update this plugin.
+
+= 2.0.0 =
+This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
 
 == Updates ==
 Updates to the plugin will be posted on [www.hocwp.net](https://hocwp.net/) and the [Extensions by HocWP Team homepage](https://wordpress.org/plugins/sb-core/) will always link to the newest version.

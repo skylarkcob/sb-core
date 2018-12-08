@@ -1,8 +1,10 @@
 jQuery(document).ready(function ($) {
     var body = $("body");
+
     (function () {
         function hocwp_theme_control_disabled_button(button, disabled) {
             disabled = (typeof disabled === "number") ? disabled : 1;
+
             if (1 === disabled) {
                 button.prop("disabled", true);
                 button.addClass("disabled");
@@ -16,7 +18,9 @@ jQuery(document).ready(function ($) {
             var defaults = {
                 action: "hocwp_theme_connect_social"
             };
+
             var options = Object.assign({}, defaults, ajaxData);
+
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -34,29 +38,34 @@ jQuery(document).ready(function ($) {
         function hocwp_theme_connect_with_facebook(element, ajaxData, successCallback) {
             var defaults = {
                 type: "facebook",
-                social_data: '',
+                social_data: "",
                 disconnect: 0,
-                id: '',
-                login: ''
+                id: "",
+                login: ""
             };
+
             var options = Object.assign({}, defaults, ajaxData);
-            FB.login(function (response) {
-                if (response.authResponse) {
-                    FB.api("/me", {fields: "id,name,first_name,last_name,gender,picture,verified,email,birthday"}, function (response) {
-                        options.social_data = response;
-                        options.id = response.id;
-                        hocwp_theme_connect_social_ajax(element, options, successCallback);
-                    });
-                }
-            }, {scope: "email,public_profile"});
+
+            if ("object" == typeof FB) {
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        FB.api("/me", {fields: "id,name,first_name,last_name,gender,picture,verified,email,birthday"}, function (response) {
+                            options.social_data = response;
+                            options.id = response.id;
+                            hocwp_theme_connect_social_ajax(element, options, successCallback);
+                        });
+                    }
+                }, {scope: "email,public_profile"});
+            }
         }
 
         function hocwp_theme_facebook_login_callback(response) {
             if (response.success) {
-                if ($.trim(response.data.redirect_to)) {
+                if (response.data && $.trim(response.data.redirect_to)) {
                     window.location.href = response.data.redirect_to;
                 } else {
                     var inputRedirectTo = $("input[name='redirect_to']");
+
                     if (inputRedirectTo.length && $.trim(inputRedirectTo.val())) {
                         window.location.href = inputRedirectTo.val();
                     } else {
@@ -75,6 +84,7 @@ jQuery(document).ready(function ($) {
                 var container = element.parent();
                 element.text(element.attr("data-disconnect-text"));
                 element.attr("data-connect", 1);
+
                 if (response.data.html) {
                     element = element.detach();
                     container.html(response.data.html);
@@ -99,10 +109,13 @@ jQuery(document).ready(function ($) {
 
         body.on("click", "button.connect-facebook", function (e) {
             e.preventDefault();
+
             var element = $(this),
                 login = parseInt(element.attr("data-login")),
                 connect = parseInt(element.attr("data-connect"));
+
             hocwp_theme_control_disabled_button(element);
+
             if (1 === login) {
                 hocwp_theme_connect_with_facebook(element, {login: login}, hocwp_theme_facebook_login_callback);
             } else {
@@ -117,6 +130,7 @@ jQuery(document).ready(function ($) {
                         id: '',
                         login: ''
                     };
+
                     hocwp_theme_connect_social_ajax(element, options, hocwp_theme_facebook_disconnect_callback);
                 }
             }
