@@ -14,7 +14,7 @@ if ( ! is_user_logged_in() ) {
 	return;
 }
 
-$user    = wp_get_current_user();
+$user    = HTE_Account()->user;
 $user_id = $user->ID;
 
 $contacts = wp_get_user_contact_methods( $user_id );

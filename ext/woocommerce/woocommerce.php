@@ -9,7 +9,7 @@ define( 'HOCWP_EXT_WC_URL', HOCWP_EXT_URL . '/ext/woocommerce' );
 require HOCWP_EXT_WC_PATH . '/functions.php';
 
 function hocwp_theme_woocommerce_support() {
-	add_theme_support( 'woocommerce' );
+
 }
 
 add_action( 'after_setup_theme', 'hocwp_theme_woocommerce_support' );

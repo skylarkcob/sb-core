@@ -25,13 +25,15 @@ function hocwp_ext_account_profile_fields( $user ) {
 add_action( 'show_user_profile', 'hocwp_ext_account_profile_fields' );
 add_action( 'edit_user_profile', 'hocwp_ext_account_profile_fields' );
 
+/*
+ * Load styles and scripts on back-end.
+ */
 function hocwp_ext_account_admin_scripts() {
 	global $pagenow;
 
 	if ( 'profile.php' == $pagenow ) {
-		wp_enqueue_script( 'hocwp-theme' );
-
-		wp_enqueue_script( 'hocwp-ext-connected-accounts' );
+		HTE_Account()->load_connected_socials_script();
+		HTE_Account()->load_facebook_account_kit_script();
 	}
 }
 
@@ -115,11 +117,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 
 				if ( is_email( $email ) ) {
 					if ( $hocwp_theme->users_can_register ) {
-						$user_data['user_pass']  = wp_generate_password();
-						$user_data['user_login'] = $email;
-						$user_data['user_email'] = $email;
-
-						$user_id = wp_insert_user( $user_data );
+						$user_id = wp_create_user( $email, wp_generate_password(), $email );
 
 						if ( HT()->is_positive_number( $user_id ) ) {
 							do_action( 'hocwp_theme_extension_account_user_added', $user_id );
@@ -132,8 +130,6 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 
 			if ( HT()->is_positive_number( $user_id ) ) {
 				wp_set_auth_cookie( $user_id, true );
-				update_user_meta( $user_id, 'last_login', time() );
-				do_action( 'hocwp_theme_extension_account_user_logged_in', $user_id );
 			}
 		}
 
@@ -213,3 +209,256 @@ function hocwp_ext_account_admin_notices_action() {
 }
 
 add_action( 'admin_notices', 'hocwp_ext_account_admin_notices_action' );
+
+/*
+ * Login or register with Facebook account kit AJAX callback.
+ * Connect or disconnect phone number and email address AJAX callback.
+ */
+function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
+	$data = array(
+		'message' => __( 'There was an error occurred, please try again.', 'sb-core' )
+	);
+
+	$do_action = HT()->get_method_value( 'do_action' );
+
+	if ( 'disconnect-email' == $do_action ) {
+		$email = HT()->get_method_value( 'email' );
+
+		$user = get_user_by( 'email', $email );
+
+		if ( $user instanceof WP_User ) {
+			$fac = HTE_Account()->get_user_facebook_account_kit();
+
+			unset( $fac['email'] );
+			HTE_Account()->update_user_facebook_account_kit( $fac, $user->ID );
+
+			$data['message'] = __( 'Your email address has been disconnected successfully.', 'sb-core' );
+			wp_send_json_success( $data );
+		}
+
+		wp_send_json_error( $data );
+	} elseif ( 'disconnect-phone' == $do_action ) {
+		$user_id = HT()->get_method_value( 'user_id' );
+
+		$user = get_user_by( 'ID', $user_id );
+
+		if ( $user instanceof WP_User ) {
+			$fac = HTE_Account()->get_user_facebook_account_kit();
+
+			unset( $fac['phone'] );
+			HTE_Account()->update_user_facebook_account_kit( $fac, $user->ID );
+
+			$data['message'] = __( 'Your phone number has been disconnected successfully.', 'sb-core' );
+			wp_send_json_success( $data );
+		}
+
+		wp_send_json_error( $data );
+	}
+
+	$csrf = HT()->get_method_value( 'csrf' );
+
+	if ( ! wp_verify_nonce( $csrf, 'hte_facebook_account_kit' ) ) {
+		$data['message'] = __( 'Invalid nonce', 'sb-core' );
+		wp_send_json_error( $data );
+	}
+
+	$app_id = HT()->get_method_value( 'app_id' );
+
+	$app_secret = HT()->get_method_value( 'app_secret' );
+
+	$token = 'AA|' . $app_id . '|' . $app_secret;
+
+	$api_version = HT()->get_method_value( 'api_version' );
+
+	$code = HT()->get_method_value( 'code' );
+
+	$url = 'https://graph.accountkit.com/' . $api_version . '/access_token';
+
+	$params = array(
+		'grant_type'   => 'authorization_code',
+		'code'         => $code,
+		'access_token' => $token
+	);
+
+	$url = add_query_arg( $params, $url );
+
+	$remote = wp_remote_get( $url );
+	$body   = wp_remote_retrieve_body( $remote );
+	$result = json_decode( $body );
+
+	if ( is_object( $result ) && isset( $result->access_token ) ) {
+		$appsecret_proof = hash_hmac( 'sha256', $result->access_token, $app_secret );
+
+		$url = 'https://graph.accountkit.com/' . $api_version . '/me';
+
+		$params = array(
+			'access_token'    => $result->access_token,
+			'appsecret_proof' => $appsecret_proof
+		);
+
+		$url = add_query_arg( $params, $url );
+
+		$remote = wp_remote_get( $url );
+		$body   = wp_remote_retrieve_body( $remote );
+		$result = json_decode( $body );
+
+		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+
+		if ( is_object( $result ) && isset( $result->id ) ) {
+			if ( 'login' == $do_action ) {
+				$user = '';
+
+				if ( isset( $result->phone ) ) {
+					$args = array(
+						'meta_query' => array(
+							'relation' => 'OR',
+							array(
+								'key'   => 'phone',
+								'value' => $result->phone->national_number
+							),
+							array(
+								'key'   => 'phone',
+								'value' => '0' . $result->phone->national_number
+							)
+						)
+					);
+
+					$query = new WP_User_Query( $args );
+					$users = $query->get_results();
+					$user  = current( $users );
+				} elseif ( isset( $result->email ) ) {
+					$user = get_user_by( 'email', $result->email->address );
+				}
+
+				// Find user with email address or phone number
+				if ( $user instanceof WP_User ) {
+					$facebook_account_kit = HTE_Account()->get_user_facebook_account_kit();
+
+					if ( is_array( $facebook_account_kit ) ) {
+						if ( ( isset( $facebook_account_kit['phone'] ) && isset( $result->phone ) && $result->phone->national_number == $facebook_account_kit['phone'] ) || ( isset( $facebook_account_kit['email'] ) && isset( $result->email ) && $result->email->address == $facebook_account_kit['email'] ) ) {
+							wp_set_auth_cookie( $user->ID, true );
+							$data['message'] = __( 'You have been logged in successfully.', 'sb-core' );
+
+							$redirect_to = apply_filters( 'login_redirect', get_edit_profile_url( $user->ID ), $requested_redirect_to, $user );
+
+							$data['redirect_to'] = $redirect_to;
+
+							wp_send_json_success( $data );
+						}
+					}
+
+					if ( isset( $result->email ) ) {
+						$data['message'] = __( 'Your email address is not connected.', 'sb-core' );
+					} elseif ( isset( $result->phone ) ) {
+						$data['message'] = __( 'Your phone number is not connected.', 'sb-core' );
+					} else {
+						$data['message'] = __( 'Your phone number or email address is not connected.', 'sb-core' );
+					}
+				} else {
+					global $hocwp_theme;
+
+					if ( $hocwp_theme->users_can_register ) {
+						if ( isset( $result->phone ) ) {
+							$data['message'] = __( 'Your phone number is not connected.', 'sb-core' );
+						} elseif ( isset( $result->email ) ) {
+							$user_id = wp_create_user( $result->email->address, wp_generate_password(), $result->email->address );
+
+							if ( HT()->is_positive_number( $user_id ) ) {
+								$fac = array(
+									'id'    => $result->id,
+									'email' => $result->email->address
+								);
+
+								HTE_Account()->update_user_facebook_account_kit( $fac, $user_id );
+
+								do_action( 'hocwp_theme_extension_account_user_added', $user_id );
+								wp_set_auth_cookie( $user_id, true );
+
+								$data['message'] = __( 'Your account has been created successfully.', 'sb-core' );
+
+								$redirect_to = apply_filters( 'login_redirect', get_edit_profile_url( $user_id ), $requested_redirect_to, get_user_by( 'ID', $user_id ) );
+
+								$data['redirect_to'] = $redirect_to;
+
+								wp_send_json_success( $data );
+							}
+
+							$data['message'] = __( 'Cannot create user.', 'sb-core' );
+						}
+					} else {
+						$data['message'] = __( 'This site does not allow users to register.', 'sb-core' );
+					}
+				}
+			} elseif ( 'connect-email' == $do_action ) {
+				$user_id = HT()->get_method_value( 'user_id' );
+
+				if ( HT()->is_positive_number( $user_id ) && isset( $result->email ) && isset( $result->email->address ) && is_email( $result->email->address ) ) {
+					$user = get_user_by( 'ID', $user_id );
+
+					if ( $user instanceof WP_User ) {
+						if ( $result->email->address == $user->user_email ) {
+							$fac = HTE_Account()->get_user_facebook_account_kit();
+
+							if ( ! is_array( $fac ) ) {
+								$fac = array(
+									'id' => $result->id
+								);
+							}
+
+							$fac['email'] = $user->user_email;
+
+							HTE_Account()->update_user_facebook_account_kit( $fac, $user_id );
+
+							$data['message'] = __( 'Your email address has been connected successfully.', 'sb-core' );
+							wp_send_json_success( $data );
+						}
+					}
+				}
+			} elseif ( 'connect-phone' == $do_action ) {
+				$user_id = HT()->get_method_value( 'user_id' );
+
+				if ( HT()->is_positive_number( $user_id ) && isset( $result->phone ) && isset( $result->phone->national_number ) && ! empty( $result->phone->national_number ) ) {
+					$user = get_user_by( 'ID', $user_id );
+
+					if ( $user instanceof WP_User ) {
+						$fac = HTE_Account()->get_user_facebook_account_kit();
+
+						if ( ! is_array( $fac ) ) {
+							$fac = array(
+								'id' => $result->id
+							);
+						}
+
+						$fac['phone']          = $result->phone->national_number;
+						$fac['country_prefix'] = $result->phone->country_prefix;
+
+						HTE_Account()->update_user_facebook_account_kit( $fac, $user_id );
+
+						$phone = get_user_meta( $user_id, 'phone', true );
+
+						if ( empty( $phone ) ) {
+							update_user_meta( $user_id, 'phone', $fac['phone'] );
+						}
+
+						$data['message'] = __( 'Your phone number has been connected successfully.', 'sb-core' );
+						wp_send_json_success( $data );
+					}
+				}
+			}
+		}
+	}
+
+	wp_send_json_error( $data );
+}
+
+function hocwp_ext_account_admin_head_action() {
+	global $pagenow;
+
+	if ( 'profile.php' == $pagenow ) {
+		if ( HTE_Account()->facebook_account_kit_enabled() ) {
+			hocwp_ext_account_facebook_account_kit_sdk();
+		}
+	}
+}
+
+add_action( 'admin_head', 'hocwp_ext_account_admin_head_action' );

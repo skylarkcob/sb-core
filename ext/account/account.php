@@ -10,11 +10,62 @@ require HOCWP_EXT_ACCOUNT_PATH . '/functions.php';
 
 global $pagenow;
 
+/*
+ * Register all styles and scripts for admin, login and front-end page.
+ */
 function hocwp_ext_account_global_scripts() {
 	wp_register_script( 'hocwp-ext-connected-accounts', HOCWP_EXT_URL . '/js/connected-accounts' . HOCWP_THEME_JS_SUFFIX, array(
 		'jquery',
 		'hocwp-theme'
 	), false, true );
+
+	wp_register_script( 'hocwp-ext-facebook-account-kit', HOCWP_EXT_URL . '/js/facebook-account-kit' . HOCWP_THEME_JS_SUFFIX, array(
+		'jquery',
+		'hocwp-theme',
+		'hocwp-theme-ajax-button'
+	), false, true );
+
+	$options = HT_Util()->get_theme_options( 'account' );
+
+	$country_code = isset( $options['fac_country_code'] ) ? $options['fac_country_code'] : '';
+	$country_code = str_replace( '+', '', $country_code );
+
+	$btn_connect_phone = hocwp_ext_account_connect_facebook_account_kit_button( 'connect-phone', __( 'Connect', 'sb-core' ), __( 'Connect phone number with Facebook account kit', 'sb-core' ) );
+	$btn_connect_email = hocwp_ext_account_connect_facebook_account_kit_button( 'connect-email', __( 'Connect', 'sb-core' ), __( 'Connect email address with Facebook account kit', 'sb-core' ) );
+
+	if ( is_user_logged_in() ) {
+		$user = HTE_Account()->user;
+
+		$fac = HTE_Account()->get_user_facebook_account_kit();
+
+		if ( is_array( $fac ) && isset( $fac['email'] ) && $user->user_email == $fac['email'] ) {
+			$btn_connect_email = hocwp_ext_account_connect_facebook_account_kit_button( 'disconnect-email', __( 'Disconnect', 'sb-core' ), __( 'Disconnect email address from Facebook account kit', 'sb-core' ) );
+		}
+
+		$phone = get_user_meta( $user->ID, 'phone', true );
+
+		if ( is_array( $fac ) && isset( $fac['phone'] ) && HTE_Account()->compare_phone_numbers( $phone, $fac['phone'] ) ) {
+			$btn_connect_phone = hocwp_ext_account_connect_facebook_account_kit_button( 'disconnect-phone', __( 'Disconnect', 'sb-core' ), __( 'Disconnect phone number from Facebook account kit', 'sb-core' ) );
+		}
+	}
+
+	$l10n = array(
+		'app_id'                   => HT_Options()->get_tab( 'facebook_app_id', '', 'social' ),
+		'nonce'                    => wp_create_nonce( 'hte_facebook_account_kit' ),
+		'api_version'              => isset( $options['fac_api_version'] ) ? $options['fac_api_version'] : '',
+		'display'                  => isset( $options['fac_display'] ) ? $options['fac_display'] : 'popup',
+		'debug'                    => HOCWP_THEME_DEVELOPING,
+		'country_code'             => $country_code,
+		'status_NOT_AUTHENTICATED' => __( 'Authentication failure', 'sb-core' ),
+		'status_BAD_PARAMS'        => __( 'Bad parameters', 'sb-core' ),
+		'app_secret'               => isset( $options['fac_app_secret'] ) ? $options['fac_app_secret'] : '',
+		'connect_phone_button'     => $btn_connect_phone,
+		'connect_email_button'     => $btn_connect_email,
+		'confirm_disconnect_email' => __( 'Are you sure you want to disconnect your email address?', 'sb-core' ),
+		'confirm_disconnect_phone' => __( 'Are you sure you want to disconnect your phone?', 'sb-core' )
+	);
+
+	wp_localize_script( 'hocwp-ext-facebook-account-kit', 'hteFacebookAccountKit', $l10n );
 }
 
 add_action( 'wp_enqueue_scripts', 'hocwp_ext_account_global_scripts' );
@@ -32,8 +83,10 @@ if ( 'wp-login.php' == $pagenow ) {
 	require HOCWP_EXT_ACCOUNT_PATH . '/default-login-page.php';
 }
 
-function hocwp_ext_account_connect_social_buttons() {
-	$options = HT_Util()->get_theme_options( 'account' );
+function hocwp_ext_account_connect_social_buttons( $options = '' ) {
+	if ( empty( $options ) ) {
+		$options = HT_Util()->get_theme_options( 'account' );
+	}
 
 	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
 
@@ -133,8 +186,10 @@ function hocwp_ext_account_connect_social_buttons() {
 						if (response.status === 200) {
 							var body = JSON.parse(response.body),
 								userID = body.resourceName.replace("people/", "");
+
 							(function ($) {
 								var element = $(authorizeButton);
+
 								$.ajax({
 									type: "POST",
 									dataType: "json",
@@ -153,6 +208,7 @@ function hocwp_ext_account_connect_social_buttons() {
 												window.location.href = response.data.redirect_to;
 											} else {
 												var inputRedirectTo = $("input[name='redirect_to']");
+
 												if (inputRedirectTo.length && $.trim(inputRedirectTo.val())) {
 													window.location.href = inputRedirectTo.val();
 												} else {
@@ -163,6 +219,7 @@ function hocwp_ext_account_connect_social_buttons() {
 											if ($.trim(response.data.message)) {
 												alert(response.data.message);
 											}
+
 											authorizeButton.onclick = handleAuthClick;
 										}
 									},
@@ -190,14 +247,59 @@ function hocwp_ext_account_connect_social_buttons() {
 	return '';
 }
 
-function hocwp_ext_account_login_form_top( $html, $args ) {
-	$html .= hocwp_ext_account_connect_social_buttons();
-	$html .= hocwp_ext_connected_socials_horizontal_bar();
+function hocwp_ext_account_facebook_account_kit_sdk() {
+	$locale = apply_filters( 'hocwp_theme_extension_facebook_account_kit_language', get_locale() );
 
-	return $html;
+	if ( 'vi' == $locale ) {
+		$locale = 'vi_VN';
+	}
+
+	echo PHP_EOL;
+	?>
+	<!-- HTTPS required. HTTP will give a 403 forbidden response -->
+	<script src="https://sdk.accountkit.com/<?php echo $locale; ?>/sdk.js"></script>
+	<?php
+	echo PHP_EOL;
 }
 
-add_filter( 'login_form_top', 'hocwp_ext_account_login_form_top', 10, 2 );
+function hocwp_ext_account_facebook_account_kit_button() {
+	ob_start();
+	?>
+	<p class="facebook-account-kit">
+		<button id="sms-or-email" title="<?php echo esc_attr( __( 'Connect SMS/Email', 'sb-core' ) ); ?>"
+		        class="btn btn-primary sms-or-email w-full"
+		        data-login="1" type="button">
+			<i class="fa fa-link mr-5" aria-hidden="true"></i>
+			<span class="dashicons dashicons-admin-links mr-5"></span>
+			<span><?php _e( 'Connect SMS/Email', 'sb-core' ); ?></span>
+		</button>
+	</p>
+	<div class="fac-popup verify-box">
+		<div class="inner">
+			<button class="close-btn" type="button">&times;</button>
+			<div class="buttons">
+				<button id="verify-phone" title="<?php echo esc_attr( __( 'Verify your phone number', 'sb-core' ) ); ?>"
+				        class="btn btn-primary verify-phone w-full"
+				        data-login="1" type="button">
+					<i class="fa fa-mobile mr-5" aria-hidden="true"></i>
+					<span class="dashicons dashicons-smartphone mr-5"></span>
+					<span><?php _e( 'Verify your phone number', 'sb-core' ); ?></span>
+				</button>
+				<button id="verify-email"
+				        title="<?php echo esc_attr( __( 'Verify your email address', 'sb-core' ) ); ?>"
+				        class="btn btn-primary verify-email w-full"
+				        data-login="1" type="button">
+					<i class="fa fa-envelope mr-5" aria-hidden="true"></i>
+					<span class="dashicons dashicons-email-alt mr-5"></span>
+					<span><?php _e( 'Verify your email address', 'sb-core' ); ?></span>
+				</button>
+			</div>
+			<?php hocwp_ext_account_facebook_account_kit_sdk(); ?>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
+}
 
 function hocwp_ext_account_add_recaptcha( $html, $args ) {
 	$options = HT_Util()->get_theme_options( 'account' );
@@ -228,24 +330,61 @@ add_action( 'register_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 add_action( 'lostpassword_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 
 function hocwp_ext_connected_socials_horizontal_bar() {
-	$options = HT_Util()->get_theme_options( 'account' );
-
-	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
-
-	if ( 1 != $cs ) {
-		return '';
-	}
-
 	return '<div class="social-wrapper-title ng-scope text-center mt-10 mb-10"><span>' . _x( 'Or', 'connected socials', 'sb-core' ) . '</span></div>';
 }
 
 function hocwp_ext_account_add_connect_social_buttons() {
-	echo hocwp_ext_connected_socials_horizontal_bar();
-	echo hocwp_ext_account_connect_social_buttons();
+	$options = HT_Util()->get_theme_options( 'account' );
+
+	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
+
+	if ( 1 == $cs ) {
+		echo hocwp_ext_connected_socials_horizontal_bar();
+		echo hocwp_ext_account_connect_social_buttons( $options );
+	}
+
+	$account_kit = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+
+	if ( 1 == $account_kit ) {
+		$has_bar = ( 1 == $cs );
+
+		if ( ! $has_bar ) {
+			echo hocwp_ext_connected_socials_horizontal_bar();
+		}
+
+		echo hocwp_ext_account_facebook_account_kit_button();
+	}
 }
 
 add_action( 'login_form', 'hocwp_ext_account_add_connect_social_buttons', 99 );
 add_action( 'register_form', 'hocwp_ext_account_add_connect_social_buttons', 99 );
+
+function hocwp_ext_account_login_form_top( $html, $args ) {
+	$options = HT_Util()->get_theme_options( 'account' );
+
+	$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
+
+	if ( 1 == $cs ) {
+		$html .= hocwp_ext_account_connect_social_buttons( $options );
+		$html .= hocwp_ext_connected_socials_horizontal_bar();
+	}
+
+	$account_kit = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+
+	if ( 1 == $account_kit ) {
+		$html .= hocwp_ext_account_facebook_account_kit_button();
+
+		$has_bar = ( 1 == $cs );
+
+		if ( ! $has_bar ) {
+			$html .= hocwp_ext_connected_socials_horizontal_bar();
+		}
+	}
+
+	return $html;
+}
+
+add_filter( 'login_form_top', 'hocwp_ext_account_login_form_top', 10, 2 );
 
 function hocwp_ext_account_wp_authenticate_user( $user ) {
 	if ( ! is_wp_error( $user ) ) {
@@ -290,3 +429,10 @@ function hocwp_ext_account_after_setup_theme_action() {
 }
 
 add_action( 'after_setup_theme', 'hocwp_ext_account_after_setup_theme_action' );
+
+function hocwp_ext_account_set_logged_in_cookie_action( $logged_in_cookie, $expire, $expiration, $user_id ) {
+	update_user_meta( $user_id, 'last_login', current_time( 'timestamp' ) );
+	do_action( 'hocwp_theme_extension_account_user_logged_in', $user_id );
+}
+
+add_action( 'set_logged_in_cookie', 'hocwp_ext_account_set_logged_in_cookie_action', 10, 4 );

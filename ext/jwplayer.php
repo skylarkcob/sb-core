@@ -37,9 +37,11 @@ function hocwp_theme_jwplayer_player_endpoint_init() {
 	global $hocwp_theme;
 	$options = $hocwp_theme->options;
 	$name    = $options['jwplayer']['endpoint'];
+
 	if ( empty( $name ) ) {
 		$name = 'player';
 	}
+
 	add_rewrite_endpoint( $name, EP_PERMALINK | EP_ROOT );
 }
 
@@ -49,9 +51,11 @@ function hocwp_theme_jwplayer_player_redirect_control() {
 	global $wp_query, $hocwp_theme;
 	$options = $hocwp_theme->options;
 	$name    = $options['jwplayer']['endpoint'];
+
 	if ( empty( $name ) ) {
 		$name = 'player';
 	}
+
 	if ( isset( $wp_query->query[ $name ] ) ) {
 		load_template( HOCWP_EXT_PATH . '/ext/jwplayer/streaming.php' );
 		exit;

@@ -49,7 +49,7 @@ function hocwp_theme_dev_end_of_working_hours() {
 		return;
 	}
 
-	$time      = HOCWP_Theme_Utility::timestamp_to_string( time(), 'H:i:s', 'Asia/Ho_Chi_Minh' );
+	$time      = HOCWP_Theme_Utility::timestamp_to_string( current_time( 'timestamp' ), 'H:i:s', 'Asia/Ho_Chi_Minh' );
 	$time      = strtotime( $time );
 	$morning   = ( $time < strtotime( '07:00:00' ) );
 	$noon      = ( $time >= strtotime( '11:00:00' ) && $time <= strtotime( '13:00:00' ) );
@@ -189,7 +189,7 @@ add_action( 'admin_enqueue_scripts', 'hocwp_theme_admin_development_scripts' );
 
 function hocwp_theme_update_ver_css_js_realtime( $src ) {
 	if ( false !== strpos( $src, 'ver=' ) ) {
-		$src = add_query_arg( array( 'ver' => time() ), $src );
+		$src = add_query_arg( array( 'ver' => current_time( 'timestamp' ) ), $src );
 	}
 
 	return $src;
@@ -457,7 +457,7 @@ function hocwp_theme_dev_taking_breaks_ajax_callback() {
 	if ( false === get_transient( $tb ) ) {
 		$tr_name   = 'hocwp_theme_dev_taking_breaks_timestamp';
 		$timestamp = get_transient( $tr_name );
-		$current   = time();
+		$current   = current_time( 'timestamp' );
 
 		if ( false === $timestamp ) {
 			delete_transient( $tb );
@@ -530,7 +530,7 @@ function hocwp_theme_dev_init_action() {
 				$minute    = absint( $minute );
 				$time_left = get_transient( 'hocwp_theme_dev_taking_breaks_until' );
 				date_default_timezone_set( 'Asia/Ho_Chi_Minh' );
-				$diff = time();
+				$diff = current_time( 'timestamp' );
 				$left = '';
 
 				if ( is_numeric( $time_left ) ) {
@@ -571,7 +571,7 @@ function hocwp_team_dev_wp_schedule_event() {
 
 	if ( 'localhost' == $domain || HT()->is_IP( $domain ) ) {
 		if ( ! wp_next_scheduled( 'hocwp_team_backup_wp_content' ) ) {
-			wp_schedule_event( time(), 'daily', 'hocwp_team_backup_wp_content' );
+			wp_schedule_event( current_time( 'timestamp' ), 'daily', 'hocwp_team_backup_wp_content' );
 		}
 	}
 }
@@ -625,7 +625,7 @@ add_action( 'admin_notices', 'hocwp_team_dev_backup_files' );
 function hocwp_dev_check_theme_core_new_version() {
 	$tr_name = 'hocwp_theme_release_data';
 
-	if ( false === ( $data = get_transient( $tr_name ) ) ) {
+	if ( false === ( $data = get_transient( $tr_name ) ) && hocwp_team_dev_is_localhost() ) {
 		$data = wp_remote_get( 'https://api.github.com/repos/skylarkcob/hocwp-theme/releases/latest' );
 		$data = wp_remote_retrieve_body( $data );
 		$data = json_decode( $data );
@@ -635,7 +635,7 @@ function hocwp_dev_check_theme_core_new_version() {
 		}
 	}
 
-	if ( is_object( $data ) && isset( $data->tag_name ) ) {
+	if ( is_object( $data ) && isset( $data->tag_name ) && hocwp_team_dev_is_localhost() ) {
 		$version = $data->tag_name;
 		$version = str_replace( 'v', '', $version );
 
@@ -687,7 +687,7 @@ function hocwp_team_dev_backup_files_in_footer() {
 								$.ajax({
 									type: "POST",
 									dataType: "JSON",
-									url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
+									url: "<?php echo SB_Core()->get_ajax_url(); ?>",
 									cache: true,
 									data: {
 										action: "hocwp_dev_backup_wp_content_folder",
@@ -705,7 +705,7 @@ function hocwp_team_dev_backup_files_in_footer() {
 							$.ajax({
 								type: "POST",
 								dataType: "JSON",
-								url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
+								url: "<?php echo SB_Core()->get_ajax_url(); ?>",
 								cache: true,
 								data: {
 									action: "hocwp_dev_backup_wp_content_folder",

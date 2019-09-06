@@ -97,7 +97,9 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Code_Prettify' ) ) {
 				'[javascript]',
 				'[/javascript]',
 				'[js]',
-				'[/js]'
+				'[/js]',
+				'[code]',
+				'[/code]'
 			);
 
 			$replace = array(
@@ -110,6 +112,8 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Code_Prettify' ) ) {
 				'<pre class="lang-js prettyprint">',
 				'</pre>',
 				'<pre class="lang-js prettyprint">',
+				'</pre>',
+				'<pre class="lang-php prettyprint">',
 				'</pre>'
 			);
 

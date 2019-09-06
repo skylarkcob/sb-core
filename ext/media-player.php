@@ -23,6 +23,7 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 		}
 
 		public $hide_source = true;
+		public $inline_player = false;
 
 		public $width = 640;
 		public $height = 360;
@@ -43,6 +44,10 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 
 			parent::__construct( __FILE__ );
 
+			$inline = $this->get_option( 'inline_player' );
+
+			$this->inline_player = ( 1 == $inline );
+
 			add_action( 'init', array( $this, 'init_action' ) );
 
 			if ( is_admin() ) {
@@ -57,6 +62,29 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			if ( empty( $this->player ) ) {
 				$this->player = 'jwplayer';
 			}
+
+			add_filter( 'hocwp_theme_extension_media_player_pre_facebook_direct_url', array(
+				$this,
+				'get_facebook_video_direct_link'
+			), 10, 2 );
+
+			add_shortcode( 'hocwp_media_player', array( $this, 'shortcode_func' ) );
+		}
+
+		public function get_facebook_video_direct_link( $direct, $url ) {
+			if ( ! empty( $url ) ) {
+				$video_id = $this->get_facebook_video_id( $url );
+
+				if ( is_numeric( $video_id ) ) {
+					$tmp = $this->get_facebook_video_graph( $video_id . '?fields=source,picture' );
+
+					if ( isset( $tmp->source ) && ! empty( $tmp->source ) ) {
+						$direct = $tmp->source;
+					}
+				}
+			}
+
+			return $direct;
 		}
 
 		public function option_tabs( $tabs ) {
@@ -100,13 +128,14 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			$fields[] = $field;
 
 			$args['type']  = 'checkbox';
-			$args['label'] = __( 'Using JW Player as your main player?', 'sb-core' );
+			$args['label'] = __( 'By default, the media will be played via iframe. But you can play media instantly by checking this box.', 'sb-core' );
 
-			$field = hocwp_theme_create_setting_field( 'jwplayer', __( 'Use JW Player', 'sb-core' ), 'input', $args, 'boolean', $this->option_name );
-			//$fields[] = $field;
+			$field    = hocwp_theme_create_setting_field( 'inline_player', __( 'Inline Player', 'sb-core' ), 'input', $args, 'boolean', $this->option_name );
+			$fields[] = $field;
 
 			$args = array(
-				'options' => $this->players
+				'options' => $this->players,
+				'class'   => 'regular-text'
 			);
 
 			$field    = hocwp_theme_create_setting_field( 'player', __( 'Player', 'sb-core' ), 'select', $args, 'string', $this->option_name );
@@ -116,6 +145,46 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 
 			$field    = hocwp_theme_create_setting_field( 'jwplayer_key', _x( 'Key', 'jw player', 'sb-core' ), 'input', $args, 'string', $this->option_name, 'jwplayer-section' );
 			$fields[] = $field;
+
+			$field    = hocwp_theme_create_setting_field( 'player_library_url', __( 'Player Library URL', 'sb-core' ), 'input', $args, 'url', $this->option_name, 'jwplayer-section' );
+			$fields[] = $field;
+
+			$skins_dir = HOCWP_EXT_PATH . '/lib/jwplayer/skins';
+
+			if ( is_dir( $skins_dir ) ) {
+				$files = scandir( $skins_dir );
+				unset( $files[0], $files[1] );
+
+				if ( HOCWP_Theme::array_has_value( $files ) ) {
+					$opts = array(
+						__( '-- Choose skin --', 'sb-core' )
+					);
+
+					foreach ( $files as $file ) {
+						if ( '.' == $file || '..' == $file || false !== strpos( $file, '.min' ) ) {
+							continue;
+						}
+
+						$info = pathinfo( $file );
+
+						$opts[ $info['filename'] ] = ucfirst( $info['filename'] );
+					}
+
+					$fields[] = array(
+						'id'      => 'jwplayer_skin',
+						'title'   => __( 'Player Skin', 'sb-core' ),
+						'tab'     => $this->option_name,
+						'section' => 'jwplayer-section',
+						'args'    => array(
+							'type'          => 'string',
+							'callback'      => array( 'HOCWP_Theme_HTML_Field', 'select' ),
+							'callback_args' => array(
+								'options' => $opts
+							)
+						)
+					);
+				}
+			}
 
 			return $fields;
 		}
@@ -158,9 +227,19 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			if ( defined( 'HTE_MEDIA_PLAYER' ) && HTE_MEDIA_PLAYER ) {
 				wp_enqueue_script( 'jquery' );
 
-				if ( 'mediaelementplayer' == $this->player ) {
+				$player = get_query_var( 'player' );
+
+				if ( empty( $player ) ) {
+					$player = $this->player;
+				}
+
+				if ( 'mediaelementplayer' == $player ) {
 					wp_enqueue_style( 'wp-mediaelement' );
 					wp_enqueue_script( 'wp-mediaelement' );
+				}
+
+				if ( 'dplayer' == $player ) {
+					wp_enqueue_style( 'dplayer-style', HOCWP_EXT_URL . '/lib/dplayer/1.25.0/DPlayer.min.css' );
 				}
 
 				wp_enqueue_script( HOCWP_Theme()->get_textdomain() );
@@ -202,50 +281,129 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			return $url;
 		}
 
+		public function shortcode_func( $atts = array() ) {
+			$atts = shortcode_atts( array(
+				'file'        => '',
+				'image'       => '',
+				'hide_source' => 0,
+				'autostart'   => 0,
+				'add_tag'     => '',
+				'html_tag'    => 'video',
+				'width'       => $this->width,
+				'height'      => $this->height
+			), $atts );
+
+			ob_start();
+
+			$this->play( array(
+				'src'         => $atts['file'],
+				'thumbnail'   => $atts['image'],
+				'hide_source' => ( $atts['hide_source'] && 1 == $atts['hide_source'] ) ? true : false,
+				'autostart'   => $atts['autostart'],
+				'add_tag'     => $atts['add_tag'],
+				'html_tag'    => $atts['html_tag'],
+				'width'       => $atts['width'],
+				'height'      => $atts['height']
+			) );
+
+			return ob_get_clean();
+		}
+
 		public function play( $args = array() ) {
 			$defaults = array(
-				'thumbnail' => '',
-				'loading'   => __( 'Loading mirror...', 'sb-core' ),
-				'src'       => '',
-				'player'    => $this->player
+				'thumbnail'   => '',
+				'loading'     => __( 'Loading mirror...', 'sb-core' ),
+				'src'         => '',
+				'player'      => $this->player,
+				'hide_source' => $this->hide_source,
+				'autostart'   => 0,
+				'add_tag'     => '',
+				'html_tag'    => 'video',
+				'width'       => $this->width,
+				'height'      => $this->height
 			);
 
 			$args = wp_parse_args( $args, $defaults );
+
+			$hide_source = $args['hide_source'];
 			?>
 			<div class="mirror-video embed-responsive main-player embed-responsive-16by9">
 				<div class="film-grain"></div>
 				<?php
 				if ( ! empty( $args['thumbnail'] ) ) {
 					?>
-					<div class="episode-cover"
+					<div class="episode-cover video-cover"
 					     style="background: transparent url('<?php echo $args['thumbnail']; ?>') no-repeat center center; background-size: cover;">
 					</div>
 					<?php
 				}
 				?>
-				<div class="alert alert-info loading-mirror" aria-hidden="true">
+				<div class="alert alert-info loading-mirror" aria-hidden="true" style="display: none">
 					<i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $args['loading']; ?>
 				</div>
 				<?php
 				$src = $args['src'];
 
-				if ( is_array( $src ) ) {
-					$src = current( $src );
+				if ( is_numeric( $src ) || '0' == $src || '1' == $src ) {
+					$src = '';
 				}
 
-				if ( false !== strpos( $src, '<iframe' ) ) {
+				$iframe = false;
+				$embed  = false;
+
+				if ( is_array( $src ) ) {
+					if ( isset( $src['iframe'] ) ) {
+						$iframe = (bool) $src['iframe'];
+					}
+
+					if ( isset( $src['embed'] ) ) {
+						$embed = (bool) $src['embed'];
+					}
+
+					if ( isset( $src['file'] ) ) {
+						$src = $src['file'];
+					} else {
+						$src = current( $src );
+					}
+				}
+
+				// Check if source is an iframe.
+				if ( $iframe || false !== strpos( $src, '<iframe' ) ) {
 					echo $src;
 				} else {
 					$oembed = '';
 
-					if ( false !== strpos( $src, 'embed|' ) || false !== strpos( $src, '|embed' ) ) {
+					// Check if source is embed.
+					if ( $embed || ( false !== strpos( $src, 'embed|' ) || false !== strpos( $src, '|embed' ) ) ) {
 						$src = $this->get_embed_video_url( $src );
+
+						$domain = HT()->get_domain_name( $src, true );
+
+						if ( 'www.facebook.com' == $domain || 'facebook.com' == $domain ) {
+							$base_url = 'https://www.facebook.com/plugins/video.php';
+
+							$params = array(
+								'href'      => $src,
+								'height'    => 280,
+								'show_text' => 'false',
+								'width'     => 500,
+								'appId'     => HT_Options()->get_tab( 'facebook_app_id', '', 'social' ),
+								'mute'      => 0
+							);
+
+							$params = apply_filters( 'hocwp_theme_extension_media_player_facebook_embed_params', $params, $this );
+
+							$base_url = add_query_arg( $params, $base_url );
+
+							$src = $base_url;
+						}
 
 						if ( ! empty( $src ) ) {
 							$oembed = '<iframe width="' . $this->width . '" height="' . $this->height . '" src="' . $src . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 						}
 					} else {
-						if ( $this->hide_source ) {
+						// Hide video source then get it later via AJAX.
+						if ( $hide_source ) {
 							$args['src'] = '';
 						} else {
 							$oembed = ! ( $this->use_jwplayer() ) ? wp_oembed_get( $src ) : '';
@@ -255,24 +413,106 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 							$url = home_url( 'player' );
 
 							$params = array(
-								'src'   => $src,
-								'nonce' => wp_create_nonce()
+								'src'       => $src,
+								'nonce'     => wp_create_nonce(),
+								'autostart' => $args['autostart'],
+								'add_tag'   => $args['add_tag'],
+								'html_tag'  => $args['html_tag']
 							);
 
 							$params = wp_parse_args( $params, $args );
 
-							if ( $this->hide_source ) {
+							if ( $hide_source ) {
 								unset( $params['src'] );
 							}
 
-							$url = add_query_arg( $params, $url );
+							if ( $this->inline_player ) {
+								$this->html( $params );
+							} else {
+								$params = array_map( 'htmlentities', $params );
+								$params = array_map( 'urlencode', $params );
+								$url    = add_query_arg( $params, $url );
 
-							$oembed = '<iframe width="' . $this->width . '" height="' . $this->height . '" src="' . $url . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+								$oembed = '<iframe width="' . $this->width . '" height="' . $this->height . '" src="' . $url . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+							}
 						}
 					}
 
 					echo $oembed;
 				}
+				?>
+			</div>
+			<?php
+		}
+
+		public function html( $args = array() ) {
+			if ( empty( $args ) ) {
+				$args = $_GET;
+			}
+
+			$src = isset( $args['src'] ) ? $args['src'] : '';
+
+			if ( ( empty( $src ) || is_numeric( $src ) || '0' == $src || '1' == $src ) && ! HTE_Media_Player()->hide_source ) {
+				return;
+			}
+
+			$post_id = isset( $args['post_id'] ) ? $args['post_id'] : '';
+
+			$domain = HT()->get_domain_name( $src );
+
+			$thumbnail = isset( $args['thumbnail'] ) ? $args['thumbnail'] : '';
+
+			switch ( $domain ) {
+				case 'www.drive.google.com':
+				case 'drive.google.com':
+					$src = HTE_Media_Player()->get_google_drive_url( $src );
+					break;
+				case 'www.facebook.com':
+				case 'facebook.com':
+					$src = HTE_Media_Player()->get_facebook_url( $src );
+					break;
+			}
+
+			$poster = HTE_Media_Player()->get_background_url();
+
+			if ( empty( $thumbnail ) && HT()->is_positive_number( $post_id ) ) {
+				$thumbnail = get_post_meta( $post_id, '_thumbnail_url', true );
+			}
+
+			if ( ! empty( $thumbnail ) ) {
+				$poster = $thumbnail;
+			}
+
+			$player = isset( $args['player'] ) ? $args['player'] : 'jwplayer';
+			?>
+			<div class="embedded"
+			     style="position: absolute; left: 0; top: 0; z-index: 9999; right: 0; bottom: 0; width: 100%; height: 100%;">
+				<?php
+				$src = apply_filters( 'hocwp_theme_extension_media_player_pre_source', $src, $args );
+
+				$html = apply_filters( 'hocwp_theme_extension_media_player_html', '', $src, $poster, $post_id );
+
+				if ( empty( $html ) ) {
+					$params = array(
+						'file'      => $src,
+						'image'     => $poster,
+						'autostart' => isset( $args['autostart'] ) ? $args['autostart'] : 0,
+						'add_tag'   => isset( $args['add_tag'] ) ? $args['add_tag'] : '',
+						'tag'       => isset( $args['tag'] ) ? $args['tag'] : '',
+						'type'      => isset( $args['type'] ) ? $args['type'] : 'video/mp4'
+					);
+
+					if ( 'mediaelementplayer' == $player ) {
+						HTE_Media_Player()->play_with_mediaelementplayer( $params );
+					} elseif ( 'jwplayer' == $player ) {
+						HTE_Media_Player()->play_with_jwplayer( $params );
+					} elseif ( 'dplayer' == $player ) {
+						HTE_Media_Player()->play_with_dplayer( $params );
+					}
+				}
+
+				do_action( 'hocwp_theme_extension_media_player_load_' . $player, $src, $poster, $post_id );
+				do_action( 'hocwp_theme_extension_media_player_load_player', $src, $poster, $post_id );
 				?>
 			</div>
 			<?php
@@ -294,7 +534,11 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			if ( ! empty( $api_key ) ) {
 				$url   = esc_url_raw( $url );
 				$parts = parse_url( $url );
-				parse_str( $parts['query'], $query );
+
+				if ( isset( $parts['query'] ) ) {
+					parse_str( $parts['query'], $query );
+				}
+
 				$id = '';
 
 				if ( isset( $query['id'] ) ) {
@@ -400,38 +644,41 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 				$dom->loadHTML( $body );
 				libxml_use_internal_errors( $internalErrors );
 				$down = $dom->getElementById( 'result' );
-				$rows = $down->getElementsByTagName( 'div' );
-				$rows = iterator_to_array( $rows );
-				$data = array();
 
-				foreach ( $rows as $row ) {
-					$data[] = $dom->saveHTML( $row );
-				}
+				if ( $down ) {
+					$rows = $down->getElementsByTagName( 'div' );
+					$rows = iterator_to_array( $rows );
+					$data = array();
 
-				array_shift( $data );
-				array_pop( $data );
+					foreach ( $rows as $row ) {
+						$data[] = $dom->saveHTML( $row );
+					}
 
-				$results = array();
+					array_shift( $data );
+					array_pop( $data );
 
-				foreach ( $data as $row ) {
-					$dom->loadHTML( $row );
-					$links = $dom->getElementsByTagName( 'a' );
+					$results = array();
 
-					foreach ( $links as $link ) {
-						$href = $link->getAttribute( 'href' );
+					foreach ( $data as $row ) {
+						$dom->loadHTML( $row );
+						$links = $dom->getElementsByTagName( 'a' );
 
-						if ( $this->is_facebook_direct_link( $href ) ) {
-							$key = md5( $href );
+						foreach ( $links as $link ) {
+							$href = $link->getAttribute( 'href' );
 
-							if ( ! isset( $results[ $key ] ) ) {
-								$results[ $key ] = $href;
+							if ( $this->is_facebook_direct_link( $href ) ) {
+								$key = md5( $href );
+
+								if ( ! isset( $results[ $key ] ) ) {
+									$results[ $key ] = $href;
+								}
 							}
 						}
 					}
-				}
 
-				if ( HT()->array_has_value( $results ) ) {
-					$url = array_pop( $results );
+					if ( HT()->array_has_value( $results ) ) {
+						$url = array_pop( $results );
+					}
 				}
 			}
 
@@ -442,48 +689,54 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			$tmp  = 'http://www.tubeoffline.com/downloadFrom.php?host=Facebook&video=' . $url;
 			$res  = wp_remote_get( $tmp );
 			$body = wp_remote_retrieve_body( $res );
-			$dom  = new DomDocument();
 
-			$internalErrors = libxml_use_internal_errors( true );
-			$dom->loadHTML( $body );
-			libxml_use_internal_errors( $internalErrors );
-			$down = $dom->getElementById( 'videoDownload' );
-			$rows = $down->getElementsByTagName( 'tr' );
-			$rows = iterator_to_array( $rows );
-			$data = array();
+			if ( ! empty( $body ) ) {
+				$dom = new DomDocument();
 
-			foreach ( $rows as $row ) {
-				$data[] = $dom->saveHTML( $row );
-			}
+				$internalErrors = libxml_use_internal_errors( true );
+				$dom->loadHTML( $body );
+				libxml_use_internal_errors( $internalErrors );
+				$down = $dom->getElementById( 'videoDownload' );
 
-			array_shift( $data );
-			array_pop( $data );
-			$row = isset( $data[2] ) ? $data[2] : '';
+				if ( $down ) {
+					$rows = $down->getElementsByTagName( 'tr' );
+					$rows = iterator_to_array( $rows );
+					$data = array();
 
-			if ( empty( $row ) ) {
-				foreach ( $data as $row ) {
-					$dom->loadHTML( $row );
-					$links = $dom->getElementsByTagName( 'a' );
-
-					foreach ( $links as $link ) {
-						$href = $link->getAttribute( 'href' );
-
-						if ( $this->is_facebook_direct_link( $href ) ) {
-							$url = $href;
-							break;
-						}
+					foreach ( $rows as $row ) {
+						$data[] = $dom->saveHTML( $row );
 					}
-				}
-			} else {
-				$dom->loadHTML( $row );
-				$links = $dom->getElementsByTagName( 'a' );
 
-				foreach ( $links as $link ) {
-					$href = $link->getAttribute( 'href' );
+					array_shift( $data );
+					array_pop( $data );
+					$row = isset( $data[2] ) ? $data[2] : '';
 
-					if ( ! empty( $href ) ) {
-						$url = $href;
-						break;
+					if ( empty( $row ) ) {
+						foreach ( $data as $row ) {
+							$dom->loadHTML( $row );
+							$links = $dom->getElementsByTagName( 'a' );
+
+							foreach ( $links as $link ) {
+								$href = $link->getAttribute( 'href' );
+
+								if ( $this->is_facebook_direct_link( $href ) ) {
+									$url = $href;
+									break;
+								}
+							}
+						}
+					} else {
+						$dom->loadHTML( $row );
+						$links = $dom->getElementsByTagName( 'a' );
+
+						foreach ( $links as $link ) {
+							$href = $link->getAttribute( 'href' );
+
+							if ( ! empty( $href ) ) {
+								$url = $href;
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -509,14 +762,15 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			}
 
 			$current = $url;
-			$key     = md5( $url );
-			$bk      = $url;
-			$tmp     = $this->get_cached_url( $key );
 
-			if ( empty( $tmp ) ) {
+			$key = md5( $url );
+			$bk  = $url;
+			$tmp = $this->get_cached_url( $key );
+
+			if ( empty( $tmp ) || $tmp == $url ) {
 				$tmp = $this->get_facebook_url_fbdown( $url );
 
-				if ( empty( $tmp ) ) {
+				if ( empty( $tmp ) || $tmp == $url ) {
 					$save = false;
 
 					$tmp = $this->get_facebook_url_tubeoffline( $url );
@@ -683,6 +937,282 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			}
 
 			return $result;
+		}
+
+		private function video_or_audio_html( $args = array() ) {
+			$args = apply_filters( 'hocwp_theme_extension_media_player_pre_player_args', $args );
+
+			$src = isset( $args['file'] ) ? $args['file'] : '';
+
+			$autostart = isset( $args['autostart'] ) ? $args['autostart'] : 0;
+
+			$tag = isset( $args['html_tag'] ) ? $args['html_tag'] : '';
+
+			if ( 'video' != $tag && 'audio' != $tag ) {
+				$tag = 'video';
+			}
+
+			$id = isset( $args['id'] ) ? $args['id'] : 'videoPlayer';
+
+			$inner = '';
+
+			if ( HT()->array_has_value( $src ) ) {
+				foreach ( (array) $src as $type => $url ) {
+					$source = new HOCWP_Theme_HTML_Tag( 'source' );
+					$source->add_attribute( 'type', $type );
+					$source->add_attribute( 'src', $url );
+					$inner .= $source->build();
+				}
+			} else {
+				$source = new HOCWP_Theme_HTML_Tag( 'source' );
+				$source->add_attribute( 'src', $src );
+				$inner .= $source->build();
+			}
+
+			$html = new HOCWP_Theme_HTML_Tag( $tag );
+			$html->add_attribute( 'id', $id );
+
+			$controls = isset( $args['controls'] ) ? $args['controls'] : true;
+
+			if ( $controls ) {
+				$html->add_attribute( 'controls', true );
+			}
+
+			$loop = isset( $args['loop'] ) ? $args['loop'] : '';
+
+			if ( $loop ) {
+				$html->add_attribute( 'loop', true );
+			}
+
+			$muted = isset( $args['muted'] ) ? $args['muted'] : '';
+
+			if ( $muted ) {
+				$html->add_attribute( 'muted', true );
+			}
+
+			$html->add_attribute( 'style', 'display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%;' );
+			$html->set_text( $inner );
+
+			if ( 1 == $autostart ) {
+				$html->add_attribute( 'autoplay', true );
+			}
+
+			$image = isset( $args['image'] ) ? $args['image'] : '';
+
+			if ( ! empty( $image ) ) {
+				$html->add_attribute( 'poster', $image );
+			}
+
+			$html->output();
+		}
+
+		public function play_with_mediaelementplayer( $args = array() ) {
+			$image = isset( $args['image'] ) ? $args['image'] : '';
+
+			$this->video_or_audio_html( $args );
+
+			$id = isset( $args['id'] ) ? $args['id'] : 'videoPlayer';
+
+			$settings = apply_filters( 'hocwp_theme_extension_media_player_pre_mediaelementplayer_settings', array(), $args );
+			?>
+			<script>
+				(function ($) {
+					if ($.fn.mediaelementplayer) {
+						var settings = {
+								videoWidth: "100%",
+								videoHeight: "100%",
+								enableAutosize: true,
+								controls: true,
+								success: function (mediaElement, originalNode, instance) {
+									instance.setPoster("<?php echo $image; ?>");
+									// Set player style display block.
+									$(mediaElement).show().children().show();
+								}
+							},
+							customSettings = <?php echo json_encode( $settings ); ?>;
+
+						if ("object" == typeof customSettings) {
+							settings = $.extend(settings, customSettings);
+						}
+
+						$("#<?php echo $id; ?>").mediaelementplayer(settings);
+					}
+				})(jQuery);
+			</script>
+			<?php
+		}
+
+		public function play_with_dplayer( $args = array() ) {
+			$lib = HOCWP_EXT_URL . '/lib/dplayer/1.25.0/DPlayer.min.js';
+			$id  = isset( $args['id'] ) ? $args['id'] : 'videoPlayer';
+
+			$src   = isset( $args['file'] ) ? $args['file'] : '';
+			$image = isset( $args['image'] ) ? $args['image'] : '';
+
+			$autostart = isset( $args['autostart'] ) ? $args['autostart'] : 0;
+
+			$this->video_or_audio_html( $args );
+
+			$settings = apply_filters( 'hocwp_theme_extension_media_player_pre_dplayer_settings', array(), $args );
+			?>
+			<script src="<?php echo $lib; ?>"></script>
+			<script>
+				if ("undefined" != typeof DPlayer) {
+					(function ($) {
+						var autostart = parseInt(<?php echo $autostart; ?>),
+							element = document.getElementById("<?php echo $id; ?>"),
+							settings = {
+								container: element,
+								screenshot: true,
+								autoplay: (1 === autostart),
+								video: {
+									url: "<?php echo $src; ?>",
+									pic: "<?php echo $image; ?>"
+								}
+							},
+							customSettings = <?php echo json_encode( $settings ); ?>;
+
+						if ("object" == typeof customSettings) {
+							settings = $.extend(settings, customSettings);
+						}
+
+						const dp = new DPlayer(settings);
+
+						dp.on("canplay", function () {
+							// Set player style display block.
+							element.style.display = "block";
+						});
+					})(jQuery);
+				}
+			</script>
+			<?php
+		}
+
+		public function play_with_jwplayer( $args = array() ) {
+			$key   = isset( $_GET['key'] ) ? $_GET['key'] : $this->get_option( 'jwplayer_key' );
+			$src   = isset( $args['file'] ) ? $args['file'] : '';
+			$image = isset( $args['image'] ) ? $args['image'] : '';
+			$lib   = $this->get_option( 'player_library_url' );
+
+			$autostart = isset( $args['autostart'] ) ? $args['autostart'] : 0;
+
+			if ( empty( $lib ) ) {
+				$lib = HOCWP_EXT_URL . '/lib/jwplayer/jwplayer.js';
+			}
+
+			if ( ! empty( $lib ) ) {
+				?>
+				<script src="<?php echo $lib; ?>"></script>
+				<?php
+			}
+
+			if ( ! empty( $key ) ) {
+				?>
+				<script>
+					if ("undefined" !== typeof jwplayer) {
+						jwplayer.key = "<?php echo $key; ?>";
+					}
+				</script>
+				<?php
+			}
+
+			$skin = $this->get_option( 'jwplayer_skin' );
+
+			if ( empty( $skin ) ) {
+				$skin = 'seven';
+			}
+
+			$add_tag = '';
+
+			if ( function_exists( 'HTE_Ads' ) ) {
+				$add_tag = isset( $args['add_tag'] ) ? $args['add_tag'] : '';
+				$object  = '';
+
+				if ( HT()->is_positive_number( $add_tag ) ) {
+					$object = get_post( $add_tag );
+				} elseif ( 'random' == $add_tag ) {
+					$query = HTE_Ads()->query_vast_vpaid( array( 'random' => true ) );
+
+					if ( $query->have_posts() ) {
+						$object = current( $query->posts );
+					}
+				}
+
+				if ( $object instanceof WP_Post && HTE_Ads()->post_type == $object->post_type ) {
+					$add_tag = get_post_meta( $object->ID, 'vast_vpaid_url', true );
+				}
+
+				if ( 'random' == $add_tag || is_wp_error( $add_tag ) || is_numeric( $add_tag ) ) {
+					$add_tag = '';
+				}
+
+				if ( false === strpos( $add_tag, '.' ) && false === strpos( $add_tag, '/' ) ) {
+					$add_tag = '';
+				}
+
+				if ( empty( $add_tag ) ) {
+					$add_tag = HTE_Ads()->get_option( 'video_ad_tag_url' );
+				}
+
+				if ( ! empty( $add_tag ) ) {
+					$add_tag = array(
+						'client'        => 'googima',
+						'tag'           => $add_tag,
+						'skipoffset'    => 5,
+						'vpaidmode'     => 'insecure',
+						'vpaidcontrols' => true
+					);
+				}
+			}
+
+			$this->video_or_audio_html( $args );
+
+			$id = isset( $args['id'] ) ? $args['id'] : 'videoPlayer';
+
+			$type = isset( $args['type'] ) ? $args['type'] : 'video/mp4';
+
+			$settings = apply_filters( 'hocwp_theme_extension_media_player_pre_jwplayer_settings', array(), $args );
+			?>
+			<script>
+				(function ($) {
+					if ("undefined" !== typeof jwplayer) {
+						var autostart = parseInt(<?php echo $autostart; ?>),
+							advertising = <?php echo json_encode( $add_tag ); ?>,
+							playerSettings = {
+								file: "<?php echo $src; ?>",
+								image: "<?php echo $image; ?>",
+								autostart: (1 === autostart),
+								displayPlaybackLabel: true,
+								primary: "html5",
+								skin: {
+									name: "<?php echo $skin; ?>"
+								},
+								aspectratio: "16:9",
+								width: "100%",
+								height: "100%",
+								stretching: "uniform",
+								type: "<?php echo $type; ?>"
+							},
+							customSettings = <?php echo json_encode( $settings ); ?>;
+
+						if ("object" == typeof advertising) {
+							playerSettings.advertising = advertising;
+						}
+
+						if ("object" == typeof customSettings) {
+							playerSettings = $.extend(playerSettings, customSettings);
+						}
+
+						// Setup the player
+						const player = jwplayer("<?php echo $id; ?>").setup(playerSettings);
+
+						player.on("ready", function () {
+							$(player.getContainer()).show();
+						});
+					}
+				})(jQuery);
+			</script>
+			<?php
 		}
 	}
 }

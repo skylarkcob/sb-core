@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hocwp_ext_ads_sub_menu() {
 	$title = __( 'Ads Management', 'sb-core' );
-	add_theme_page( $title, $title, 'manage_options', 'edit.php?post_type=hocwp_ads' );
+	add_theme_page( $title, $title, 'manage_options', 'edit.php?post_type=' . HTE_Ads()->post_type );
 }
 
 add_action( 'admin_menu', 'hocwp_ext_ads_sub_menu', 99 );
@@ -13,7 +13,7 @@ add_action( 'admin_menu', 'hocwp_ext_ads_sub_menu', 99 );
 if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
 	function hocwp_ext_ads_meta_box() {
 		$meta = new HOCWP_Theme_Meta_Post();
-		$meta->add_post_type( 'hocwp_ads' );
+		$meta->add_post_type( HTE_Ads()->post_type );
 		$meta->set_title( __( 'Ads Information', 'sb-core' ) );
 		$meta->form_table = true;
 
@@ -23,9 +23,10 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 		$field = hocwp_theme_create_meta_field( 'position', __( 'Position:', 'sb-core' ), 'select', $args );
 		$meta->add_field( $field );
 
-		$args  = array(
+		$args = array(
 			'class' => 'datepicker widefat'
 		);
+
 		$field = hocwp_theme_create_meta_field( 'expire', __( 'Expiry date:', 'sb-core' ), 'input', $args, 'timestamp' );
 		$meta->add_field( $field );
 
@@ -35,8 +36,19 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 		$field = hocwp_theme_create_meta_field( 'url', __( 'Url:', 'sb-core' ), 'input_url', '', 'url' );
 		$meta->add_field( $field );
 
+		$field = hocwp_theme_create_meta_field( 'vast_vpaid_url', __( 'VAST/VPAID Ads URL:', 'sb-core' ), 'input_url', '', 'url' );
+		$meta->add_field( $field );
+
 		$args  = array( 'row' => 10 );
 		$field = hocwp_theme_create_meta_field( 'code', __( 'Code:', 'sb-core' ), 'textarea', $args, 'html' );
+		$meta->add_field( $field );
+
+		$args  = array( 'type' => 'checkbox', 'text' => __( 'Only display on mobile?', 'sb-core' ) );
+		$field = hocwp_theme_create_meta_field( 'only_mobile', __( 'Mobile', 'sb-core' ), 'input', $args, 'boolean' );
+		$meta->add_field( $field );
+
+		$args  = array( 'type' => 'checkbox', 'text' => __( 'Only display on desktop?', 'sb-core' ) );
+		$field = hocwp_theme_create_meta_field( 'only_desktop', __( 'Desktop', 'sb-core' ), 'input', $args, 'boolean' );
 		$meta->add_field( $field );
 
 		$args  = array( 'type' => 'checkbox', 'text' => __( 'Make this ads as active status?', 'sb-core' ) );
@@ -48,7 +60,7 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 	add_action( 'load-post-new.php', 'hocwp_ext_ads_meta_box' );
 
 	function hocwp_ext_ads_default_hidden_meta_boxes( $hidden, $screen ) {
-		if ( $screen instanceof WP_Screen && 'post' == $screen->base && 'hocwp_ads' == $screen->id ) {
+		if ( $screen instanceof WP_Screen && 'post' == $screen->base && HTE_Ads()->post_type == $screen->id ) {
 			$defaults = array(
 				'slugdiv',
 				'trackbacksdiv',
@@ -83,7 +95,7 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) ||
 	function hocwp_ext_ads_admin_enqueue_scripts() {
 		global $post_type, $pagenow;
 
-		if ( 'hocwp_ads' == $post_type ) {
+		if ( HTE_Ads()->post_type == $post_type ) {
 			if ( ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
 				if ( function_exists( 'HT_Enqueue' ) ) {
 					HT_Enqueue()->datepicker();
@@ -111,7 +123,7 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exi
 		return $columns;
 	}
 
-	add_filter( 'manage_hocwp_ads_posts_columns', 'hocwp_ext_ads_posts_columns' );
+	add_filter( 'manage_' . HTE_Ads()->post_type . '_posts_columns', 'hocwp_ext_ads_posts_columns' );
 
 	function hocwp_ext_ads_posts_custom_column_action( $column, $post_id ) {
 		if ( 'position' == $column ) {
@@ -142,5 +154,5 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exi
 		}
 	}
 
-	add_action( 'manage_hocwp_ads_posts_custom_column', 'hocwp_ext_ads_posts_custom_column_action', 10, 2 );
+	add_action( 'manage_' . HTE_Ads()->post_type . '_posts_custom_column', 'hocwp_ext_ads_posts_custom_column_action', 10, 2 );
 }

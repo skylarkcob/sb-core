@@ -13,22 +13,41 @@ jQuery(document).ready(function ($) {
         confirmOut = false;
     }
 
-    form.on("submit", function () {
+    form.on("submit", function (e) {
+        if (!confirm(hteVIP.l10n.confirm_submit_post_message)) {
+            e.preventDefault();
+            confirmOut = true;
+        } else {
+            confirmOut = false;
+        }
+
+        if (!confirmOut) {
+            if (window.removeEventListener) {
+                window.removeEventListener("beforeunload", confirmLeaveMessage);
+            } else if (window.detachEvent) {
+                window.detachEvent("beforeunload", confirmLeaveMessage);
+            }
+        }
+    });
+
+    form.on("click", "button[type='submit'], input[type='submit']", function () {
         confirmOut = false;
     });
+
+    function confirmLeaveMessage(e) {
+        var confirmationMessage = hocwpTheme.l10n.beforeUnloadConfirmMessage;
+
+        (e || window.event).returnValue = confirmationMessage;
+
+        return confirmationMessage;
+    }
 
     (function (confirmOut) {
         if (!confirmOut) {
             return false;
         }
 
-        window.addEventListener("beforeunload", function (e) {
-            var confirmationMessage = hocwpTheme.l10n.beforeUnloadConfirmMessage;
-
-            (e || window.event).returnValue = confirmationMessage;
-
-            return confirmationMessage;
-        });
+        window.addEventListener("beforeunload", confirmLeaveMessage);
     })(confirmOut);
 
     (function () {
@@ -199,7 +218,7 @@ jQuery(document).ready(function ($) {
         body.on("hocwpThemeComboboxInputChange", function (e, value, input) {
             var select = input.parent().prev("select");
 
-            if(select.length) {
+            if (select.length) {
                 var tmpPreview = wizardAddPost.find("#temp_" + select.attr("id"));
 
                 if (tmpPreview.length && $.trim(value)) {
@@ -258,6 +277,10 @@ jQuery(document).ready(function ($) {
                 typeOfPost = $("#typeOfPost"),
                 vipType = typeOfPost.val(),
                 tmpCost = $("#temp_Cost");
+
+            if (!tmpCost || !tmpCost.length) {
+                tmpCost = $("#temp_Fee");
+            }
 
             if (tmpCost.length) {
                 var formGroup = tmpCost.closest(".form-group"),

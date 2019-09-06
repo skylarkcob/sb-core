@@ -129,3 +129,7 @@
 .woocommerce-checkout #payment .wc_payment_methods .wc_payment_method:not(:last-child) {
     margin-bottom: 8px;
 }
+
+.woocommerce-tabs .wc-tab > h2:first-child {
+    display: none;
+}

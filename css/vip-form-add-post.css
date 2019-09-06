@@ -102,6 +102,14 @@
     margin: 20px auto;
 }
 
+.page.post-added .entry-content > * {
+    display: none;
+}
+
+.page.post-added .entry-content > .add-post-frontend {
+    display: block;
+}
+
 @media only screen and (max-width: 991px) {
     #wizardAddPost .control-label {
         text-align: left;

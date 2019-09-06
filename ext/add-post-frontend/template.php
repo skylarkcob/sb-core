@@ -366,6 +366,12 @@ if ( ! $post_added && empty( $html ) ) {
 			$secs *= 1000;
 			?>
 			<script>
+				var body = document.getElementsByTagName("body")[0];
+
+				if (-1 === body.className.indexOf("post-added")) {
+					body.className += " post-added";
+				}
+
 				setTimeout(function () {
 					window.location.href = "<?php echo $url; ?>";
 				}, <?php echo $secs; ?>);

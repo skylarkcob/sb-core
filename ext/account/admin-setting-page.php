@@ -20,6 +20,15 @@ function hocwp_theme_settings_page_account_field() {
 	$fields = array();
 
 	$args = array(
+		'type' => 'checkbox'
+	);
+
+	$args['label'] = __( 'Users must verify their email address for viewing site?', 'sb-core' );
+
+	$field    = hocwp_theme_create_setting_field( 'must_verify_email', __( 'Must Verify Email', 'sb-core' ), 'input', $args, 'boolean', 'account' );
+	$fields[] = $field;
+
+	$args = array(
 		'type'  => 'checkbox',
 		'label' => __( 'Allow users can login and register via their social accounts.', 'sb-core' )
 	);
@@ -41,6 +50,11 @@ function hocwp_theme_settings_page_account_field() {
 	);
 
 	$field    = hocwp_theme_create_setting_field( 'custom_style', __( 'Custom Style', 'sb-core' ), 'input', $args, 'boolean', 'account' );
+	$fields[] = $field;
+
+	$args['label'] = __( 'Allow user login with phone number or email via Facebook Account Kit?', 'sb-core' );
+
+	$field    = hocwp_theme_create_setting_field( 'account_kit', __( 'Account Kit', 'sb-core' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
 	$args = array(
@@ -81,6 +95,42 @@ function hocwp_theme_settings_page_account_field() {
 		$fields[] = $field;
 	}
 
+	$account_kit = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+
+	if ( 1 == $account_kit ) {
+		$field    = hocwp_theme_create_setting_field( 'fac_app_secret', __( 'App Secret', 'sb-core' ), 'input', array( 'class' => 'regular-text' ), 'string', 'account', HTE_Account()->facebook_account_kit );
+		$fields[] = $field;
+
+		$field    = hocwp_theme_create_setting_field( 'fac_client_token', __( 'Client Token', 'sb-core' ), 'input', array( 'class' => 'regular-text' ), 'string', 'account', HTE_Account()->facebook_account_kit );
+		$fields[] = $field;
+
+		$field    = hocwp_theme_create_setting_field( 'fac_api_version', __( 'API Version', 'sb-core' ), 'input', array( 'class' => 'regular-text' ), 'string', 'account', HTE_Account()->facebook_account_kit );
+		$fields[] = $field;
+
+		$args = array(
+			'options' => array(
+				'popup' => __( 'Popup', 'sb-core' ),
+				'modal' => __( 'Modal', 'sb-core' )
+			),
+			'class'   => 'regular-text'
+		);
+
+		$field    = hocwp_theme_create_setting_field( 'fac_display', __( 'Display', 'sb-core' ), 'select', $args, 'string', 'account', HTE_Account()->facebook_account_kit );
+		$fields[] = $field;
+
+		$field    = hocwp_theme_create_setting_field( 'fac_country_code', __( 'Default Country Code', 'sb-core' ), 'input', array( 'class' => 'regular-text' ), 'positive_number', 'account', HTE_Account()->facebook_account_kit );
+		$fields[] = $field;
+
+		$args = array(
+			'type' => 'checkbox'
+		);
+
+		$args['label'] = __( 'Users must verify their phone number for viewing site?', 'sb-core' );
+
+		$field    = hocwp_theme_create_setting_field( 'must_verify_phone', __( 'Must Verify Phone Number', 'sb-core' ), 'input', $args, 'boolean', 'account', HTE_Account()->facebook_account_kit );
+		$fields[] = $field;
+	}
+
 	return $fields;
 }
 
@@ -105,6 +155,19 @@ function hocwp_theme_settings_page_account_settings_section( $sections ) {
 			'title'       => __( 'Customize Default Login Page', 'sb-core' ),
 			'tab'         => 'account',
 			'description' => __( 'You can customize some styles to make the default WordPress login page more pretty.', 'sb-core' )
+		);
+
+		$sections[] = $section;
+	}
+
+	$account_kit = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+
+	if ( 1 == $account_kit ) {
+		$section = array(
+			'id'          => HTE_Account()->facebook_account_kit,
+			'title'       => __( 'Facebook Account Kit', 'sb-core' ),
+			'tab'         => 'account',
+			'description' => __( 'Account Kit helps people quickly and easily register and log into your app using their phone number or email address as passwordless credentials. Account Kit is powered by Facebook\'s email, SMS and WhatsApp sending infrastructure for reliable scalable performance with global reach. Because it uses email and phone number authentication, Account Kit does not require a Facebook account and is the ideal alternative to a social login.', 'sb-core' )
 		);
 
 		$sections[] = $section;

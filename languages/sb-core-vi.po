@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-12-09 00:28+0700\n"
-"PO-Revision-Date: 2018-12-09 00:30+0700\n"
+"POT-Creation-Date: 2019-08-22 09:00+0700\n"
+"PO-Revision-Date: 2019-08-22 09:01+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -21,42 +21,185 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: ext/account.php:77 ext/account.php:79 ext/account/account.php:259
-#: ext/account/account.php:278 ext/account/account.php:280
-#: ext/add-post-frontend.php:315
+#: ext/account.php:86 ext/account.php:88 ext/account/account.php:398
+#: ext/account/account.php:417 ext/account/account.php:419
+#: ext/add-post-frontend.php:351
 msgid "<strong>Error:</strong> Please correct the captcha."
 msgstr "<strong>Lỗi:</strong> Xin vui lòng điền đúng mã bảo mật."
 
-#: ext/account.php:314 ext/account/page-lostpassword.php:185
+#: ext/account.php:288
+#, php-format
+msgid ""
+"Your email address has been verified successfully. To change profile, update "
+"it <a href=\"%s\">here</a> or <a href=\"%s\">visit our homepage</a> to see "
+"posts."
+msgstr ""
+"Địa chỉ email của bạn đã được xác thực thành công. Để thay đổi thông tin cá "
+"nhân, cập nhật <a href=\"%s\">tại đây</a> hoặc <a href=\"%s\">truy cập trang "
+"chủ</a> để xem bài viết."
+
+#: ext/account.php:289
+msgid "Email Address Verified"
+msgstr "Địa chỉ email đã được xác nhận"
+
+#: ext/account.php:291 ext/account.php:414 ext/account.php:418
+#: ext/account.php:426 ext/account.php:449 ext/account.php:458
+#: ext/account.php:462 ext/account.php:467
+msgid "Invalid key."
+msgstr "Mã không hợp lệ."
+
+#: ext/account.php:297
+#, php-format
+msgid ""
+"If you have not received email yet, try to resend <a href=\"%s\">here</a>."
+msgstr ""
+"Nếu bạn chưa nhận được email, hãy thử gửi lại <a href=\"%s\">tại đây</a>."
+
+#: ext/account.php:299
+msgid "Verify Email Error"
+msgstr "Lỗi xác minh địa chỉ email"
+
+#: ext/account.php:314
+msgid ""
+"Your account has reached the confirmation email limit, please try again "
+"later. You can also contact administrator for supports."
+msgstr ""
+"Tài khoản của bạn đã đạt giới hạn gửi thư xác thực, xin vui lòng thử lại "
+"sau. Bạn cũng có thể liên hệ với đội ngũ quản trị để nhờ trợ giúp."
+
+#: ext/account.php:314 ext/account.php:328
+msgid "Email Sent Limit"
+msgstr "Giới hạn gửi thư"
+
+#: ext/account.php:326
+#, php-format
+msgid ""
+"Email verification has been sent, please check your inbox, if you cannot see "
+"email, try to check spam box too. Your confirmation email limit <strong>%d</"
+"strong>."
+msgstr ""
+"Email xác thực đã được gửi, vui lòng kiểm tra hộp thư đến, nếu bạn không "
+"thấy email, thử tìm lại trong hộp thư spam. Giới hạn gửi email xác thực của "
+"bạn còn <strong>%d</strong>."
+
+#: ext/account.php:337
+#, php-format
+msgid ""
+"You need to verify your email address. Please check your inbox for verify "
+"email, also see your spam box too. To change your email address, update it "
+"<a href=\"%s\">here</a>."
+msgstr ""
+"Bạn cần phải xác minh địa chỉ email của mình. Hãy kiểm tra hộp thư đến của "
+"bạn để xác minh email, đồng thời kiểm tra hộ thư spam. Để thay đổi địa chỉ "
+"email, cập nhật nó <a href=\"%s\">tại đây</a>."
+
+#: ext/account.php:338
+msgid "Verify Email Address"
+msgstr "Xác minh địa chỉ email"
+
+#: ext/account.php:392
+#, php-format
+msgid ""
+"<strong>Verify email address:</strong> You must provide and verify your "
+"email address before viewing site. <a href=\"%s\">Click here</a> to update "
+"it."
+msgstr ""
+"<strong>Xác thực địa chỉ email:</strong> Bạn phải cung cấp và xác thực địa "
+"chỉ email của bạn trước khi xem trang web. <a href=\"%s\">Nhấn vào đây</a> "
+"để cập nhật."
+
+#: ext/account.php:401
+#, php-format
+msgid ""
+"<strong>Verify phone number:</strong> You must provide and verify your phone "
+"number before viewing site. <a href=\"%s\">Click here</a> to update it."
+msgstr ""
+"<strong>Xác thực số điện thoại:</strong> Bạn phải cung cấp và xác thực số "
+"điện thoại của bạn trước khi xem trang web. <a href=\"%s\">Nhấn vào đây</a> "
+"để cập nhật."
+
+#: ext/account.php:600 ext/account/page-lostpassword.php:193
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: ext/account.php:325
+#: ext/account.php:611
 msgid "No posts found."
 msgstr "Không có bài viết nào được tìm thấy."
 
+#: ext/account/account.php:33 ext/account/account.php:34
+msgid "Connect"
+msgstr "Kết nối"
+
+#: ext/account/account.php:33
+msgid "Connect phone number with Facebook account kit"
+msgstr "Kết nối số điện thoại với Facebook account kit"
+
+#: ext/account/account.php:34
+msgid "Connect email address with Facebook account kit"
+msgstr "Kết nối địa chỉ email với Facebook account kit"
+
+#: ext/account/account.php:42 ext/account/account.php:48
+msgid "Disconnect"
+msgstr "Ngắt kết nối"
+
+#: ext/account/account.php:42
+msgid "Disconnect email address from Facebook account kit"
+msgstr "Ngắt kết nối địa chỉ email từ Facebook account kit"
+
+#: ext/account/account.php:48
+msgid "Disconnect phone number from Facebook account kit"
+msgstr "Ngắt kết nối số điện thoại từ Facebook account kit"
+
+#: ext/account/account.php:59
+msgid "Authentication failure"
+msgstr "Lỗi xác thực"
+
+#: ext/account/account.php:60
+msgid "Bad parameters"
+msgstr "Tham số đầu vào không hợp lệ"
+
 #: ext/account/account.php:64
+msgid "Are you sure you want to disconnect your email address?"
+msgstr "Bạn có chắc là muốn ngắt kết nối địa chỉ email hay không?"
+
+#: ext/account/account.php:65
+msgid "Are you sure you want to disconnect your phone?"
+msgstr "Bạn có chắc là muốn ngắt kết nối số điện thoại hay không?"
+
+#: ext/account/account.php:117
 msgid "Sign up with your Google account"
 msgstr "Đăng ký bằng tài khoản Google"
 
-#: ext/account/account.php:67
+#: ext/account/account.php:120
 msgid "Continue with Google"
 msgstr "Tiếp tục với Google"
 
-#: ext/account/account.php:75
+#: ext/account/account.php:128
 msgid "Sign up with your Facebook account"
 msgstr "Đăng ký với tài khoản Facebook"
 
-#: ext/account/account.php:79
+#: ext/account/account.php:132
 msgid "Continue with Facebook"
 msgstr "Tiếp tục với Facebook"
 
-#: ext/account/account.php:239
+#: ext/account/account.php:269 ext/account/account.php:274
+msgid "Connect SMS/Email"
+msgstr "Kết nối SMS hoặc địa chỉ email"
+
+#: ext/account/account.php:281 ext/account/account.php:286
+msgid "Verify your phone number"
+msgstr "Xác minh số điện thoại của bạn"
+
+#: ext/account/account.php:289 ext/account/account.php:294
+msgid "Verify your email address"
+msgstr "Xác minh địa chỉ email của bạn"
+
+#: ext/account/account.php:333
 msgctxt "connected socials"
 msgid "Or"
 msgstr "Hoặc"
 
-#: ext/account/account.php:289
+#: ext/account/account.php:428
 msgid "Login footer"
 msgstr "Chân trang đăng nhập"
 
@@ -64,63 +207,117 @@ msgstr "Chân trang đăng nhập"
 msgid "Account"
 msgstr "Tài khoản"
 
-#: ext/account/admin-setting-page.php:24
+#: ext/account/admin-setting-page.php:26
+msgid "Users must verify their email address for viewing site?"
+msgstr "Người dùng phải xác minh địa chỉ email trước khi có thể xem trang web?"
+
+#: ext/account/admin-setting-page.php:28
+msgid "Must Verify Email"
+msgstr "Bắt buộc xác minh email"
+
+#: ext/account/admin-setting-page.php:33
 msgid "Allow users can login and register via their social accounts."
 msgstr ""
 "Cho phép người dùng có thể đăng nhập và đăng ký thông qua tài khoản mạng xã "
 "hội."
 
-#: ext/account/admin-setting-page.php:27
+#: ext/account/admin-setting-page.php:36
 msgid "Connect Social"
 msgstr "Kết nối mạng xã hội"
 
-#: ext/account/admin-setting-page.php:32
+#: ext/account/admin-setting-page.php:41
 msgid "Using captcha for account form?"
 msgstr "Sử dụng mã bảo mật cho các form tài khoản?"
 
-#: ext/account/admin-setting-page.php:35 ext/add-post-frontend.php:133
+#: ext/account/admin-setting-page.php:44 ext/add-post-frontend.php:133
 msgid "Captcha"
 msgstr "Mã bảo mật"
 
-#: ext/account/admin-setting-page.php:40
+#: ext/account/admin-setting-page.php:49
 msgid "Change style of default WordPress login page for displaying nicely?"
 msgstr ""
 "Thay đổi giao diện trang đăng nhập mặc định của WordPress để hiển thị đẹp "
 "hơn?"
 
-#: ext/account/admin-setting-page.php:43
+#: ext/account/admin-setting-page.php:52
 msgid "Custom Style"
 msgstr "Tùy chỉnh giao diện"
 
-#: ext/account/admin-setting-page.php:50
+#: ext/account/admin-setting-page.php:55
+msgid "Allow user login with phone number or email via Facebook Account Kit?"
+msgstr ""
+"Cho phép người dùng đăng nhập với số điện thoại hoặc địa chỉ email thông qua "
+"Facebook Account Kit?"
+
+#: ext/account/admin-setting-page.php:57
+msgid "Account Kit"
+msgstr "Account Kit"
+
+#: ext/account/admin-setting-page.php:64
 msgid "Login Page"
 msgstr "Trang đăng nhập"
 
-#: ext/account/admin-setting-page.php:57
+#: ext/account/admin-setting-page.php:71
 msgid "Register Page"
 msgstr "Trang đăng ký"
 
-#: ext/account/admin-setting-page.php:64
+#: ext/account/admin-setting-page.php:78
 msgid "Lost Password Page"
 msgstr "Trang quên mật khẩu"
 
-#: ext/account/admin-setting-page.php:71
+#: ext/account/admin-setting-page.php:85
 msgid "Profile Page"
 msgstr "Trang thông tin cá nhân"
 
-#: ext/account/admin-setting-page.php:74
+#: ext/account/admin-setting-page.php:88
 msgid "Saved Posts Page"
 msgstr "Trang bài viết đã lưu"
 
-#: ext/account/admin-setting-page.php:80
+#: ext/account/admin-setting-page.php:94
 msgid "Login Logo"
 msgstr "Logo trang đăng nhập"
 
-#: ext/account/admin-setting-page.php:92
+#: ext/account/admin-setting-page.php:101
+msgid "App Secret"
+msgstr "App Secret"
+
+#: ext/account/admin-setting-page.php:104
+msgid "Client Token"
+msgstr "Client Token"
+
+#: ext/account/admin-setting-page.php:107
+msgid "API Version"
+msgstr "Phiên bản API"
+
+#: ext/account/admin-setting-page.php:112
+msgid "Popup"
+msgstr "Popup"
+
+#: ext/account/admin-setting-page.php:113
+msgid "Modal"
+msgstr "Modal"
+
+#: ext/account/admin-setting-page.php:118
+msgid "Display"
+msgstr "Hiển thị"
+
+#: ext/account/admin-setting-page.php:121
+msgid "Default Country Code"
+msgstr "Mã quốc gia mặc định"
+
+#: ext/account/admin-setting-page.php:128
+msgid "Users must verify their phone number for viewing site?"
+msgstr "Người dùng phải xác minh số điện thoại trước khi có thể xem trang web?"
+
+#: ext/account/admin-setting-page.php:130
+msgid "Must Verify Phone Number"
+msgstr "Bắt buộc xác minh số điện thoại"
+
+#: ext/account/admin-setting-page.php:142
 msgid "Account Tools Page"
 msgstr "Trang công cụ tài khoản"
 
-#: ext/account/admin-setting-page.php:94
+#: ext/account/admin-setting-page.php:144
 msgid ""
 "If you want to use custom page for user functions instead of using <code>wp-"
 "login.php</code>, you can choose the page for these settings below."
@@ -129,11 +326,11 @@ msgstr ""
 "thay vì sử dụng trang <code>wp-login.php</code> của WordPress, bạn có thể "
 "chọn các trang cài đặt bên dưới."
 
-#: ext/account/admin-setting-page.php:105
+#: ext/account/admin-setting-page.php:155
 msgid "Customize Default Login Page"
 msgstr "Tùy chỉnh trang đăng nhập mặc định"
 
-#: ext/account/admin-setting-page.php:107
+#: ext/account/admin-setting-page.php:157
 msgid ""
 "You can customize some styles to make the default WordPress login page more "
 "pretty."
@@ -141,11 +338,32 @@ msgstr ""
 "Bạn có thể cài đặt tùy chỉnh để làm cho giao diện trang đăng nhập mặc định "
 "của WordPress thêm đẹp hơn."
 
-#: ext/account/admin.php:128
+#: ext/account/admin-setting-page.php:168
+msgid "Facebook Account Kit"
+msgstr "Facebook Account Kit"
+
+#: ext/account/admin-setting-page.php:170
+msgid ""
+"Account Kit helps people quickly and easily register and log into your app "
+"using their phone number or email address as passwordless credentials. "
+"Account Kit is powered by Facebook's email, SMS and WhatsApp sending "
+"infrastructure for reliable scalable performance with global reach. Because "
+"it uses email and phone number authentication, Account Kit does not require "
+"a Facebook account and is the ideal alternative to a social login."
+msgstr ""
+"Với Account Kit, mọi người có thể đăng ký cũng như đăng nhập ứng dụng thật "
+"nhanh chóng và dễ dàng bằng cách sử dụng số điện thoại hoặc địa chỉ email "
+"của họ làm thông tin đăng nhập không cần mật khẩu. Account Kit được cơ sở hạ "
+"tầng gửi WhatsApp, SMS và email của Facebook hỗ trợ để mang lại hiệu quả tin "
+"cậy, có thể mở rộng với phạm vi tiếp cận toàn cầu. Do sử dụng phương pháp "
+"xác thực bằng email và số điện thoại nên Account Kit không yêu cầu tài khoản "
+"Facebook và là phương thức thay thế lý tưởng để đăng nhập mạng xã hội."
+
+#: ext/account/admin.php:126 ext/account/admin.php:389
 msgid "This site does not allow users to register."
 msgstr "Trang này không cho phép người dùng đăng ký."
 
-#: ext/account/admin.php:203
+#: ext/account/admin.php:199
 #, php-format
 msgid ""
 "You must fully input settings in <a href=\"%s\">Social tab</a> for account "
@@ -154,9 +372,57 @@ msgstr ""
 "Bạn phải cài đặt đầy đủ nội dung trong <a href=\"%s\">tab mạng xã hội</a> để "
 "gói mở rộng cho tài khoản hoạt động bình thường."
 
-#: ext/account/admin.php:207
+#: ext/account/admin.php:203
 msgid "Account Extension:"
 msgstr "Gói mở rộng tài khoản:"
+
+#: ext/account/admin.php:219 ext/account/page-edit-profile.php:104
+msgid "There was an error occurred, please try again."
+msgstr "Đã có lỗi xảy ra, xin vui lòng thử lại."
+
+#: ext/account/admin.php:235
+msgid "Your email address has been disconnected successfully."
+msgstr "Địa chỉ email của bạn đã được ngắt kết nối thành công."
+
+#: ext/account/admin.php:251
+msgid "Your phone number has been disconnected successfully."
+msgstr "Số điện thoại của bạn đã được ngắt kết nối thành công."
+
+#: ext/account/admin.php:261
+msgid "Invalid nonce"
+msgstr "Mã xác minh không hợp lệ"
+
+#: ext/account/admin.php:340
+msgid "You have been logged in successfully."
+msgstr "Bạn đã được đăng nhập thành công."
+
+#: ext/account/admin.php:351
+msgid "Your email address is not connected."
+msgstr "Địa chỉ email của bạn chưa được kết nối."
+
+#: ext/account/admin.php:353 ext/account/admin.php:362
+msgid "Your phone number is not connected."
+msgstr "Số điện thoại của bạn chưa được kết nối."
+
+#: ext/account/admin.php:355
+msgid "Your phone number or email address is not connected."
+msgstr "Số điện thoại hoặc địa chỉ email của bạn chưa được kết nối."
+
+#: ext/account/admin.php:377 ext/account/page-register.php:99
+msgid "Your account has been created successfully."
+msgstr "Tài khoản của bạn đã được tạo thành công."
+
+#: ext/account/admin.php:386
+msgid "Cannot create user."
+msgstr "Không thể tạo tài khoản."
+
+#: ext/account/admin.php:412
+msgid "Your email address has been connected successfully."
+msgstr "Địa chỉ email của bạn đã được kết nối thành công."
+
+#: ext/account/admin.php:443
+msgid "Your phone number has been connected successfully."
+msgstr "Số điện thoại của bạn đã được kết nối thành công."
 
 #: ext/account/connected-accounts.php:20
 msgid "Connected Accounts"
@@ -196,11 +462,11 @@ msgctxt "connect social account"
 msgid "Google"
 msgstr "Google"
 
-#: ext/account/default-login-page.php:79
+#: ext/account/default-login-page.php:84
 msgid "Privacy Policy"
 msgstr "Chính sách bảo mật"
 
-#: ext/account/default-login-page.php:102
+#: ext/account/default-login-page.php:107
 msgid "Select the language:"
 msgstr "Chọn ngôn ngữ:"
 
@@ -224,10 +490,6 @@ msgstr "Mật khẩu hiện tại của bạn không khớp với những gì ch
 #: ext/account/page-edit-profile.php:98
 msgid "Your profile has been updated successfully."
 msgstr "Thông tin cá nhân của bạn đã được cập nhật thành công."
-
-#: ext/account/page-edit-profile.php:104
-msgid "There was an error occurred, please try again."
-msgstr "Đã có lỗi xảy ra, xin vui lòng thử lại."
 
 #: ext/account/page-edit-profile.php:127
 msgid "Roles:"
@@ -277,7 +539,7 @@ msgid "Nickname"
 msgstr "Biệt danh"
 
 #: ext/account/page-edit-profile.php:253 ext/account/page-register.php:121
-#: ext/vip.php:206
+#: ext/vip.php:270
 msgid "Email"
 msgstr "Địa chỉ email"
 
@@ -306,91 +568,91 @@ msgstr "Lưu thay đổi"
 msgid "You are logged in."
 msgstr "Bạn đã đăng nhập."
 
-#: ext/account/page-login.php:40
+#: ext/account/page-login.php:43
 msgid "Username or Email"
 msgstr "Tên tài khoản hoặc địa chỉ email"
 
-#: ext/account/page-login.php:49 ext/account/page-register.php:130
+#: ext/account/page-login.php:52 ext/account/page-register.php:130
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: ext/account/page-login.php:59
+#: ext/account/page-login.php:63
 msgid "Remember Me"
 msgstr "Ghi nhớ đăng nhập"
 
-#: ext/account/page-login.php:72
+#: ext/account/page-login.php:76
 msgid "Log In"
 msgstr "Đăng nhập"
 
-#: ext/account/page-login.php:77
+#: ext/account/page-login.php:81
 msgid "Lost Password?"
 msgstr "Quên mật khẩu?"
 
-#: ext/account/page-login.php:81 ext/account/page-lostpassword.php:189
+#: ext/account/page-login.php:85 ext/account/page-lostpassword.php:197
 msgid "Or"
 msgstr "Hoặc"
 
-#: ext/account/page-login.php:82 ext/account/page-lostpassword.php:190
+#: ext/account/page-login.php:86 ext/account/page-lostpassword.php:198
 #: ext/account/page-register.php:155
 msgid "Register"
 msgstr "Đăng ký"
 
-#: ext/account/page-lostpassword.php:35
+#: ext/account/page-lostpassword.php:37
 msgid "<strong>ERROR</strong>: Enter a username or email address."
 msgstr "<strong>Lỗi:</strong> Điền tên tài khoản hoặc địa chỉ email."
 
-#: ext/account/page-lostpassword.php:39
+#: ext/account/page-lostpassword.php:41
 msgid ""
 "<strong>ERROR</strong>: There is no user registered with that email address."
 msgstr ""
 "<strong>Lỗi:</strong> Không có người dùng nào đăng ký bằng địa chỉ email đó."
 
-#: ext/account/page-lostpassword.php:62
+#: ext/account/page-lostpassword.php:64
 msgid "<strong>ERROR</strong>: Invalid username or email."
 msgstr "<strong>Lỗi:</strong> Tên tài khoản hoặc địa chỉ email không đúng."
 
-#: ext/account/page-lostpassword.php:86
+#: ext/account/page-lostpassword.php:90
 msgid "Someone has requested a password reset for the following account:"
 msgstr "Ai đó đã yêu cầu khôi phục mật khẩu cho tài khoản bên dưới:"
 
-#: ext/account/page-lostpassword.php:88
+#: ext/account/page-lostpassword.php:92
 #, php-format
 msgid "Site Name: %s"
 msgstr "Tên trang web: %s"
 
-#: ext/account/page-lostpassword.php:90
+#: ext/account/page-lostpassword.php:94
 #, php-format
 msgid "Username: %s"
 msgstr "Tên tài khoản: %s"
 
-#: ext/account/page-lostpassword.php:91
+#: ext/account/page-lostpassword.php:95
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 "Nếu đây là lỗi của chúng tôi, bạn chỉ việc bỏ qua nội dung thư này và không "
 "làm gì cả."
 
-#: ext/account/page-lostpassword.php:92
+#: ext/account/page-lostpassword.php:96
 msgid "To reset your password, visit the following address:"
 msgstr "Để khôi phục mật khẩu của bạn, xin vui lòng truy cập đường dẫn sau:"
 
-#: ext/account/page-lostpassword.php:96
+#: ext/account/page-lostpassword.php:100
 #, php-format
 msgid "[%s] Password Reset"
 msgstr "[%s] Khôi phục mật khẩu"
 
-#: ext/account/page-lostpassword.php:126
+#: ext/account/page-lostpassword.php:134
 msgid "The email could not be sent."
 msgstr "Thư không thể gửi đi."
 
-#: ext/account/page-lostpassword.php:126
+#: ext/account/page-lostpassword.php:134
 msgid "Possible reason: your host may have disabled the mail() function."
 msgstr "Lý do có thể: Hosting của bạn đã có thể tắt hàm gửi mail."
 
-#: ext/account/page-lostpassword.php:153
+#: ext/account/page-lostpassword.php:161
 msgid "Please check your email to reset new password."
 msgstr "Xin vui lòng kiểm tra địa chỉ email của bạn để khôi phục mật khẩu mới."
 
-#: ext/account/page-lostpassword.php:161
+#: ext/account/page-lostpassword.php:169
 msgid ""
 "Please enter your email address or username. You will receive a link to "
 "create a new password via email."
@@ -398,11 +660,11 @@ msgstr ""
 "Xin vui lòng nhập địa chỉ email hoặc tên đăng nhập. Bạn sẽ nhận một đường "
 "link để chuyển sang trang tạo mật khẩu mới vào hòm thư."
 
-#: ext/account/page-lostpassword.php:166
+#: ext/account/page-lostpassword.php:174
 msgid "Email Address or Username"
 msgstr "Địa chỉ email hoặc tên tài khoản"
 
-#: ext/account/page-lostpassword.php:179
+#: ext/account/page-lostpassword.php:187
 msgid "Reset Password"
 msgstr "Khôi phục mật khẩu"
 
@@ -425,10 +687,6 @@ msgstr "Mật khẩu không trùng khớp!"
 #: ext/account/page-register.php:53
 msgid "Username or email exists!"
 msgstr "Tên tài khoản hoặc địa chỉ email đã tồn tại!"
-
-#: ext/account/page-register.php:99
-msgid "Your account has been created successfully."
-msgstr "Tài khoản của bạn đã được tạo thành công."
 
 #: ext/account/page-register.php:170
 #, php-format
@@ -562,7 +820,17 @@ msgstr ""
 "Hệ thống sẽ chuyển tiếp người dùng sang đường dẫn này sau khi bài viết đã "
 "được đăng."
 
-#: ext/add-post-frontend.php:333
+#: ext/add-post-frontend.php:285
+msgctxt "publish post"
+msgid "Publish"
+msgstr "Đăng bài"
+
+#: ext/add-post-frontend.php:381
+#, php-format
+msgid "%d %s has/have been published successfully."
+msgstr "%d %s đã được đăng thành công."
+
+#: ext/add-post-frontend.php:390
 #, php-format
 msgid ""
 "You must fully input settings in <a href=\"%s\">Social tab</a> for Add Post "
@@ -571,28 +839,28 @@ msgstr ""
 "Bạn phải cài đặt đầy đủ nội dung trong <a href=\"%s\">tab mạng xã hội</a> để "
 "gói mở rộng Viết bài ngoài frontend hoạt động bình thường."
 
-#: ext/add-post-frontend.php:337
+#: ext/add-post-frontend.php:394
 msgid "Add Post Frontend:"
 msgstr "Viết bài trên frontend:"
 
-#: ext/add-post-frontend.php:921
+#: ext/add-post-frontend.php:978
 #, php-format
 msgid "-- Choose %s --"
 msgstr "-- Chọn %s --"
 
-#: ext/add-post-frontend.php:946
+#: ext/add-post-frontend.php:1003
 msgid "Show all items"
 msgstr "Hiện thị tất cả"
 
-#: ext/add-post-frontend.php:959
+#: ext/add-post-frontend.php:1016
 msgid "Each value separated by commas."
 msgstr "Mỗi giá trị được phân cách nhau bởi dấu phẩy."
 
-#: ext/add-post-frontend.php:1059
+#: ext/add-post-frontend.php:1120
 msgid "Please select PNG or JPEG image only."
 msgstr "Xin vui lòng chỉ chọn hình ảnh PNG hoặc JPEG."
 
-#: ext/add-post-frontend.php:1120 ext/vip-management/form-add-post.php:299
+#: ext/add-post-frontend.php:1181 ext/vip-management/form-add-post.php:299
 msgid "Upload image"
 msgstr "Tải ảnh lên"
 
@@ -600,6 +868,10 @@ msgstr "Tải ảnh lên"
 #, php-format
 msgid "You can only upload %s media file per day."
 msgstr "Bạn có thể tải lên %s tập tin đa phương tiện mỗi ngày."
+
+#: ext/add-post-frontend/add-post-frontend.php:146
+msgid "Pending Posts"
+msgstr "Bài đang chờ duyệt"
 
 #: ext/add-post-frontend/template.php:82
 msgid "Invalid form data."
@@ -655,17 +927,45 @@ msgstr "Đăng bài viết"
 msgid "Back to home"
 msgstr "Trở lại trang chủ"
 
-#: ext/add-post-frontend/user-profile.php:21
+#: ext/add-post-frontend/user-profile.php:23
 msgid "Coin"
 msgstr "Coin"
 
-#: ext/ads.php:66
-msgid "Leaderboard"
-msgstr "Đầu trang"
-
-#: ext/ads/admin.php:7
+#: ext/ads.php:52 ext/ads/admin.php:7
 msgid "Ads Management"
 msgstr "Quảng cáo"
+
+#: ext/ads.php:56
+msgid "Auto detect ads block extension on browser."
+msgstr "Tự động phát hiện trình mở rộng chặn quảng cáo của trình duyệt."
+
+#: ext/ads.php:61
+msgid "Detect Ads Block"
+msgstr "Phát hiện chặn quảng cáo"
+
+#: ext/ads.php:70
+msgid "Ads Block Message"
+msgstr "Thông báo chặn quảng cáo"
+
+#: ext/ads.php:75
+msgid "Video Ad Tag URL"
+msgstr "Đường dẫn quảng cáo video"
+
+#: ext/ads.php:100
+msgid ""
+"Our website is made possible by displaying online advertisements to our "
+"visitors. Please consider supporting us by disabling your ad blocker."
+msgstr ""
+"Trang web của chúng tôi hoạt động được là nhờ vào quảng cáo. Xin vui lòng "
+"tắt chặn quảng cáo để hỗ trợ kinh phí duy trì cho trang web hoạt động."
+
+#: ext/ads.php:125
+msgid "Random"
+msgstr "Ngẫu nhiên"
+
+#: ext/ads.php:126
+msgid "Leaderboard"
+msgstr "Đầu trang"
 
 #: ext/ads/admin.php:17
 msgid "Ads Information"
@@ -675,142 +975,312 @@ msgstr "Thông tin quảng cáo"
 msgid "-- Choose position --"
 msgstr "-- Chọn vị trí --"
 
-#: ext/ads/admin.php:23
+#: ext/ads/admin.php:23 ext/ads/class-hocwp-ads-widget.php:72
 msgid "Position:"
 msgstr "Vị trí:"
 
-#: ext/ads/admin.php:29
+#: ext/ads/admin.php:30
 msgid "Expiry date:"
 msgstr "Ngày hết hạn:"
 
-#: ext/ads/admin.php:32
+#: ext/ads/admin.php:33
 msgid "Image:"
 msgstr "Hình ảnh:"
 
-#: ext/ads/admin.php:35
+#: ext/ads/admin.php:36
 msgid "Url:"
 msgstr "Đường dẫn:"
 
 #: ext/ads/admin.php:39
+msgid "VAST/VPAID Ads URL:"
+msgstr "Đường dẫn quảng cáo VAST/VPAID:"
+
+#: ext/ads/admin.php:43
 msgid "Code:"
 msgstr "Mã:"
 
-#: ext/ads/admin.php:42
+#: ext/ads/admin.php:46
+msgid "Only display on mobile?"
+msgstr "Chỉ hiển thị trên thiết bị di động?"
+
+#: ext/ads/admin.php:47 ext/vip.php:265
+msgid "Mobile"
+msgstr "Di động"
+
+#: ext/ads/admin.php:50
+msgid "Only display on desktop?"
+msgstr "Chỉ hiển thị trên máy tính để bàn?"
+
+#: ext/ads/admin.php:51
+msgid "Desktop"
+msgstr "Máy tính để bàn"
+
+#: ext/ads/admin.php:54
 msgid "Make this ads as active status?"
 msgstr "Thiết lập kích hoạt cho quảng cáo này?"
 
-#: ext/ads/admin.php:43 ext/ads/admin.php:109
+#: ext/ads/admin.php:55 ext/ads/admin.php:121
 msgid "Active"
 msgstr "Kích hoạt"
 
-#: ext/ads/admin.php:107
+#: ext/ads/admin.php:119
 msgid "Position"
 msgstr "Vị trí"
 
-#: ext/ads/admin.php:108
+#: ext/ads/admin.php:120
 msgid "Expiry date"
 msgstr "Ngày hết hạn"
 
-#: ext/ads/ads.php:9
+#: ext/ads/ads.php:10
 msgid "Ads"
 msgstr "Quảng cáo"
 
-#: ext/anime.php:49
+#: ext/ads/class-hocwp-ads-widget.php:19
+msgctxt "widget description"
+msgid "Display ads by position."
+msgstr "Hiển thị quảng cáo theo vị trí."
+
+#: ext/ads/class-hocwp-ads-widget.php:93
+msgid ""
+"Displaying ads for this position randomly? If you choose random position, "
+"the ads will be displayed randomly by default."
+msgstr ""
+"Hiển thị quảng cáo cho vị trí này một cách ngẫu nhiên? Nếu bạn chọn ví trí "
+"ngẫu nhiên thì các quảng cáo sẽ được hiểm thị ngẫu nhiên theo mặc định."
+
+#: ext/anime.php:57
 msgid "Anime"
 msgstr "Phim"
 
-#: ext/anime.php:59
+#: ext/anime.php:67
 msgid "-- Choose post type --"
 msgstr "-- Chọn loại bài viết --"
 
-#: ext/anime.php:74
+#: ext/anime.php:82
 msgid "Animation Post Type"
 msgstr "Loại bài viết cho phim"
 
-#: ext/anime.php:78
+#: ext/anime.php:86
 msgid "Post type for using as animation."
 msgstr "Thể loại bài viết dùng cho phim."
 
-#: ext/anime.php:283
+#: ext/anime.php:91
+msgid "Servers"
+msgstr "Máy chủ"
+
+#: ext/anime.php:91
+msgid "The server name for movie source. Each server separates by commas."
+msgstr "Tên máy chủ cho nguồn phim. Mỗi máy chủ được cách nhau bởi dấu phẩy."
+
+#: ext/anime.php:184
+msgid "Monday"
+msgstr "Thứ hai"
+
+#: ext/anime.php:185
+msgid "Tuesday"
+msgstr "Thứ ba"
+
+#: ext/anime.php:186
+msgid "Wednesday"
+msgstr "Thứ tư"
+
+#: ext/anime.php:187
+msgid "Thursday"
+msgstr "Thứ năm"
+
+#: ext/anime.php:188
+msgid "Friday"
+msgstr "Thứ sáu"
+
+#: ext/anime.php:189
+msgid "Saturday"
+msgstr "Thứ bảy"
+
+#: ext/anime.php:190
+msgid "Sunday"
+msgstr "Chủ nhật"
+
+#: ext/anime.php:225
+msgid "Today"
+msgstr "Hôm nay"
+
+#: ext/anime.php:231
+msgid "Today's Schedule"
+msgstr "Xếp lịch hôm nay"
+
+#: ext/anime.php:254 ext/anime.php:263 ext/anime.php:309
+msgid "See all releases for this post"
+msgstr "Xem tất cả các bản phát hành của bài này"
+
+#: ext/anime.php:288
+msgid "To be scheduled"
+msgstr "Sắp được xếp lịch"
+
+#: ext/anime.php:653
+msgid "Posts title starts with:"
+msgstr "Tiêu đề bắt đầu bằng:"
+
+#: ext/anime.php:678
+msgid "Keywords:"
+msgstr "Từ khóa:"
+
+#: ext/anime.php:688
+msgid "Search"
+msgstr "Tìm kiếm"
+
+#: ext/anime.php:693
+msgctxt "form reset"
+msgid "Reset"
+msgstr "Xóa"
+
+#: ext/anime.php:700
+msgid "Search options"
+msgstr "Tùy chọn tìm kiếm"
+
+#: ext/anime.php:733
+#, php-format
+msgid "All %s"
+msgstr "Tất cả %s"
+
+#: ext/anime.php:750
+msgid "Default sorting"
+msgstr "Sắp xếp mặc định"
+
+#: ext/anime.php:751
+msgid "Sort by title: A to Z"
+msgstr "Sắp xếp theo tiêu đề: A đến Z"
+
+#: ext/anime.php:752
+msgid "Sort by title: Z to A"
+msgstr "Sắp xếp theo tiêu đề: Z đến A"
+
+#: ext/anime.php:753
+msgid "Sort by date: old to new"
+msgstr "Sắp xếp theo ngày: cũ đến mới"
+
+#: ext/anime.php:754
+msgid "Sort by date: new to old"
+msgstr "Sắp xếp theo ngày: mới đến cũ"
+
+#: ext/anime.php:758
+msgid "Sort"
+msgstr "Sắp xếp"
+
+#: ext/anime.php:830
+msgid "List Episodes"
+msgstr "Danh sách tập phim"
+
+#: ext/anime.php:841
+msgid "Movie Custom Sources Name"
+msgstr "Tên nguồn máy chủ phim tùy chỉnh"
+
+#: ext/anime.php:845
+msgid "Custom servers:"
+msgstr "Máy chủ tùy chọn:"
+
+#: ext/anime.php:845
+msgid ""
+"The custom server name for movie source. Each server separates by commas."
+msgstr ""
+"Tên máy chủ tùy chỉnh để sử dụng cho nguồn phim. Mỗi máy chủ được phân cách "
+"bởi dấu phẩy."
+
+#: ext/anime.php:851
+msgid "Movie Sources"
+msgstr "Nguồn phim"
+
+#: ext/anime.php:891 ext/anime.php:928
+msgid "No episodes found!"
+msgstr "Không có tập phim nào được tìm thấy!"
+
+#: ext/anime.php:924 ext/anime.php:931
+msgid "Add new episode"
+msgstr "Thêm tập phim mới"
+
+#: ext/anime.php:1102
 msgid "Prefix:"
 msgstr "Tiền tố:"
 
-#: ext/anime.php:287
+#: ext/anime.php:1106
 msgid "Suffix:"
 msgstr "Hậu tố:"
 
-#: ext/anime.php:298
+#: ext/anime.php:1117
 #, php-format
 msgid "Edit %s"
 msgstr "Chỉnh sửa %s"
 
-#: ext/anime.php:298
+#: ext/anime.php:1117
 msgid "Edit Anime"
 msgstr "Chỉnh sửa phim"
 
-#: ext/anime.php:303
+#: ext/anime.php:1122
 #, php-format
 msgid "View %s"
 msgstr "Xem %s"
 
-#: ext/anime.php:312
+#: ext/anime.php:1131
 msgid "Post parent"
 msgstr "Bài viết cha"
 
-#: ext/anime.php:331 ext/anime.php:544
+#: ext/anime.php:1132 ext/anime.php:1140 ext/link-manager.php:77
+msgid "Thumbnail"
+msgstr "Ảnh đại diện"
+
+#: ext/anime.php:1159 ext/anime.php:1402
 msgid "View"
 msgstr "Xem"
 
-#: ext/anime.php:360
+#: ext/anime.php:1206
 msgid "View video"
 msgstr "Xem video"
 
-#: ext/anime.php:543
+#: ext/anime.php:1401
 #, php-format
 msgid "View &#8220;%s&#8221;"
 msgstr "Xem &#8220;%s&#8221;"
 
-#: ext/anime.php:551 ext/anime.php:552
+#: ext/anime.php:1409 ext/anime.php:1410
 msgid "Add New Episode"
 msgstr "Thêm tập phim mới"
 
-#: ext/anime.php:605
+#: ext/anime.php:1463
 #, php-format
 msgctxt "episode prefix"
 msgid "Ep. %s"
 msgstr "Ep. %s"
 
-#: ext/anime.php:697
+#: ext/anime.php:1559
 #, php-format
 msgid "Please set parent for this <strong>%s</strong>."
 msgstr "Thiết lập cha cho <strong>%s</strong> này."
 
-#: ext/anime.php:749
+#: ext/anime.php:1611
 msgctxt "taxonomy"
 msgid "Release Years"
 msgstr "Năm phát hành"
 
-#: ext/anime.php:750
+#: ext/anime.php:1612
 msgctxt "taxonomy"
 msgid "Release Year"
 msgstr "Năm phát hành"
 
-#: ext/anime.php:751
+#: ext/anime.php:1613
 msgctxt "taxonomy"
 msgid "Years"
 msgstr "Năm phát hành"
 
-#: ext/anime.php:766
+#: ext/anime.php:1628
 msgctxt "taxonomy"
 msgid "Status"
 msgstr "Trạng thái"
 
-#: ext/anime.php:799
+#: ext/anime.php:1682
 msgctxt "post type"
 msgid "Episodes"
 msgstr "Tập phim"
 
-#: ext/anime.php:800
+#: ext/anime.php:1683
 msgctxt "post type"
 msgid "Episode"
 msgstr "Tập phim"
@@ -867,61 +1337,66 @@ msgstr "Base slug cho taxonomy tùy chỉnh %s"
 msgid "Remove base slug for taxonomy %s"
 msgstr "Xóa base slug cho taxonomy %s"
 
-#: ext/classifieds.php:43
+#: ext/classifieds.php:45
 msgid "Classifieds"
 msgstr "Rao vặt"
 
-#: ext/classifieds.php:47
+#: ext/classifieds.php:49
 msgid "Use category as location."
 msgstr "Sử dụng chuyên mục làm vị trí đăng tin."
 
-#: ext/classifieds.php:52
+#: ext/classifieds.php:54
 msgid "Category as Location"
 msgstr "Chuyên mục làm vị trí"
 
-#: ext/classifieds.php:82 ext/classifieds.php:119
+#: ext/classifieds.php:81 ext/classifieds.php:89
+#, php-format
+msgid "Filter by %s"
+msgstr "Lọc theo %s"
+
+#: ext/classifieds.php:109 ext/classifieds.php:146
 msgid "Maps:"
 msgstr "Bản đồ:"
 
-#: ext/classifieds.php:108 ext/classifieds.php:141
+#: ext/classifieds.php:135 ext/classifieds.php:168
 msgid "Custom Location:"
 msgstr "Vị trí tùy chọn:"
 
-#: ext/classifieds.php:301
+#: ext/classifieds.php:350
 msgctxt "post location"
 msgid "Locations"
 msgstr "Vị trí"
 
-#: ext/classifieds.php:303
+#: ext/classifieds.php:352
 msgctxt "post location"
 msgid "Location"
 msgstr "Vị trí"
 
-#: ext/classifieds.php:316
+#: ext/classifieds.php:367
 msgid "General Information"
 msgstr "Thông tin chung"
 
-#: ext/classifieds.php:320 ext/vip.php:553
+#: ext/classifieds.php:376 ext/vip.php:785
 msgid "Address:"
 msgstr "Địa chỉ:"
 
-#: ext/classifieds.php:325
+#: ext/classifieds.php:381
 msgid "Price:"
 msgstr "Giá:"
 
-#: ext/classifieds.php:328 ext/vip.php:554
+#: ext/classifieds.php:384 ext/vip.php:786
 msgid "Phone:"
 msgstr "Điện thoại:"
 
-#: ext/classifieds.php:329 ext/vip.php:556
+#: ext/classifieds.php:385 ext/vip.php:788
 msgid "Email:"
 msgstr "Địa chỉ email:"
 
-#: ext/classifieds.php:334
+#: ext/classifieds.php:390
 msgid "Acreage:"
 msgstr "Diện tích:"
 
-#: ext/classifieds.php:343 ext/google-maps.php:153
+#: ext/classifieds.php:405 ext/google-maps.php:153
 #, php-format
 msgid ""
 "<strong>Warning:</strong> Extension <code>%s</code> requires theme core "
@@ -930,79 +1405,79 @@ msgstr ""
 "<strong>Chú ý:</strong> Gói mở rộng <code>%s</code> yêu cầu phiên bản nhân "
 "giao diện tối thiểu từ %s."
 
-#: ext/classifieds.php:351
+#: ext/classifieds.php:413
 msgid "News"
 msgstr "Tin tức"
 
-#: ext/classifieds.php:363
+#: ext/classifieds.php:425
 msgid "Classifieds Types"
 msgstr "Thể loại tin rao"
 
-#: ext/classifieds.php:364
+#: ext/classifieds.php:426
 msgid "Classifieds Type"
 msgstr "Thể loại tin rao"
 
-#: ext/classifieds.php:365
+#: ext/classifieds.php:427
 msgid "Types"
 msgstr "Thể loại"
 
-#: ext/classifieds.php:374
+#: ext/classifieds.php:436
 msgid "Price"
 msgstr "Giá"
 
-#: ext/classifieds.php:383
+#: ext/classifieds.php:445
 msgid "Acreages"
 msgstr "Diện tích"
 
-#: ext/classifieds.php:384
+#: ext/classifieds.php:446
 msgid "Acreage"
 msgstr "Diện tích"
 
-#: ext/classifieds.php:393
+#: ext/classifieds.php:455
 msgid "Salaries"
 msgstr "Mức lương"
 
-#: ext/classifieds.php:394
+#: ext/classifieds.php:456
 msgid "Salary"
 msgstr "Mức lương"
 
-#: ext/classifieds.php:402
+#: ext/classifieds.php:464
 msgid "Currency Units"
 msgstr "Đơn vị tiền tệ"
 
-#: ext/classifieds.php:403
+#: ext/classifieds.php:465
 msgid "Currency Unit"
 msgstr "Đơn vị tiền tệ"
 
-#: ext/classifieds.php:404
+#: ext/classifieds.php:466
 msgid "Units"
 msgstr "Đơn vị"
 
-#: ext/classifieds.php:412
+#: ext/classifieds.php:474
 msgid "News Categories"
 msgstr "Chuyên mục tin tức"
 
-#: ext/classifieds.php:413
+#: ext/classifieds.php:475
 msgid "News Category"
 msgstr "Chuyên mục tin tức"
 
-#: ext/classifieds.php:414
+#: ext/classifieds.php:476
 msgid "Categories"
 msgstr "Chuyên mục"
 
-#: ext/classifieds.php:423
+#: ext/classifieds.php:485
 msgid "News Tags"
 msgstr "Thẻ tin tức"
 
-#: ext/classifieds.php:424
+#: ext/classifieds.php:486
 msgid "News Tag"
 msgstr "Thẻ tin tức"
 
-#: ext/classifieds.php:425
+#: ext/classifieds.php:487
 msgid "Tags"
 msgstr "Thẻ"
 
-#: ext/classifieds.php:446
+#: ext/classifieds.php:508
 msgid "Agreed price"
 msgstr "Thỏa thuận"
 
@@ -1084,15 +1559,19 @@ msgstr "Streamcherry"
 msgid "Streamcherry streaming API settings."
 msgstr "Cài đặt Streamcherry API."
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:55
+#: ext/jwplayer/admin-setting-page-jwplayer.php:57
 msgid "Key"
 msgstr "Mã"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:68
+#: ext/jwplayer/admin-setting-page-jwplayer.php:67 ext/media-player.php:149
+msgid "Player Library URL"
+msgstr "Đường dẫn thư viện trình phát"
+
+#: ext/jwplayer/admin-setting-page-jwplayer.php:83 ext/media-player.php:160
 msgid "-- Choose skin --"
 msgstr "-- Chọn giao diện --"
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:76
+#: ext/jwplayer/admin-setting-page-jwplayer.php:93
 msgid "Skin"
 msgstr "Giao diện"
 
@@ -1109,23 +1588,19 @@ msgstr "Không thể lấy download ticket!"
 msgid "JW Player extension not loaded!"
 msgstr "Gói mở rộng JW Player không được tải!"
 
-#: ext/link-manager.php:77
-msgid "Thumbnail"
-msgstr "Ảnh đại diện"
-
 #: ext/link-manager.php:86
 msgid "Featured Image"
 msgstr "Ảnh đại diện"
 
-#: ext/media-player.php:64
+#: ext/media-player.php:92
 msgid "Media Player"
 msgstr "Trình phát video"
 
-#: ext/media-player.php:81
+#: ext/media-player.php:109
 msgid "JW Player Configuration"
 msgstr "Cài đặt JW Player"
 
-#: ext/media-player.php:91
+#: ext/media-player.php:119
 msgid ""
 "Provide informations for player working. JW Player is the most powerful & "
 "flexible video platform powered by the fastest, most-used HTML5 online video "
@@ -1135,28 +1610,37 @@ msgstr ""
 "video mạnh mẽ và linh hoạt được hỗ trợ trên nền tảng nhanh nhất, đây trình "
 "phát video HTML5 được sử dụng nhiều nhất."
 
-#: ext/media-player.php:99
+#: ext/media-player.php:127
 msgid "Background"
 msgstr "Hình nền"
 
-#: ext/media-player.php:103
-msgid "Using JW Player as your main player?"
-msgstr "Sử dụng JW Player làm trình phát chính?"
+#: ext/media-player.php:131
+msgid ""
+"By default, the media will be played via iframe. But you can play media "
+"instantly by checking this box."
+msgstr ""
+"Theo mặc định, các tập tin đa phương tiện sẽ được phát thông qua iframe. "
+"Nhưng bạn có thể phát các tập tin đa phương tiện ngay lập tức bằng cách kích "
+"hoạt chức năng này."
 
-#: ext/media-player.php:105
-msgid "Use JW Player"
-msgstr "Sử dụng JW Player"
+#: ext/media-player.php:133
+msgid "Inline Player"
+msgstr "Trình phát nội tuyến"
 
-#: ext/media-player.php:112
+#: ext/media-player.php:141
 msgid "Player"
 msgstr "Trình phát"
 
-#: ext/media-player.php:117
+#: ext/media-player.php:146
 msgctxt "jw player"
 msgid "Key"
 msgstr "Mã"
 
-#: ext/media-player.php:208
+#: ext/media-player.php:175
+msgid "Player Skin"
+msgstr "GIao diện trình phát"
+
+#: ext/media-player.php:315
 msgid "Loading mirror..."
 msgstr "Đang tải..."
 
@@ -1302,100 +1786,104 @@ msgstr "Trước"
 msgid "Next"
 msgstr "Tiếp"
 
-#: ext/vip.php:31
+#: ext/vip.php:33
 msgid "VIP Management"
 msgstr "Quản lý VIP"
 
-#: ext/vip.php:40
+#: ext/vip.php:42
 msgid "Coin Rate"
 msgstr "Tỷ giá chuyển đổi coin"
 
-#: ext/vip.php:45
+#: ext/vip.php:47
 msgid "Conversion rate $1 into coin. For example: $1 = 100."
 msgstr "Tỷ giá chuyển đổi $1 thành coin. Ví dụ như $1 = 100."
 
-#: ext/vip.php:56
+#: ext/vip.php:58
 msgid "Post Price"
 msgstr "Chi phí viết bài"
 
-#: ext/vip.php:61
+#: ext/vip.php:63
 msgid "VIP post costs by day."
 msgstr "Chi phí cho bài viết VIP mỗi ngày."
 
-#: ext/vip.php:67
+#: ext/vip.php:69
 msgid "Allow user add new VIP post then pay later."
 msgstr "Cho phép người dùng đăng tin VIP sau đó thanh toán sau."
 
-#: ext/vip.php:72
+#: ext/vip.php:74
 msgid "Pay Later"
 msgstr "Thanh toán sau"
 
-#: ext/vip.php:80
+#: ext/vip.php:82
 msgid "Add button for user upload gallery images."
 msgstr "Thêm nút cho người dùng tải lên ảnh thư viện."
 
-#: ext/vip.php:84
+#: ext/vip.php:86
 msgid "Upload Gallery"
 msgstr "Tải ảnh thư viện"
 
-#: ext/vip.php:93
+#: ext/vip.php:94
+msgid "Auto mark post as VIP content when changing expiry date."
+msgstr "Tự động gắn bài viết là nội dung VIP khi thay đổi ngày hết hạn."
+
+#: ext/vip.php:98
+msgid "Auto VIP Post"
+msgstr "Tự động thêm VIP"
+
+#: ext/vip.php:107
 msgid "Custom Messages"
 msgstr "Tùy chỉnh các tin nhắn"
 
-#: ext/vip.php:94
+#: ext/vip.php:108
 msgid "Change messages on add new post form."
 msgstr "Thay đổi các tin nhắn trên form đăng bài viết."
 
-#: ext/vip.php:101
+#: ext/vip.php:115
 msgid "Normal Post Description"
 msgstr "Mô tả bài viết bình thường"
 
-#: ext/vip.php:112
+#: ext/vip.php:126
 msgid "VIP Post Description"
 msgstr "Mô tả bài viết VIP"
 
-#: ext/vip.php:123
+#: ext/vip.php:137
 msgid "Confirm Post Notice"
 msgstr "Ghi chú xác nhận đăng tin"
 
-#: ext/vip.php:134
+#: ext/vip.php:148
 msgid "VIP Post Added Message"
 msgstr "Tin nhắn đăng tin VIP"
 
-#: ext/vip.php:145
+#: ext/vip.php:159
 msgid "VIP Post Content Info"
 msgstr "Chú thích nội dung VIP"
 
-#: ext/vip.php:186
+#: ext/vip.php:250
 msgid "Your name"
 msgstr "Tên của bạn"
 
-#: ext/vip.php:191
+#: ext/vip.php:255
 msgid "Address"
 msgstr "Địa chỉ"
 
-#: ext/vip.php:196
+#: ext/vip.php:260
 msgid "Phone"
 msgstr "Điện thoại"
 
-#: ext/vip.php:201
-msgid "Mobile"
-msgstr "Di động"
-
-#: ext/vip.php:387
+#: ext/vip.php:611
 msgid "You do not have enough coin to add more day for VIP content."
 msgstr "Bạn không có đủ coin để thêm ngày vào nội dung VIP."
 
-#: ext/vip.php:411
+#: ext/vip.php:640
 #, php-format
 msgid "You have added %s more VIP days for this post."
 msgstr "Bạn vừa mới thêm %s ngày VIP cho bài viết này."
 
-#: ext/vip.php:439
+#: ext/vip.php:670
 msgid "You do not have enough coin to post VIP content."
 msgstr "Bạn không có đủ coin để đăng nội dung VIP."
 
-#: ext/vip.php:482
+#: ext/vip.php:713
 #, php-format
 msgid ""
 "You must have at least %s coin to add VIP content. Please add more coin."
@@ -1403,46 +1891,60 @@ msgstr ""
 "Bạn phải có ít nhất %s coin để có thể đăng nội dung VIP. Xin vui lòng nạp "
 "thêm coin."
 
-#: ext/vip.php:522
+#: ext/vip.php:714
+#, php-format
+msgid "You can only upload %d gallery images each post."
+msgstr "Bạn chỉ có thể tải lên %d hình ảnh cho mỗi bài viết."
+
+#: ext/vip.php:715
+msgctxt "add vip post"
+msgid "Are you sure you want to submit this post?"
+msgstr "Bạn có chắc là muốn gửi bài viết này hay không?"
+
+#: ext/vip.php:754
 msgid "VIP Content Information"
 msgstr "Thông tin nội dung VIP"
 
-#: ext/vip.php:525
+#: ext/vip.php:757
 msgid "VIP:"
 msgstr "VIP:"
 
-#: ext/vip.php:527
+#: ext/vip.php:759
 msgid "Mark this post as VIP content."
 msgstr "Đánh dấu bài viết này là nội dung VIP."
 
-#: ext/vip.php:532
+#: ext/vip.php:764
 msgid "Expiry day:"
 msgstr "Ngày hết hạn:"
 
-#: ext/vip.php:537
+#: ext/vip.php:769
 #, php-format
 msgid "Add more day for your VIP content. %s coins per day."
 msgstr "Thêm số ngày vào nội dung VIP của bạn. %s coin mỗi ngày."
 
-#: ext/vip.php:542
+#: ext/vip.php:774
 msgid "Add more day:"
 msgstr "Thêm ngày:"
 
-#: ext/vip.php:549
+#: ext/vip.php:781
 msgid "VIP Contact Information"
 msgstr "Thông tin người đăng tin VIP"
 
-#: ext/vip.php:552
+#: ext/vip.php:784
 msgid "Full Name:"
 msgstr "Họ và tên:"
 
-#: ext/vip.php:555
+#: ext/vip.php:787
 msgid "Mobile:"
 msgstr "Di động:"
 
-#: ext/vip.php:557
+#: ext/vip.php:789
 msgid "Total Cost:"
 msgstr "Tổng thanh toán:"
+
+#: ext/woocommerce.php:105
+msgid "Facebook Comments"
+msgstr "Bình luận Facebook"
 
 #: ext/woocommerce/admin-setting-page.php:8
 msgid "WooCommerce"
@@ -1451,6 +1953,22 @@ msgstr "Trang shop"
 #: ext/woocommerce/admin-setting-page.php:27
 msgid "USD to Vietnam Dong Rate"
 msgstr "Tỷ giá USD sang VNĐ"
+
+#: ext/woocommerce/admin-setting-page.php:35
+msgid "Use custom comment system for product?"
+msgstr "Sử dụng hệ thống bình luận tùy chỉnh cho trang sản phẩm?"
+
+#: ext/woocommerce/admin-setting-page.php:38
+msgid "Custom Comment"
+msgstr "Bình luận tùy chỉnh"
+
+#: ext/woocommerce/admin-setting-page.php:41
+msgid "Replace review form with custom comment form."
+msgstr "Thay thế khung nhận xét sản phẩm thành khung bình luận tùy chỉnh."
+
+#: ext/woocommerce/admin-setting-page.php:43
+msgid "Replace Review"
+msgstr "Thay thế nhận xét"
 
 #: inc/admin-setting-page-development.php:12
 msgid "Development"
@@ -1467,7 +1985,7 @@ msgstr ""
 "lòng dành thời gian để <a href=\"%s\" target=\"_blank\">nâng cấp nó</a>. Nếu "
 "bạn không phải là tác giả của giao diện, bạn chỉ việc tắt thông báo này đi."
 
-#: sb-core.php:37
+#: sb-core.php:38
 #, php-format
 msgid ""
 "<strong>Error:</strong> You are using PHP version %s, please upgrade PHP "
@@ -1476,15 +1994,15 @@ msgstr ""
 "<strong>Lỗi:</strong> Bạn đang sử dụng phiên bản PHP %s, xin vui lòng nâng "
 "cấp lên phiên bản PHP %s hoặc cao hơn."
 
-#: sb-core.php:38
+#: sb-core.php:39
 msgid "Invalid PHP Version"
 msgstr "Phiên bản PHP không hợp lệ"
 
-#: sb-core.php:86
+#: sb-core.php:87
 msgid "Invalid Theme Core Version"
 msgstr "Phiên bản nhân giao diện không hợp lệ"
 
-#: sb-core.php:89
+#: sb-core.php:90
 #, php-format
 msgid ""
 "<strong>Error:</strong> Plugin <code>%s</code> requires theme core version "
@@ -1495,11 +2013,11 @@ msgstr ""
 "giao diện <code>%s</code> hoặc cao hơn. Xin vui lòng nâng cấp giao diện của "
 "bạn hoặc hạ phiên bản plugin này xuống."
 
-#: sb-core.php:123
+#: sb-core.php:151
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: sb-core.php:186
+#: sb-core.php:214
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core "
@@ -1513,7 +2031,7 @@ msgstr ""
 "bản của plugin xuống phiên bản thấp hơn, nhưng chúng tôi không khuyến khích "
 "bạn làm việc này."
 
-#: sb-core.php:205
+#: sb-core.php:233
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme "
@@ -1524,6 +2042,15 @@ msgstr ""
 "được thực hiện bởi HocWP Team hoặc đường dẫn thư mục của giao diện phải là "
 "<code>hocwp-theme</code>, bạn có thể thay đổi giao diện <a href=\"%s\">tại "
 "đây</a>."
+
+#~ msgid "Test text translation"
+#~ msgstr "Thử dịch văn bản"
+
+#~ msgid "Using JW Player as your main player?"
+#~ msgstr "Sử dụng JW Player làm trình phát chính?"
+
+#~ msgid "Use JW Player"
+#~ msgstr "Sử dụng JW Player"
 
 #~ msgid "Contact name:"
 #~ msgstr "Tên liên hệ:"
@@ -1545,6 +2072,3 @@ msgstr ""
 
 #~ msgid "You will pay %s coins for posting VIP content."
 #~ msgstr "Bạn sẽ phải trả %s coin để đăng nội dung VIP."
-
-#~ msgid "Add VIP Post"
-#~ msgstr "Thêm bài viết VIP"

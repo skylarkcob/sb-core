@@ -41,6 +41,7 @@ function hocwp_theme_settings_page_jwplayer_section() {
 			'description' => __( 'Streamcherry streaming API settings.', 'sb-core' )
 		)
 	);
+
 	$fields = array();
 
 	return $fields;
@@ -50,6 +51,7 @@ add_filter( 'hocwp_theme_settings_page_jwplayer_settings_section', 'hocwp_theme_
 
 function hocwp_theme_settings_page_jwplayer_field() {
 	$fields    = array();
+
 	$fields[]  = array(
 		'id'    => 'key',
 		'title' => __( 'Key', 'sb-core' ),
@@ -59,18 +61,33 @@ function hocwp_theme_settings_page_jwplayer_field() {
 			'label_for' => true
 		)
 	);
+
+	$fields[]  = array(
+		'id'    => 'player_library_url',
+		'title' => __( 'Player Library URL', 'sb-core' ),
+		'tab'   => 'jwplayer',
+		'args'  => array(
+			'type'      => 'url',
+			'label_for' => true
+		)
+	);
+
 	$skins_dir = HOCWP_THEME_CUSTOM_PATH . '/lib/jwplayer/skins';
+
 	if ( is_dir( $skins_dir ) ) {
 		$files = scandir( $skins_dir );
 		unset( $files[0], $files[1] );
+
 		if ( HOCWP_Theme::array_has_value( $files ) ) {
 			$opts = array(
 				__( '-- Choose skin --', 'sb-core' )
 			);
+
 			foreach ( $files as $file ) {
 				$info                      = pathinfo( $file );
 				$opts[ $info['filename'] ] = ucfirst( $info['filename'] );
 			}
+
 			$fields[] = array(
 				'id'    => 'skin',
 				'title' => __( 'Skin', 'sb-core' ),

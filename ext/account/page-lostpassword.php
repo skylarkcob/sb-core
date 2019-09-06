@@ -31,6 +31,8 @@ $permalink = get_the_permalink();
 					function retrieve_password() {
 						$errors = new WP_Error();
 
+						$user_data = '';
+
 						if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
 							$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.', 'sb-core' ) );
 						} elseif ( strpos( $_POST['user_login'], '@' ) ) {
@@ -83,6 +85,8 @@ $permalink = get_the_permalink();
 							$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 						}
 
+						$switched_locale = switch_to_locale( get_user_locale( $user_data ) );
+
 						$message = __( 'Someone has requested a password reset for the following account:', 'sb-core' ) . "\r\n\r\n";
 						/* translators: %s: site name */
 						$message .= sprintf( __( 'Site Name: %s', 'sb-core' ), $site_name ) . "\r\n\r\n";
@@ -122,7 +126,11 @@ $permalink = get_the_permalink();
 						 */
 						$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
-						if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
+						if ( $switched_locale ) {
+							restore_previous_locale();
+						}
+
+						if ( $message && ! HT_Util()->html_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
 							$errors->add( 'email_not_sent', __( 'The email could not be sent.', 'sb-core' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function.', 'sb-core' ) );
 
 							return $errors;

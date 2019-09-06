@@ -34,33 +34,37 @@ $permalink = get_the_permalink();
 				<?php
 			}
 		}
+
+		$class     = 'col-md-5';
+		$sub_class = 'col-md-7';
 		?>
 		<div class="form-group row">
-			<div class="col-md-3">
+			<div class="<?php echo $class; ?>">
 				<label for="user_login"><?php _e( 'Username or Email', 'sb-core' ); ?></label>
 			</div>
-			<div class="col-md-9">
+			<div class="<?php echo $sub_class; ?>">
 				<input name="user_login" id="user_login" class="required input form-control" type="text"
 				       autocomplete="username">
 			</div>
 		</div>
 		<div class="form-group row">
-			<div class="col-md-3">
+			<div class="<?php echo $class; ?>">
 				<label for="user_pass"><?php _e( 'Password', 'sb-core' ); ?></label>
 			</div>
-			<div class="col-md-9">
+			<div class="<?php echo $sub_class; ?>">
 				<input name="user_pass" id="user_pass" class="password required input form-control" type="password"
 				       autocomplete="current-password">
 			</div>
 		</div>
+		<?php $class = 'col-md-7 col-md-offset-5 offset-md-5'; ?>
 		<div class="form-group row">
-			<div class="col-md-9 col-md-offset-3 offset-md-3">
+			<div class="<?php echo $class; ?>">
 				<label><input name="rememberme" type="checkbox" id="rememberme"
 				              value="forever"> <?php _e( 'Remember Me', 'sb-core' ); ?></label>
 			</div>
 		</div>
 		<div class="form-group row">
-			<div class="col-md-9 col-md-offset-3 offset-md-3">
+			<div class="<?php echo $class; ?>">
 				<div class="mb-20">
 					<?php do_action( 'login_form' ); ?>
 				</div>
@@ -73,7 +77,7 @@ $permalink = get_the_permalink();
 			</div>
 		</div>
 		<div class="form-group row">
-			<div class="col-md-9 col-md-offset-3 offset-md-3">
+			<div class="<?php echo $class; ?>">
 				<a href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Lost Password?', 'sb-core' ); ?></a>
 				<?php
 				if ( 1 == get_option( 'users_can_register' ) ) {
@@ -85,5 +89,6 @@ $permalink = get_the_permalink();
 				?>
 			</div>
 		</div>
+		<?php unset( $url, $permalink, $err, $error, $class, $sub_class, $redirect_to ); ?>
 	</form>
 </div>

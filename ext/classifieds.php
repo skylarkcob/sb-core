@@ -13,6 +13,8 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 	class HOCWP_EXT_Classifieds extends HOCWP_Theme_Extension {
 		protected static $instance;
 
+		public $type_taxonomy = 'classifieds_type';
+
 		public static function get_instance() {
 			if ( ! self::$instance instanceof self ) {
 				self::$instance = new self();
@@ -60,10 +62,35 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 
 				add_action( 'load-post.php', array( $this, 'meta_post' ) );
 				add_action( 'load-post-new.php', array( $this, 'meta_post' ) );
+				add_action( 'restrict_manage_posts', array( $this, 'admin_posts_table_filter' ) );
 			} else {
-				add_action( 'pre_get_posts', array( $this, 'pre_get_posts_action' ) );
 				add_action( 'hte_add_post_frontend_form_middle', array( $this, 'add_post_form_middle' ) );
 				add_action( 'hocwp_theme_extension_add_post_frontend_post_added', array( $this, 'post_added_meta' ) );
+			}
+
+			add_action( 'pre_get_posts', array( $this, 'pre_get_posts_action' ) );
+		}
+
+		public function admin_posts_table_filter( $post_type ) {
+			$taxonomies = get_object_taxonomies( $post_type );
+
+			if ( HT()->array_has_value( $taxonomies ) && in_array( $this->type_taxonomy, $taxonomies ) ) {
+				$tax = get_taxonomy( $this->type_taxonomy );
+				?>
+				<label for="filter-by-<?php echo $this->type_taxonomy; ?>"
+				       class="screen-reader-text"><?php printf( __( 'Filter by %s', 'sb-core' ), $tax->labels->singular_name ); ?></label>
+				<?php
+				$selected = isset( $_GET['c_type'] ) ? $_GET['c_type'] : '';
+
+				$args = array(
+					'taxonomy'        => $this->type_taxonomy,
+					'name'            => 'c_type',
+					'id'              => 'filter-by-' . $this->type_taxonomy,
+					'show_option_all' => sprintf( __( 'Filter by %s', 'sb-core' ), $tax->labels->singular_name ),
+					'selected'        => $selected
+				);
+
+				wp_dropdown_categories( $args );
 			}
 		}
 
@@ -148,139 +175,161 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 
 		public function pre_get_posts_action( $query ) {
 			if ( $query instanceof WP_Query && $query->is_main_query() ) {
-				if ( is_search() ) {
-					$type     = HT()->get_value_in_array( $_REQUEST, 'type' );
-					$province = HT()->get_value_in_array( $_REQUEST, 'province' );
-					$district = HT()->get_value_in_array( $_REQUEST, 'district' );
-					$ward     = HT()->get_value_in_array( $_REQUEST, 'ward' );
-					$street   = HT()->get_value_in_array( $_REQUEST, 'street' );
-					$price    = HT()->get_value_in_array( $_REQUEST, 'price' );
-					$acreage  = HT()->get_value_in_array( $_REQUEST, 'acreage' );
-					$object   = HT()->get_value_in_array( $_REQUEST, 'object' );
-					$salary   = HT()->get_value_in_array( $_REQUEST, 'salary' );
-					$location = HT()->get_value_in_array( $_REQUEST, 'location' );
+				if ( is_admin() ) {
+					$c_type = isset( $_GET['c_type'] ) ? $_GET['c_type'] : '';
 
-					$tax_query = $query->get( 'tax_query' );
+					if ( HT()->is_positive_number( $c_type ) ) {
+						$tax_query = $query->get( 'tax_query' );
 
-					if ( ! is_array( $tax_query ) ) {
-						$tax_query = array(
-							'relation' => 'AND'
-						);
-					}
+						if ( ! is_array( $tax_query ) ) {
+							$tax_query = array();
+						}
 
-					if ( HT()->is_positive_number( $type ) ) {
-						$tax_item = array(
-							'taxonomy' => 'classifieds_type',
-							'field'    => 'id',
-							'terms'    => $type
+						$tax_query['relation'] = 'AND';
+
+						$tax_query[] = array(
+							'taxonomy' => $this->type_taxonomy,
+							'field'    => 'term_id',
+							'terms'    => array( $c_type )
 						);
 
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						$query->set( 'tax_query', $tax_query );
 					}
+				} else {
+					if ( is_search() ) {
+						$type     = HT()->get_value_in_array( $_REQUEST, 'type' );
+						$province = HT()->get_value_in_array( $_REQUEST, 'province' );
+						$district = HT()->get_value_in_array( $_REQUEST, 'district' );
+						$ward     = HT()->get_value_in_array( $_REQUEST, 'ward' );
+						$street   = HT()->get_value_in_array( $_REQUEST, 'street' );
+						$price    = HT()->get_value_in_array( $_REQUEST, 'price' );
+						$acreage  = HT()->get_value_in_array( $_REQUEST, 'acreage' );
+						$object   = HT()->get_value_in_array( $_REQUEST, 'object' );
+						$salary   = HT()->get_value_in_array( $_REQUEST, 'salary' );
+						$location = HT()->get_value_in_array( $_REQUEST, 'location' );
 
-					if ( HT()->is_positive_number( $location ) ) {
-						$tax_item = array(
-							'taxonomy' => 'category',
-							'field'    => 'id',
-							'terms'    => $location
-						);
+						$tax_query = $query->get( 'tax_query' );
 
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						if ( ! is_array( $tax_query ) ) {
+							$tax_query = array(
+								'relation' => 'AND'
+							);
+						}
+
+						if ( HT()->is_positive_number( $type ) ) {
+							$tax_item = array(
+								'taxonomy' => $this->type_taxonomy,
+								'field'    => 'id',
+								'terms'    => $type
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						if ( HT()->is_positive_number( $location ) ) {
+							$tax_item = array(
+								'taxonomy' => 'category',
+								'field'    => 'id',
+								'terms'    => $location
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						if ( HT()->is_positive_number( $province ) ) {
+							$tax_item = array(
+								'taxonomy' => 'category',
+								'field'    => 'id',
+								'terms'    => $province
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						if ( HT()->is_positive_number( $district ) ) {
+							$tax_item = array(
+								'taxonomy' => 'category',
+								'field'    => 'id',
+								'terms'    => $district
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						if ( HT()->is_positive_number( $ward ) ) {
+							$tax_item = array(
+								'taxonomy' => 'category',
+								'field'    => 'id',
+								'terms'    => $ward
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						if ( HT()->is_positive_number( $street ) ) {
+							$tax_item = array(
+								'taxonomy' => 'category',
+								'field'    => 'id',
+								'terms'    => $street
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						unset( $query->query['price'] );
+						unset( $query->query_vars['price'] );
+
+						if ( HT()->is_positive_number( $price ) ) {
+							$tax_item = array(
+								'taxonomy' => 'price',
+								'field'    => 'id',
+								'terms'    => $price
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						unset( $query->query['acreage'] );
+						unset( $query->query_vars['acreage'] );
+
+						if ( HT()->is_positive_number( $acreage ) ) {
+							$tax_item = array(
+								'taxonomy' => 'acreage',
+								'field'    => 'id',
+								'terms'    => $acreage
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						if ( HT()->is_positive_number( $object ) ) {
+							$tax_item = array(
+								'taxonomy' => 'classifieds_object',
+								'field'    => 'id',
+								'terms'    => $object
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						unset( $query->query['salary'] );
+						unset( $query->query_vars['salary'] );
+
+						if ( HT()->is_positive_number( $salary ) ) {
+							$tax_item = array(
+								'taxonomy' => 'salary',
+								'field'    => 'id',
+								'terms'    => $salary
+							);
+
+							HT_Sanitize()->tax_query( $tax_item, $tax_query );
+						}
+
+						$tax_query['relation'] = 'AND';
+
+						$query->set( 'tax_query', $tax_query );
+						$query->set( 'post_type', 'post' );
 					}
-
-					if ( HT()->is_positive_number( $province ) ) {
-						$tax_item = array(
-							'taxonomy' => 'category',
-							'field'    => 'id',
-							'terms'    => $province
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					if ( HT()->is_positive_number( $district ) ) {
-						$tax_item = array(
-							'taxonomy' => 'category',
-							'field'    => 'id',
-							'terms'    => $district
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					if ( HT()->is_positive_number( $ward ) ) {
-						$tax_item = array(
-							'taxonomy' => 'category',
-							'field'    => 'id',
-							'terms'    => $ward
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					if ( HT()->is_positive_number( $street ) ) {
-						$tax_item = array(
-							'taxonomy' => 'category',
-							'field'    => 'id',
-							'terms'    => $street
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					unset( $query->query['price'] );
-					unset( $query->query_vars['price'] );
-
-					if ( HT()->is_positive_number( $price ) ) {
-						$tax_item = array(
-							'taxonomy' => 'price',
-							'field'    => 'id',
-							'terms'    => $price
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					unset( $query->query['acreage'] );
-					unset( $query->query_vars['acreage'] );
-
-					if ( HT()->is_positive_number( $acreage ) ) {
-						$tax_item = array(
-							'taxonomy' => 'acreage',
-							'field'    => 'id',
-							'terms'    => $acreage
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					if ( HT()->is_positive_number( $object ) ) {
-						$tax_item = array(
-							'taxonomy' => 'classifieds_object',
-							'field'    => 'id',
-							'terms'    => $object
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					unset( $query->query['salary'] );
-					unset( $query->query_vars['salary'] );
-
-					if ( HT()->is_positive_number( $salary ) ) {
-						$tax_item = array(
-							'taxonomy' => 'salary',
-							'field'    => 'id',
-							'terms'    => $salary
-						);
-
-						HT_Sanitize()->tax_query( $tax_item, $tax_query );
-					}
-
-					$tax_query['relation'] = 'AND';
-
-					$query->set( 'tax_query', $tax_query );
-					$query->set( 'post_type', 'post' );
 				}
 			}
 		}
@@ -312,12 +361,19 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 
 		public function meta_post() {
 			$meta = new HOCWP_Theme_Meta_Post();
+
 			$meta->add_post_type( 'post' );
+
 			$meta->set_title( __( 'General Information', 'sb-core' ) );
 			$meta->set_id( 'classifieds_general_information' );
+
 			$meta->form_table = true;
 
-			$meta->add_field( new HOCWP_Theme_Meta_Field( 'address', __( 'Address:', 'sb-core' ) ) );
+			$args = array(
+				'data-for-maps' => 'google_maps_marker'
+			);
+
+			$meta->add_field( new HOCWP_Theme_Meta_Field( 'address', __( 'Address:', 'sb-core' ), 'input', $args ) );
 
 			$enable = apply_filters( 'hocwp_theme_extension_classifieds_use_meta_price', false );
 
@@ -335,6 +391,12 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 			}
 
 			hocwp_theme_meta_box_editor_gallery( array( 'post_type' => 'post' ) );
+
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		}
+
+		public function admin_enqueue_scripts() {
+			HT_Enqueue()->google_maps();
 		}
 
 		public function upgrade_theme_core_notice() {
@@ -368,7 +430,7 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 				'show_admin_column' => true
 			);
 
-			$taxonomies['classifieds_type'] = $args;
+			$taxonomies[ $this->type_taxonomy ] = $args;
 
 			$args = array(
 				'name'              => __( 'Price', 'sb-core' ),
@@ -447,7 +509,7 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 				}
 			}
 
-			return $price;
+			return apply_filters( 'hocwp_theme_extension_classifieds_price', $price, $post_id );
 		}
 
 		public function get_administrative_boundary( $post_id = null, $only_province = false, $reverse = false ) {

@@ -3,6 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+/*
+ * Load all styles and scripts on default wp-login.php page.
+ */
 function hocwp_ext_account_default_login_page_scripts() {
 	global $pagenow;
 
@@ -11,6 +14,7 @@ function hocwp_ext_account_default_login_page_scripts() {
 	$options = HT_Util()->get_theme_options( 'account' );
 
 	HTE_Account()->load_connected_socials_script();
+	HTE_Account()->load_facebook_account_kit_script();
 
 	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
@@ -45,7 +49,8 @@ add_action( 'login_enqueue_scripts', 'hocwp_ext_account_default_login_page_scrip
 
 function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 	$options = HT_Util()->get_theme_options( 'account' );
-	$cs      = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
+
+	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
 	if ( 1 != $cs ) {
 		return $link;
@@ -124,7 +129,6 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 		</div>
 	</div>
 	<?php
-
 	return ob_get_clean();
 }
 
@@ -132,7 +136,6 @@ add_filter( 'the_privacy_policy_link', 'hocwp_ext_account_the_privacy_policy_lin
 
 function hocwp_ext_account_login_init_action() {
 	$locale = isset( $_GET['locale'] ) ? $_GET['locale'] : get_locale();
-
 
 	if ( empty( $locale ) ) {
 		$locale = 'en_US';

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-12-09 00:28+0700\n"
+"POT-Creation-Date: 2019-08-22 09:00+0700\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,48 +13,165 @@ msgstr ""
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: ext/account.php:77 ext/account.php:79 ext/account/account.php:259 ext/account/account.php:278 ext/account/account.php:280
-#: ext/add-post-frontend.php:315
+#: ext/account.php:86 ext/account.php:88 ext/account/account.php:398 ext/account/account.php:417 ext/account/account.php:419
+#: ext/add-post-frontend.php:351
 msgid "<strong>Error:</strong> Please correct the captcha."
 msgstr ""
 
-#: ext/account.php:314 ext/account/page-lostpassword.php:185
+#: ext/account.php:288
+#, php-format
+msgid ""
+"Your email address has been verified successfully. To change profile, update it <a href=\"%s\">here</a> or <a href=\"%s\">visit our homepage</a> "
+"to see posts."
+msgstr ""
+
+#: ext/account.php:289
+msgid "Email Address Verified"
+msgstr ""
+
+#: ext/account.php:291 ext/account.php:414 ext/account.php:418 ext/account.php:426 ext/account.php:449 ext/account.php:458 ext/account.php:462
+#: ext/account.php:467
+msgid "Invalid key."
+msgstr ""
+
+#: ext/account.php:297
+#, php-format
+msgid "If you have not received email yet, try to resend <a href=\"%s\">here</a>."
+msgstr ""
+
+#: ext/account.php:299
+msgid "Verify Email Error"
+msgstr ""
+
+#: ext/account.php:314
+msgid "Your account has reached the confirmation email limit, please try again later. You can also contact administrator for supports."
+msgstr ""
+
+#: ext/account.php:314 ext/account.php:328
+msgid "Email Sent Limit"
+msgstr ""
+
+#: ext/account.php:326
+#, php-format
+msgid ""
+"Email verification has been sent, please check your inbox, if you cannot see email, try to check spam box too. Your confirmation email limit "
+"<strong>%d</strong>."
+msgstr ""
+
+#: ext/account.php:337
+#, php-format
+msgid ""
+"You need to verify your email address. Please check your inbox for verify email, also see your spam box too. To change your email address, update "
+"it <a href=\"%s\">here</a>."
+msgstr ""
+
+#: ext/account.php:338
+msgid "Verify Email Address"
+msgstr ""
+
+#: ext/account.php:392
+#, php-format
+msgid ""
+"<strong>Verify email address:</strong> You must provide and verify your email address before viewing site. <a href=\"%s\">Click here</a> to update "
+"it."
+msgstr ""
+
+#: ext/account.php:401
+#, php-format
+msgid ""
+"<strong>Verify phone number:</strong> You must provide and verify your phone number before viewing site. <a href=\"%s\">Click here</a> to update "
+"it."
+msgstr ""
+
+#: ext/account.php:600 ext/account/page-lostpassword.php:193
 msgid "Login"
 msgstr ""
 
-#: ext/account.php:325
+#: ext/account.php:611
 msgid "No posts found."
 msgstr ""
 
+#: ext/account/account.php:33 ext/account/account.php:34
+msgid "Connect"
+msgstr ""
+
+#: ext/account/account.php:33
+msgid "Connect phone number with Facebook account kit"
+msgstr ""
+
+#: ext/account/account.php:34
+msgid "Connect email address with Facebook account kit"
+msgstr ""
+
+#: ext/account/account.php:42 ext/account/account.php:48
+msgid "Disconnect"
+msgstr ""
+
+#: ext/account/account.php:42
+msgid "Disconnect email address from Facebook account kit"
+msgstr ""
+
+#: ext/account/account.php:48
+msgid "Disconnect phone number from Facebook account kit"
+msgstr ""
+
+#: ext/account/account.php:59
+msgid "Authentication failure"
+msgstr ""
+
+#: ext/account/account.php:60
+msgid "Bad parameters"
+msgstr ""
+
 #: ext/account/account.php:64
+msgid "Are you sure you want to disconnect your email address?"
+msgstr ""
+
+#: ext/account/account.php:65
+msgid "Are you sure you want to disconnect your phone?"
+msgstr ""
+
+#: ext/account/account.php:117
 msgid "Sign up with your Google account"
 msgstr ""
 
-#: ext/account/account.php:67
+#: ext/account/account.php:120
 msgid "Continue with Google"
 msgstr ""
 
-#: ext/account/account.php:75
+#: ext/account/account.php:128
 msgid "Sign up with your Facebook account"
 msgstr ""
 
-#: ext/account/account.php:79
+#: ext/account/account.php:132
 msgid "Continue with Facebook"
 msgstr ""
 
-#: ext/account/account.php:239
+#: ext/account/account.php:269 ext/account/account.php:274
+msgid "Connect SMS/Email"
+msgstr ""
+
+#: ext/account/account.php:281 ext/account/account.php:286
+msgid "Verify your phone number"
+msgstr ""
+
+#: ext/account/account.php:289 ext/account/account.php:294
+msgid "Verify your email address"
+msgstr ""
+
+#: ext/account/account.php:333
 msgctxt "connected socials"
 msgid "Or"
 msgstr ""
 
-#: ext/account/account.php:289
+#: ext/account/account.php:428
 msgid "Login footer"
 msgstr ""
 
@@ -62,82 +179,193 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:24
+#: ext/account/admin-setting-page.php:26
+msgid "Users must verify their email address for viewing site?"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:28
+msgid "Must Verify Email"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:33
 msgid "Allow users can login and register via their social accounts."
 msgstr ""
 
-#: ext/account/admin-setting-page.php:27
+#: ext/account/admin-setting-page.php:36
 msgid "Connect Social"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:32
+#: ext/account/admin-setting-page.php:41
 msgid "Using captcha for account form?"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:35 ext/add-post-frontend.php:133
+#: ext/account/admin-setting-page.php:44 ext/add-post-frontend.php:133
 msgid "Captcha"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:40
+#: ext/account/admin-setting-page.php:49
 msgid "Change style of default WordPress login page for displaying nicely?"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:43
+#: ext/account/admin-setting-page.php:52
 msgid "Custom Style"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:50
-msgid "Login Page"
+#: ext/account/admin-setting-page.php:55
+msgid "Allow user login with phone number or email via Facebook Account Kit?"
 msgstr ""
 
 #: ext/account/admin-setting-page.php:57
-msgid "Register Page"
+msgid "Account Kit"
 msgstr ""
 
 #: ext/account/admin-setting-page.php:64
-msgid "Lost Password Page"
+msgid "Login Page"
 msgstr ""
 
 #: ext/account/admin-setting-page.php:71
+msgid "Register Page"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:78
+msgid "Lost Password Page"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:85
 msgid "Profile Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:74
+#: ext/account/admin-setting-page.php:88
 msgid "Saved Posts Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:80
+#: ext/account/admin-setting-page.php:94
 msgid "Login Logo"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:92
+#: ext/account/admin-setting-page.php:101
+msgid "App Secret"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:104
+msgid "Client Token"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:107
+msgid "API Version"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:112
+msgid "Popup"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:113
+msgid "Modal"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:118
+msgid "Display"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:121
+msgid "Default Country Code"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:128
+msgid "Users must verify their phone number for viewing site?"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:130
+msgid "Must Verify Phone Number"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:142
 msgid "Account Tools Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:94
+#: ext/account/admin-setting-page.php:144
 msgid ""
 "If you want to use custom page for user functions instead of using <code>wp-login.php</code>, you can choose the page for these settings below."
 msgstr ""
 
-#: ext/account/admin-setting-page.php:105
+#: ext/account/admin-setting-page.php:155
 msgid "Customize Default Login Page"
 msgstr ""
 
-#: ext/account/admin-setting-page.php:107
+#: ext/account/admin-setting-page.php:157
 msgid "You can customize some styles to make the default WordPress login page more pretty."
 msgstr ""
 
-#: ext/account/admin.php:128
+#: ext/account/admin-setting-page.php:168
+msgid "Facebook Account Kit"
+msgstr ""
+
+#: ext/account/admin-setting-page.php:170
+msgid ""
+"Account Kit helps people quickly and easily register and log into your app using their phone number or email address as passwordless credentials. "
+"Account Kit is powered by Facebook's email, SMS and WhatsApp sending infrastructure for reliable scalable performance with global reach. Because "
+"it uses email and phone number authentication, Account Kit does not require a Facebook account and is the ideal alternative to a social login."
+msgstr ""
+
+#: ext/account/admin.php:126 ext/account/admin.php:389
 msgid "This site does not allow users to register."
 msgstr ""
 
-#: ext/account/admin.php:203
+#: ext/account/admin.php:199
 #, php-format
 msgid "You must fully input settings in <a href=\"%s\">Social tab</a> for account extension works normally."
 msgstr ""
 
-#: ext/account/admin.php:207
+#: ext/account/admin.php:203
 msgid "Account Extension:"
+msgstr ""
+
+#: ext/account/admin.php:219 ext/account/page-edit-profile.php:104
+msgid "There was an error occurred, please try again."
+msgstr ""
+
+#: ext/account/admin.php:235
+msgid "Your email address has been disconnected successfully."
+msgstr ""
+
+#: ext/account/admin.php:251
+msgid "Your phone number has been disconnected successfully."
+msgstr ""
+
+#: ext/account/admin.php:261
+msgid "Invalid nonce"
+msgstr ""
+
+#: ext/account/admin.php:340
+msgid "You have been logged in successfully."
+msgstr ""
+
+#: ext/account/admin.php:351
+msgid "Your email address is not connected."
+msgstr ""
+
+#: ext/account/admin.php:353 ext/account/admin.php:362
+msgid "Your phone number is not connected."
+msgstr ""
+
+#: ext/account/admin.php:355
+msgid "Your phone number or email address is not connected."
+msgstr ""
+
+#: ext/account/admin.php:377 ext/account/page-register.php:99
+msgid "Your account has been created successfully."
+msgstr ""
+
+#: ext/account/admin.php:386
+msgid "Cannot create user."
+msgstr ""
+
+#: ext/account/admin.php:412
+msgid "Your email address has been connected successfully."
+msgstr ""
+
+#: ext/account/admin.php:443
+msgid "Your phone number has been connected successfully."
 msgstr ""
 
 #: ext/account/connected-accounts.php:20
@@ -174,11 +402,11 @@ msgctxt "connect social account"
 msgid "Google"
 msgstr ""
 
-#: ext/account/default-login-page.php:79
+#: ext/account/default-login-page.php:84
 msgid "Privacy Policy"
 msgstr ""
 
-#: ext/account/default-login-page.php:102
+#: ext/account/default-login-page.php:107
 msgid "Select the language:"
 msgstr ""
 
@@ -200,10 +428,6 @@ msgstr ""
 
 #: ext/account/page-edit-profile.php:98
 msgid "Your profile has been updated successfully."
-msgstr ""
-
-#: ext/account/page-edit-profile.php:104
-msgid "There was an error occurred, please try again."
 msgstr ""
 
 #: ext/account/page-edit-profile.php:127
@@ -253,7 +477,7 @@ msgstr ""
 msgid "Nickname"
 msgstr ""
 
-#: ext/account/page-edit-profile.php:253 ext/account/page-register.php:121 ext/vip.php:206
+#: ext/account/page-edit-profile.php:253 ext/account/page-register.php:121 ext/vip.php:270
 msgid "Email"
 msgstr ""
 
@@ -281,94 +505,94 @@ msgstr ""
 msgid "You are logged in."
 msgstr ""
 
-#: ext/account/page-login.php:40
+#: ext/account/page-login.php:43
 msgid "Username or Email"
 msgstr ""
 
-#: ext/account/page-login.php:49 ext/account/page-register.php:130
+#: ext/account/page-login.php:52 ext/account/page-register.php:130
 msgid "Password"
 msgstr ""
 
-#: ext/account/page-login.php:59
+#: ext/account/page-login.php:63
 msgid "Remember Me"
 msgstr ""
 
-#: ext/account/page-login.php:72
+#: ext/account/page-login.php:76
 msgid "Log In"
 msgstr ""
 
-#: ext/account/page-login.php:77
+#: ext/account/page-login.php:81
 msgid "Lost Password?"
 msgstr ""
 
-#: ext/account/page-login.php:81 ext/account/page-lostpassword.php:189
+#: ext/account/page-login.php:85 ext/account/page-lostpassword.php:197
 msgid "Or"
 msgstr ""
 
-#: ext/account/page-login.php:82 ext/account/page-lostpassword.php:190 ext/account/page-register.php:155
+#: ext/account/page-login.php:86 ext/account/page-lostpassword.php:198 ext/account/page-register.php:155
 msgid "Register"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:35
+#: ext/account/page-lostpassword.php:37
 msgid "<strong>ERROR</strong>: Enter a username or email address."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:39
+#: ext/account/page-lostpassword.php:41
 msgid "<strong>ERROR</strong>: There is no user registered with that email address."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:62
+#: ext/account/page-lostpassword.php:64
 msgid "<strong>ERROR</strong>: Invalid username or email."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:86
+#: ext/account/page-lostpassword.php:90
 msgid "Someone has requested a password reset for the following account:"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:88
+#: ext/account/page-lostpassword.php:92
 #, php-format
 msgid "Site Name: %s"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:90
+#: ext/account/page-lostpassword.php:94
 #, php-format
 msgid "Username: %s"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:91
+#: ext/account/page-lostpassword.php:95
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:92
+#: ext/account/page-lostpassword.php:96
 msgid "To reset your password, visit the following address:"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:96
+#: ext/account/page-lostpassword.php:100
 #, php-format
 msgid "[%s] Password Reset"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:126
+#: ext/account/page-lostpassword.php:134
 msgid "The email could not be sent."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:126
+#: ext/account/page-lostpassword.php:134
 msgid "Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:153
+#: ext/account/page-lostpassword.php:161
 msgid "Please check your email to reset new password."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:161
+#: ext/account/page-lostpassword.php:169
 msgid "Please enter your email address or username. You will receive a link to create a new password via email."
 msgstr ""
 
-#: ext/account/page-lostpassword.php:166
+#: ext/account/page-lostpassword.php:174
 msgid "Email Address or Username"
 msgstr ""
 
-#: ext/account/page-lostpassword.php:179
+#: ext/account/page-lostpassword.php:187
 msgid "Reset Password"
 msgstr ""
 
@@ -390,10 +614,6 @@ msgstr ""
 
 #: ext/account/page-register.php:53
 msgid "Username or email exists!"
-msgstr ""
-
-#: ext/account/page-register.php:99
-msgid "Your account has been created successfully."
 msgstr ""
 
 #: ext/account/page-register.php:170
@@ -508,39 +728,53 @@ msgstr ""
 msgid "The system will redirect the user to this URL after the post has been posted."
 msgstr ""
 
-#: ext/add-post-frontend.php:333
+#: ext/add-post-frontend.php:285
+msgctxt "publish post"
+msgid "Publish"
+msgstr ""
+
+#: ext/add-post-frontend.php:381
+#, php-format
+msgid "%d %s has/have been published successfully."
+msgstr ""
+
+#: ext/add-post-frontend.php:390
 #, php-format
 msgid "You must fully input settings in <a href=\"%s\">Social tab</a> for Add Post Frontend extension works normally."
 msgstr ""
 
-#: ext/add-post-frontend.php:337
+#: ext/add-post-frontend.php:394
 msgid "Add Post Frontend:"
 msgstr ""
 
-#: ext/add-post-frontend.php:921
+#: ext/add-post-frontend.php:978
 #, php-format
 msgid "-- Choose %s --"
 msgstr ""
 
-#: ext/add-post-frontend.php:946
+#: ext/add-post-frontend.php:1003
 msgid "Show all items"
 msgstr ""
 
-#: ext/add-post-frontend.php:959
+#: ext/add-post-frontend.php:1016
 msgid "Each value separated by commas."
 msgstr ""
 
-#: ext/add-post-frontend.php:1059
+#: ext/add-post-frontend.php:1120
 msgid "Please select PNG or JPEG image only."
 msgstr ""
 
-#: ext/add-post-frontend.php:1120 ext/vip-management/form-add-post.php:299
+#: ext/add-post-frontend.php:1181 ext/vip-management/form-add-post.php:299
 msgid "Upload image"
 msgstr ""
 
 #: ext/add-post-frontend/add-post-frontend.php:76
 #, php-format
 msgid "You can only upload %s media file per day."
+msgstr ""
+
+#: ext/add-post-frontend/add-post-frontend.php:146
+msgid "Pending Posts"
 msgstr ""
 
 #: ext/add-post-frontend/template.php:82
@@ -586,16 +820,40 @@ msgstr ""
 msgid "Back to home"
 msgstr ""
 
-#: ext/add-post-frontend/user-profile.php:21
+#: ext/add-post-frontend/user-profile.php:23
 msgid "Coin"
 msgstr ""
 
-#: ext/ads.php:66
-msgid "Leaderboard"
+#: ext/ads.php:52 ext/ads/admin.php:7
+msgid "Ads Management"
 msgstr ""
 
-#: ext/ads/admin.php:7
-msgid "Ads Management"
+#: ext/ads.php:56
+msgid "Auto detect ads block extension on browser."
+msgstr ""
+
+#: ext/ads.php:61
+msgid "Detect Ads Block"
+msgstr ""
+
+#: ext/ads.php:70
+msgid "Ads Block Message"
+msgstr ""
+
+#: ext/ads.php:75
+msgid "Video Ad Tag URL"
+msgstr ""
+
+#: ext/ads.php:100
+msgid "Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by disabling your ad blocker."
+msgstr ""
+
+#: ext/ads.php:125
+msgid "Random"
+msgstr ""
+
+#: ext/ads.php:126
+msgid "Leaderboard"
 msgstr ""
 
 #: ext/ads/admin.php:17
@@ -606,142 +864,305 @@ msgstr ""
 msgid "-- Choose position --"
 msgstr ""
 
-#: ext/ads/admin.php:23
+#: ext/ads/admin.php:23 ext/ads/class-hocwp-ads-widget.php:72
 msgid "Position:"
 msgstr ""
 
-#: ext/ads/admin.php:29
+#: ext/ads/admin.php:30
 msgid "Expiry date:"
 msgstr ""
 
-#: ext/ads/admin.php:32
+#: ext/ads/admin.php:33
 msgid "Image:"
 msgstr ""
 
-#: ext/ads/admin.php:35
+#: ext/ads/admin.php:36
 msgid "Url:"
 msgstr ""
 
 #: ext/ads/admin.php:39
+msgid "VAST/VPAID Ads URL:"
+msgstr ""
+
+#: ext/ads/admin.php:43
 msgid "Code:"
 msgstr ""
 
-#: ext/ads/admin.php:42
+#: ext/ads/admin.php:46
+msgid "Only display on mobile?"
+msgstr ""
+
+#: ext/ads/admin.php:47 ext/vip.php:265
+msgid "Mobile"
+msgstr ""
+
+#: ext/ads/admin.php:50
+msgid "Only display on desktop?"
+msgstr ""
+
+#: ext/ads/admin.php:51
+msgid "Desktop"
+msgstr ""
+
+#: ext/ads/admin.php:54
 msgid "Make this ads as active status?"
 msgstr ""
 
-#: ext/ads/admin.php:43 ext/ads/admin.php:109
+#: ext/ads/admin.php:55 ext/ads/admin.php:121
 msgid "Active"
 msgstr ""
 
-#: ext/ads/admin.php:107
+#: ext/ads/admin.php:119
 msgid "Position"
 msgstr ""
 
-#: ext/ads/admin.php:108
+#: ext/ads/admin.php:120
 msgid "Expiry date"
 msgstr ""
 
-#: ext/ads/ads.php:9
+#: ext/ads/ads.php:10
 msgid "Ads"
 msgstr ""
 
-#: ext/anime.php:49
+#: ext/ads/class-hocwp-ads-widget.php:19
+msgctxt "widget description"
+msgid "Display ads by position."
+msgstr ""
+
+#: ext/ads/class-hocwp-ads-widget.php:93
+msgid "Displaying ads for this position randomly? If you choose random position, the ads will be displayed randomly by default."
+msgstr ""
+
+#: ext/anime.php:57
 msgid "Anime"
 msgstr ""
 
-#: ext/anime.php:59
+#: ext/anime.php:67
 msgid "-- Choose post type --"
 msgstr ""
 
-#: ext/anime.php:74
+#: ext/anime.php:82
 msgid "Animation Post Type"
 msgstr ""
 
-#: ext/anime.php:78
+#: ext/anime.php:86
 msgid "Post type for using as animation."
 msgstr ""
 
-#: ext/anime.php:283
+#: ext/anime.php:91
+msgid "Servers"
+msgstr ""
+
+#: ext/anime.php:91
+msgid "The server name for movie source. Each server separates by commas."
+msgstr ""
+
+#: ext/anime.php:184
+msgid "Monday"
+msgstr ""
+
+#: ext/anime.php:185
+msgid "Tuesday"
+msgstr ""
+
+#: ext/anime.php:186
+msgid "Wednesday"
+msgstr ""
+
+#: ext/anime.php:187
+msgid "Thursday"
+msgstr ""
+
+#: ext/anime.php:188
+msgid "Friday"
+msgstr ""
+
+#: ext/anime.php:189
+msgid "Saturday"
+msgstr ""
+
+#: ext/anime.php:190
+msgid "Sunday"
+msgstr ""
+
+#: ext/anime.php:225
+msgid "Today"
+msgstr ""
+
+#: ext/anime.php:231
+msgid "Today's Schedule"
+msgstr ""
+
+#: ext/anime.php:254 ext/anime.php:263 ext/anime.php:309
+msgid "See all releases for this post"
+msgstr ""
+
+#: ext/anime.php:288
+msgid "To be scheduled"
+msgstr ""
+
+#: ext/anime.php:653
+msgid "Posts title starts with:"
+msgstr ""
+
+#: ext/anime.php:678
+msgid "Keywords:"
+msgstr ""
+
+#: ext/anime.php:688
+msgid "Search"
+msgstr ""
+
+#: ext/anime.php:693
+msgctxt "form reset"
+msgid "Reset"
+msgstr ""
+
+#: ext/anime.php:700
+msgid "Search options"
+msgstr ""
+
+#: ext/anime.php:733
+#, php-format
+msgid "All %s"
+msgstr ""
+
+#: ext/anime.php:750
+msgid "Default sorting"
+msgstr ""
+
+#: ext/anime.php:751
+msgid "Sort by title: A to Z"
+msgstr ""
+
+#: ext/anime.php:752
+msgid "Sort by title: Z to A"
+msgstr ""
+
+#: ext/anime.php:753
+msgid "Sort by date: old to new"
+msgstr ""
+
+#: ext/anime.php:754
+msgid "Sort by date: new to old"
+msgstr ""
+
+#: ext/anime.php:758
+msgid "Sort"
+msgstr ""
+
+#: ext/anime.php:830
+msgid "List Episodes"
+msgstr ""
+
+#: ext/anime.php:841
+msgid "Movie Custom Sources Name"
+msgstr ""
+
+#: ext/anime.php:845
+msgid "Custom servers:"
+msgstr ""
+
+#: ext/anime.php:845
+msgid "The custom server name for movie source. Each server separates by commas."
+msgstr ""
+
+#: ext/anime.php:851
+msgid "Movie Sources"
+msgstr ""
+
+#: ext/anime.php:891 ext/anime.php:928
+msgid "No episodes found!"
+msgstr ""
+
+#: ext/anime.php:924 ext/anime.php:931
+msgid "Add new episode"
+msgstr ""
+
+#: ext/anime.php:1102
 msgid "Prefix:"
 msgstr ""
 
-#: ext/anime.php:287
+#: ext/anime.php:1106
 msgid "Suffix:"
 msgstr ""
 
-#: ext/anime.php:298
+#: ext/anime.php:1117
 #, php-format
 msgid "Edit %s"
 msgstr ""
 
-#: ext/anime.php:298
+#: ext/anime.php:1117
 msgid "Edit Anime"
 msgstr ""
 
-#: ext/anime.php:303
+#: ext/anime.php:1122
 #, php-format
 msgid "View %s"
 msgstr ""
 
-#: ext/anime.php:312
+#: ext/anime.php:1131
 msgid "Post parent"
 msgstr ""
 
-#: ext/anime.php:331 ext/anime.php:544
+#: ext/anime.php:1132 ext/anime.php:1140 ext/link-manager.php:77
+msgid "Thumbnail"
+msgstr ""
+
+#: ext/anime.php:1159 ext/anime.php:1402
 msgid "View"
 msgstr ""
 
-#: ext/anime.php:360
+#: ext/anime.php:1206
 msgid "View video"
 msgstr ""
 
-#: ext/anime.php:543
+#: ext/anime.php:1401
 #, php-format
 msgid "View &#8220;%s&#8221;"
 msgstr ""
 
-#: ext/anime.php:551 ext/anime.php:552
+#: ext/anime.php:1409 ext/anime.php:1410
 msgid "Add New Episode"
 msgstr ""
 
-#: ext/anime.php:605
+#: ext/anime.php:1463
 #, php-format
 msgctxt "episode prefix"
 msgid "Ep. %s"
 msgstr ""
 
-#: ext/anime.php:697
+#: ext/anime.php:1559
 #, php-format
 msgid "Please set parent for this <strong>%s</strong>."
 msgstr ""
 
-#: ext/anime.php:749
+#: ext/anime.php:1611
 msgctxt "taxonomy"
 msgid "Release Years"
 msgstr ""
 
-#: ext/anime.php:750
+#: ext/anime.php:1612
 msgctxt "taxonomy"
 msgid "Release Year"
 msgstr ""
 
-#: ext/anime.php:751
+#: ext/anime.php:1613
 msgctxt "taxonomy"
 msgid "Years"
 msgstr ""
 
-#: ext/anime.php:766
+#: ext/anime.php:1628
 msgctxt "taxonomy"
 msgid "Status"
 msgstr ""
 
-#: ext/anime.php:799
+#: ext/anime.php:1682
 msgctxt "post type"
 msgid "Episodes"
 msgstr ""
 
-#: ext/anime.php:800
+#: ext/anime.php:1683
 msgctxt "post type"
 msgid "Episode"
 msgstr ""
@@ -789,138 +1210,143 @@ msgstr ""
 msgid "Remove base slug for taxonomy %s"
 msgstr ""
 
-#: ext/classifieds.php:43
+#: ext/classifieds.php:45
 msgid "Classifieds"
 msgstr ""
 
-#: ext/classifieds.php:47
+#: ext/classifieds.php:49
 msgid "Use category as location."
 msgstr ""
 
-#: ext/classifieds.php:52
+#: ext/classifieds.php:54
 msgid "Category as Location"
 msgstr ""
 
-#: ext/classifieds.php:82 ext/classifieds.php:119
+#: ext/classifieds.php:81 ext/classifieds.php:89
+#, php-format
+msgid "Filter by %s"
+msgstr ""
+
+#: ext/classifieds.php:109 ext/classifieds.php:146
 msgid "Maps:"
 msgstr ""
 
-#: ext/classifieds.php:108 ext/classifieds.php:141
+#: ext/classifieds.php:135 ext/classifieds.php:168
 msgid "Custom Location:"
 msgstr ""
 
-#: ext/classifieds.php:301
+#: ext/classifieds.php:350
 msgctxt "post location"
 msgid "Locations"
 msgstr ""
 
-#: ext/classifieds.php:303
+#: ext/classifieds.php:352
 msgctxt "post location"
 msgid "Location"
 msgstr ""
 
-#: ext/classifieds.php:316
+#: ext/classifieds.php:367
 msgid "General Information"
 msgstr ""
 
-#: ext/classifieds.php:320 ext/vip.php:553
+#: ext/classifieds.php:376 ext/vip.php:785
 msgid "Address:"
 msgstr ""
 
-#: ext/classifieds.php:325
+#: ext/classifieds.php:381
 msgid "Price:"
 msgstr ""
 
-#: ext/classifieds.php:328 ext/vip.php:554
+#: ext/classifieds.php:384 ext/vip.php:786
 msgid "Phone:"
 msgstr ""
 
-#: ext/classifieds.php:329 ext/vip.php:556
+#: ext/classifieds.php:385 ext/vip.php:788
 msgid "Email:"
 msgstr ""
 
-#: ext/classifieds.php:334
+#: ext/classifieds.php:390
 msgid "Acreage:"
 msgstr ""
 
-#: ext/classifieds.php:343 ext/google-maps.php:153
+#: ext/classifieds.php:405 ext/google-maps.php:153
 #, php-format
 msgid "<strong>Warning:</strong> Extension <code>%s</code> requires theme core version as least %s."
 msgstr ""
 
-#: ext/classifieds.php:351
+#: ext/classifieds.php:413
 msgid "News"
 msgstr ""
 
-#: ext/classifieds.php:363
+#: ext/classifieds.php:425
 msgid "Classifieds Types"
 msgstr ""
 
-#: ext/classifieds.php:364
+#: ext/classifieds.php:426
 msgid "Classifieds Type"
 msgstr ""
 
-#: ext/classifieds.php:365
+#: ext/classifieds.php:427
 msgid "Types"
 msgstr ""
 
-#: ext/classifieds.php:374
+#: ext/classifieds.php:436
 msgid "Price"
 msgstr ""
 
-#: ext/classifieds.php:383
+#: ext/classifieds.php:445
 msgid "Acreages"
 msgstr ""
 
-#: ext/classifieds.php:384
+#: ext/classifieds.php:446
 msgid "Acreage"
 msgstr ""
 
-#: ext/classifieds.php:393
+#: ext/classifieds.php:455
 msgid "Salaries"
 msgstr ""
 
-#: ext/classifieds.php:394
+#: ext/classifieds.php:456
 msgid "Salary"
 msgstr ""
 
-#: ext/classifieds.php:402
+#: ext/classifieds.php:464
 msgid "Currency Units"
 msgstr ""
 
-#: ext/classifieds.php:403
+#: ext/classifieds.php:465
 msgid "Currency Unit"
 msgstr ""
 
-#: ext/classifieds.php:404
+#: ext/classifieds.php:466
 msgid "Units"
 msgstr ""
 
-#: ext/classifieds.php:412
+#: ext/classifieds.php:474
 msgid "News Categories"
 msgstr ""
 
-#: ext/classifieds.php:413
+#: ext/classifieds.php:475
 msgid "News Category"
 msgstr ""
 
-#: ext/classifieds.php:414
+#: ext/classifieds.php:476
 msgid "Categories"
 msgstr ""
 
-#: ext/classifieds.php:423
+#: ext/classifieds.php:485
 msgid "News Tags"
 msgstr ""
 
-#: ext/classifieds.php:424
+#: ext/classifieds.php:486
 msgid "News Tag"
 msgstr ""
 
-#: ext/classifieds.php:425
+#: ext/classifieds.php:487
 msgid "Tags"
 msgstr ""
 
-#: ext/classifieds.php:446
+#: ext/classifieds.php:508
 msgid "Agreed price"
 msgstr ""
 
@@ -1002,15 +1428,19 @@ msgstr ""
 msgid "Streamcherry streaming API settings."
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:55
+#: ext/jwplayer/admin-setting-page-jwplayer.php:57
 msgid "Key"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:68
+#: ext/jwplayer/admin-setting-page-jwplayer.php:67 ext/media-player.php:149
+msgid "Player Library URL"
+msgstr ""
+
+#: ext/jwplayer/admin-setting-page-jwplayer.php:83 ext/media-player.php:160
 msgid "-- Choose skin --"
 msgstr ""
 
-#: ext/jwplayer/admin-setting-page-jwplayer.php:76
+#: ext/jwplayer/admin-setting-page-jwplayer.php:93
 msgid "Skin"
 msgstr ""
 
@@ -1026,50 +1456,50 @@ msgstr ""
 msgid "JW Player extension not loaded!"
 msgstr ""
 
-#: ext/link-manager.php:77
-msgid "Thumbnail"
-msgstr ""
-
 #: ext/link-manager.php:86
 msgid "Featured Image"
 msgstr ""
 
-#: ext/media-player.php:64
+#: ext/media-player.php:92
 msgid "Media Player"
 msgstr ""
 
-#: ext/media-player.php:81
+#: ext/media-player.php:109
 msgid "JW Player Configuration"
 msgstr ""
 
-#: ext/media-player.php:91
+#: ext/media-player.php:119
 msgid ""
 "Provide informations for player working. JW Player is the most powerful & flexible video platform powered by the fastest, most-used HTML5 online "
 "video player."
 msgstr ""
 
-#: ext/media-player.php:99
+#: ext/media-player.php:127
 msgid "Background"
 msgstr ""
 
-#: ext/media-player.php:103
-msgid "Using JW Player as your main player?"
+#: ext/media-player.php:131
+msgid "By default, the media will be played via iframe. But you can play media instantly by checking this box."
 msgstr ""
 
-#: ext/media-player.php:105
-msgid "Use JW Player"
+#: ext/media-player.php:133
+msgid "Inline Player"
 msgstr ""
 
-#: ext/media-player.php:112
+#: ext/media-player.php:141
 msgid "Player"
 msgstr ""
 
-#: ext/media-player.php:117
+#: ext/media-player.php:146
 msgctxt "jw player"
 msgid "Key"
 msgstr ""
 
-#: ext/media-player.php:208
+#: ext/media-player.php:175
+msgid "Player Skin"
+msgstr ""
+
+#: ext/media-player.php:315
 msgid "Loading mirror..."
 msgstr ""
 
@@ -1201,143 +1631,161 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: ext/vip.php:31
+#: ext/vip.php:33
 msgid "VIP Management"
 msgstr ""
 
-#: ext/vip.php:40
+#: ext/vip.php:42
 msgid "Coin Rate"
 msgstr ""
 
-#: ext/vip.php:45
+#: ext/vip.php:47
 msgid "Conversion rate $1 into coin. For example: $1 = 100."
 msgstr ""
 
-#: ext/vip.php:56
+#: ext/vip.php:58
 msgid "Post Price"
 msgstr ""
 
-#: ext/vip.php:61
+#: ext/vip.php:63
 msgid "VIP post costs by day."
 msgstr ""
 
-#: ext/vip.php:67
+#: ext/vip.php:69
 msgid "Allow user add new VIP post then pay later."
 msgstr ""
 
-#: ext/vip.php:72
+#: ext/vip.php:74
 msgid "Pay Later"
 msgstr ""
 
-#: ext/vip.php:80
+#: ext/vip.php:82
 msgid "Add button for user upload gallery images."
 msgstr ""
 
-#: ext/vip.php:84
+#: ext/vip.php:86
 msgid "Upload Gallery"
 msgstr ""
 
-#: ext/vip.php:93
+#: ext/vip.php:94
+msgid "Auto mark post as VIP content when changing expiry date."
+msgstr ""
+
+#: ext/vip.php:98
+msgid "Auto VIP Post"
+msgstr ""
+
+#: ext/vip.php:107
 msgid "Custom Messages"
 msgstr ""
 
-#: ext/vip.php:94
+#: ext/vip.php:108
 msgid "Change messages on add new post form."
 msgstr ""
 
-#: ext/vip.php:101
+#: ext/vip.php:115
 msgid "Normal Post Description"
 msgstr ""
 
-#: ext/vip.php:112
+#: ext/vip.php:126
 msgid "VIP Post Description"
 msgstr ""
 
-#: ext/vip.php:123
+#: ext/vip.php:137
 msgid "Confirm Post Notice"
 msgstr ""
 
-#: ext/vip.php:134
+#: ext/vip.php:148
 msgid "VIP Post Added Message"
 msgstr ""
 
-#: ext/vip.php:145
+#: ext/vip.php:159
 msgid "VIP Post Content Info"
 msgstr ""
 
-#: ext/vip.php:186
+#: ext/vip.php:250
 msgid "Your name"
 msgstr ""
 
-#: ext/vip.php:191
+#: ext/vip.php:255
 msgid "Address"
 msgstr ""
 
-#: ext/vip.php:196
+#: ext/vip.php:260
 msgid "Phone"
 msgstr ""
 
-#: ext/vip.php:201
-msgid "Mobile"
-msgstr ""
-
-#: ext/vip.php:387
+#: ext/vip.php:611
 msgid "You do not have enough coin to add more day for VIP content."
 msgstr ""
 
-#: ext/vip.php:411
+#: ext/vip.php:640
 #, php-format
 msgid "You have added %s more VIP days for this post."
 msgstr ""
 
-#: ext/vip.php:439
+#: ext/vip.php:670
 msgid "You do not have enough coin to post VIP content."
 msgstr ""
 
-#: ext/vip.php:482
+#: ext/vip.php:713
 #, php-format
 msgid "You must have at least %s coin to add VIP content. Please add more coin."
 msgstr ""
 
-#: ext/vip.php:522
+#: ext/vip.php:714
+#, php-format
+msgid "You can only upload %d gallery images each post."
+msgstr ""
+
+#: ext/vip.php:715
+msgctxt "add vip post"
+msgid "Are you sure you want to submit this post?"
+msgstr ""
+
+#: ext/vip.php:754
 msgid "VIP Content Information"
 msgstr ""
 
-#: ext/vip.php:525
+#: ext/vip.php:757
 msgid "VIP:"
 msgstr ""
 
-#: ext/vip.php:527
+#: ext/vip.php:759
 msgid "Mark this post as VIP content."
 msgstr ""
 
-#: ext/vip.php:532
+#: ext/vip.php:764
 msgid "Expiry day:"
 msgstr ""
 
-#: ext/vip.php:537
+#: ext/vip.php:769
 #, php-format
 msgid "Add more day for your VIP content. %s coins per day."
 msgstr ""
 
-#: ext/vip.php:542
+#: ext/vip.php:774
 msgid "Add more day:"
 msgstr ""
 
-#: ext/vip.php:549
+#: ext/vip.php:781
 msgid "VIP Contact Information"
 msgstr ""
 
-#: ext/vip.php:552
+#: ext/vip.php:784
 msgid "Full Name:"
 msgstr ""
 
-#: ext/vip.php:555
+#: ext/vip.php:787
 msgid "Mobile:"
 msgstr ""
 
-#: ext/vip.php:557
+#: ext/vip.php:789
 msgid "Total Cost:"
+msgstr ""
+
+#: ext/woocommerce.php:105
+msgid "Facebook Comments"
 msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:8
@@ -1346,6 +1794,22 @@ msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:27
 msgid "USD to Vietnam Dong Rate"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:35
+msgid "Use custom comment system for product?"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:38
+msgid "Custom Comment"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:41
+msgid "Replace review form with custom comment form."
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:43
+msgid "Replace Review"
 msgstr ""
 
 #: inc/admin-setting-page-development.php:12
@@ -1359,38 +1823,38 @@ msgid ""
 "not theme author, just leave this message."
 msgstr ""
 
-#: sb-core.php:37
+#: sb-core.php:38
 #, php-format
 msgid "<strong>Error:</strong> You are using PHP version %s, please upgrade PHP version to at least %s."
 msgstr ""
 
-#: sb-core.php:38
+#: sb-core.php:39
 msgid "Invalid PHP Version"
 msgstr ""
 
-#: sb-core.php:86
+#: sb-core.php:87
 msgid "Invalid Theme Core Version"
 msgstr ""
 
-#: sb-core.php:89
+#: sb-core.php:90
 #, php-format
 msgid ""
 "<strong>Error:</strong> Plugin <code>%s</code> requires theme core version <code>%s</code> or higher. Please upgrade your theme or downgrade this "
 "plugin to older version."
 msgstr ""
 
-#: sb-core.php:123
+#: sb-core.php:151
 msgid "Settings"
 msgstr ""
 
-#: sb-core.php:186
+#: sb-core.php:214
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core version at least %s. Please upgrade your theme or contact theme author "
 "for more details. You may also downgrade this plugin to older version but it is not recommended."
 msgstr ""
 
-#: sb-core.php:205
+#: sb-core.php:233
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as "

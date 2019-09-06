@@ -113,3 +113,63 @@ function hocwp_add_post_frontend_allow_contributor_upload_media() {
 
 add_action( 'init', 'hocwp_add_post_frontend_allow_contributor_upload_media' );
 
+function hocwp_add_post_frontend_admin_bar_menu( $wp_admin_bar ) {
+	if ( $wp_admin_bar instanceof WP_Admin_Bar ) {
+		global $wpdb;
+
+		$sql = "SELECT ID, post_type ";
+		$sql .= "FROM $wpdb->posts WHERE post_status = 'pending'";
+
+		$results = $wpdb->get_results( $sql );
+
+		if ( HT()->array_has_value( $results ) ) {
+			$post_types = array();
+
+			$count = 0;
+
+			foreach ( $results as $info ) {
+				if ( isset( $info->post_type ) && post_type_exists( $info->post_type ) ) {
+					if ( ! isset( $post_types[ $info->post_type ] ) ) {
+						$post_types[ $info->post_type ] = 1;
+					} else {
+						$post_types[ $info->post_type ] = $post_types[ $info->post_type ] + 1;
+					}
+
+					$count ++;
+				}
+			}
+
+			$count = ' <span class="ab-label hocwp-theme awaiting-mod pending-count count-' . $count . '" aria-hidden="true"><span class="pending-count">' . number_format( $count ) . '</span></span>';
+
+			$args = array(
+				'id'    => 'pending_posts',
+				'title' => __( 'Pending Posts', 'sb-core' ) . $count
+			);
+
+			if ( 1 == count( $post_types ) ) {
+				$args['href'] = admin_url( 'edit.php?post_status=pending&post_type=' . key( $post_types ) );
+			}
+
+			$wp_admin_bar->add_node( $args );
+
+			if ( 1 < count( $post_types ) ) {
+				foreach ( $post_types as $post_type => $count ) {
+					$object = get_post_type_object( $post_type );
+
+					if ( $object instanceof WP_Post_Type ) {
+						$args = array(
+							'id'     => $post_type . '_pending_posts',
+							'title'  => sprintf( '%s (%s)', $object->labels->singular_name, number_format( $count ) ),
+							'parent' => 'pending_posts',
+							'href'   => admin_url( 'edit.php?post_status=pending&post_type=' . $post_type )
+						);
+
+						$wp_admin_bar->add_node( $args );
+					}
+				}
+			}
+		}
+	}
+}
+
+add_action( 'admin_bar_menu', 'hocwp_add_post_frontend_admin_bar_menu', 999 );

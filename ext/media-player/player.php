@@ -9,44 +9,9 @@ if ( ( ! wp_verify_nonce( $nonce ) || ! function_exists( 'HTE_Media_Player' ) ) 
 	return;
 }
 
-$src = isset( $_GET['src'] ) ? $_GET['src'] : '';
-
-if ( empty( $src ) && ! HTE_Media_Player()->hide_source ) {
-	return;
-}
-
-$post_id = isset( $_GET['post_id'] ) ? $_GET['post_id'] : '';
-
-$domain = HT()->get_domain_name( $src );
-
-$thumbnail = isset( $_GET['thumbnail'] ) ? $_GET['thumbnail'] : '';
-
-switch ( $domain ) {
-	case 'www.drive.google.com':
-	case 'drive.google.com':
-		$src = HTE_Media_Player()->get_google_drive_url( $src );
-		break;
-	case 'www.facebook.com':
-	case 'facebook.com':
-		$src = HTE_Media_Player()->get_facebook_url( $src );
-		break;
-}
-
 if ( ! defined( 'HTE_MEDIA_PLAYER' ) ) {
 	define( 'HTE_MEDIA_PLAYER', true );
 }
-
-$poster = HTE_Media_Player()->get_background_url();
-
-if ( empty( $thumbnail ) && HT()->is_positive_number( $post_id ) ) {
-	$thumbnail = get_post_meta( $post_id, '_thumbnail_url', true );
-}
-
-if ( ! empty( $thumbnail ) ) {
-	$poster = $thumbnail;
-}
-
-$player = isset( $_GET['player'] ) ? $_GET['player'] : 'jwplayer';
 ?>
 <!DOCTYPE html>
 <html style="margin: 0 !important; padding: 0 !important;">
@@ -61,51 +26,24 @@ $player = isset( $_GET['player'] ) ? $_GET['player'] : 'jwplayer';
 			margin: 0;
 			height: 100%;
 			width: 100%;
-			overflow-x: hidden;
+			overflow: hidden;
+		}
+
+		#videoPlayer,
+		body > .embedded,
+		body {
+			position: fixed;
+			z-index: 9999;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
 		}
 	</style>
 </head>
 <body>
-<div class="embedded">
-	<?php
-	$html = apply_filters( 'hocwp_theme_extension_media_player_html', '', $src, $post_id, $post_id );
-
-	if ( empty( $html ) ) {
-		if ( HTE_Media_Player()->use_jwplayer() ) {
-			do_action( 'hocwp_theme_extension_media_player_load_jwplayer', $src, $poster, $post_id );
-		} else {
-			if ( empty( $html ) ) {
-				if ( 'mediaelementplayer' == $player ) {
-					?>
-					<video id="videoPlayer" controls>
-						<source src="<?php echo esc_url( $src ); ?>">
-					</video>
-					<script>
-						jQuery(document).ready(function ($) {
-							$('#videoPlayer').mediaelementplayer({
-								videoWidth: "100%",
-								videoHeight: "100%",
-								enableAutosize: true,
-								controls: true,
-								success: function (mediaElement, originalNode, instance) {
-									instance.setPoster("<?php echo $poster; ?>");
-								}
-							});
-						});
-					</script>
-					<?php
-				} elseif ( 'dplayer' == $player ) {
-					do_action( 'hocwp_theme_extension_media_player_load_dplayer', $src, $poster, $post_id );
-				}
-			}
-		}
-	} else {
-		echo $html;
-	}
-
-	do_action( 'hocwp_theme_extension_media_player_load_player', $src, $poster, $post_id );
-	?>
-</div>
-<?php do_action( 'hocwp_theme_extension_media_player_footer' ); ?>
+<?php HTE_Media_Player()->html(); ?> ?>
 </body>
 </html>

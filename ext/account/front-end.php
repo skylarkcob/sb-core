@@ -3,6 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+/*
+ * Load all styles and scripts for login and front-end page.
+ */
 function hocwp_ext_account_login_enqueue_scripts() {
 	global $pagenow;
 

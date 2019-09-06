@@ -4,7 +4,7 @@ Plugin Name: Extensions by HocWP Team
 Plugin URI: http://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
-Version: 2.3.2
+Version: 0.2.3.2
 Author URI: http://hocwp.net/
 Donate link: http://hocwp.net/donate/
 Text Domain: sb-core
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-define( 'HOCWP_EXT_VERSION', '2.3.3' );
+define( 'HOCWP_EXT_VERSION', '2.4.1' );
 define( 'HOCWP_EXT_FILE', __FILE__ );
 define( 'HOCWP_EXT_PATH', dirname( HOCWP_EXT_FILE ) );
 define( 'HOCWP_EXT_URL', plugins_url( '', HOCWP_EXT_FILE ) );
@@ -112,12 +112,39 @@ final class SB_Core {
 			return;
 		}
 
+		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'global_scripts' ) );
+			add_filter( 'all_plugins', array( $this, 'all_plugins_filter' ) );
+		} else {
+			add_action( 'wp_enqueue_scripts', array( $this, 'global_scripts' ) );
+			add_action( 'login_enqueue_scripts', array( $this, 'global_scripts' ) );
+		}
+
 		add_action( 'hocwp_theme_setup_after', array( $this, 'load' ), 99 );
 
 		add_filter( 'plugin_action_links_' . $this->plugin_basename, array(
 			$this,
 			'plugin_action_links_filter'
 		) );
+	}
+
+	public function all_plugins_filter( $plugins ) {
+		if ( HT()->array_has_value( $plugins ) && isset( $plugins[ $this->plugin_basename ] ) ) {
+			if ( HT()->array_has_value( $plugins[ $this->plugin_basename ] ) ) {
+				$plugins[ $this->plugin_basename ]['Version'] = HOCWP_EXT_VERSION;
+			}
+		}
+
+		return $plugins;
+	}
+
+	public function get_ajax_url() {
+		return apply_filters( 'hocwp_theme_ajax_url', admin_url( 'admin-ajax.php' ) );
+	}
+
+	public function global_scripts() {
+		wp_register_style( 'toastr-style', HOCWP_EXT_URL . '/css/toastr.min.css' );
+		wp_register_script( 'toastr', HOCWP_EXT_URL . '/js/toastr.min.js', array( 'jquery' ), false, true );
 	}
 
 	public function plugin_action_links_filter( $links ) {
@@ -230,10 +257,12 @@ if ( 'hocwp-theme' !== $stylesheet ) {
 }
 
 function sb_core_load_plugin_textdomain() {
-	$path = basename( dirname( __FILE__ ) ) . '/languages';
-	load_plugin_textdomain( 'sb-core', false, $path );
+	$domain = 'sb-core';
+	$path   = basename( dirname( __FILE__ ) ) . '/languages';
 
-	unset( $path );
+	load_plugin_textdomain( $domain, false, $path );
+
+	unset( $domain, $path );
 }
 
-add_action( 'plugins_loaded', 'sb_core_load_plugin_textdomain', 99 );
+add_action( 'plugins_loaded', 'sb_core_load_plugin_textdomain', 999 );

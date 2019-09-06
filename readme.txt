@@ -2,10 +2,10 @@
 Contributors: skylarkcob, hocwp, sauhi
 Donate link: http://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
-Requires at least: 4.8
-Tested up to: 4.9
-Stable tag: 2.3.2
-Requires PHP: 5.6
+Requires at least: 5.0
+Tested up to: 5.2
+Stable tag: 0.2.3.2
+Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,30 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 22/08/2019: Add feature make user verify email address and phone number for viewing site.
+* 19/08/2019: Add custom-ajax.php from theme.
+* 19/08/2019: Update for Ads extension can only display on mobile or desktop.
+* 19/08/2019: Add Facebook Account Kit for Account extension. Now user can login by using phone number or email address.
+* 26/07/2019: Update WooCommerce extension hides tab heading in content by default.
+* 23/07/2019: Change plugin version for skipping update.
+* 08/06/2019: Add WooCommerce supports gallery zoom, lightbox and slider.
+* 26/05/2019: Now plugin requires WordPress 5.0 or higher, PHP 7.0 or higher.
+* 26/05/2019: Update Ads extension, add widget for displaying ads on sidebar.
+* 25/05/2019: Fix pending post count for Add Post Frontend extension.
+* 22/04/2019: Update Media Player extension, now support playing video from Google Video link.
+* 11/04/2019: Allow media player play inline instead of using iframe.
+* 06/04/2019: Update Ads extension and Media Player extension. Now user can put VAST and VPAID ads to JW Player. User can choose player for video playing.
+* 20/03/2019: Add get price filter for extension Classifieds.
+* 08/03/2019: Update Account extension (page login). Update Add Post Frontend extension: Add pending posts count on admin bar, allow publish pending posts by bulk action.
+* 04/03/2019: Update VIP Management extension.
+* 25/02/2019: Update VIP Management extension and Classifieds extension.
+* 13/02/2019: Update Google Code Prettify extension.
+* 14/01/2019: Add auto detect ads block and display warning.
+* 10/01/2019: Update development functions.
+* 24/12/2018: Update VIP extension for adding new post.
+* 24/12/2018: Update address field to change maps maker in admin edit post for Add Post Frontend extension.
+* 24/12/2018: Allow filter display ads arguments.
+* 24/12/2018: Hide page content when post added in Add Post Frontend extension.
 * 09/12/2018: Now developer can filter author contact info in VIP Management extension.
 * 09/12/2018: Check image upload first by Javascript in Add Post Frontend extension.
 * 09/12/2018: Force code get meta address first in Add Post Frontend extension.

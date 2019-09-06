@@ -11,9 +11,11 @@ function hocwp_add_post_frontend_user_profile_fields( $user ) {
 	$post_price = absint( $post_price );
 
 	if ( 0 < $post_price ) {
-		$user_id  = $user->ID;
-		$coin     = get_user_meta( $user_id, 'coin', true );
-		$coin     = absint( $coin );
+		$user_id = $user->ID;
+
+		$coin = get_user_meta( $user_id, 'coin', true );
+		$coin = absint( $coin );
+
 		$disabled = ( current_user_can( 'edit_users' ) ) ? false : true;
 		?>
 		<tr class="user-coin-wrap">

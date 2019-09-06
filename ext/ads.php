@@ -32,16 +32,75 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 			return self::$instance;
 		}
 
+		public $post_type = 'hocwp_ads';
+
 		public function __construct() {
 			if ( self::$instance instanceof self ) {
 				return;
 			}
 
+			$this->set_option_name( 'ads_management' );
 			$this->folder_url = HOCWP_EXT_URL . '/ext';
 			parent::__construct( __FILE__ );
 
 			require $this->folder_path . '/ads.php';
 			add_shortcode( 'hte_ads_display', array( $this, 'shortcode_display_ads' ) );
+
+			$detect_adsblock = $this->get_option( 'detect_adsblock' );
+
+			if ( is_admin() ) {
+				$tab = new HOCWP_Theme_Admin_Setting_Tab( 'ads_management', __( 'Ads Management', 'sb-core' ), '<span class="dashicons dashicons-cloud"></span>' );
+
+				$args = array(
+					'type' => 'checkbox',
+					'text' => __( 'Auto detect ads block extension on browser.', 'sb-core' )
+				);
+
+				$tab->add_field_array( array(
+					'id'    => 'detect_adsblock',
+					'title' => __( 'Detect Ads Block', 'sb-core' ),
+					'args'  => array(
+						'type'          => 'boolean',
+						'callback'      => array( 'HOCWP_Theme_HTML_Field', 'input' ),
+						'callback_args' => $args
+					)
+				) );
+
+				if ( 1 == $detect_adsblock ) {
+					$tab->add_field( 'adsblock_message', __( 'Ads Block Message', 'sb-core' ) );
+				}
+
+				$tab->add_field_array( array(
+					'id'    => 'video_ad_tag_url',
+					'title' => __( 'Video Ad Tag URL', 'sb-core' ),
+					'args'  => array(
+						'type'          => 'url',
+						'callback'      => array( 'HOCWP_Theme_HTML_Field', 'input' ),
+						'callback_args' => array( 'class' => 'widefat' )
+					)
+				) );
+			} else {
+				if ( 1 == $detect_adsblock ) {
+					add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts_action' ), 999 );
+				}
+			}
+		}
+
+		public function wp_footer_action() {
+
+		}
+
+		public function wp_enqueue_scripts_action() {
+			wp_enqueue_style( 'toastr-style' );
+			wp_enqueue_script( 'ads-management-adsense', HOCWP_EXT_URL . '/js/adsense' . HOCWP_THEME_JS_SUFFIX, array( 'toastr' ), false, true );
+
+			$text = $this->get_option( 'adsblock_message' );
+
+			if ( empty( $text ) ) {
+				$text = __( 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by disabling your ad blocker.', 'sb-core' );
+			}
+
+			wp_add_inline_script( 'ads-management-adsense', '"undefined"==typeof flagADS&&("object"==typeof toastr?toastr.warning("' . $text . '"):alert("' . $text . '"));' );
 		}
 
 		public function shortcode_display_ads( $atts = array(), $content = null ) {
@@ -63,15 +122,20 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 				$hocwp_theme->ads_positions = array();
 			}
 
+			$hocwp_theme->ads_positions['random']      = __( 'Random', 'sb-core' );
 			$hocwp_theme->ads_positions['leaderboard'] = __( 'Leaderboard', 'sb-core' );
 
 			return apply_filters( 'hocwp_theme_ads_positions', $hocwp_theme->ads_positions );
 		}
 
+		public function query_vast_vpaid( $args = array() ) {
+			$args['vast_ads'] = true;
+
+			return $this->query( $args );
+		}
+
 		public function query( $args ) {
 			$query = new WP_Query();
-
-			$position = '';
 
 			if ( ! is_object( $args ) ) {
 				if ( ! is_array( $args ) ) {
@@ -80,15 +144,22 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 					);
 				}
 
-				$position = isset( $args['position'] ) ? $args['position'] : '';
+				$args = apply_filters( 'hocwp_theme_extension_ads_display_args', $args );
 
-				if ( ! empty( $position ) ) {
+				$position = isset( $args['position'] ) ? $args['position'] : '';
+				$vast_ads = isset( $args['vast_ads'] ) ? $args['vast_ads'] : false;
+
+				if ( ! empty( $position ) || $vast_ads ) {
 					$random = (bool) HT()->get_value_in_array( $args, 'random' );
+
+					if ( 'random' == $position ) {
+						$random = true;
+					}
 
 					$current_datetime = current_time( 'timestamp' );
 
 					$defaults = array(
-						'post_type'      => 'hocwp_ads',
+						'post_type'      => $this->post_type,
 						'posts_per_page' => 1,
 						'meta_query'     => array(
 							'relation' => 'AND',
@@ -123,12 +194,74 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 						)
 					);
 
+					if ( $vast_ads ) {
+						$defaults['meta_query'][] = array(
+							'relation' => 'AND',
+							array(
+								'key'     => 'vast_vpaid_url',
+								'compare' => 'EXISTS'
+							),
+							array(
+								'key'     => 'vast_vpaid_url',
+								'value'   => '',
+								'compare' => '!='
+							)
+						);
+					} else {
+						$defaults['meta_query'][] = array(
+							'relation' => 'OR',
+							array(
+								'key'     => 'vast_vpaid_url',
+								'compare' => 'NOT EXISTS'
+							),
+							array(
+								'key'   => 'vast_vpaid_url',
+								'value' => ''
+							)
+						);
+					}
 
 					if ( $random ) {
 						$defaults['orderby'] = 'rand';
 					}
 
+					if ( wp_is_mobile() ) {
+						$key = 'only_desktop';
+					} else {
+						$key = 'only_mobile';
+					}
+
+					$defaults['meta_query'][] = array(
+						'relation' => 'AND',
+						array(
+							'relation' => 'OR',
+							array(
+								'key'     => $key,
+								'type'    => 'numeric',
+								'value'   => 1,
+								'compare' => '!='
+							),
+							array(
+								'key'     => $key,
+								'value'   => '',
+								'compare' => '='
+							),
+							array(
+								'key'     => $key,
+								'type'    => 'numeric',
+								'value'   => 0,
+								'compare' => '='
+							),
+							array(
+								'key'     => $key,
+								'compare' => 'NOT EXISTS'
+							)
+						)
+					);
+
 					$args = wp_parse_args( $args, $defaults );
+
+					$args = apply_filters( 'hocwp_theme_extension_ads_query_args', $args, $position );
 
 					$query = HT_Query()->posts_by_meta( 'position', $position, $args );
 				}
@@ -138,20 +271,26 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 		}
 
 		public function display( $args ) {
-			$ads      = $args;
-			$html     = '';
+			$ads  = $args;
+			$html = '';
+
 			$position = '';
 
 			if ( ! is_object( $args ) ) {
+				if ( is_string( $args ) ) {
+					$position = $args;
+				} elseif ( is_array( $args ) ) {
+					$position = HT()->get_value_in_array( $args, 'position' );
+				}
+
 				$ads = $this->query( $args );
 
 				if ( $ads->have_posts() ) {
-					$posts = $ads->posts;
-					$ads   = array_shift( $posts );
+					$ads = array_shift( $ads->posts );
 				}
 			}
 
-			if ( $ads instanceof WP_Post && 'hocwp_ads' == $ads->post_type ) {
+			if ( $ads instanceof WP_Post && $this->post_type == $ads->post_type ) {
 				$code = get_post_meta( $ads->ID, 'code', true );
 
 				if ( empty( $code ) ) {
@@ -184,15 +323,23 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 						$class .= ' ' . $position;
 					}
 
+					$expire = get_post_meta( $ads->ID, 'expire', true );
+
 					$class .= ' ' . $ads->post_name;
 					$div = new HOCWP_Theme_HTML_Tag( 'div' );
 					$div->add_attribute( 'class', $class );
+
+					if ( ! empty( $expire ) ) {
+						$div->add_attribute( 'data-expire', $expire );
+						$div->add_attribute( 'data-expire-data', date( 'Y-m-d H:i:s', $expire ) );
+					}
+
 					$div->set_text( $code );
 					$html = $div->build();
 				}
 			}
 
-			$html = apply_filters( 'hocwp_ads_html', $html, $ads_or_args = $args );
+			$html = apply_filters( 'hocwp_ads_html', $html, $args );
 
 			echo $html;
 		}

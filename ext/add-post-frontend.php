@@ -216,7 +216,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 						)
 					) );
 
-					$field = new HOCWP_Theme_Admin_Setting_Field( 'redirect_seconds', __( 'Redirect Seconds', 'hocwp-theme' ), 'input', array(
+					$field = new HOCWP_Theme_Admin_Setting_Field( 'redirect_seconds', __( 'Redirect Seconds', 'sb-core' ), 'input', array(
 						'type'        => 'number',
 						'class'       => 'medium-text',
 						'description' => __( 'The system will redirect the user to another address after the post has been posted.', 'sb-core' )
@@ -224,7 +224,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 					$tab->add_field_array( $field );
 
-					$field = new HOCWP_Theme_Admin_Setting_Field( 'redirect_url', __( 'Redirect URL', 'hocwp-theme' ), 'input', array(
+					$field = new HOCWP_Theme_Admin_Setting_Field( 'redirect_url', __( 'Redirect URL', 'sb-core' ), 'input', array(
 						'type'        => 'text',
 						'class'       => 'regular-text',
 						'description' => __( 'The system will redirect the user to this URL after the post has been posted.', 'sb-core' )
@@ -244,6 +244,9 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				) );
 
 				add_action( 'admin_notices', array( $this, 'admin_notices_action' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 999 );
+				add_filter( 'bulk_actions-edit-post', array( $this, 'post_bulk_actions_filter' ) );
+				add_filter( 'handle_bulk_actions-edit-post', array( $this, 'handle_post_bulk_action' ), 10, 3 );
 			} else {
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
@@ -256,6 +259,39 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 			add_shortcode( 'hte_add_post_frontend', array( $this, 'shortcode' ) );
 
 			add_action( 'save_post', array( $this, 'save_post' ) );
+		}
+
+		public function handle_post_bulk_action( $redirect_to, $doaction, $post_ids ) {
+			if ( 'publish' == $doaction && HT()->array_has_value( $post_ids ) ) {
+				foreach ( $post_ids as $post_id ) {
+					$data = array(
+						'ID'          => $post_id,
+						'post_status' => 'publish'
+					);
+
+					wp_update_post( $data );
+				}
+
+				$redirect_to = add_query_arg( 'published_posts', count( $post_ids ), $redirect_to );
+			}
+
+			return $redirect_to;
+		}
+
+		public function post_bulk_actions_filter( $actions ) {
+			$post_status = isset( $_GET['post_status'] ) ? $_GET['post_status'] : '';
+
+			if ( 'pending' == $post_status ) {
+				$actions['publish'] = _x( 'Publish', 'publish post', 'sb-core' );
+			}
+
+			return $actions;
+		}
+
+		public function admin_scripts() {
+			if ( is_admin_bar_showing() ) {
+				wp_enqueue_style( 'hocwp-theme-user-logged-in-style', HOCWP_Theme()->core_url . '/css/user-logged-in' . HOCWP_THEME_CSS_SUFFIX );
+			}
 		}
 
 		public function save_post( $post_id ) {
@@ -328,6 +364,27 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function admin_notices_action() {
+			if ( isset( $_REQUEST['published_posts'] ) ) {
+				$count = absint( $_REQUEST['published_posts'] );
+
+				if ( HT()->is_positive_number( $count ) ) {
+					global $post_type;
+
+					if ( empty( $post_type ) ) {
+						$post_type = 'post';
+					}
+
+					$object = get_post_type_object( $post_type );
+
+					$args = array(
+						'type'    => 'success',
+						'message' => sprintf( __( '%d %s has/have been published successfully.', 'sb-core' ), $count, $object->labels->singular_name )
+					);
+
+					HT_Util()->admin_notice( $args );
+				}
+			}
+
 			if ( $this->use_captcha() ) {
 				if ( ! $this->check_captcha_config() ) {
 					$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for Add Post Frontend extension works normally.', 'sb-core' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
@@ -1044,6 +1101,10 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function enqueue_scripts() {
+			if ( is_admin_bar_showing() ) {
+				wp_enqueue_style( 'hocwp-theme-user-logged-in-style', HOCWP_Theme()->core_url . '/css/user-logged-in' . HOCWP_THEME_CSS_SUFFIX );
+			}
+
 			$page = HT_Util()->get_theme_option_page( 'new_post_page', 'add_post_frontend' );
 
 			if ( HT_Options()->check_page_valid( $page ) && is_page( $page->ID ) ) {
