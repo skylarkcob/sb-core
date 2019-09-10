@@ -54,6 +54,7 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 10/09/2019: Update Facebook Account Kit script.
 * 22/08/2019: Add feature make user verify email address and phone number for viewing site.
 * 19/08/2019: Add custom-ajax.php from theme.
 * 19/08/2019: Update for Ads extension can only display on mobile or desktop.
