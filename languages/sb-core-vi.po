@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2019-09-10 08:24+0700\n"
-"PO-Revision-Date: 2019-09-10 08:24+0700\n"
+"POT-Creation-Date: 2019-09-11 06:48+0700\n"
+"PO-Revision-Date: 2019-09-11 06:48+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -975,7 +975,7 @@ msgstr "Thông tin quảng cáo"
 msgid "-- Choose position --"
 msgstr "-- Chọn vị trí --"
 
-#: ext/ads/admin.php:23 ext/ads/class-hocwp-ads-widget.php:72
+#: ext/ads/admin.php:23 ext/ads/class-hocwp-ads-widget.php:81
 msgid "Position:"
 msgstr "Vị trí:"
 
@@ -1040,7 +1040,15 @@ msgctxt "widget description"
 msgid "Display ads by position."
 msgstr "Hiển thị quảng cáo theo vị trí."
 
-#: ext/ads/class-hocwp-ads-widget.php:93
+#: ext/ads/class-hocwp-ads-widget.php:101
+msgid "Ads:"
+msgstr "Quảng cáo:"
+
+#: ext/ads/class-hocwp-ads-widget.php:112
+msgid "-- Choose ads --"
+msgstr "-- Chọn quảng cáo --"
+
+#: ext/ads/class-hocwp-ads-widget.php:123
 msgid ""
 "Displaying ads for this position randomly? If you choose random position, "
 "the ads will be displayed randomly by default."

@@ -42,6 +42,13 @@ class HOCWP_Ads_Widget extends WP_Widget {
 				$random = true;
 			}
 
+			$ads = isset( $instance['ads'] ) ? $instance['ads'] : '';
+			$ads = get_post( $ads );
+
+			if ( $ads instanceof WP_Post && 'hocwp_ads' == $ads->post_type ) {
+				$position = $ads;
+			}
+
 			ob_start();
 			hocwp_ext_ads_display( $position, $random );
 			$html = ob_get_clean();
@@ -63,9 +70,11 @@ class HOCWP_Ads_Widget extends WP_Widget {
 		$position = $instance['position'];
 		$random   = $instance['random'];
 
+		$ads = isset( $instance['ads'] ) ? $instance['ads'] : '';
+
 		do_action( 'hocwp_theme_widget_form_before', $instance, $this );
 		?>
-        <p>
+		<p>
 			<?php
 			$args = array(
 				'for'  => $this->get_field_id( 'position' ),
@@ -84,14 +93,35 @@ class HOCWP_Ads_Widget extends WP_Widget {
 
 			HT_HTML_Field()->select( $args );
 			?>
-        </p>
-        <p>
-            <input class="checkbox" type="checkbox"<?php checked( $random, 1 ); ?>
-                   id="<?php echo $this->get_field_id( 'random' ); ?>"
-                   name="<?php echo $this->get_field_name( 'random' ); ?>"/>
-            <label
-                    for="<?php echo $this->get_field_id( 'random' ); ?>"><?php _e( 'Displaying ads for this position randomly? If you choose random position, the ads will be displayed randomly by default.', 'sb-core' ); ?></label>
-        </p>
+		</p>
+		<p>
+			<?php
+			$args = array(
+				'for'  => $this->get_field_id( 'ads' ),
+				'text' => __( 'Ads:', 'sb-core' )
+			);
+
+			HT_HTML_Field()->label( $args );
+
+			$args = array(
+				'id'         => $this->get_field_id( 'ads' ),
+				'name'       => $this->get_field_name( 'ads' ),
+				'post_type'  => 'hocwp_ads',
+				'class'      => 'widefat',
+				'value'      => $ads,
+				'option_all' => __( '-- Choose ads --', 'sb-core' )
+			);
+
+			HT_HTML_Field()->select_post( $args );
+			?>
+		</p>
+		<p>
+			<input class="checkbox" type="checkbox"<?php checked( $random, 1 ); ?>
+			       id="<?php echo $this->get_field_id( 'random' ); ?>"
+			       name="<?php echo $this->get_field_name( 'random' ); ?>"/>
+			<label
+				for="<?php echo $this->get_field_id( 'random' ); ?>"><?php _e( 'Displaying ads for this position randomly? If you choose random position, the ads will be displayed randomly by default.', 'sb-core' ); ?></label>
+		</p>
 		<?php
 		do_action( 'hocwp_theme_widget_form_after', $instance, $this );
 	}
@@ -102,6 +132,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 		$instance['title']    = isset( $new_instance['title'] ) ? sanitize_text_field( $new_instance['title'] ) : '';
 		$instance['position'] = isset( $new_instance['position'] ) ? sanitize_text_field( $new_instance['position'] ) : '';
 		$instance['random']   = isset( $new_instance['random'] ) ? 1 : 0;
+		$instance['ads']      = isset( $new_instance['ads'] ) ? absint( $new_instance['ads'] ) : '';
 
 		return $instance;
 	}
