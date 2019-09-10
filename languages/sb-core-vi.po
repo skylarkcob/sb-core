@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2019-08-22 09:00+0700\n"
-"PO-Revision-Date: 2019-08-22 09:01+0700\n"
+"POT-Creation-Date: 2019-09-10 08:24+0700\n"
+"PO-Revision-Date: 2019-09-10 08:24+0700\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "<strong>Error:</strong> Please correct the captcha."
 msgstr "<strong>Lỗi:</strong> Xin vui lòng điền đúng mã bảo mật."
 
-#: ext/account.php:288
+#: ext/account.php:289
 #, php-format
 msgid ""
 "Your email address has been verified successfully. To change profile, update "
@@ -38,28 +38,28 @@ msgstr ""
 "nhân, cập nhật <a href=\"%s\">tại đây</a> hoặc <a href=\"%s\">truy cập trang "
 "chủ</a> để xem bài viết."
 
-#: ext/account.php:289
+#: ext/account.php:290
 msgid "Email Address Verified"
 msgstr "Địa chỉ email đã được xác nhận"
 
-#: ext/account.php:291 ext/account.php:414 ext/account.php:418
-#: ext/account.php:426 ext/account.php:449 ext/account.php:458
-#: ext/account.php:462 ext/account.php:467
+#: ext/account.php:292 ext/account.php:415 ext/account.php:419
+#: ext/account.php:427 ext/account.php:450 ext/account.php:459
+#: ext/account.php:463 ext/account.php:468
 msgid "Invalid key."
 msgstr "Mã không hợp lệ."
 
-#: ext/account.php:297
+#: ext/account.php:298
 #, php-format
 msgid ""
 "If you have not received email yet, try to resend <a href=\"%s\">here</a>."
 msgstr ""
 "Nếu bạn chưa nhận được email, hãy thử gửi lại <a href=\"%s\">tại đây</a>."
 
-#: ext/account.php:299
+#: ext/account.php:300
 msgid "Verify Email Error"
 msgstr "Lỗi xác minh địa chỉ email"
 
-#: ext/account.php:314
+#: ext/account.php:315
 msgid ""
 "Your account has reached the confirmation email limit, please try again "
 "later. You can also contact administrator for supports."
@@ -67,11 +67,11 @@ msgstr ""
 "Tài khoản của bạn đã đạt giới hạn gửi thư xác thực, xin vui lòng thử lại "
 "sau. Bạn cũng có thể liên hệ với đội ngũ quản trị để nhờ trợ giúp."
 
-#: ext/account.php:314 ext/account.php:328
+#: ext/account.php:315 ext/account.php:329
 msgid "Email Sent Limit"
 msgstr "Giới hạn gửi thư"
 
-#: ext/account.php:326
+#: ext/account.php:327
 #, php-format
 msgid ""
 "Email verification has been sent, please check your inbox, if you cannot see "
@@ -82,7 +82,7 @@ msgstr ""
 "thấy email, thử tìm lại trong hộp thư spam. Giới hạn gửi email xác thực của "
 "bạn còn <strong>%d</strong>."
 
-#: ext/account.php:337
+#: ext/account.php:338
 #, php-format
 msgid ""
 "You need to verify your email address. Please check your inbox for verify "
@@ -93,11 +93,11 @@ msgstr ""
 "bạn để xác minh email, đồng thời kiểm tra hộ thư spam. Để thay đổi địa chỉ "
 "email, cập nhật nó <a href=\"%s\">tại đây</a>."
 
-#: ext/account.php:338
+#: ext/account.php:339
 msgid "Verify Email Address"
 msgstr "Xác minh địa chỉ email"
 
-#: ext/account.php:392
+#: ext/account.php:393
 #, php-format
 msgid ""
 "<strong>Verify email address:</strong> You must provide and verify your "
@@ -108,7 +108,7 @@ msgstr ""
 "chỉ email của bạn trước khi xem trang web. <a href=\"%s\">Nhấn vào đây</a> "
 "để cập nhật."
 
-#: ext/account.php:401
+#: ext/account.php:402
 #, php-format
 msgid ""
 "<strong>Verify phone number:</strong> You must provide and verify your phone "
@@ -118,11 +118,11 @@ msgstr ""
 "điện thoại của bạn trước khi xem trang web. <a href=\"%s\">Nhấn vào đây</a> "
 "để cập nhật."
 
-#: ext/account.php:600 ext/account/page-lostpassword.php:193
+#: ext/account.php:601 ext/account/page-lostpassword.php:193
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: ext/account.php:611
+#: ext/account.php:612
 msgid "No posts found."
 msgstr "Không có bài viết nào được tìm thấy."
 

@@ -101,6 +101,7 @@ jQuery(document).ready(function ($) {
         };
 
         var count = 0,
+            countryCode = hteFacebookAccountKit.country_code,
             interval = setInterval(function () {
                 if ("undefined" !== typeof AccountKit_OnInteractive.hasRun && true === AccountKit_OnInteractive.hasRun) {
                     accountKitInit = true;
@@ -110,11 +111,15 @@ jQuery(document).ready(function ($) {
                 count++;
             }, 500);
 
+        if ($.trim(countryCode)) {
+            countryCode = "+" + countryCode;
+        }
+
         function smsConnect(phoneNumber) {
             phoneNumber = phoneNumber || "";
 
             AccountKit.login("PHONE", {
-                countryCode: "+" + hteFacebookAccountKit.country_code,
+                countryCode: countryCode,
                 phoneNumber: phoneNumber
             }, loginCallback);
         }
@@ -251,7 +256,7 @@ jQuery(document).ready(function ($) {
                         }
 
                         AccountKit.login("PHONE", {
-                            countryCode: "+" + hteFacebookAccountKit.country_code,
+                            countryCode: countryCode,
                             phoneNumber: phone
                         }, connectPhoneCallback);
                     }
