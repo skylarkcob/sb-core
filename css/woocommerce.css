@@ -133,3 +133,59 @@
 .woocommerce-tabs .wc-tab > h2:first-child {
     display: none;
 }
+
+.single-product.plus-minus-quantity div.product form.cart .quantity {
+    float: none;
+    margin: 0;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.single-product.plus-minus-quantity.woocommerce div.product form.cart .button {
+    float: none;
+}
+
+.woocommerce-error li, .woocommerce-info li, .woocommerce-message li {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.woocommerce-checkout-payment .btn-back-cart {
+    margin-right: 15px;
+}
+
+.cart .btn.buy-now {
+    color: #fff;
+    margin-left: 10px;
+    line-height: 22px;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 31px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 31px;
+}
+
+.wc-proceed-to-checkout .btn-continue-shopping {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .woocommerce-checkout-payment .btn-back-cart {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .cart .btn.buy-now {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+}

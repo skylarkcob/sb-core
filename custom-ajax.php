@@ -1,5 +1,5 @@
 <?php
-define( 'DOING_AJAX', true );
+const DOING_AJAX = true;
 
 if ( ! defined( 'WP_ADMIN' ) ) {
 	define( 'WP_ADMIN', true );

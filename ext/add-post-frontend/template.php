@@ -9,20 +9,20 @@ if ( 1 != $allow_guest_posting ) {
 	if ( ! is_user_logged_in() ) {
 		$url = wp_login_url( get_the_permalink() );
 		?>
-		<p class="alert alert-warning"><?php _e( 'Please login to use this function.', 'sb-core' ); ?></p>
-		<script>
-			window.location.href = "<?php echo $url; ?>";
-		</script>
+        <p class="alert alert-warning"><?php _e( 'Please login to use this function.', 'sb-core' ); ?></p>
+        <script>
+            window.location.href = "<?php echo $url; ?>";
+        </script>
 		<?php
 		return;
 	} else {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			$url = home_url();
 			?>
-			<p class="alert alert-warning"><?php _e( 'Please login to use this function.', 'sb-core' ); ?></p>
-			<script>
-				window.location.href = "<?php echo $url; ?>";
-			</script>
+            <p class="alert alert-warning"><?php _e( 'Please login to use this function.', 'sb-core' ); ?></p>
+            <script>
+                window.location.href = "<?php echo $url; ?>";
+            </script>
 			<?php
 			return;
 		}
@@ -153,7 +153,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 								}
 
 								if ( HT()->array_has_value( $term_ids ) ) {
-									if ( 'category' == $taxonomy->name && HTE_Classifieds()->category_as_location() ) {
+									if ( 'category' == $taxonomy->name && function_exists( 'HTE_Classifieds' ) && HTE_Classifieds()->category_as_location() ) {
 										$term = get_term( $term_id, $taxonomy->name );
 
 										while ( $term instanceof WP_Term && HT()->is_positive_number( $term->parent ) ) {
@@ -273,69 +273,69 @@ $default_html = '';
 if ( ! $post_added && empty( $html ) ) {
 	ob_start();
 	?>
-	<div class="form-group">
+    <div class="form-group">
 		<?php
 		if ( is_array( $post_type ) ) {
 			?>
-			<label for="add-post-type"><?php _e( 'Post type:', 'sb-core' ); ?></label>
+            <label for="add-post-type"><?php _e( 'Post type:', 'sb-core' ); ?></label>
 			<?php
 		}
 
 		HTE_Add_Post_Frontend()->post_type_form_control( $post_type );
 		?>
-	</div>
-	<div class="form-group">
-		<label
-			for="post-title"><?php printf( __( 'Post title (%s):', 'sb-core' ), HT()->required_mark() ); ?></label>
-		<input type="text" name="add_post_title" id="post-title" class="form-control"
-		       value="<?php echo $title; ?>" required>
-	</div>
-	<div class="form-group">
+    </div>
+    <div class="form-group">
+        <label
+                for="post-title"><?php printf( __( 'Post title (%s):', 'sb-core' ), HT()->required_mark() ); ?></label>
+        <input type="text" name="add_post_title" id="post-title" class="form-control"
+               value="<?php echo $title; ?>" required>
+    </div>
+    <div class="form-group">
 		<?php HTE_Add_Post_Frontend()->content_editor( $post_content ); ?>
-	</div>
-	<div class="hierarchical-taxs">
+    </div>
+    <div class="hierarchical-taxs">
 		<?php
 		HTE_Add_Post_Frontend()->add_combined_taxonomies_to_list( $taxonomies, $first_post_type );
 
 		HTE_Add_Post_Frontend()->taxonomy_form_group_html( $taxonomies );
 		?>
-	</div>
-	<div class="custom-fields">
+    </div>
+    <div class="custom-fields">
 		<?php do_action( 'hte_add_post_frontend_form_middle' ); ?>
-	</div>
-	<div class="none-hierarchical-taxs">
+    </div>
+    <div class="none-hierarchical-taxs">
 		<?php HTE_Add_Post_Frontend()->taxonomy_form_group_html( $tags ); ?>
-	</div>
+    </div>
 	<?php
 	if ( HTE_Add_Post_Frontend()->can_upload_thumbnail() ) {
 		?>
-		<div class="form-group">
-			<label><?php _e( 'Thumbnail:', 'sb-core' ); ?></label>
+        <div class="form-group">
+            <label><?php _e( 'Thumbnail:', 'sb-core' ); ?></label>
 			<?php HTE_Add_Post_Frontend()->form_control_thumbnail(); ?>
-		</div>
+        </div>
 		<?php
 	}
 
-	if ( HTE_Add_Post_Frontend()->use_captcha() && HTE_Add_Post_Frontend()->check_captcha_config() ) {
+	if ( HTE_Add_Post_Frontend()->use_captcha() && HT_CAPTCHA()->check_config_valid() ) {
 		?>
-		<div class="captcha-box form-group">
-			<?php HT_Util()->recaptcha(); ?>
-		</div>
+        <div class="captcha-box form-group">
+			<?php HT_CAPTCHA()->display_html(); ?>
+        </div>
 		<?php
 	}
 	?>
-	<div class="form-group text-right">
-		<button class="btn btn-success" name="submit"
-		        type="submit"><?php _ex( 'Add Post', 'add post frontend', 'sb-core' ); ?></button>
-		<a href="<?php echo esc_url( home_url() ); ?>"
-		   class="btn btn-info button"><?php _e( 'Back to home', 'sb-core' ); ?></a>
-	</div>
+    <div class="form-group text-right">
+        <button class="btn btn-success" name="submit"
+                type="submit"><?php _ex( 'Add Post', 'add post frontend', 'sb-core' ); ?></button>
+        <a href="<?php echo esc_url( home_url() ); ?>"
+           class="btn btn-info button"><?php _e( 'Back to home', 'sb-core' ); ?></a>
+    </div>
 	<?php
 	$default_html = ob_get_clean();
 }
 ?>
 <div class="add-post-frontend">
-	<form method="post" class="<?php echo $class; ?>" enctype="multipart/form-data">
+    <form method="post" class="<?php echo $class; ?>" enctype="multipart/form-data">
 		<?php
 		if ( 0 < count( $messages ) ) {
 			$messages = apply_filters( 'hocwp_theme_extension_add_post_frontend_form_messages', $messages );
@@ -365,17 +365,17 @@ if ( ! $post_added && empty( $html ) ) {
 
 			$secs *= 1000;
 			?>
-			<script>
-				var body = document.getElementsByTagName("body")[0];
+            <script>
+                var body = document.getElementsByTagName("body")[0];
 
-				if (-1 === body.className.indexOf("post-added")) {
-					body.className += " post-added";
-				}
+                if (-1 === body.className.indexOf("post-added")) {
+                    body.className += " post-added";
+                }
 
-				setTimeout(function () {
-					window.location.href = "<?php echo $url; ?>";
-				}, <?php echo $secs; ?>);
-			</script>
+                setTimeout(function () {
+                    window.location.href = "<?php echo $url; ?>";
+                }, <?php echo $secs; ?>);
+            </script>
 			<?php
 		} else {
 			wp_nonce_field();
@@ -387,5 +387,5 @@ if ( ! $post_added && empty( $html ) ) {
 			}
 		}
 		?>
-	</form>
+    </form>
 </div>

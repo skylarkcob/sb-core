@@ -54,6 +54,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			add_shortcode( 'hte_account_register', array( $this, 'shortcode_register' ) );
 			add_shortcode( 'hte_account_login', array( $this, 'shortcode_login' ) );
 			add_shortcode( 'hte_account_lostpassword', array( $this, 'shortcode_lostpassword' ) );
+			add_shortcode( 'hte_account', array( $this, 'shortcode_account' ) );
 
 			require dirname( __FILE__ ) . '/account/account.php';
 
@@ -68,6 +69,12 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			}
 
 			add_action( 'hocwp_theme_extension_account_user_added', array( $this, 'user_added_action' ) );
+
+			$activity_logs = $this->get_option( 'activity_logs' );
+
+			if ( $activity_logs ) {
+				require_once $this->folder_path . '/activity-logs.php';
+			}
 		}
 
 		public function user_added_action( $user_id ) {
@@ -76,18 +83,12 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 		public function registration_errors_filter( $errors ) {
 			$options = HT_Util()->get_theme_options( 'account' );
-			$captcha = isset( $options['captcha'] ) ? $options['captcha'] : '';
+			$captcha = $options['captcha'] ?? '';
 
-			if ( 1 == $captcha && HTE_Account()->check_recaptcha_config_valid() ) {
-				$response = HT_Util()->recaptcha_valid();
+			if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
+				$response = HT_CAPTCHA()->check_valid();
 
-				if ( ! $response ) {
-					if ( ! is_wp_error( $errors ) || ! ( $errors instanceof WP_Error ) ) {
-						$errors = new WP_Error( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
-					} else {
-						$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
-					}
-				}
+				$errors = HT_CAPTCHA()->control_captcha_errors( $response, $errors );
 			}
 
 			return $errors;
@@ -286,18 +287,18 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 										update_user_meta( $user_id, 'is_activated', 1 );
 										$wpdb->update( $wpdb->users, array( 'user_activation_key' => '' ), array( 'ID' => $user_id ) );
 										delete_user_meta( $user_id, 'activation_code_sent_count' );
-										$msg = sprintf( __( 'Your email address has been verified successfully. To change profile, update it <a href="%s">here</a> or <a href="%s">visit our homepage</a> to see posts.', 'hocwp-theme' ), get_edit_profile_url(), home_url() );
-										wp_die( $msg, __( 'Email Address Verified', 'hocwp-theme' ) );
+										$msg = sprintf( __( 'Your email address has been verified successfully. To change profile, update it <a href="%s">here</a> or <a href="%s">visit our homepage</a> to see posts.', 'sb-core' ), get_edit_profile_url(), home_url() );
+										wp_die( $msg, __( 'Email Address Verified', 'sb-core' ) );
 									} else {
-										$msg = __( 'Invalid key.', 'hocwp-theme' );
+										$msg = __( 'Invalid key.', 'sb-core' );
 
 										if ( $check instanceof WP_Error ) {
 											$msg = $check->get_error_message();
 										}
 
-										$msg .= ' ' . sprintf( __( 'If you have not received email yet, try to resend <a href="%s">here</a>.', 'hocwp-theme' ), home_url( '/?action=resend_activation_code' ) );
+										$msg .= ' ' . sprintf( __( 'If you have not received email yet, try to resend <a href="%s">here</a>.', 'sb-core' ), home_url( '/?action=resend_activation_code' ) );
 
-										wp_die( $msg, __( 'Verify Email Error', 'hocwp-theme' ) );
+										wp_die( $msg, __( 'Verify Email Error', 'sb-core' ) );
 									}
 								} else {
 									$tr_name = 'hocwp_theme_verify_user_notification_sent_' . $this->user->user_email;
@@ -312,7 +313,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 										$count = absint( $count );
 
 										if ( $count >= $this->activation_code_sent_limit ) {
-											wp_die( __( 'Your account has reached the confirmation email limit, please try again later. You can also contact administrator for supports.', 'hocwp-theme' ), __( 'Email Sent Limit', 'hocwp-theme' ) );
+											wp_die( __( 'Your account has reached the confirmation email limit, please try again later. You can also contact administrator for supports.', 'sb-core' ), __( 'Email Sent Limit', 'sb-core' ) );
 										}
 
 										$key = wp_generate_password( 20, false );
@@ -324,9 +325,9 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 											$count ++;
 											update_user_meta( $this->user->ID, 'activation_code_sent_count', $count );
 
-											$msg = sprintf( __( 'Email verification has been sent, please check your inbox, if you cannot see email, try to check spam box too. Your confirmation email limit <strong>%d</strong>.', 'hocwp-theme' ), ( $this->activation_code_sent_limit - $count ) );
+											$msg = sprintf( __( 'Email verification has been sent, please check your inbox, if you cannot see email, try to check spam box too. Your confirmation email limit <strong>%d</strong>.', 'sb-core' ), ( $this->activation_code_sent_limit - $count ) );
 
-											wp_die( $msg, __( 'Email Sent Limit', 'hocwp-theme' ) );
+											wp_die( $msg, __( 'Email Sent Limit', 'sb-core' ) );
 										}
 									}
 
@@ -335,8 +336,8 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 										$pro_url = get_edit_profile_url();
 
 										if ( $cur_url != $pro_url ) {
-											$msg = sprintf( __( 'You need to verify your email address. Please check your inbox for verify email, also see your spam box too. To change your email address, update it <a href="%s">here</a>.', 'hocwp-theme' ), $pro_url );
-											wp_die( $msg, __( 'Verify Email Address', 'hocwp-theme' ) );
+											$msg = sprintf( __( 'You need to verify your email address. Please check your inbox for verify email, also see your spam box too. To change your email address, update it <a href="%s">here</a>.', 'sb-core' ), $pro_url );
+											wp_die( $msg, __( 'Verify Email Address', 'sb-core' ) );
 										}
 									}
 
@@ -389,6 +390,10 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function admin_notice_verify_email_address() {
+			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+				return;
+			}
+
 			$args = array(
 				'message' => sprintf( __( '<strong>Verify email address:</strong> You must provide and verify your email address before viewing site. <a href="%s">Click here</a> to update it.', 'sb-core' ), get_edit_profile_url() ),
 				'type'    => 'warning'
@@ -398,6 +403,10 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function admin_notice_verify_phone_number() {
+			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+				return;
+			}
+
 			$args = array(
 				'message' => sprintf( __( '<strong>Verify phone number:</strong> You must provide and verify your phone number before viewing site. <a href="%s">Click here</a> to update it.', 'sb-core' ), get_edit_profile_url() ),
 				'type'    => 'warning'
@@ -412,11 +421,11 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			$key = preg_replace( '/[^a-z0-9]/i', '', $key );
 
 			if ( empty( $key ) || ! is_string( $key ) ) {
-				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'hocwp-theme' ) );
+				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 			}
 
 			if ( ! HT()->is_positive_number( $user_id ) ) {
-				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'hocwp-theme' ) );
+				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 			}
 
 
@@ -424,7 +433,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				$row = $wpdb->get_row( $wpdb->prepare( "SELECT ID, user_activation_key FROM $wpdb->users WHERE ID = %s", $user_id ) );
 
 				if ( ! $row ) {
-					return new WP_Error( 'invalid_key', __( 'Invalid key.', 'hocwp-theme' ) );
+					return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 				}
 
 				$activation_key = $row->user_activation_key;
@@ -447,7 +456,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			}
 
 			if ( ! $code_key ) {
-				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'hocwp-theme' ) );
+				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 			}
 
 			$hash_is_correct = $wp_hasher->CheckPassword( $key, $code_key );
@@ -456,16 +465,16 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				return $user_id;
 			} elseif ( $hash_is_correct && $expiration_time ) {
 				// Key has an expiration time that's passed
-				return new WP_Error( 'expired_key', __( 'Invalid key.', 'hocwp-theme' ) );
+				return new WP_Error( 'expired_key', __( 'Invalid key.', 'sb-core' ) );
 			}
 
 			if ( hash_equals( $code_key, $key ) || ( $hash_is_correct && ! $expiration_time ) ) {
-				$return = new WP_Error( 'expired_key', __( 'Invalid key.', 'hocwp-theme' ) );
+				$return = new WP_Error( 'expired_key', __( 'Invalid key.', 'sb-core' ) );
 
 				return apply_filters( 'hocwp_theme_extension_account_activation_key_expired', $return, $user_id );
 			}
 
-			return new WP_Error( 'invalid_key', __( 'Invalid key.', 'hocwp-theme' ) );
+			return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 		}
 
 		public function shortcode_lostpassword( $atts = array(), $content = null ) {
@@ -473,6 +482,15 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 			ob_start();
 			include $this->folder_path . '/page-lostpassword.php';
+
+			return ob_get_clean();
+		}
+
+		public function shortcode_account( $atts = array() ) {
+			$atts = shortcode_atts( array(), $atts );
+
+			ob_start();
+			include $this->folder_path . '/page-account.php';
 
 			return ob_get_clean();
 		}
@@ -672,11 +690,11 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function check_recaptcha_config_valid() {
-			$options    = HT_Util()->get_theme_options( 'social' );
-			$site_key   = isset( $options['recaptcha_site_key'] ) ? $options['recaptcha_site_key'] : '';
-			$secret_key = isset( $options['recaptcha_secret_key'] ) ? $options['recaptcha_secret_key'] : '';
+			return HT_CAPTCHA()->check_recaptcha_config_valid();
+		}
 
-			return ( ! empty( $site_key ) && ! empty( $secret_key ) );
+		public function check_captcha_config_valid() {
+			return HT_CAPTCHA()->check_config_valid();
 		}
 	}
 }

@@ -77,8 +77,8 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 			if ( HT()->array_has_value( $taxonomies ) && in_array( $this->type_taxonomy, $taxonomies ) ) {
 				$tax = get_taxonomy( $this->type_taxonomy );
 				?>
-				<label for="filter-by-<?php echo $this->type_taxonomy; ?>"
-				       class="screen-reader-text"><?php printf( __( 'Filter by %s', 'sb-core' ), $tax->labels->singular_name ); ?></label>
+                <label for="filter-by-<?php echo $this->type_taxonomy; ?>"
+                       class="screen-reader-text"><?php printf( __( 'Filter by %s', 'sb-core' ), $tax->labels->singular_name ); ?></label>
 				<?php
 				$selected = isset( $_GET['c_type'] ) ? $_GET['c_type'] : '';
 
@@ -105,10 +105,10 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 		public function add_post_form_middle() {
 			if ( function_exists( 'HTE_VIP_Management' ) ) {
 				?>
-				<div class="form-group">
-					<label class="control-label col-md-3"><?php _e( 'Maps:', 'sb-core' ); ?></label>
+                <div class="form-group">
+                    <label class="control-label col-md-3"><?php _e( 'Maps:', 'sb-core' ); ?></label>
 
-					<div class="col-md-9">
+                    <div class="col-md-9">
 						<?php
 						$args = array(
 							'name'      => 'google_maps',
@@ -128,22 +128,22 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 
 						HT_HTML_Field()->google_maps( $args );
 						?>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="customLocation"
-					       class="control-label col-md-3"><?php _e( 'Custom Location:', 'sb-core' ); ?></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="customLocation"
+                           class="control-label col-md-3"><?php _e( 'Custom Location:', 'sb-core' ); ?></label>
 
-					<div class="col-md-9">
-						<input id="customLocation" name="custom_location" type="text" data-for-maps="google_maps_marker"
-						       class="form-control">
-					</div>
-				</div>
+                    <div class="col-md-9">
+                        <input id="customLocation" name="custom_location" type="text" data-for-maps="google_maps_marker"
+                               class="form-control">
+                    </div>
+                </div>
 				<?php
 			} else {
 				?>
-				<div class="form-group">
-					<label class="control-label"><?php _e( 'Maps:', 'sb-core' ); ?></label>
+                <div class="form-group">
+                    <label class="control-label"><?php _e( 'Maps:', 'sb-core' ); ?></label>
 					<?php
 					$args = array(
 						'name'      => 'google_maps',
@@ -163,12 +163,12 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 
 					HT_HTML_Field()->google_maps( $args );
 					?>
-				</div>
-				<div class="form-group">
-					<label class="control-label"><?php _e( 'Custom Location:', 'sb-core' ); ?></label>
-					<input id="customLocation" name="custom_location" type="text" data-for-maps="google_maps_marker"
-					       class="form-control">
-				</div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><?php _e( 'Custom Location:', 'sb-core' ); ?></label>
+                    <input id="customLocation" name="custom_location" type="text" data-for-maps="google_maps_marker"
+                           class="form-control">
+                </div>
 				<?php
 			}
 		}
@@ -400,6 +400,10 @@ if ( ! class_exists( 'HOCWP_EXT_Classifieds' ) ) {
 		}
 
 		public function upgrade_theme_core_notice() {
+			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+				return;
+			}
+
 			$args = array(
 				'type'    => 'warning',
 				'message' => sprintf( __( '<strong>Warning:</strong> Extension <code>%s</code> requires theme core version as least %s.', 'sb-core' ), $this->name, '6.5.4' )

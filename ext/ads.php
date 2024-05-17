@@ -231,7 +231,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 						$key = 'only_mobile';
 					}
 
-					$defaults['meta_query'][] = array(
+					$meta_query = array(
 						'relation' => 'AND',
 						array(
 							'relation' => 'OR',
@@ -258,6 +258,19 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 							)
 						)
 					);
+
+					if ( function_exists( 'HT_Util' ) && HT_Util()->is_amp() ) {
+						$key = 'only_amp';
+
+						$meta_query[] = array(
+							'key'     => $key,
+							'type'    => 'numeric',
+							'value'   => 1,
+							'compare' => '='
+						);
+					}
+
+					$defaults['meta_query'][] = $meta_query;
 
 					$args = wp_parse_args( $args, $defaults );
 
@@ -291,12 +304,23 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 			}
 
 			if ( $ads instanceof WP_Post && $this->post_type == $ads->post_type ) {
+				$only_desktop = get_post_meta( $ads->ID, 'only_desktop', true );
+				$only_mobile  = get_post_meta( $ads->ID, 'only_mobile', true );
+
+				if ( $only_desktop && wp_is_mobile() ) {
+					return;
+				}
+
+				if ( $only_mobile && ! wp_is_mobile() ) {
+					return;
+				}
+
 				$code = get_post_meta( $ads->ID, 'code', true );
 
 				if ( empty( $code ) ) {
 					$image = get_post_meta( $ads->ID, 'image', true );
 
-					if ( ! empty( $image ) ) {
+					if ( ! empty( $image ) && HT_Media()->exists( $image ) ) {
 						$image = wp_get_attachment_url( $image );
 						$img   = new HOCWP_Theme_HTML_Tag( 'img' );
 						$img->add_attribute( 'src', $image );
@@ -327,7 +351,12 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 
 					$class .= ' ' . $ads->post_name;
 					$div = new HOCWP_Theme_HTML_Tag( 'div' );
-					$div->add_attribute( 'class', $class );
+
+					$class = explode( ' ', $class );
+					$class = array_unique( $class );
+					$class = array_filter( $class );
+
+					$div->add_attribute( 'class', join( ' ', $class ) );
 
 					if ( ! empty( $expire ) ) {
 						$div->add_attribute( 'data-expire', $expire );

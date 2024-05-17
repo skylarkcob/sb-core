@@ -7,11 +7,32 @@ if ( ! defined( 'HOCWP_THEME_DEVELOPING' ) || 1 != HOCWP_THEME_DEVELOPING ) {
 	return;
 }
 
+$allow_domains = apply_filters( 'hocwp_theme_dev_allow_domains', array(
+	'localhost',
+	'hocwp.net',
+	'ldcuong.com'
+) );
+
+$url = get_bloginfo( 'url' );
+
+$skip = true;
+
+foreach ( $allow_domains as $domain ) {
+	if ( str_contains( $url, $domain ) ) {
+		$skip = false;
+		break;
+	}
+}
+
+if ( $skip ) {
+	return;
+}
+
 global $pagenow;
 
 if ( 'plugins.php' == $pagenow ) {
-	$action   = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
-	$activate = isset( $_REQUEST['activate'] ) ? $_REQUEST['activate'] : '';
+	$action   = $_REQUEST['action'] ?? '';
+	$activate = $_REQUEST['activate'] ?? '';
 
 	if ( 'activate' == $action || 'true' == $activate ) {
 		return;
@@ -19,6 +40,10 @@ if ( 'plugins.php' == $pagenow ) {
 }
 
 global $hocwp_theme;
+
+if ( ! is_object( $hocwp_theme ) ) {
+	$hocwp_theme = new stdClass();
+}
 
 $hocwp_theme->defaults['compress_css_and_js_paths'] = $paths = array(
 	HOCWP_THEME_PATH,
@@ -41,7 +66,10 @@ function hocwp_theme_dev_add_clock_to_message( &$msg ) {
 	$msg .= '<br>';
 	date_default_timezone_set( 'Asia/Ho_Chi_Minh' );
 	$msg .= '<span id="currentClock" style="font-size: 30px;display: block;text-align: center;line-height: 27px;border-bottom: 3px solid #333;border-top: 3px solid #333;margin-top: 15px;padding: 10px 0;">' . date( 'H:i:s' ) . '</span>';
-	$msg .= '<script>function StartTime(t){var e=new Date;e=e.toTimeString();e=e.replace(/.*(\d{2}:\d{2}:\d{2}).*/,"$1");document.getElementById(t).innerHTML=e.toString();setTimeout(function(){StartTime(t)},500)}setTimeout(function(){StartTime("currentClock")},500);</script>';
+	$msg .= '<script>function StartTime(t){let e=new Date;e=e.toTimeString();e=e.replace(/.*(\d{2}:\d{2}:\d{2}).*/,"$1");document.getElementById(t).innerHTML=e.toString();setTimeout(function(){StartTime(t)},500)}setTimeout(function(){StartTime("currentClock")},500);</script>';
+
+	// Hide all elements
+	$msg .= '<style>body>*:not(.wp-die-message){display:none!important;opacity:0!important;visibility:hidden!important}</style>';
 }
 
 function hocwp_theme_dev_end_of_working_hours() {
@@ -49,7 +77,11 @@ function hocwp_theme_dev_end_of_working_hours() {
 		return;
 	}
 
-	$time      = HOCWP_Theme_Utility::timestamp_to_string( current_time( 'timestamp' ), 'H:i:s', 'Asia/Ho_Chi_Minh' );
+	if ( isset( $_REQUEST['submit'] ) || isset( $_REQUEST['action'] ) || isset( $_REQUEST['do_action'] ) ) {
+		return;
+	}
+
+	$time      = HT_Util()->timestamp_to_string( current_time( 'timestamp' ), 'H:i:s', 'Asia/Ho_Chi_Minh' );
 	$time      = strtotime( $time );
 	$morning   = ( $time < strtotime( '07:00:00' ) );
 	$noon      = ( $time >= strtotime( '11:00:00' ) && $time <= strtotime( '13:00:00' ) );
@@ -64,77 +96,282 @@ function hocwp_theme_dev_end_of_working_hours() {
 		hocwp_theme_dev_add_clock_to_message( $msg );
 		$msg .= '<script>setInterval(function(){window.location.reload()},3e4);</script>';
 		wp_die( $msg, 'Outside working hours' );
-		exit;
 	}
 }
 
-add_action( 'init', 'hocwp_theme_dev_end_of_working_hours', 10 );
+add_action( 'init', 'hocwp_theme_dev_end_of_working_hours' );
+
+function hocwp_dev_option_hocwp_theme_filter( $option ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$option = hocwp_dev_replace_localhost( $option );
+	}
+
+	return $option;
+}
+
+add_filter( 'option_hocwp_theme', 'hocwp_dev_option_hocwp_theme_filter', 99 );
+add_filter( 'hocwp_theme_option', 'hocwp_dev_option_hocwp_theme_filter', 99 );
+
+/**
+ * Replace localhost URL with current domain URL.
+ *
+ * @param mixed $value String or array value.
+ *
+ * @param string $domain Current domain name.
+ *
+ * @return array|mixed
+ */
+function hocwp_dev_replace_localhost( $value, $domain = '' ) {
+	if ( empty( $domain ) ) {
+		$domain = get_bloginfo( 'url' );
+		$domain = HT()->get_domain_name( $domain );
+	}
+
+	$find = 'localhost';
+
+	if ( $domain != $find ) {
+		if ( is_array( $value ) ) {
+			$tmp = maybe_serialize( $value );
+
+			if ( str_contains( $tmp, $find ) ) {
+				foreach ( $value as $key => $option ) {
+					$value[ $key ] = hocwp_dev_replace_localhost( $option, $domain );
+				}
+			}
+		} else {
+			if ( ! is_object( $value ) && str_contains( $value, $find ) ) {
+				$value = str_replace( $find, $domain, $value );
+			}
+		}
+	}
+
+	return $value;
+}
+
+function hocwp_dev_widget_display_callback_filter( $instance ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$instance = hocwp_dev_replace_localhost( $instance );
+	}
+
+	return $instance;
+}
+
+add_filter( 'widget_display_callback', 'hocwp_dev_widget_display_callback_filter', 99 );
+
+function hocwp_dev_replace_meta_localhost( $meta_type, $id, $key, $single ) {
+	$value = null;
+
+	if ( ! is_admin() ) {
+		switch ( $meta_type ) {
+			case 'post':
+				$value = get_post_meta( $id, $key, $single );
+				break;
+			case 'user':
+				$value = get_user_meta( $id, $key, $single );
+				break;
+			case 'comment':
+				$value = get_comment_meta( $id, $key, $single );
+				break;
+			case 'term':
+				$value = get_term_meta( $id, $key, $single );
+				break;
+		}
+
+		if ( null !== $value ) {
+			$tmp = maybe_serialize( $value );
+
+			if ( str_contains( $tmp, 'localhost' ) ) {
+				$value = hocwp_dev_replace_localhost( $value );
+			} else {
+				$value = null;
+			}
+		}
+
+		if ( $single && is_array( $value ) ) {
+			return current( $value );
+		}
+	}
+
+	return $value;
+}
+
+function hocwp_dev_post_metadata_filter( $value, $id, $key, $single ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$type = 'post';
+		remove_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99 );
+		$value = hocwp_dev_replace_meta_localhost( $type, $id, $key, $single );
+		add_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99, 4 );
+	}
+
+	return $value;
+}
+
+add_filter( 'get_post_metadata', 'hocwp_dev_post_metadata_filter', 99, 4 );
+
+function hocwp_dev_user_metadata_filter( $value, $id, $key, $single ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$type = 'user';
+		remove_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99 );
+		$value = hocwp_dev_replace_meta_localhost( $type, $id, $key, $single );
+		add_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99, 4 );
+	}
+
+	return $value;
+}
+
+add_filter( 'get_user_metadata', 'hocwp_dev_user_metadata_filter', 99, 4 );
+
+function hocwp_dev_comment_metadata_filter( $value, $id, $key, $single ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$type = 'comment';
+		remove_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99 );
+		$value = hocwp_dev_replace_meta_localhost( $type, $id, $key, $single );
+		add_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99, 4 );
+	}
+
+	return $value;
+}
+
+add_filter( 'get_comment_metadata', 'hocwp_dev_comment_metadata_filter', 99, 4 );
+
+function hocwp_dev_term_metadata_filter( $value, $id, $key, $single ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$type = 'term';
+		remove_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99 );
+		$value = hocwp_dev_replace_meta_localhost( $type, $id, $key, $single );
+		add_filter( 'get_' . $type . '_metadata', 'hocwp_dev_' . $type . '_metadata_filter', 99, 4 );
+	}
+
+	return $value;
+}
+
+add_filter( 'get_term_metadata', 'hocwp_dev_term_metadata_filter', 99, 4 );
+
+function hocwp_dev_the_content_filter( $content ) {
+	if ( ! hocwp_team_dev_is_localhost() ) {
+		$content = hocwp_dev_replace_localhost( $content );
+	}
+
+	return $content;
+}
+
+add_filter( 'the_content', 'hocwp_dev_the_content_filter', 99 );
+add_filter( 'woocommerce_data_get_description', 'hocwp_dev_the_content_filter', 99 );
+add_filter( 'woocommerce_product_get_description', 'hocwp_dev_the_content_filter', 99 );
 
 function hocwp_theme_zip_folder( $source, $destination ) {
+	if ( method_exists( HT_Util(), 'zip_folder' ) ) {
+		return HT_Util()->zip_folder( $source, $destination );
+	}
+
 	if ( ! extension_loaded( 'zip' ) || ! file_exists( $source ) ) {
+		return false;
+	}
+
+	if ( ! class_exists( 'ZipArchive' ) ) {
 		return false;
 	}
 
 	$zip = new ZipArchive();
 
-	if ( ! $zip->open( $destination, ZIPARCHIVE::CREATE ) ) {
-		return false;
-	}
+	if ( $zip->open( $destination, ZipArchive::CREATE ) === true ) {
+		$source = wp_normalize_path( $source );
 
-	$source     = str_replace( '\\', '/', realpath( $source ) );
-	$filesystem = HOCWP_Theme_Utility::filesystem();
+		if ( is_dir( $source ) ) {
+			$replace = trailingslashit( dirname( $source ) );
 
-	if ( is_dir( $source ) === true ) {
-		$files = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $source ), RecursiveIteratorIterator::SELF_FIRST );
+			$files = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $source ), RecursiveIteratorIterator::SELF_FIRST );
 
-		foreach ( $files as $file ) {
-			$file = str_replace( '\\', '/', $file );
+			foreach ( $files as $file ) {
+				$file = wp_normalize_path( $file );
 
-			if ( in_array( substr( $file, strrpos( $file, '/' ) + 1 ), array( '.', '..' ) ) ) {
-				continue;
+				$file_name = basename( $file );
+
+				if ( is_dir( $file ) && ( $file_name === '.git' || $file_name === '.svn' ) ) {
+					continue;
+				}
+
+				if ( '.git' == $file_name || str_contains( $file, '.git/' ) || str_contains( $file, '.git\\' ) ) {
+					continue;
+				}
+
+				if ( '.svn' == $file_name || str_contains( $file, '.svn/' ) || str_contains( $file, '.svn\\' ) ) {
+					continue;
+				}
+
+				if ( '.' == $file_name || '..' == $file_name ) {
+					continue;
+				}
+
+				if ( in_array( substr( $file, strrpos( $file, '/' ) + 1 ), array( '.', '..' ) ) ) {
+					continue;
+				}
+
+				$relative = str_replace( $replace, '', $file );
+
+				if ( is_dir( $file ) ) {
+					$zip->addEmptyDir( $relative );
+				} elseif ( is_file( $file ) ) {
+					$zip->addFile( $file, $relative );
+				}
 			}
-
-			$file = realpath( $file );
-
-			if ( is_dir( $file ) === true ) {
-				$zip->addEmptyDir( str_replace( $source . '/', '', $file . '/' ) );
-			} else if ( is_file( $file ) === true ) {
-				$zip->addFromString( str_replace( $source . '/', '', $file ), $filesystem->get_contents( $file ) );
-			}
+		} else if ( is_file( $source ) ) {
+			$zip->addFile( $source, basename( $source ) );
 		}
-	} else if ( is_file( $source ) === true ) {
-		$zip->addFromString( basename( $source ), $filesystem->get_contents( $source ) );
+
+		return $zip->close();
 	}
 
-	return @$zip->close();
+	return false;
 }
 
-function hocwp_theme_zip_current_theme() {
-	$time    = strtotime( date( 'Y-m-d H:i:s' ) );
+function hocwp_theme_zip_theme( $source = '' ) {
 	$theme   = wp_get_theme();
 	$sheet   = $theme->get_stylesheet();
 	$version = $theme->get( 'Version' );
-	$source  = untrailingslashit( get_template_directory() );
 
-	$style = get_template_directory() . '/style.css';
+	if ( empty( $source ) ) {
+		$source = untrailingslashit( get_template_directory() );
+	}
+
+	$style = $source . '/style.css';
 
 	if ( ! function_exists( 'get_file_data' ) ) {
 		require ABSPATH . 'wp-includes/functions.php';
 	}
 
-	$name = get_file_data( $style, array( 'real_name' => 'Real Theme Name' ) );
-	$name = ( is_array( $name ) && isset( $name['real_name'] ) ) ? $name['real_name'] : '';
+	$name = get_file_data( $style, array( 'text_domain' => 'Text Domain' ) );
+	$name = ( is_array( $name ) && isset( $name['text_domain'] ) ) ? $name['text_domain'] : '';
 
 	if ( empty( $name ) ) {
-		$name = $sheet;
+		$name = get_file_data( $style, array( 'real_name' => 'Real Theme Name' ) );
+		$name = ( is_array( $name ) && isset( $name['real_name'] ) ) ? $name['real_name'] : '';
+
+		if ( empty( $name ) ) {
+			$name = $sheet;
+		}
 	}
 
-	$dest = dirname( $source ) . '/' . $name;
-	$dest .= '_v' . $version;
-	$dest .= '_' . $time;
-	$dest .= '.zip';
+	$dest = trailingslashit( dirname( $source ) );
+	$name .= '_v' . $version;
+
+	$ts = current_time( 'timestamp' );
+
+	$name .= sprintf( '_%s_%s_%s.zip', date( 'Ymd', $ts ), date( 'Hi', $ts ), date( 's', $ts ) );
+
+	$name = sanitize_file_name( $name );
+	$dest .= $name;
 
 	return hocwp_theme_zip_folder( $source, $dest );
+}
+
+function hocwp_theme_zip_current_theme() {
+	// Zip both child and parent theme
+	if ( is_child_theme() ) {
+		hocwp_theme_zip_theme( untrailingslashit( get_stylesheet_directory() ) );
+	}
+
+	return hocwp_theme_zip_theme();
 }
 
 /**
@@ -188,15 +425,39 @@ function hocwp_theme_admin_development_scripts() {
 add_action( 'admin_enqueue_scripts', 'hocwp_theme_admin_development_scripts' );
 
 function hocwp_theme_update_ver_css_js_realtime( $src ) {
-	if ( false !== strpos( $src, 'ver=' ) ) {
+	if ( str_contains( $src, 'ver=' ) ) {
 		$src = add_query_arg( array( 'ver' => current_time( 'timestamp' ) ), $src );
 	}
 
 	return $src;
 }
 
-add_filter( 'style_loader_src', 'hocwp_theme_update_ver_css_js_realtime', 9999 );
-add_filter( 'script_loader_src', 'hocwp_theme_update_ver_css_js_realtime', 9999 );
+function hocwp_theme_dev_remove_source_version() {
+	return apply_filters( 'hocwp_theme_dev_remove_source_version', false );
+}
+
+/**
+ * Remove version from styles and scripts url.
+ *
+ * @param $src
+ *
+ * @return string
+ */
+function hocwp_theme_dev_remove_url_ver( $src ) {
+	if ( str_contains( $src, 'ver=' ) ) {
+		$src = remove_query_arg( 'ver', $src );
+	}
+
+	return $src;
+}
+
+if ( ! hocwp_theme_dev_remove_source_version() ) {
+	add_filter( 'style_loader_src', 'hocwp_theme_update_ver_css_js_realtime', 9999 );
+	add_filter( 'script_loader_src', 'hocwp_theme_update_ver_css_js_realtime', 9999 );
+} else {
+	add_filter( 'style_loader_src', 'hocwp_theme_dev_remove_url_ver', 9999 );
+	add_filter( 'script_loader_src', 'hocwp_theme_dev_remove_url_ver', 9999 );
+}
 
 function hocwp_theme_compress_all_css_and_js( $paths = null ) {
 	if ( ! is_array( $paths ) ) {
@@ -227,6 +488,7 @@ function hocwp_theme_dev_admin_bar_menu_action( WP_Admin_Bar $wp_admin_bar ) {
 			'title' => 'Development',
 			'href'  => admin_url( 'themes.php?page=hocwp_theme&tab=development' )
 		);
+
 		$wp_admin_bar->add_node( $args );
 	}
 }
@@ -236,32 +498,53 @@ add_action( 'admin_bar_menu', 'hocwp_theme_dev_admin_bar_menu_action', 90 );
 /**
  * Backup one or all tables in current database.
  */
-function hocwp_theme_dev_export_database() {
-	global $wpdb;
-	$name      = DB_NAME;
-	$user      = DB_USER;
-	$pass      = DB_PASSWORD;
-	$file_name = $name . '_' . date( 'Y-m-d' ) . '_' . date( 'H-i-s' ) . '.sql';
-	$dirs      = wp_upload_dir();
-	$dir       = dirname( $dirs['basedir'] );
-	$dir       = trailingslashit( $dir ) . 'backups/databases/';
+function hocwp_theme_dev_export_database( $db_name = '' ) {
+	if ( method_exists( HT_Util(), 'export_database' ) ) {
+		HT_Util()->export_database( $db_name );
 
-	if ( ! is_dir( $dir ) ) {
-		mkdir( $dir, 0777, true );
+		return;
 	}
 
-	$dir .= $file_name;
-	$root = dirname( $_SERVER['DOCUMENT_ROOT'] );
-	$cmd  = trailingslashit( $root ) . "mysql/bin/mysqldump -u$user -p$pass $name > $dir";
+	if ( ! function_exists( 'exec' ) ) {
+		return;
+	}
+
+	if ( empty( $db_name ) ) {
+		$db_name = DB_NAME;
+	}
+
+	$name = $db_name;
+	$user = DB_USER;
+	$pass = DB_PASSWORD;
+
+	global $wp_db_version;
+
+	$info = HT_Util()->generate_file_path( WP_CONTENT_DIR, WP_CONTENT_URL, 'databases', $db_name, $wp_db_version, 'sql' );
+
+	$dir = $info['path'];
+
+	if ( stripos( PHP_OS, 'WIN' ) !== false ) {
+		$root = dirname( $_SERVER['DOCUMENT_ROOT'] );
+		$root = trailingslashit( $root ) . 'mysql/bin/mysqldump';
+	} else {
+		$root = 'mysqldump';
+	}
+
+	$cmd = $root . " -u$user -p$pass $name > $dir";
+
 	exec( $cmd );
 }
 
 /**
- * Auto backup fiels in wp-content folder.
+ * Auto backup files in wp-content folder.
  *
  * @param string $folder The sub-folder in wp-content directory.
  */
 function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
+	if ( ! function_exists( 'exec' ) ) {
+		return;
+	}
+
 	if ( is_array( $folder ) ) {
 		$folder = array_filter( $folder );
 		$folder = array_unique( $folder );
@@ -302,7 +585,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 	$home_path = dirname( $home_path );
 	$home_path = HT_Util()->normalize_path( $home_path );
 
-	$driver_letters = array( 'D', 'Y', 'Z' );
+	$driver_letters = array( 'D', 'E', 'G', 'H', 'Y', 'Z' );
 
 	$k = array_rand( $driver_letters );
 
@@ -322,6 +605,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 	}
 
 	$cmd = "robocopy $source $dest /S /E";
+
 	exec( $cmd );
 
 	if ( false === $transient ) {
@@ -338,7 +622,7 @@ function hocwp_theme_compress_all_css_and_js_helper( $dir ) {
 		$files = scandir( $dir );
 
 		if ( ! class_exists( 'HOCWP_Theme_Minify' ) ) {
-			require HOCWP_THEME_CORE_PATH . ' / inc /class-hocwp-theme-minify.php';
+			require HOCWP_THEME_CORE_PATH . '/inc/class-hocwp-theme-minify.php';
 		}
 
 		foreach ( $files as $file ) {
@@ -364,14 +648,16 @@ function _hocwp_theme_is_css_or_js_file( $file ) {
 
 function hocwp_theme_execute_development_ajax_callback() {
 	$result = array();
+
 	hocwp_theme_debug( '/* ============================================= ' . date( 'Y-m-d H:i:s' ) . ' ============================================= */' );
 	hocwp_theme_debug( 'Building theme environment...' );
-	$compress_css_and_js = isset( $_POST['compress_css_and_js'] ) ? $_POST['compress_css_and_js'] : '';
+	$compress_css_and_js = $_POST['compress_css_and_js'] ?? '';
 
 	if ( 'true' == $compress_css_and_js || ( 'false' != $compress_css_and_js && ! empty( $compress_css_and_js ) ) ) {
 		if ( 'true' != $compress_css_and_js ) {
-			$compress_css_and_js = HOCWP_Theme::json_string_to_array( $compress_css_and_js );
-			$tmp                 = array();
+			$compress_css_and_js = HT()->json_string_to_array( $compress_css_and_js );
+
+			$tmp = array();
 
 			foreach ( $compress_css_and_js as $path ) {
 				$tmp[] = $path;
@@ -380,14 +666,14 @@ function hocwp_theme_execute_development_ajax_callback() {
 			$compress_css_and_js = $tmp;
 		}
 
-		hocwp_theme_debug( 'Sarting to generate minified files...' );
+		hocwp_theme_debug( 'Starting to generate minified files...' );
 		hocwp_theme_compress_all_css_and_js( $compress_css_and_js );
 		hocwp_theme_debug( 'All files compressed...' );
 	}
 
 	hocwp_theme_debug( 'Exporting database...' );
 	hocwp_theme_dev_export_database();
-	$publish_release = isset( $_POST['publish_release'] ) ? $_POST['publish_release'] : '';
+	$publish_release = $_POST['publish_release'] ?? '';
 
 	if ( 'true' == $publish_release ) {
 		hocwp_theme_debug( 'Creating zip file...' );
@@ -430,7 +716,7 @@ if ( is_admin() ) {
 add_action( 'wp_footer', 'hocwp_theme_debug_save_queries', 9999 );
 
 function hocwp_theme_dev_global_scripts() {
-	$domain = HOCWP_Theme::get_domain_name( home_url(), true );
+	$domain = HT()->get_domain_name( home_url(), true );
 
 	if ( 'localhost' == $domain ) {
 		wp_enqueue_script( 'taking-breaks', HOCWP_EXT_URL . '/js/taking-breaks' . HOCWP_THEME_JS_SUFFIX, array(
@@ -467,7 +753,7 @@ function hocwp_theme_dev_taking_breaks_ajax_callback() {
 
 			$result['diff'] = $diff;
 
-			$diff /= MINUTE_IN_SECONDS;
+			$diff     /= MINUTE_IN_SECONDS;
 			$interval = hocwp_theme_dev_break_minutes();
 
 			if ( $interval < 1 ) {
@@ -505,6 +791,10 @@ add_action( 'wp_ajax_nopriv_hocwp_theme_dev_taking_breaks', 'hocwp_theme_dev_tak
 
 function hocwp_theme_dev_init_action() {
 	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( isset( $_REQUEST['submit'] ) || isset( $_REQUEST['action'] ) || isset( $_REQUEST['do_action'] ) ) {
 		return;
 	}
 
@@ -547,18 +837,17 @@ function hocwp_theme_dev_init_action() {
 
 				$message = sprintf( 'You should take a break and relax for %d minutes . Waiting until <span id="timeUntil">%s</span>, time left <span id="timeLeft">' . $left . '</span>.', $minute, $time_left );
 				hocwp_theme_dev_add_clock_to_message( $message );
-				$script = 'setInterval(function(){window.location.reload();},5e3);';
+				$script  = 'setInterval(function(){window.location.reload();},5e3);';
 				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
-				$script = 'var countDownDate=new Date(document.getElementById("timeUntil").innerHTML).getTime(),x=setInterval(function(){var e=(new Date).getTime(),t=countDownDate-e,n=Math.floor(t%36e5/6e4);0>n&&(window.location.reload());var o=Math.floor(t%6e4/1e3);document.getElementById("timeLeft").innerHTML=n+"m "+o+"s",0>t&&(clearInterval(x),window.location.reload())},1e3);';
+				$script  = 'var countDownDate=new Date(document.getElementById("timeUntil").innerHTML).getTime(),x=setInterval(function(){var e=(new Date).getTime(),t=countDownDate-e,n=Math.floor(t%36e5/6e4);0>n&&(window.location.reload());var o=Math.floor(t%6e4/1e3);document.getElementById("timeLeft").innerHTML=n+"m "+o+"s",0>t&&(clearInterval(x),window.location.reload())},1e3);';
 				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
-				$title = 'Taking Short Beaks';
+				$title   = 'Taking Short Beaks';
 
 				if ( 15 <= $minute ) {
 					$title = 'Taking Long Breaks';
 				}
 
 				wp_die( $message, $title );
-				exit;
 			}
 		}
 	}
@@ -593,19 +882,27 @@ function hocwp_team_backup_wp_content_event_callback() {
 add_action( 'hocwp_team_backup_wp_content', 'hocwp_team_backup_wp_content_event_callback' );
 
 function hocwp_team_dev_is_localhost() {
+	if ( function_exists( 'HT_Util' ) && is_callable( array( HT_Util(), 'is_localhost' ) ) ) {
+		return HT_Util()->is_localhost();
+	}
+
 	$domain = home_url();
 	$domain = HT()->get_domain_name( $domain, true );
 
-	return ( 'localhost' == $domain || HT()->is_IP( $domain ) );
+	return ( 'localhost' == $domain );
 }
 
 function hocwp_team_dev_backup_files() {
+	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+		return;
+	}
+
 	if ( current_user_can( 'manage_options' ) ) {
 		$tr_name = 'hocwp_team_backup_wp_content';
 
 		if ( false !== get_transient( $tr_name ) ) {
 			if ( hocwp_team_dev_is_localhost() ) {
-				$img = '<img src="' . admin_url( 'images/loading.gif' ) . '" style="display: inline-block;vertical-align: middle;margin-left: 5px;max-width: 16px;height: auto;">';
+				$img = '<img alt="" src="' . admin_url( 'images/loading.gif' ) . '" style="display: inline-block;vertical-align: middle;margin-left: 5px;max-width: 16px;height: auto;">';
 				$msg = '<strong>Notices:</strong> Copying themes and plugins to new directory. Please wait and do not close the browser... ' . $img;
 
 				$args = array(
@@ -623,6 +920,10 @@ function hocwp_team_dev_backup_files() {
 add_action( 'admin_notices', 'hocwp_team_dev_backup_files' );
 
 function hocwp_dev_check_theme_core_new_version() {
+	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+		return;
+	}
+
 	$tr_name = 'hocwp_theme_release_data';
 
 	if ( false === ( $data = get_transient( $tr_name ) ) && hocwp_team_dev_is_localhost() ) {
@@ -664,65 +965,73 @@ function hocwp_team_dev_backup_files_in_footer() {
 		$folders = array_filter( $folders );
 		$folders = json_encode( $folders );
 		?>
-		<script>
-			jQuery(document).ready(function ($) {
-				(function () {
-					var folders = <?php echo $folders; ?>;
-					if (!folders) {
-						folders = [];
-					}
-					folders = JSON.stringify(folders);
-					folders = JSON.parse(folders);
-					var tmp = [];
-					$.each(folders, function (i, val) {
-						if ($.trim(val)) {
-							tmp.push(val);
-						}
-					});
-					if (tmp.length) {
-						var i, current = 0, backupNotice = $("#backupFolderNotice");
-						var interval = setInterval(function () {
-							if (current >= (tmp.length - 1)) {
-								clearInterval(interval);
-								$.ajax({
-									type: "POST",
-									dataType: "JSON",
-									url: "<?php echo SB_Core()->get_ajax_url(); ?>",
-									cache: true,
-									data: {
-										action: "hocwp_dev_backup_wp_content_folder",
-										clear_transient: 1
-									},
-									success: function (response) {
-										if (response.success) {
-											backupNotice.find("button").trigger("click");
-										}
-									}
-								});
-							}
-						}, 100);
-						for (i = 0; i < tmp.length; i++) {
-							$.ajax({
-								type: "POST",
-								dataType: "JSON",
-								url: "<?php echo SB_Core()->get_ajax_url(); ?>",
-								cache: true,
-								data: {
-									action: "hocwp_dev_backup_wp_content_folder",
-									folders: tmp[i],
-									index: i
-								},
-								success: function (response) {
-									if (response.success) {
-										current++;
-									}
-								}
-							});
-						}
-					}
-				})();
-			});
-		</script>
+        <script>
+            jQuery(document).ready(function ($) {
+                (function () {
+                    let folders = <?php echo $folders; ?>;
+
+                    if (!folders) {
+                        folders = [];
+                    }
+
+                    folders = JSON.stringify(folders);
+                    folders = JSON.parse(folders);
+
+                    let tmp = [];
+
+                    $.each(folders, function (i, val) {
+                        if ($.trim(val)) {
+                            tmp.push(val);
+                        }
+                    });
+
+                    if (tmp.length) {
+                        let i, current = 0, backupNotice = $("#backupFolderNotice");
+
+                        let interval = setInterval(function () {
+                            if (current >= (tmp.length - 1)) {
+                                clearInterval(interval);
+
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    url: "<?php echo SB_Core()->get_ajax_url(); ?>",
+                                    cache: true,
+                                    data: {
+                                        action: "hocwp_dev_backup_wp_content_folder",
+                                        clear_transient: 1
+                                    },
+                                    success: function (response) {
+                                        if (response.success) {
+                                            backupNotice.find("button").trigger("click");
+                                        }
+                                    }
+                                });
+                            }
+                        }, 100);
+
+                        for (i = 0; i < tmp.length; i++) {
+                            $.ajax({
+                                type: "POST",
+                                dataType: "JSON",
+                                url: "<?php echo SB_Core()->get_ajax_url(); ?>",
+                                cache: true,
+                                data: {
+                                    action: "hocwp_dev_backup_wp_content_folder",
+                                    folders: tmp[i],
+                                    index: i
+                                },
+                                success: function (response) {
+                                    if (response.success) {
+                                        current++;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                })();
+            });
+        </script>
 		<?php
 	}
 }
@@ -732,17 +1041,17 @@ add_action( 'admin_footer', 'hocwp_team_dev_backup_files_in_footer' );
 function hocwp_dev_backup_wp_content_folder_ajax_callback() {
 	$data = array();
 
-	$clear_transient = isset( $_POST['clear_transient'] ) ? $_POST['clear_transient'] : '';
+	$clear_transient = $_POST['clear_transient'] ?? '';
 
 	if ( 1 == $clear_transient ) {
 		delete_transient( 'hocwp_team_backup_wp_content' );
 	} else {
-		$folders = isset( $_POST['folders'] ) ? $_POST['folders'] : '';
+		$folders = $_POST['folders'] ?? '';
 		$folders = (array) $folders;
 		$folders = array_filter( $folders );
 		hocwp_theme_dev_backup_wp_content_folder( $folders );
 
-		$index = isset( $_POST['index'] ) ? $_POST['index'] : '';
+		$index = $_POST['index'] ?? '';
 
 		$data['index'] = $index;
 	}
@@ -752,28 +1061,11 @@ function hocwp_dev_backup_wp_content_folder_ajax_callback() {
 
 add_action( 'wp_ajax_hocwp_dev_backup_wp_content_folder', 'hocwp_dev_backup_wp_content_folder_ajax_callback' );
 
-/**
- * Remove version from styles and scripts url.
- *
- * @param $src
- *
- * @return string
- */
-function hocwp_theme_dev_remove_url_ver( $src ) {
-	if ( strpos( $src, 'ver=' ) ) {
-		$src = remove_query_arg( 'ver', $src );
-	}
-
-	return $src;
-}
-
-add_filter( 'style_loader_src', 'hocwp_theme_dev_remove_url_ver', 9999 );
-add_filter( 'script_loader_src', 'hocwp_theme_dev_remove_url_ver', 9999 );
-
 function hocwp_team_dev_backup_wp_content_folders_plugin( $folders ) {
 	if ( defined( 'HOCWP_THEME_DEVELOPING' ) && HOCWP_THEME_DEVELOPING ) {
-		$folders   = (array) $folders;
-		$plugins   = array();
+		$folders = (array) $folders;
+		$plugins = array();
+
 		$plugins[] = 'plugins\sau-contact';
 		$plugins[] = 'plugins\sau-syntax';
 		$plugins[] = 'plugins\sb-banner-widget';
@@ -786,7 +1078,11 @@ function hocwp_team_dev_backup_wp_content_folders_plugin( $folders ) {
 		$plugins[] = 'plugins\sb-tab-widget';
 		$plugins[] = 'plugins\sb-tbfa';
 		$plugins[] = 'plugins\wp-attachment-filter';
+
+		$plugins = apply_filters( 'hocwp_team_backup_these_plugin_folders', $plugins );
+
 		shuffle( $plugins );
+
 		$plugins = array_slice( $plugins, 0, 3 );
 		$folders = array_merge( $folders, $plugins );
 	}
@@ -822,7 +1118,7 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root
 					continue;
 				}
 
-				if ( ! isset( $info['extension'] ) || empty( $info['extension'] ) ) {
+				if ( empty( $info['extension'] ) ) {
 					if ( $recursive ) {
 						$tmp = trailingslashit( $path ) . $file;
 
@@ -834,7 +1130,7 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root
 					continue;
 				}
 
-				if ( isset( $info['extension'] ) && $info['extension'] == $extension ) {
+				if ( $info['extension'] == $extension ) {
 					if ( isset( $info['filename'] ) ) {
 						$info = pathinfo( $info['filename'] );
 
@@ -857,21 +1153,7 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root
 	}
 }
 
-function hocwp_teme_dev_load_themes_action() {
-	global $hocwp_theme;
-	$paths = $hocwp_theme->defaults['compress_css_and_js_paths'];
-
-	$td = get_template_directory();
-
-	if ( HT()->array_has_value( $paths ) ) {
-		foreach ( $paths as $path ) {
-			if ( HT()->is_dir( $path ) ) {
-				hocwp_theme_delete_duplicate_min_file( $path );
-				hocwp_theme_delete_duplicate_min_file( $path, 'js' );
-			}
-		}
-	}
-
+function _hocwp_theme_clean_theme_dir( $td ) {
 	hocwp_theme_delete_duplicate_min_file( $td, 'css', true );
 	hocwp_theme_delete_duplicate_min_file( $td, 'js', true );
 	hocwp_theme_delete_duplicate_min_file( $td . '/style.min.css' );
@@ -882,12 +1164,34 @@ function hocwp_teme_dev_load_themes_action() {
 	hocwp_theme_delete_duplicate_min_file( HOCWP_THEME_CORE_PATH . '/lib', 'js', true, true );
 	hocwp_theme_delete_duplicate_min_file( $td . '/custom/lib', 'css', true, true );
 	hocwp_theme_delete_duplicate_min_file( $td . '/custom/lib', 'js', true, true );
+}
+
+function hocwp_theme_dev_load_themes_action() {
+	global $hocwp_theme;
+
+	$paths = $hocwp_theme->defaults['compress_css_and_js_paths'] ?? '';
+
+	if ( HT()->array_has_value( $paths ) ) {
+		foreach ( $paths as $path ) {
+			if ( HT()->is_dir( $path ) ) {
+				hocwp_theme_delete_duplicate_min_file( $path );
+				hocwp_theme_delete_duplicate_min_file( $path, 'js' );
+			}
+		}
+	}
+
+	$td = get_template_directory();
+	_hocwp_theme_clean_theme_dir( $td );
+
+	if ( get_stylesheet_directory() != $td ) {
+		_hocwp_theme_clean_theme_dir( get_stylesheet_directory() );
+	}
 
 	unset( $td, $paths, $path );
 }
 
-add_action( 'load-themes.php', 'hocwp_teme_dev_load_themes_action' );
-add_action( 'load-plugins.php', 'hocwp_teme_dev_load_themes_action' );
+add_action( 'load-themes.php', 'hocwp_theme_dev_load_themes_action' );
+add_action( 'load-plugins.php', 'hocwp_theme_dev_load_themes_action' );
 
 if ( function_exists( 'qtranxf_postsFilter' ) && has_filter( 'the_posts', 'qtranxf_postsFilter' ) ) {
 	remove_filter( 'the_posts', 'qtranxf_postsFilter', 5 );
@@ -902,7 +1206,8 @@ if ( function_exists( 'qtranxf_postsFilter' ) && has_filter( 'the_posts', 'qtran
 }
 
 function hocwp_theme_development_admin_notices() {
-
+	/*if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+	}*/
 }
 
 add_action( 'admin_notices', 'hocwp_theme_development_admin_notices' );

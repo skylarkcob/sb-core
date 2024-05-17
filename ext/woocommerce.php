@@ -61,7 +61,7 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme_action' ), 999 );
 
-			require dirname( __FILE__ ) . '/woocommerce/woocommerce.php';
+			require_once dirname( __FILE__ ) . '/woocommerce/woocommerce.php';
 
 			if ( ! is_admin() || HOCWP_THEME_DOING_AJAX ) {
 				$custom_comment = $this->get_option( 'custom_comment' );
@@ -78,10 +78,140 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 					}
 				}
 			}
+
+			if ( ! is_admin() ) {
+				add_filter( 'body_class', array( $this, 'body_class_filter' ) );
+
+				add_filter( 'woocommerce_output_related_products_args', array(
+					$this,
+					'output_related_products_args_filter'
+				) );
+			}
+
+			add_filter( 'woocommerce_add_to_cart_fragments', array( $this, 'add_to_cart_fragments_filter' ), 99999 );
+
+			$keys = array(
+				'woocommerce_shop_page_id',
+				'woocommerce_cart_page_id',
+				'woocommerce_checkout_page_id',
+				'woocommerce_myaccount_page_id',
+				'woocommerce_edit_address_page_id',
+				'woocommerce_view_order_page_id',
+				'woocommerce_change_password_page_id',
+				'woocommerce_logout_page_id'
+			);
+
+			foreach ( $keys as $item ) {
+				$item = str_replace( 'woocommerce_', '', $item );
+				$item = str_replace( '_page_id', '', $item );
+				add_filter( 'woocommerce_get_' . $item . '_page_id', array( $this, 'pll_page_id_filter' ), 999 );
+			}
+		}
+
+		public function pll_page_id_filter( $page_id ) {
+			if ( function_exists( 'pll_get_post' ) ) {
+				$page_id = pll_get_post( $page_id );
+			}
+
+			return $page_id;
+		}
+
+		public function cart_link() {
+			?>
+            <a class="cart-contents" href="<?php echo esc_url( wc_get_cart_url() ); ?>"
+               title="<?php esc_attr_e( 'View your shopping cart', 'sb-core' ); ?>">
+				<?php
+				ob_start();
+				$count = WC()->cart->get_cart_contents_count();
+
+				$item_count_text = sprintf( _nx( '%d item', '%d items', $count, 'product', 'sb-core' ), $count );
+				?>
+                <span class="amount"><?php echo wp_kses_data( WC()->cart->get_cart_subtotal() ); ?></span>
+                <span class="count"><?php echo esc_html( $item_count_text ); ?></span>
+                <span class="count-number"><?php echo number_format( $count ); ?></span>
+				<?php
+				$cart_content = apply_filters( 'sb_core_ext_woocommerce_mini_cart_content', ob_get_clean() );
+
+				echo $cart_content;
+				?>
+            </a>
+			<?php
+		}
+
+		public function header_cart( $callback = '' ) {
+			if ( ! class_exists( 'WC_Widget_Cart' ) ) {
+				return;
+			}
+
+			if ( is_cart() ) {
+				$class = 'current-menu-item';
+			} else {
+				$class = '';
+			}
+			?>
+            <ul id="site-header-cart" class="site-header-cart">
+                <li class="<?php echo esc_attr( $class ); ?>">
+					<?php
+					if ( is_callable( $callback ) ) {
+						call_user_func( $callback );
+					} else {
+						$this->cart_link();
+					}
+					?>
+                </li>
+                <li>
+					<?php
+					$instance = array(
+						'title' => '',
+					);
+
+					the_widget( 'WC_Widget_Cart', $instance );
+					?>
+                </li>
+            </ul>
+			<?php
+		}
+
+		public function add_to_cart_fragments_filter( $fragments ) {
+			ob_start();
+			$this->cart_link();
+			$fragments['a.cart-contents']    = ob_get_clean();
+			$fragments['span.custom-cart-count'] = '<span class="custom-cart-count">' . WC()->cart->get_cart_contents_count() . '</span>';
+
+			return $fragments;
+		}
+
+		public function body_class_filter( $classes ) {
+			$classes[] = 'woocommerce-active';
+
+			return $classes;
+		}
+
+		public function output_related_products_args_filter( $args ) {
+			$defaults = array(
+				'posts_per_page' => 3,
+				'columns'        => 3,
+			);
+
+			return wp_parse_args( $defaults, $args );
 		}
 
 		public function after_setup_theme_action() {
-			add_theme_support( 'woocommerce' );
+			$args = array(
+				'thumbnail_image_width' => 150,
+				'single_image_width'    => 300,
+				'product_grid'          => array(
+					'default_rows'    => 3,
+					'min_rows'        => 1,
+					'default_columns' => 4,
+					'min_columns'     => 1,
+					'max_columns'     => 6,
+				),
+			);
+
+			$args = apply_filters( 'hocwp_theme_extension_woocommerce_support_args', $args );
+
+			add_theme_support( 'woocommerce', $args );
 
 			add_theme_support( 'wc-product-gallery-zoom' );
 			add_theme_support( 'wc-product-gallery-lightbox' );
@@ -115,6 +245,28 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 
 		public function comment_form_callback() {
 			hocwp_theme_comments_template();
+		}
+
+		public function get_attribute_taxonomies() {
+			global $wpdb;
+
+			$sql = "SELECT * FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_name != '' ORDER BY attribute_name ASC";
+
+			return $wpdb->get_results( $sql );
+		}
+
+		public function get_wc_image_sizes() {
+			$sizes = HT_Util()->get_image_sizes();
+
+			if ( HT()->array_has_value( $sizes ) ) {
+				foreach ( $sizes as $key => $size ) {
+					if ( false === strpos( $key, 'woocommerce' ) && false === strpos( $key, 'shop' ) ) {
+						unset( $sizes[ $key ] );
+					}
+				}
+			}
+
+			return $sizes;
 		}
 	}
 }

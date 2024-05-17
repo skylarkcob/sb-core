@@ -157,9 +157,9 @@ $contacts = wp_get_user_contact_methods( $user_id );
 				</div>
 				<div class="col-md-9">
 					<div class="profile-fields">
-						<div class="tab-content">
+						<div class="tab-content mb-15">
 							<div class="tab-pane active" id="profileGeneral">
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="username"><?php _e( 'Username', 'sb-core' ); ?></label>
 									</div>
@@ -171,7 +171,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										       readonly disabled>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="first_name"><?php _e( 'First Name', 'sb-core' ); ?></label>
 									</div>
@@ -183,7 +183,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										       size="40">
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="last_name"><?php _e( 'Last Name', 'sb-core' ); ?></label>
 									</div>
@@ -195,7 +195,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										       size="40">
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="display_name"><?php _e( 'Display Name', 'sb-core' ); ?></label>
 									</div>
@@ -236,7 +236,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										</select>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="nickname"><?php _e( 'Nickname', 'sb-core' ); ?></label>
 									</div>
@@ -248,7 +248,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										       size="40">
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="user_email"><?php _e( 'Email', 'sb-core' ); ?></label>
 									</div>
@@ -273,7 +273,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 								</div>
 							</div>
 							<div class="tab-pane" id="profileSecurity">
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="current_pass"><?php _e( 'Current Password', 'sb-core' ); ?></label>
 									</div>
@@ -284,7 +284,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										       autocomplete="off">
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="user_pass"><?php _e( 'New Password', 'sb-core' ); ?></label>
 									</div>
@@ -295,7 +295,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 										       autocomplete="current-password">
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row mb-15">
 									<div class="col-md-3">
 										<label for="pass2"><?php _e( 'Confirm Password', 'sb-core' ); ?></label>
 									</div>
@@ -312,7 +312,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 									foreach ( $contacts as $name => $label ) {
 										$value = get_user_meta( $user_id, $name, true );
 										?>
-										<div class="form-group row">
+										<div class="form-group row mb-15">
 											<div class="col-md-3">
 												<label for="contact<?php echo $name; ?>"><?php echo $label; ?></label>
 											</div>
@@ -331,7 +331,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 							</div>
 							<?php do_action( 'hocwp_theme_extension_account_profile_tab_content' ); ?>
 						</div>
-						<div class="form-group row">
+						<div class="form-group row mb-15">
 							<div class="col-md-9 col-md-offset-3 offset-md-3">
 								<button type="submit" class="btn btn-danger"
 								        name="submit"><?php _e( 'Save Changes', 'sb-core' ); ?></button>

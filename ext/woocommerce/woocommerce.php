@@ -65,3 +65,51 @@ function vnd_to_usd( $paypal_args ) {
 }
 
 add_filter( 'woocommerce_paypal_args', 'vnd_to_usd' );
+
+// Check woocommerce template parts from theme folder
+if ( function_exists( 'hocwp_theme_find_woocommerce_template' ) ) {
+	add_filter( 'wc_get_template_part', 'hocwp_theme_find_woocommerce_template' );
+	add_filter( 'wc_get_template', 'hocwp_theme_find_woocommerce_template' );
+}
+
+// Auto show gallery image as thumbnail
+add_filter( 'post_thumbnail_id', function ( $thumbnail_id, $post ) {
+	if ( empty( $thumbnail_id ) ) {
+		$post_id = ( $post instanceof WP_Post ) ? $post->ID : $post;
+
+		if ( 'product' == get_post_type( $post_id ) ) {
+			$obj = new WC_Product( $post_id );
+			$ids = $obj->get_gallery_image_ids( 'mysql' );
+
+			if ( HT()->array_has_value( $ids ) ) {
+				$thumbnail_id = current( $ids );
+			}
+		}
+	}
+
+	return $thumbnail_id;
+}, 10, 2 );
+
+// Fix cart item thumbnail
+add_filter( 'woocommerce_cart_item_thumbnail', function ( $value, $item ) {
+	$product_id = $item['product_id'] ?? '';
+
+	if ( is_numeric( $product_id ) ) {
+		$obj = new WC_Product( $product_id );
+
+		if ( empty( $obj->get_image_id() ) ) {
+			$ids = $obj->get_gallery_image_ids( 'mysql' );
+
+			if ( HT()->array_has_value( $ids ) ) {
+				$thumbnail_id = current( $ids );
+				$value        = wp_get_attachment_image( $thumbnail_id, 'woocommerce_thumbnail' );
+			}
+		}
+	}
+
+	return $value;
+}, 10, 2 );
+
+add_filter( 'woocommerce_widget_cart_is_hidden', '__return_false' );
+
+add_filter( 'hocwp_theme_use_plugin_templates', '__return_false' );

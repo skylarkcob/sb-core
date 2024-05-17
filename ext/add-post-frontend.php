@@ -126,11 +126,11 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					) );
 
 
-					$args['text'] = __( 'Use captcha to protect your site against spam.', 'sb-core' );
+					$args['text'] = __( 'Use CAPTCHA to protect your site against spam.', 'sb-core' );
 
 					$tab->add_field_array( array(
 						'id'    => 'captcha',
-						'title' => __( 'Captcha', 'sb-core' ),
+						'title' => __( 'CAPTCHA', 'sb-core' ),
 						'args'  => array(
 							'type'          => 'boolean',
 							'callback'      => array( 'HOCWP_Theme_HTML_Field', 'input' ),
@@ -342,28 +342,24 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function check_data_before_submit_post( $errors ) {
-			if ( $this->use_captcha() && $this->check_captcha_config() ) {
-				if ( ! HT_Util()->recaptcha_valid() ) {
-					if ( ! ( $errors instanceof WP_Error ) ) {
-						$errors = new WP_Error();
-					}
+			if ( $this->use_captcha() && HT_CAPTCHA()->check_config_valid() ) {
+				$response = HT_CAPTCHA()->check_valid();
 
-					$errors->add( 'invalid_captcha', __( '<strong>Error:</strong> Please correct the captcha.', 'sb-core' ) );
-				}
+				$errors = HT_CAPTCHA()->control_captcha_errors( $response, $errors );
 			}
 
 			return $errors;
 		}
 
 		public function check_captcha_config() {
-			$options    = HT_Util()->get_theme_options( 'social' );
-			$site_key   = isset( $options['recaptcha_site_key'] ) ? $options['recaptcha_site_key'] : '';
-			$secret_key = isset( $options['recaptcha_secret_key'] ) ? $options['recaptcha_secret_key'] : '';
-
-			return ( ! empty( $site_key ) && ! empty( $secret_key ) );
+			return HT_CAPTCHA()->check_config_valid();
 		}
 
 		public function admin_notices_action() {
+			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+				return;
+			}
+
 			if ( isset( $_REQUEST['published_posts'] ) ) {
 				$count = absint( $_REQUEST['published_posts'] );
 
@@ -386,7 +382,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 			}
 
 			if ( $this->use_captcha() ) {
-				if ( ! $this->check_captcha_config() ) {
+				if ( ! HT_CAPTCHA()->check_config_valid() ) {
 					$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for Add Post Frontend extension works normally.', 'sb-core' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
 
 					$args = array(
@@ -406,7 +402,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		public function generate_preview_taxs( $tax_args = array() ) {
 			$combined_taxonomies = $this->get_combined_taxonomies();
 
-			$post_type = isset( $tax_args['object_type'] ) ? $tax_args['object_type'] : '';
+			$post_type = $tax_args['object_type'] ?? '';
 
 			if ( is_array( $post_type ) ) {
 				$post_type = current( $post_type );
@@ -426,7 +422,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 				foreach ( $combined_taxonomies as $taxonomy ) {
 					if ( $taxonomy instanceof WP_Taxonomy && in_array( $post_type, $taxonomy->object_type ) ) {
-						$id .= $taxonomy->name . '-';
+						$id    .= $taxonomy->name . '-';
 						$label .= $taxonomy->labels->singular_name . '/';
 					}
 				}
@@ -437,12 +433,12 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				if ( ! empty( $label ) ) {
 					ob_start();
 					?>
-					<label
-						class="control-label col-md-3 col-xs-3"><?php echo $label; ?>:</label>
+                    <label
+                            class="control-label col-md-3 col-xs-3"><?php echo $label; ?>:</label>
 
-					<div class="col-md-3 col-xs-9">
-						<span id="temp_<?php echo $id; ?>"></span>
-					</div>
+                    <div class="col-md-3 col-xs-9">
+                        <span id="temp_<?php echo $id; ?>"></span>
+                    </div>
 					<?php
 					$taxonomies[] = ob_get_clean();
 				}
@@ -453,25 +449,25 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 				foreach ( $chunks as $taxonomies ) {
 					?>
-					<div class="form-group">
+                    <div class="form-group">
 						<?php
 						foreach ( $taxonomies as $taxonomy ) {
 							if ( $taxonomy instanceof WP_Taxonomy ) {
 								?>
-								<label
-									class="control-label col-md-3 col-xs-3"><?php echo $taxonomy->labels->singular_name; ?>
-									:</label>
+                                <label
+                                        class="control-label col-md-3 col-xs-3"><?php echo $taxonomy->labels->singular_name; ?>
+                                    :</label>
 
-								<div class="col-md-3 col-xs-9">
-									<span id="temp_taxonomy-<?php echo $taxonomy->name; ?>"></span>
-								</div>
+                                <div class="col-md-3 col-xs-9">
+                                    <span id="temp_taxonomy-<?php echo $taxonomy->name; ?>"></span>
+                                </div>
 								<?php
 							} elseif ( is_string( $taxonomy ) ) {
 								echo $taxonomy;
 							}
 						}
 						?>
-					</div>
+                    </div>
 					<?php
 				}
 			}
@@ -530,7 +526,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					$terms = $query->get_terms();
 
 					if ( HT()->array_has_value( $terms ) ) {
-						$id .= $taxonomy->name . '-';
+						$id    .= $taxonomy->name . '-';
 						$label .= $taxonomy->labels->singular_name . '/';
 
 						$opt = new HOCWP_Theme_HTML_Tag( 'optgroup' );
@@ -603,9 +599,9 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				echo '<div class="form-group">';
 			}
 			?>
-			<label for="<?php echo $id; ?>" class="<?php echo $class; ?>">
-				<span><?php echo $label; ?>:</span>
-			</label>
+            <label for="<?php echo $id; ?>" class="<?php echo $class; ?>">
+                <span><?php echo $label; ?>:</span>
+            </label>
 			<?php
 			if ( $right_label ) {
 				if ( $even && ! $force_odd ) {
@@ -617,32 +613,32 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 			if ( $manually && 1 < count( $taxonomies ) ) {
 				?>
-				<div class="row">
-					<div class="col-md-6">
-						<label style="width: 100%; font-weight: 400;">
-							<select id="combined_taxonomy_name" name="combined_taxonomy_name" class="form-control">
-								<option value=""></option>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label style="width: 100%; font-weight: 400;">
+                            <select id="combined_taxonomy_name" name="combined_taxonomy_name" class="form-control">
+                                <option value=""></option>
 								<?php
 								foreach ( $taxonomies as $tax ) {
 									if ( $tax instanceof WP_Taxonomy ) {
 										?>
-										<option
-											value="<?php echo $tax->name; ?>"><?php echo $tax->labels->singular_name; ?></option>
+                                        <option
+                                                value="<?php echo $tax->name; ?>"><?php echo $tax->labels->singular_name; ?></option>
 										<?php
 									}
 								}
 								?>
-							</select>
-						</label>
-					</div>
-					<div class="col-md-6">
-						<select id="<?php echo $id; ?>" name="combined_taxonomy_term" class="form-control"
-						        data-combobox="1">
-							<option value=""></option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <select id="<?php echo $id; ?>" name="combined_taxonomy_term" class="form-control"
+                                data-combobox="1">
+                            <option value=""></option>
 							<?php echo $options; ?>
-						</select>
-					</div>
-				</div>
+                        </select>
+                    </div>
+                </div>
 				<?php
 			} else {
 				$atts = '';
@@ -651,14 +647,14 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					$atts = ' data-combobox="1"';
 				}
 				?>
-				<select id="<?php echo $id; ?>" name="combined_taxonomy_term" class="form-control"<?php echo $atts; ?>>
-					<option value=""></option>
+                <select id="<?php echo $id; ?>" name="combined_taxonomy_term" class="form-control"<?php echo $atts; ?>>
+                    <option value=""></option>
 					<?php echo $options; ?>
-				</select>
+                </select>
 				<?php
 			}
 			?>
-			<div class="help-block with-errors"></div>
+            <div class="help-block with-errors"></div>
 			<?php
 			if ( $right_label ) {
 				echo '</div>';
@@ -689,7 +685,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				$man_taxs = array();
 
 				foreach ( $taxs as $key => $tax ) {
-					$is_man = in_array( $tax->name, $this->get_manually_taxonomies() );
+					$is_man = is_object( $tax ) && isset( $tax->name ) && in_array( $tax->name, $this->get_manually_taxonomies() );
 
 					if ( ! ( $tax instanceof WP_Taxonomy ) || ! in_array( $post_type, $tax->object_type ) || $is_man ) {
 						if ( $is_man && in_array( $post_type, $tax->object_type ) ) {
@@ -806,7 +802,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 				foreach ( $chunks as $taxonomies ) {
 					?>
-					<div class="row">
+                    <div class="row">
 						<?php
 						foreach ( $taxonomies as $taxonomy ) {
 							if ( $taxonomy instanceof WP_Taxonomy ) {
@@ -819,13 +815,13 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 									$box_args['required'] = true;
 								}
 								?>
-								<div class="col-sm-6 col-xs-12">
+                                <div class="col-sm-6 col-xs-12">
 									<?php HTE_Add_Post_Frontend()->taxonomy_form_control( $taxonomy, $box_args ); ?>
-								</div>
+                                </div>
 								<?php
 							} elseif ( is_string( $taxonomy ) && ! empty( $taxonomy ) ) {
 								?>
-								<div class="col-sm-6 col-xs-12">
+                                <div class="col-sm-6 col-xs-12">
 									<?php
 									if ( $right_label && $even ) {
 										//echo '<div class="form-group">';
@@ -837,12 +833,12 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 										//echo '</div>';
 									}
 									?>
-								</div>
+                                </div>
 								<?php
 							}
 						}
 						?>
-					</div>
+                    </div>
 					<?php
 				}
 
@@ -872,9 +868,9 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 						} else {
 							if ( ! $has_cb_mn ) {
 								?>
-								<div class="form-group">
+                                <div class="form-group">
 									<?php echo $taxonomy; ?>
-								</div>
+                                </div>
 								<?php
 							} else {
 								echo $taxonomy;
@@ -926,13 +922,13 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					$box_args['after'] = '</div>';
 				}
 				?>
-				<div class="form-group">
-					<label for="taxonomy-<?php echo $taxonomy->name; ?>" class="<?php echo $class; ?>">
+                <div class="form-group">
+                    <label for="taxonomy-<?php echo $taxonomy->name; ?>" class="<?php echo $class; ?>">
 						<span><?php echo esc_html( $taxonomy->labels->singular_name ) . $req; ?>
 							:</span>
-					</label>
+                    </label>
 					<?php HTE_Add_Post_Frontend()->hierarchical_taxonomy_terms_select( $taxonomy, $box_args ); ?>
-				</div>
+                </div>
 				<?php
 			}
 		}
@@ -1009,12 +1005,12 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					echo '<div class="help-block with-errors"></div>';
 				} else {
 					?>
-					<input name="<?php echo esc_attr( $name ); ?>" id="taxonomy-<?php echo $taxonomy->name; ?>"
-					       class="form-control nonhierarchical-taxonomy" data-autocomplete="1"
-					       data-taxonomy="<?php echo $taxonomy->name; ?>"
-					       placeholder=""<?php HT()->checked_selected_helper( true, $required, true, 'required' ); ?>>
-					<p class="description"><?php _e( 'Each value separated by commas.', 'sb-core' ); ?></p>
-					<div class="help-block with-errors"></div>
+                    <input name="<?php echo esc_attr( $name ); ?>" id="taxonomy-<?php echo $taxonomy->name; ?>"
+                           class="form-control nonhierarchical-taxonomy" data-autocomplete="1"
+                           data-taxonomy="<?php echo $taxonomy->name; ?>"
+                           placeholder=""<?php HT()->checked_selected_helper( true, $required, true, 'required' ); ?>>
+                    <p class="description"><?php _e( 'Each value separated by commas.', 'sb-core' ); ?></p>
+                    <div class="help-block with-errors"></div>
 					<?php
 				}
 
@@ -1034,10 +1030,10 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 					if ( $object instanceof WP_Post_Type ) {
 						?>
-						<option
-							value="<?php echo $type; ?>"<?php selected( $selected, true ); ?>><?php echo $object->labels->singular_name; ?>
-							(<?php echo $type; ?>)
-						</option>
+                        <option
+                                value="<?php echo $type; ?>"<?php selected( $selected, true ); ?>><?php echo $object->labels->singular_name; ?>
+                            (<?php echo $type; ?>)
+                        </option>
 						<?php
 					}
 				}
@@ -1046,7 +1042,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				echo '<div class="help-block with-errors"></div>';
 			} else {
 				?>
-				<input type="hidden" name="add_post_type" value="<?php echo esc_attr( $post_types ); ?>">
+                <input type="hidden" name="add_post_type" value="<?php echo esc_attr( $post_types ); ?>">
 				<?php
 			}
 		}
@@ -1176,19 +1172,19 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 		public function form_control_thumbnail() {
 			?>
-			<div class="upload-group">
-				<div class="btn btn-primary image-button">
-					<span><i class="fa fa-cloud-upload"></i> <?php _e( 'Upload image', 'sb-core' ); ?></span>
-					<input type="file" id="post_thumbnail" name="post_thumbnail" style="display: none;"
-					       accept="image/jpeg, image/png">
-				</div>
+            <div class="upload-group">
+                <div class="btn btn-primary image-button">
+                    <span><i class="fa fa-cloud-upload"></i> <?php _e( 'Upload image', 'sb-core' ); ?></span>
+                    <input type="file" id="post_thumbnail" name="post_thumbnail" style="display: none;"
+                           accept="image/jpeg, image/png">
+                </div>
 
-				<div class="wrap-main-image wrap-image">
-				</div>
-				<div class="wrap-loader">
-					<div class="loader loader-primary"></div>
-				</div>
-			</div>
+                <div class="wrap-main-image wrap-image">
+                </div>
+                <div class="wrap-loader">
+                    <div class="loader loader-primary"></div>
+                </div>
+            </div>
 			<?php
 		}
 

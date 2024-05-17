@@ -5,6 +5,10 @@
     margin: 5px;
 }
 
+#list-episodes-box .list-episodes > a.button-primary {
+    text-align: center;
+}
+
 .wp-list-table th[id="parent_thumbnail"],
 .wp-list-table th[id="thumbnail"] {
     width: 100px;

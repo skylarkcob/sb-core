@@ -155,7 +155,7 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 				$files = scandir( $skins_dir );
 				unset( $files[0], $files[1] );
 
-				if ( HOCWP_Theme::array_has_value( $files ) ) {
+				if ( HT()->array_has_value( $files ) ) {
 					$opts = array(
 						__( '-- Choose skin --', 'sb-core' )
 					);
@@ -458,6 +458,10 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 
 			$post_id = isset( $args['post_id'] ) ? $args['post_id'] : '';
 
+			if ( empty( $src ) && isset( $args['source_key'] ) ) {
+				$src = get_post_meta( $post_id, $args['source_key'], true );
+			}
+
 			$domain = HT()->get_domain_name( $src );
 
 			$thumbnail = isset( $args['thumbnail'] ) ? $args['thumbnail'] : '';
@@ -470,6 +474,10 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 				case 'www.facebook.com':
 				case 'facebook.com':
 					$src = HTE_Media_Player()->get_facebook_url( $src );
+					break;
+				case 'www.lotus.vn':
+				case 'lotus.vn':
+					$src = HTE_Media_Player()->get_lotus_url( $src );
 					break;
 			}
 
@@ -546,6 +554,7 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 				} else {
 					$parts = explode( '/', $url );
 					$key   = array_search( 'd', $parts );
+
 					if ( is_int( $key ) && isset( $parts[ $key + 1 ] ) ) {
 						$id = $parts[ $key + 1 ];
 					}
@@ -620,6 +629,74 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			}
 
 			return $url;
+		}
+
+		public function get_lotus_video_source_html( $url, $key = '' ) {
+			if ( empty( $key ) ) {
+				$key = md5( $url );
+			}
+
+			$tr_name = $key . '_video_source';
+
+			if ( false === ( $html = get_transient( $tr_name ) ) ) {
+				$tmp = wp_remote_get( $url );
+				$tmp = wp_remote_retrieve_body( $tmp );
+
+				if ( ! empty( $tmp ) ) {
+					$pos = strpos( $tmp, 'class="videoplayerDetail"' );
+
+					if ( $pos ) {
+						$tmp = substr( $tmp, $pos - 5 );
+						$tmp = substr( $tmp, 0, strpos( $tmp, '</div>' ) );
+						$tmp .= '</div>';
+
+						$pos = strpos( $tmp, 'data-file="' );
+
+						if ( $pos ) {
+							$html = $tmp;
+							set_transient( $tr_name, $html, DAY_IN_SECONDS );
+						}
+					}
+				}
+			}
+
+			return $html;
+		}
+
+		public function get_lotus_url( $url ) {
+			$tmp = apply_filters( 'hocwp_theme_extension_media_player_pre_lotus_direct_url', '', $url );
+
+			if ( ! empty( $tmp ) ) {
+				return $tmp;
+			}
+
+			$current = $url;
+
+			$key = md5( $url );
+
+			$tmp = $this->get_cached_url( $key );
+
+			if ( empty( $tmp ) || $tmp == $url ) {
+				$html = $this->get_lotus_video_source_html( $url, $key );
+
+				$pos = strpos( $html, 'data-file="' );
+
+				if ( $pos ) {
+					$tmp = substr( $html, $pos );
+					$tmp = substr( $tmp, 0, strpos( $tmp, '.mp4' ) );
+					$tmp = str_replace( 'data-file="', '', $tmp );
+					$tmp .= '.mp4';
+
+					if ( ! empty( $tmp ) ) {
+						$url = $tmp;
+						$this->cache_url( $key, $url );
+					}
+				}
+			} else {
+				$url = $tmp;
+			}
+
+			return apply_filters( 'hocwp_theme_extension_media_player_lotus_direct_url', $url, $current );
 		}
 
 		public function get_facebook_url_fbdown( $url ) {
@@ -922,6 +999,24 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 			return 'http://img.youtube.com/vi/' . $video_id . '/0.jpg';
 		}
 
+		public function get_lotus_video_thumbnail_url( $url ) {
+			$html = $this->get_lotus_video_source_html( $url );
+
+			$pos = strpos( $html, 'data-thumb="' );
+
+			if ( $pos ) {
+				$html = substr( $html, $pos );
+				$html = str_replace( 'data-thumb="', '', $html );
+				$html = substr( $html, 0, strpos( $html, '"' ) );
+
+				if ( ! empty( $html ) ) {
+					return $html;
+				}
+			}
+
+			return '';
+		}
+
 		public function get_video_thumbnail_url( $url ) {
 			$domain = HT()->get_domain_name( $url, true );
 			$result = '';
@@ -933,6 +1028,9 @@ if ( ! class_exists( 'HOCWP_Ext_Media_Player' ) ) {
 					break;
 				case 'facebook.com':
 					$result = $this->get_facebook_video_thumbnail_url( $url );
+					break;
+				case 'lotus.vn':
+					$result = $this->get_lotus_video_thumbnail_url( $url );
 					break;
 			}
 

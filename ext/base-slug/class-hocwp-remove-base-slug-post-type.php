@@ -16,6 +16,7 @@ class HOCWP_Remove_Base_Slug_Post_Type extends HOCWP_Remove_Base_Slug {
 
 	public function rewrite_rules_filter() {
 		$rules = array();
+
 		$args  = array(
 			'posts_per_page' => - 1,
 			'post_type'      => $this->name,
@@ -28,8 +29,10 @@ class HOCWP_Remove_Base_Slug_Post_Type extends HOCWP_Remove_Base_Slug {
 				)
 			)
 		);
+
 		$query = new WP_Query( $args );
 		$lists = $query->posts;
+
 		foreach ( $lists as $obj ) {
 			$rules[ '(' . $obj->post_name . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ] = 'index.php?' . $this->query_var . '=$matches[1]&feed=$matches[2]';
 

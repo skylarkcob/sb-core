@@ -36,7 +36,7 @@ function hocwp_theme_force_inline_css_and_js() {
 
 							$wp_styles->registered[ $queue ] = $data;
 						}
-						$filesystem = HOCWP_Theme_Utility::filesystem();
+						$filesystem = HT_Util()->filesystem();
 						$code       = $filesystem->get_contents( $src );
 					}
 				}

@@ -27,6 +27,10 @@ function hocwp_add_post_frontend_save_post( $post_id ) {
 add_action( 'save_post', 'hocwp_add_post_frontend_save_post' );
 
 function hocwp_add_post_frontend_admin_notices() {
+	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+		return;
+	}
+
 	if ( false !== ( $msg = get_transient( 'hocwp_add_vip_post_day_message' ) ) ) {
 		echo $msg;
 		delete_transient( 'hocwp_add_vip_post_day_message' );

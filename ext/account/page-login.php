@@ -17,7 +17,7 @@ if ( is_user_logged_in() ) {
 $permalink = get_the_permalink();
 ?>
 <div id="loginFormContainer" class="account-login">
-	<form id="loginForm" class="login-form maxw-600 clearfix" action="" method="post">
+	<form id="loginForm" class="login-form maxw-600 mx-auto clearfix border rounded pd-20" action="" method="post">
 		<?php
 		if ( isset( $_POST['action'] ) && isset( $_POST['error'] ) ) {
 			$error = $_POST['error'];
@@ -38,7 +38,7 @@ $permalink = get_the_permalink();
 		$class     = 'col-md-5';
 		$sub_class = 'col-md-7';
 		?>
-		<div class="form-group row">
+		<div class="form-group row mb-15">
 			<div class="<?php echo $class; ?>">
 				<label for="user_login"><?php _e( 'Username or Email', 'sb-core' ); ?></label>
 			</div>
@@ -47,7 +47,7 @@ $permalink = get_the_permalink();
 				       autocomplete="username">
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row mb-15">
 			<div class="<?php echo $class; ?>">
 				<label for="user_pass"><?php _e( 'Password', 'sb-core' ); ?></label>
 			</div>
@@ -68,15 +68,15 @@ $permalink = get_the_permalink();
 				<div class="mb-20">
 					<?php do_action( 'login_form' ); ?>
 				</div>
-				<?php $redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : ''; ?>
+				<?php $redirect_to = $_REQUEST['redirect_to'] ?? ''; ?>
 				<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>">
 				<?php wp_nonce_field(); ?>
 				<input type="hidden" name="action" value="user_login">
 				<button id="login_submit" type="submit"
-				        class="submit btn btn-success"><?php _e( 'Log In', 'sb-core' ); ?></button>
+				        class="submit btn btn-success btn-block d-block w-full"><?php _e( 'Log In', 'sb-core' ); ?></button>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row mt-15">
 			<div class="<?php echo $class; ?>">
 				<a href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Lost Password?', 'sb-core' ); ?></a>
 				<?php

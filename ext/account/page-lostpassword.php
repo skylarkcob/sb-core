@@ -16,14 +16,14 @@ if ( is_user_logged_in() ) {
 
 $permalink = get_the_permalink();
 ?>
-<div id="lostPasswordBox" class="lostpassword">
+<div id="lostPasswordBox" class="lostpassword maxw-600 mx-auto border rounded pd-20">
 	<form id="lostpasswordForm" action="" method="post" class="lostpassword-form clearfix">
 		<?php
 		if ( isset( $_POST['action'] ) && 'lost_pass' == $_POST['action'] ) {
-			$nonce = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : '';
+			$nonce = $_POST['_wpnonce'] ?? '';
 
 			if ( wp_verify_nonce( $nonce ) ) {
-				$info = isset( $_POST['user_info'] ) ? $_POST['user_info'] : '';
+				$info = $_POST['user_info'] ?? '';
 
 				$_POST['user_login'] = $info;
 
@@ -164,12 +164,12 @@ $permalink = get_the_permalink();
 			}
 		}
 		?>
-		<div class="form-group row">
+		<div class="form-group row mb-15">
 			<div class="col-md-12">
 				<p class="extra-space"><?php _e( 'Please enter your email address or username. You will receive a link to create a new password via email.', 'sb-core' ); ?></p>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row mb-15">
 			<div class="col-md-3">
 				<label for="user_info"><?php _e( 'Email Address or Username', 'sb-core' ); ?></label>
 			</div>
@@ -177,18 +177,18 @@ $permalink = get_the_permalink();
 				<input type="text" name="user_info" id="user_info" class="form-control">
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row mb-15">
 			<div class="col-md-9 col-md-offset-3 offset-md-3">
 				<?php wp_nonce_field(); ?>
 				<input type="hidden" name="submitted" id="submitted" value="true">
 				<input type="hidden" name="action" id="post_action" value="lost_pass">
 				<button type="submit" id="reset-pass-submit" name="reset-pass-submit"
-				        class="button big-btn btn btn-success">
+				        class="button big-btn btn btn-success w-full">
 					<?php _e( 'Reset Password', 'sb-core' ); ?>
 				</button>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row mb-15">
 			<div class="col-md-9 col-md-offset-3 offset-md-3">
 				<a href="<?php echo wp_login_url(); ?>"><?php _e( 'Login', 'sb-core' ); ?></a>
 				<?php

@@ -1,0 +1,82 @@
+.slide-items .items .slide-item {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.slide-items .items .slide-item .item-header {
+    background-color: #eee;
+    overflow: hidden;
+    padding: 10px 20px;
+    border: 1px solid #dedede;
+    cursor: move;
+}
+
+.slide-items .items .slide-item .item-body {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #dedede;
+    overflow: hidden;
+}
+
+.slide-items .items .slide-item img {
+    max-width: 100%;
+    float: left;
+    width: 300px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.slide-items .items .slide-item img:hover {
+    opacity: .8;
+}
+
+.slide-items .items .slide-item .thumb-image img {
+    float: none;
+    margin: 0;
+    max-height: 120px;
+    max-width: 120px;
+    height: auto;
+    width: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.slide-items .items .slide-item .info {
+    float: left;
+    width: calc(100% - 320px);
+}
+
+.slide-items .items .slide-item .info textarea {
+    height: 100px;
+}
+
+.slide-items .items .slide-item .info input {
+
+}
+
+.slide-item .item-header h4 {
+    margin: 0;
+    display: inline-block;
+    line-height: 24px;
+}
+
+.slide-item .item-header button {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.slide-item .item-header button:hover {
+    color: #000;
+}
+
+.slide-items .items .slide-item .info > * {
+    margin-bottom: 10px;
+}
+
+.slide-items .items .slide-item .info .thumbnail:not(.has-image) .remove-image,
+.slide-items .items .slide-item .info .thumbnail.has-image .set-image {
+    display: none;
+}

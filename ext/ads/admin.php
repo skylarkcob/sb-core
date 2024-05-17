@@ -51,6 +51,10 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 		$field = hocwp_theme_create_meta_field( 'only_desktop', __( 'Desktop', 'sb-core' ), 'input', $args, 'boolean' );
 		$meta->add_field( $field );
 
+		$args  = array( 'type' => 'checkbox', 'text' => __( 'Only display on AMP page?', 'sb-core' ) );
+		$field = hocwp_theme_create_meta_field( 'only_amp', __( 'AMP', 'sb-core' ), 'input', $args, 'boolean' );
+		$meta->add_field( $field );
+
 		$args  = array( 'type' => 'checkbox', 'text' => __( 'Make this ads as active status?', 'sb-core' ) );
 		$field = hocwp_theme_create_meta_field( 'active', __( 'Active', 'sb-core' ), 'input', $args, 'boolean' );
 		$meta->add_field( $field );
@@ -118,6 +122,7 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exi
 	function hocwp_ext_ads_posts_columns( $columns ) {
 		$columns = HT()->insert_to_array( $columns, __( 'Position', 'sb-core' ), 'before_tail', 'position' );
 		$columns = HT()->insert_to_array( $columns, __( 'Expiry date', 'sb-core' ), 'before_tail', 'expire_date' );
+		$columns = HT()->insert_to_array( $columns, __( 'Desktop/Mobile', 'sb-core' ), 'before_tail', 'desktop_mobile' );
 		$columns = HT()->insert_to_array( $columns, __( 'Active', 'sb-core' ), 'before_tail', 'active' );
 
 		return $columns;
@@ -151,6 +156,17 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exi
 			}
 
 			echo '<span class="' . $class . '" data-meta-key="' . $column . '" data-meta-type="post" data-meta-value="' . $value . '" data-boolean-meta="1" data-id="' . $post_id . '" data-ajax-button="1"></span>';
+		} elseif ( 'desktop_mobile' == $column ) {
+			$only_mobile  = get_post_meta( $post_id, 'only_mobile', true );
+			$only_desktop = get_post_meta( $post_id, 'only_desktop', true );
+
+			if ( $only_desktop && $only_mobile || ( ! $only_mobile && ! $only_desktop ) ) {
+				echo '<strong>' . _ex( 'Both', 'desktop mobile', 'sb-core' ) . '</strong>';
+			} elseif ( $only_desktop ) {
+				echo '<strong>' . _ex( 'Only Desktop', 'desktop mobile', 'sb-core' ) . '</strong>';
+			} elseif ( $only_mobile ) {
+				echo '<strong>' . _ex( 'Only Mobile', 'desktop mobile', 'sb-core' ) . '</strong>';
+			}
 		}
 	}
 

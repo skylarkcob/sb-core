@@ -1,11 +1,12 @@
 === Extensions by HocWP Team ===
 Contributors: skylarkcob, hocwp, sauhi
-Donate link: http://hocwp.net/donate/
+Donate link: https://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
-Requires at least: 5.0
-Tested up to: 5.2
+Requires at least: 5.9
+Tested up to: 6.4
+Last Updated: 13/11/2023
 Stable tag: 0.2.3.2
-Requires PHP: 7.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,7 +43,7 @@ Install this plugin from your WordPress site Dashboard or follow these steps bel
 
 == Frequently Asked Questions ==
 
-Please visit [www.hocwp.net](http://hocwp.net) for more details.
+Please visit [www.hocwp.net](https://hocwp.net) for more details.
 
 = Where is the settings page for Extensions by HocWP Team? =
 
@@ -54,6 +55,53 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 03/05/2024: Now slider will be based on Swiper JS if plugin is loaded.
+* 03/5/2024: Update Slider and Account extensions.
+* 19/01/2024: Update zip folder function.
+* 24/10/2023: Update WooCommerce extension, add setting on-sale percentage.
+* 12/08/2023: Add bulk action for user activity logs table.
+* 24/06/2023: Update development functions.
+* 26/05/2023: Update WooCommerce extension to receive wc_get_template function.
+* 16/05/2023: Add filter to add shortcode dynamically.
+* 15/05/2023: Update WooCommerce extension to find template part from theme first.
+* 13/01/2023: Update default login CSS.
+* 11/06/2022: Fix checking class HOCWP_EXT_Allow_Webp.
+* 05/05/2022: Fix update base slug class.
+* 04/05/2022: Update Base Slug extension.
+* 27/04/2022: Update CAPTCHA functions.
+* 07/04/2022: Now requires WordPress 5.9 and PHP 8 or later.
+* 01/04/2022: Update slider extension.
+* 01/03/2022: Update WooCommerce extension.
+* 26/02/2022: Copy slider shortcode when click on pre code.
+* 19/01/2022: Add user activity logs for Account extension.
+* 19/11/2021: Update WooCommerce extension, allow user apply filter for mini cart.
+* 23/10/2021: Add slider table columns for showing shortcode.
+* 28/08/2021: Hide all other elements on time break page for development.
+* 12/08/2021: Update custom login style for reCaptcha displaying.
+* 12/08/2021: Deprecated Account Kit functions.
+* 29/07/2021: Update Trending extension, add number for query post ids.
+* 21/04/2021: Update slider index error.
+* 25/03/2021: Update for WordPress 5.7, requires at least PHP 7.4.
+* 25/12/2020: Update thumbnail media select on slider extension.
+* 25/11/2020: Require theme core version 6.8.0.
+* 25/11/2020: Change static function to normal function in class HOCWP_Theme and HOCWP_Theme_Utility.
+* 25/11/2020: Add slider extension.
+* 12/11/2020: Fix WooCommerce incompatible with Polylang.
+* 12/11/2020: Skip admin notices action for specific pages.
+* 03/11/2020: Add Allow Webp extension.
+* 12/09/2020: Remove login form language switcher border.
+* 10/08/2020: Add option Only AMP page for ads.
+* 21/06/2020: Update ads extension.
+* 30/05/2020: Update development functions.
+* 26/05/2020: Update media player extension.
+* 24/05/2020: Update anime extension.
+* 17/04/2020: Update VIP Management extension.
+* 17/04/2020: Update Add Post Frontend extension.
+* 28/12/2019: Update development functions to replace localhost URL.
+* 28/12/2019: Update WooCommerce extension.
+* 27/12/2019: Update WooCommerce extension and development functions.
+* 17/12/2019: Update development functions.
+* 02/12/2019: Add params for user custom Google and Facebook login button.
 * 10/09/2019: Update Facebook Account Kit script.
 * 22/08/2019: Add feature make user verify email address and phone number for viewing site.
 * 19/08/2019: Add custom-ajax.php from theme.

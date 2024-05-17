@@ -1,12 +1,16 @@
 <?php
 /*
 Plugin Name: Extensions by HocWP Team
-Plugin URI: http://hocwp.net/project/
+Plugin URI: https://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
 Version: 0.2.3.2
-Author URI: http://hocwp.net/
-Donate link: http://hocwp.net/donate/
+Requires at least: 5.9
+Tested up to: 6.4
+Last Updated: 24/01/2024
+Requires PHP: 7.4
+Author URI: https://hocwp.net/
+Donate link: https://hocwp.net/donate/
 Text Domain: sb-core
 Domain Path: /languages/
 */
@@ -15,18 +19,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-define( 'HOCWP_EXT_VERSION', '2.4.1' );
-define( 'HOCWP_EXT_FILE', __FILE__ );
+if ( ! function_exists( 'get_plugin_data' ) ) {
+	require_once ABSPATH . '/wp-admin/includes/plugin.php';
+}
+
+$data = get_plugin_data( __FILE__ );
+
+$require_version = $data['RequiresPHP'] ?? '7.4';
+
+const HOCWP_EXT_VERSION                    = '2.5.8';
+
+const HOCWP_EXT_REQUIRE_THEME_CORE_VERSION = '7.0.5';
+
+const HOCWP_EXT_FILE                       = __FILE__;
+
 define( 'HOCWP_EXT_PATH', dirname( HOCWP_EXT_FILE ) );
 define( 'HOCWP_EXT_URL', plugins_url( '', HOCWP_EXT_FILE ) );
-define( 'HOCWP_EXT_REQUIRE_THEME_CORE_VERSION', '6.6.0' );
 
 /*
  * Check current PHP version.
  */
 $php_version = phpversion();
-
-$require_version = '5.6';
 
 if ( version_compare( $php_version, $require_version, '<' ) ) {
 	if ( ! function_exists( 'deactivate_plugins' ) ) {
@@ -43,7 +56,6 @@ if ( version_compare( $php_version, $require_version, '<' ) ) {
 	);
 
 	wp_die( $msg, $title, $args );
-	exit;
 }
 
 unset( $php_version, $require_version );
@@ -86,10 +98,9 @@ final class SB_Core {
 			if ( ! is_admin() && 'wp-login.php' != $pagenow ) {
 				$title = __( 'Invalid Theme Core Version', 'sb-core' );
 				$name  = get_file_data( __FILE__, array( 'Name' => 'Plugin Name' ) );
-				$name  = isset( $name['Name'] ) ? $name['Name'] : $this->plugin_basename;
+				$name  = $name['Name'] ?? $this->plugin_basename;
 				$msg   = sprintf( __( '<strong>Error:</strong> Plugin <code>%s</code> requires theme core version <code>%s</code> or higher. Please upgrade your theme or downgrade this plugin to older version.', 'sb-core' ), $name, $this->require_theme_core_version );
 				wp_die( $msg, $title, array( 'back_link' => admin_url( 'plugins.php' ) ) );
-				exit;
 			}
 
 			add_action( 'admin_notices', array( $this, 'check_theme_core_notices' ) );
@@ -115,6 +126,7 @@ final class SB_Core {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'global_scripts' ) );
 			add_filter( 'all_plugins', array( $this, 'all_plugins_filter' ) );
+			add_action( 'admin_notices', array( $this, 'admin_notices_action' ) );
 		} else {
 			add_action( 'wp_enqueue_scripts', array( $this, 'global_scripts' ) );
 			add_action( 'login_enqueue_scripts', array( $this, 'global_scripts' ) );
@@ -125,7 +137,11 @@ final class SB_Core {
 		add_filter( 'plugin_action_links_' . $this->plugin_basename, array(
 			$this,
 			'plugin_action_links_filter'
-		) );
+		), 10, 3 );
+	}
+
+	public function admin_notices_action() {
+
 	}
 
 	public function all_plugins_filter( $plugins ) {
@@ -147,8 +163,31 @@ final class SB_Core {
 		wp_register_script( 'toastr', HOCWP_EXT_URL . '/js/toastr.min.js', array( 'jquery' ), false, true );
 	}
 
-	public function plugin_action_links_filter( $links ) {
-		$links[] = '<a href="' . esc_url( admin_url( 'themes.php?page=hocwp_theme&tab=extension' ) ) . '">' . __( 'Settings', 'sb-core' ) . '</a>';
+	public function plugin_action_links_filter( $links, $file, $data ) {
+		$links[] = '<a href="' . esc_url( admin_url( 'themes.php?page=hocwp_theme&tab=extension' ) ) . '" title="' . esc_attr__( 'Go to setting page', 'sb-core' ) . '">' . __( 'Settings', 'sb-core' ) . '</a>';
+
+		if ( current_user_can( 'manage_options' ) && function_exists( 'hocwp_team_dev_is_localhost' ) && hocwp_team_dev_is_localhost() ) {
+			$ver = $data['Version'] ?? '';
+
+			if ( empty( $ver ) ) {
+				$ver = $data['new_version'] ?? '';
+			}
+
+			$url = admin_url( 'update-core.php' );
+
+			$url = add_query_arg( array(
+				'action'      => 'do-plugin-upgrade',
+				'do_action'   => 'reinstall_plugin',
+				'plugin_file' => $file,
+				'version'     => $ver,
+				'checked'     => array( $file ),
+				'plugins'     => array( $file )
+			), $url );
+
+			$url = wp_nonce_url( $url );
+
+			$links[] = '<a href="' . esc_url( $url ) . '"  title="' . esc_attr__( 'Reinstall plugin', 'sb-core' ) . '">' . __( 'Reinstall', 'sb-core' ) . '</a>';
+		}
 
 		return $links;
 	}
@@ -167,6 +206,10 @@ final class SB_Core {
 		}
 
 		add_action( 'init', array( $this, 'register_custom_post_types_and_taxonomies' ) );
+
+		if ( function_exists( 'hocwp_theme_upload_mimes_filter' ) ) {
+			add_filter( 'upload_mimes', 'hocwp_theme_upload_mimes_filter' );
+		}
 	}
 
 	public function register_custom_post_types_and_taxonomies() {
@@ -183,14 +226,25 @@ final class SB_Core {
 
 		if ( HT()->array_has_value( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy => $data ) {
-				$post_type = isset( $data['post_type'] ) ? $data['post_type'] : '';
+				$post_type = $data['post_type'] ?? '';
 
 				if ( ! empty( $post_type ) ) {
-					$args = isset( $data['args'] ) ? $data['args'] : $data;
+					$args = $data['args'] ?? $data;
 
 					$args = HT_Util()->taxonomy_args( $args );
 
 					register_taxonomy( $taxonomy, $post_type, $args );
+				}
+			}
+		}
+
+		// Dynamic add shortcode
+		$shortcodes = apply_filters( 'hocwp_theme_shortcodes', array() );
+
+		if ( is_array( $shortcodes ) ) {
+			foreach ( $shortcodes as $name => $shortcode ) {
+				if ( is_callable( $shortcode ) ) {
+					add_shortcode( $name, $shortcode );
 				}
 			}
 		}
@@ -211,18 +265,22 @@ final class SB_Core {
 	}
 
 	public function check_theme_core_notices() {
-		$msg = sprintf( __( '<strong>Plugin Extensions by HocWP Team:</strong> You must using theme core version at least %s. Please upgrade your theme or contact theme author for more details. You may also downgrade this plugin to older version but it is not recommended.', 'sb-core' ), '<strong>' . $this->require_theme_core_version . '</strong>' );
+		if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			return;
+		}
+
+		$msg = sprintf( __( '<strong>Plugin Extensions by HocWP Team:</strong> You must be using theme core version at least %s. Please upgrade your theme or contact theme author for more details. You may also downgrade this plugin to older version, but it is not recommended.', 'sb-core' ), '<strong>' . $this->require_theme_core_version . '</strong>' );
 		?>
-		<div class="alert alert-info is-dismissible notice notice-info">
+        <div class="alert alert-info is-dismissible notice notice-info">
 			<?php echo wpautop( $msg ); ?>
-		</div>
+        </div>
 		<?php
 	}
 
 	private function check_theme() {
 		$theme = wp_get_theme();
 
-		if ( 'hocwp-theme' != $theme->get_stylesheet() ) {
+		if ( 'hocwp-theme' != $theme->get_stylesheet() && 'hocwp-theme' != $theme->get( 'Template' ) ) {
 			return false;
 		}
 
@@ -230,12 +288,16 @@ final class SB_Core {
 	}
 
 	public function check_theme_notices() {
-		$msg = __( '<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as <code>hocwp-theme</code>, you can change your theme <a href="%s">here</a>.', 'sb-core' );
-		$msg = sprintf( $msg, admin_url( 'themes.php' ) );
+		if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			return;
+		}
+
+		$msg = __( '<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as <code>hocwp-theme</code>, you can change your theme <a href="%s" title="%s">here</a>.', 'sb-core' );
+		$msg = sprintf( $msg, esc_attr__( 'View list themes', 'sb-core' ), admin_url( 'themes.php' ) );
 		?>
-		<div class="alert alert-error updated error is-dismissible alert-danger">
+        <div class="alert alert-error updated error is-dismissible alert-danger">
 			<?php echo wpautop( $msg ); ?>
-		</div>
+        </div>
 		<?php
 	}
 }
@@ -244,16 +306,12 @@ function SB_Core() {
 	return SB_Core::get_instance();
 }
 
-function sb_core_start_instance() {
-	SB_Core();
-}
+add_action( 'hocwp_theme_setup', 'SB_Core' );
 
-add_action( 'hocwp_theme_setup', 'sb_core_start_instance' );
-
-$stylesheet = get_option( 'stylesheet' );
+$stylesheet                                = get_option( 'template' );
 
 if ( 'hocwp-theme' !== $stylesheet ) {
-	add_action( 'plugins_loaded', 'sb_core_start_instance' );
+	add_action( 'plugins_loaded', 'SB_Core' );
 }
 
 function sb_core_load_plugin_textdomain() {

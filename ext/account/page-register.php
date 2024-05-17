@@ -17,8 +17,8 @@ if ( is_user_logged_in() ) {
 $permalink = get_the_permalink();
 ?>
 <div class="register-account">
-	<div class="register-form-box">
-		<h2><?php _e( 'Sign up', 'sb-core' ); ?></h2>
+	<div class="register-form-box maxw-600 mx-auto border rounded pd-20">
+		<h2 class="text-left"><?php _e( 'Sign up', 'sb-core' ); ?></h2>
 
 		<form id="registerForm" class="register-form mt-20 clearfix" action="" method="post">
 			<?php
@@ -30,18 +30,18 @@ $permalink = get_the_permalink();
 			$added = false;
 
 			if ( isset( $_POST['action'] ) && 'user_register' == $_POST['action'] ) {
-				$nonce = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : '';
+				$nonce = $_POST['_wpnonce'] ?? '';
 
 				if ( wp_verify_nonce( $nonce ) ) {
 					$errors = new WP_Error();
 
-					$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
+					$user_login = $_POST['user_login'] ?? '';
 
-					$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
+					$user_email = $_POST['user_email'] ?? '';
 
-					$user_pass = isset( $_POST['user_pass'] ) ? $_POST['user_pass'] : '';
+					$user_pass = $_POST['user_pass'] ?? '';
 
-					$pass2 = isset( $_POST['user_pass2'] ) ? $_POST['user_pass2'] : '';
+					$pass2 = $_POST['user_pass2'] ?? '';
 
 					if ( empty( $user_login ) || empty( $user_email ) || empty( $user_pass ) ) {
 						$errors->add( 'missing_field', __( 'Please enter your information.', 'sb-core' ) );
@@ -107,7 +107,7 @@ $permalink = get_the_permalink();
 
 			if ( ! $added ) {
 				?>
-				<div class="row form-group">
+				<div class="row form-group mb-15">
 					<div class="col-md-3">
 						<label for="user-login"><?php _e( 'Username', 'sb-core' ); ?></label>
 					</div>
@@ -116,7 +116,7 @@ $permalink = get_the_permalink();
 						       value="<?php echo $user_login; ?>" autocomplete="username">
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row form-group mb-15">
 					<div class="col-md-3">
 						<label for="user-email"><?php _e( 'Email', 'sb-core' ); ?></label>
 					</div>
@@ -125,7 +125,7 @@ $permalink = get_the_permalink();
 						       value="<?php echo $user_email; ?>">
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row form-group mb-15">
 					<div class="col-md-3">
 						<label for="user-pass"><?php _e( 'Password', 'sb-core' ); ?></label>
 					</div>
@@ -134,7 +134,7 @@ $permalink = get_the_permalink();
 						       name="user_pass" autocomplete="new-password">
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row form-group mb-15">
 					<div class="col-md-3">
 						<label for="user-pass2"><?php _e( 'Confirm Password', 'sb-core' ); ?></label>
 					</div>
@@ -143,13 +143,13 @@ $permalink = get_the_permalink();
 						       name="user_pass2" autocomplete="new-password">
 					</div>
 				</div>
-				<div class="row form-group">
+				<div class="row form-group mb-15">
 					<div class="col-md-9 col-md-offset-3 offset-md-3">
 						<div class="mb-20">
 							<?php do_action( 'register_form' ); ?>
 						</div>
 						<input type="hidden" name="action" value="user_register">
-						<?php $redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : ''; ?>
+						<?php $redirect_to = $_REQUEST['redirect_to'] ?? ''; ?>
 						<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>">
 						<button class="submit btn btn-success w-full" name="register_submit" type="submit">
 							<?php _e( 'Register', 'sb-core' ); ?>

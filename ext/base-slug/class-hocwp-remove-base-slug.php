@@ -27,7 +27,7 @@ abstract class HOCWP_Remove_Base_Slug {
 		$slug = '';
 
 		if ( is_object( $this->object ) ) {
-			$slug = isset( $this->object->rewrite['slug'] ) ? $this->object->rewrite['slug'] : '';
+			$slug = $this->object->rewrite['slug'] ?? '';
 		}
 
 		return $slug;
@@ -59,9 +59,9 @@ abstract class HOCWP_Remove_Base_Slug {
 	}
 
 	public function request_filter( $query_vars ) {
-
 		if ( isset( $query_vars[ $this->query_var_redirect ] ) ) {
-			$term_name      = user_trailingslashit( $query_vars[ $this->query_var_redirect ], $this->name );
+			$term_name = user_trailingslashit( $query_vars[ $this->query_var_redirect ], $this->name );
+
 			$term_permalink = home_url( $term_name );
 			wp_redirect( $term_permalink, 301 );
 			exit;

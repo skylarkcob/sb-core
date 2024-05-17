@@ -57,6 +57,7 @@ function hocwp_ext_account_edit_profile_url( $url ) {
 
 	if ( HTE_Account()->check_option_page_valid( $page ) ) {
 		$url = get_permalink( $page );
+		$url = add_query_arg('action', 'edit_profile', $url);
 	}
 
 	return $url;
@@ -80,6 +81,7 @@ function hocwp_ext_account_login_url( $login_url, $redirect, $force_reauth ) {
 		}
 
 		$login_url = add_query_arg( $params, $url );
+		$login_url = add_query_arg( 'action', 'login', $login_url );
 	}
 
 	return $login_url;
@@ -99,6 +101,7 @@ function hocwp_ext_account_lostpassword_url( $lostpassword_url, $redirect ) {
 		}
 
 		$lostpassword_url = add_query_arg( $params, $url );
+		$lostpassword_url = add_query_arg( 'action', 'lostpassword', $lostpassword_url );
 	}
 
 	return $lostpassword_url;
@@ -111,6 +114,7 @@ function hocwp_ext_account_register_url( $url ) {
 
 	if ( HTE_Account()->check_option_page_valid( $page ) ) {
 		$url = get_permalink( $page );
+		$url = add_query_arg( 'action', 'register', $url );
 	}
 
 	return $url;

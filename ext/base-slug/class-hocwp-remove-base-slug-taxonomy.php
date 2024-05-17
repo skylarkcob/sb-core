@@ -18,6 +18,7 @@ class HOCWP_Remove_Base_Slug_Taxonomy extends HOCWP_Remove_Base_Slug {
 
 	public function rewrite_rules_filter() {
 		$rules = array();
+
 		$args  = array(
 			'hide_empty' => false,
 			'taxonomy'   => $this->name,
@@ -30,6 +31,7 @@ class HOCWP_Remove_Base_Slug_Taxonomy extends HOCWP_Remove_Base_Slug {
 				)
 			)
 		);
+
 		$query = new WP_Term_Query( $args );
 		$terms = $query->get_terms();
 
@@ -50,7 +52,6 @@ class HOCWP_Remove_Base_Slug_Taxonomy extends HOCWP_Remove_Base_Slug {
 	}
 
 	public function term_link_filter( $termlink, $term, $taxonomy ) {
-
 		if ( $taxonomy == $this->name ) {
 
 			if ( ! empty( $this->rewrite_slug ) ) {

@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Load all styles and scripts on default wp-login.php page.
  */
 function hocwp_ext_account_default_login_page_scripts() {
-	global $pagenow;
-
 	wp_enqueue_style( 'hocwp-ext-account-login-style', HOCWP_EXT_URL . '/css/login' . HOCWP_THEME_CSS_SUFFIX );
 
 	$options = HT_Util()->get_theme_options( 'account' );
@@ -16,7 +14,7 @@ function hocwp_ext_account_default_login_page_scripts() {
 	HTE_Account()->load_connected_socials_script();
 	HTE_Account()->load_facebook_account_kit_script();
 
-	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
+	$cs = $options['custom_style'] ?? '';
 
 	if ( 1 == $cs ) {
 		wp_enqueue_style( 'hocwp-ext-account-login-default-style', HOCWP_EXT_URL . '/css/login-default' . HOCWP_THEME_CSS_SUFFIX );
@@ -50,22 +48,22 @@ add_action( 'login_enqueue_scripts', 'hocwp_ext_account_default_login_page_scrip
 function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 	$options = HT_Util()->get_theme_options( 'account' );
 
-	$cs = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
+	$cs = $options['custom_style'] ?? '';
 
 	if ( 1 != $cs ) {
 		return $link;
 	}
 
-	$params = isset( $_SERVER['QUERY_STRING'] ) ? $_SERVER['QUERY_STRING'] : '';
+	$params = $_SERVER['QUERY_STRING'] ?? '';
 	parse_str( $params, $params );
 
-	$locale  = isset( $_GET['locale'] ) ? $_GET['locale'] : get_locale();
+	$locale  = $_GET['locale'] ?? get_locale();
 	$locales = get_available_languages();
 
 	ob_start();
 	?>
-	<div class="clearfix">
-		<div class="footer-left">
+    <div class="clearfix">
+        <div class="footer-left">
 			<?php
 			$locations = get_nav_menu_locations();
 
@@ -81,13 +79,15 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 				}
 			}
 
-			echo sprintf( '<a class="privacy-policy-link menu-link" href="%s">%s</a>', esc_url( $url ), __( 'Privacy Policy', 'sb-core' ) );
+			if ( ! empty( $url ) ) {
+				echo sprintf( '<a class="privacy-policy-link menu-link" href="%s">%s</a>', esc_url( $url ), __( 'Privacy Policy', 'sb-core' ) );
+			}
 			?>
-		</div>
-		<div class="footer-right">
-			<div class="clearfix">
-				<div class="language-switcher">
-					<form id="language-switcher" action="" method="GET">
+        </div>
+        <div class="footer-right">
+            <div class="clearfix">
+                <div class="language-switcher">
+                    <form id="lang-switcher" action="" method="GET">
 						<?php
 						$params = (array) $params;
 
@@ -95,17 +95,17 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 							foreach ( $params as $name => $value ) {
 								if ( ! empty( $value ) && ! empty( $name ) && 'locale' != $name ) {
 									?>
-									<input type="hidden" name="<?php echo esc_attr( $name ); ?>"
-									       value="<?php echo esc_attr( $value ); ?>">
+                                    <input type="hidden" name="<?php echo esc_attr( $name ); ?>"
+                                           value="<?php echo esc_attr( $value ); ?>">
 									<?php
 								}
 							}
 						}
 						?>
-						<label for="language-switcher-locales">
-							<span aria-hidden="true" class="dashicons dashicons-translation"></span>
-							<span class="screen-reader-text"><?php _e( 'Select the language:', 'sb-core' ); ?></span>
-						</label>
+                        <label for="language-switcher-locales">
+                            <span aria-hidden="true" class="dashicons dashicons-translation"></span>
+                            <span class="screen-reader-text"><?php _e( 'Select the language:', 'sb-core' ); ?></span>
+                        </label>
 						<?php
 						$args = array(
 							'selected'                    => $locale,
@@ -115,19 +115,19 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 
 						wp_dropdown_languages( $args );
 						?>
-					</form>
-					<script>
-						var languageForm = document.getElementById("language-switcher"),
-							locale = document.getElementById("locale");
+                    </form>
+                    <script>
+                        let languageForm = document.getElementById("language-switcher"),
+                            locale = document.getElementById("locale");
 
-						locale.onchange = function () {
-							languageForm.submit();
-						};
-					</script>
-				</div>
-			</div>
-		</div>
-	</div>
+                        locale.onchange = function () {
+                            languageForm.submit();
+                        };
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
 	<?php
 	return ob_get_clean();
 }
@@ -135,7 +135,7 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 add_filter( 'the_privacy_policy_link', 'hocwp_ext_account_the_privacy_policy_link_filter', 10, 2 );
 
 function hocwp_ext_account_login_init_action() {
-	$locale = isset( $_GET['locale'] ) ? $_GET['locale'] : get_locale();
+	$locale = $_GET['locale'] ?? get_locale();
 
 	if ( empty( $locale ) ) {
 		$locale = 'en_US';

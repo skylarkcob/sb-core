@@ -148,6 +148,10 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 		}
 
 		public function upgrade_theme_core_notice() {
+			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+				return;
+			}
+
 			$args = array(
 				'type'    => 'warning',
 				'message' => sprintf( __( '<strong>Warning:</strong> Extension <code>%s</code> requires theme core version as least %s.', 'sb-core' ), $this->name, '6.5.4' )

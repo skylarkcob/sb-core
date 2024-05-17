@@ -38,10 +38,10 @@ function hocwp_theme_settings_page_account_field() {
 
 	$args = array(
 		'type'  => 'checkbox',
-		'label' => __( 'Using captcha for account form?', 'sb-core' )
+		'label' => __( 'Using CAPTCHA for account form?', 'sb-core' )
 	);
 
-	$field    = hocwp_theme_create_setting_field( 'captcha', __( 'Captcha', 'sb-core' ), 'input', $args, 'boolean', 'account' );
+	$field    = hocwp_theme_create_setting_field( 'captcha', __( 'CAPTCHA', 'sb-core' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
 	$args = array(
@@ -55,6 +55,11 @@ function hocwp_theme_settings_page_account_field() {
 	$args['label'] = __( 'Allow user login with phone number or email via Facebook Account Kit?', 'sb-core' );
 
 	$field    = hocwp_theme_create_setting_field( 'account_kit', __( 'Account Kit', 'sb-core' ), 'input', $args, 'boolean', 'account' );
+	$fields[] = $field;
+
+	$args['label'] = __( 'Track users activity?', 'sb-core' );
+
+	$field    = hocwp_theme_create_setting_field( 'activity_logs', __( 'Activity Logs', 'sb-core' ), 'input', $args, 'boolean', 'account' );
 	$fields[] = $field;
 
 	$args = array(

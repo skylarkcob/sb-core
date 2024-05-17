@@ -182,20 +182,36 @@ add_action( 'wp_ajax_hocwp_theme_connect_social', 'hocwp_ext_account_connect_soc
 add_action( 'wp_ajax_nopriv_hocwp_theme_connect_social', 'hocwp_ext_account_connect_social_ajax_callback' );
 
 function hocwp_ext_account_admin_notices_action() {
+	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+		return;
+	}
+
 	$options = HT_Util()->get_theme_options( 'account' );
-	$cs      = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
-	$captcha = isset( $options['captcha'] ) ? $options['captcha'] : '';
+
+	$account_kit = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+
+	if ( 1 == $account_kit ) {
+		$msg = __( 'Account Kit will no longer be available for developers and partners.', 'sb-core' );
+
+		$args = array(
+			'type'    => 'error',
+			'message' => sprintf( '<strong>%s</strong> %s', __( 'Account Extension:', 'sb-core' ), $msg )
+		);
+
+		HT_Util()->admin_notice( $args );
+	}
+
+	$cs      = $options['connect_social'] ?? '';
+	$captcha = $options['captcha'] ?? '';
 
 	if ( 1 == $cs || 1 == $captcha ) {
 		$options = HT_Util()->get_theme_options( 'social' );
 
-		$fai = isset( $options['facebook_app_id'] ) ? $options['facebook_app_id'] : '';
-		$gak = isset( $options['google_api_key'] ) ? $options['google_api_key'] : '';
-		$gci = isset( $options['google_client_id'] ) ? $options['google_client_id'] : '';
-		$rsk = isset( $options['recaptcha_site_key'] ) ? $options['recaptcha_site_key'] : '';
-		$rse = isset( $options['recaptcha_secret_key'] ) ? $options['recaptcha_secret_key'] : '';
+		$fai = $options['facebook_app_id'] ?? '';
+		$gak = $options['google_api_key'] ?? '';
+		$gci = $options['google_client_id'] ?? '';
 
-		if ( empty( $fai ) || empty( $gak ) || empty( $gci ) || empty( $rsk ) || empty( $rse ) ) {
+		if ( empty( $fai ) || empty( $gak ) || empty( $gci ) || ! HT_CAPTCHA()->check_config_valid() ) {
 			$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for account extension works normally.', 'sb-core' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
 
 			$args = array(

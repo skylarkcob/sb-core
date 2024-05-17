@@ -24,6 +24,8 @@
 
 .update-profile .profile-sidebar .tabs {
     width: 100%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .update-profile .profile-sidebar .avatar {
@@ -117,6 +119,7 @@
     font-weight: 700;
 }
 
+.update-profile .update-profile-form select,
 .update-profile .update-profile-form input[type="text"],
 .update-profile .update-profile-form input[type="email"],
 .update-profile .update-profile-form input[type="url"],

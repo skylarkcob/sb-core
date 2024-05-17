@@ -159,7 +159,7 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 			}
 		}
 
-		public function get( $post_type = null ) {
+		public function get( $post_type = null, $number = false ) {
 			global $wpdb;
 			$table_name = $wpdb->prefix . $this->table_name;
 
@@ -181,13 +181,17 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 
 			$sql .= " GROUP BY post_id ORDER BY count DESC";
 
+			if ( is_numeric( $number ) ) {
+				$sql .= ' LIMIT ' . $number;
+			}
+
 			$result = $wpdb->get_results( $sql );
 
 			return $result;
 		}
 
-		public function get_post_ids( $post_type = null ) {
-			$trends = $this->get( $post_type );
+		public function get_post_ids( $post_type = null, $number = false ) {
+			$trends = $this->get( $post_type, $number );
 
 			$post_ids = array();
 

@@ -143,3 +143,7 @@ form[name="loginform"] .social-wrapper-title span {
 .login-action-lostpassword p.submit {
     margin-top: 15px;
 }
+
+body.login #login .connected-accounts button i {
+    display: none;
+}

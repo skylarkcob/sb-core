@@ -148,7 +148,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				add_filter( 'wpseo_title', array( $this, 'wpseo_title_filter' ) );
 				add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 99 );
 				add_filter( 'posts_where', array( $this, 'posts_where' ) );
-				add_filter( 'template_include', array( $this, 'template_include' ) );
+				add_filter( 'template_include', array( $this, 'template_include' ), 99999 );
 				add_filter( 'body_class', array( $this, 'body_classes' ) );
 			}
 
@@ -825,6 +825,21 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 			$meta = new HOCWP_Theme_Meta_Post();
 			$meta->add_post_type( $this->get_post_type() );
+			$meta->form_table = true;
+
+			$field = new HOCWP_Theme_Meta_Field( 'different_name', __( 'Different Name', 'sb-core' ) );
+			$meta->add_field( $field );
+
+			$field = new HOCWP_Theme_Meta_Field( 'release_date', __( 'Release Date', 'sb-core' ) );
+			$meta->add_field( $field );
+
+			$field = new HOCWP_Theme_Meta_Field( 'episode_number', __( 'Episodes Number', 'sb-core' ), 'input', array( 'type' => 'number' ) );
+			$meta->add_field( $field );
+
+			do_action_ref_array( 'hocwp_theme_extension_anime_additional_meta', array( &$meta ) );
+
+			$meta = new HOCWP_Theme_Meta_Post();
+			$meta->add_post_type( $this->get_post_type() );
 
 			$meta->set_id( 'list-episodes-box' );
 			$meta->set_title( __( 'List Episodes', 'sb-core' ) );
@@ -1426,6 +1441,10 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function admin_notices() {
+			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+				return;
+			}
+
 			$notices = $this->get_admin_notices();
 
 			if ( HT()->array_has_value( $notices ) ) {
@@ -1619,6 +1638,23 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			);
 
 			$this->taxonomies_args['release_year'] = array(
+				'post_type' => $this->episode_parent_post_type(),
+				'args'      => $args
+			);
+
+			$args = array(
+				'labels'       => array(
+					'name'          => _x( 'Types', 'taxonomy', 'sb-core' ),
+					'singular_name' => _x( 'Type', 'taxonomy', 'sb-core' ),
+					'menu_name'     => _x( 'Types', 'taxonomy', 'sb-core' )
+				),
+				'rewrite'      => array(
+					'slug' => 'type'
+				),
+				'hierarchical' => true
+			);
+
+			$this->taxonomies_args['type'] = array(
 				'post_type' => $this->episode_parent_post_type(),
 				'args'      => $args
 			);

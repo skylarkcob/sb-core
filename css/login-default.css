@@ -7,10 +7,8 @@ body {
     padding-top: 5%;
 }
 
-#backtoblog {
-    display: none;
-}
-
+#backtoblog,
+#login + .language-switcher,
 #login > h1 {
     display: none;
 }
@@ -107,11 +105,28 @@ body {
     box-sizing: border-box;
 }
 
+.login .privacy-policy-page-link > div {
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
 .login .privacy-policy-page-link form {
     box-shadow: none;
     background: none;
     padding: 0;
     margin: 0;
+}
+
+.login .privacy-policy-page-link .language-switcher {
+    padding-bottom: 0;
+}
+
+.login .privacy-policy-page-link .language-switcher form {
+    border: none;
 }
 
 .login .screen-reader-text {
@@ -144,6 +159,7 @@ body {
 
 .footer-right {
     float: right;
+    margin-left: auto;
 }
 
 .footer-right select {
@@ -162,6 +178,11 @@ body {
     outline: 0;
     transition: 50ms border-color ease-in-out;
     color: #32373c;
+}
+
+.footer-right select[name="locale"] {
+    padding-left: 5px;
+    padding-right: 25px;
 }
 
 .language-switcher span.dashicons {
@@ -191,6 +212,10 @@ body {
     text-decoration: underline;
 }
 
+.custom-login-style .grecaptcha-badge {
+    bottom: 60px !important;
+}
+
 @media only screen and (max-height: 820px) {
     #login {
         padding-top: 20px;
@@ -201,6 +226,10 @@ body {
     .login {
         padding-bottom: 82px;
         min-height: 750px;
+    }
+
+    .custom-login-style .grecaptcha-badge {
+        bottom: 95px !important;
     }
 }
 

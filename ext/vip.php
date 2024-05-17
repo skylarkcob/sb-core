@@ -747,7 +747,12 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 			if ( 0 < $post_price ) {
 				$meta = new HOCWP_Theme_Meta_Post();
 
-				$post_types = hocwp_add_post_frontend_post_type();
+				if ( function_exists( 'hocwp_add_post_frontend_post_type' ) ) {
+					$post_types = hocwp_add_post_frontend_post_type();
+				} else {
+					$post_types = array( 'post' );
+				}
+
 				$meta->set_post_types( $post_types );
 				$meta->form_table = true;
 
