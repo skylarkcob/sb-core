@@ -64,6 +64,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 			'width'             => 1350,
 			'height'            => 800,
 			'arrows'            => 1,
+			'scrollbar'         => 0,
 			'autoplay'          => 0,
 			'infinity'          => 0,
 			'navigation'        => 'hidden',
@@ -78,7 +79,8 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 			$atts = shortcode_atts( array(
 				'title'    => '',
 				'id'       => '',
-				'settings' => ''
+				'settings' => '',
+				'class'    => ''
 			), $atts );
 
 			$title = $atts['title'];
@@ -135,9 +137,16 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 				$slides_per_view = $settings['slides_per_view'] ?? '';
 			}
 
+			$navigation = $settings['arrows'] ?? '';
+			$pagination = ( 'dots' === ( $settings['navigation'] ?? '' ) );
+			$scrollbar  = $settings['scrollbar'] ?? '';
+
+			$class = $atts['class'] ?? '';
+			$class .= ' hocwp-slider position-relative slider-items';
+
 			ob_start();
 			?>
-            <div id="Slider<?php echo esc_attr( $id ); ?>" class="hocwp-slider position-relative slider-items"
+            <div id="Slider<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( trim( $class ) ); ?>"
                  data-title="<?php echo esc_attr( $title ); ?>"
                  data-settings="<?php echo esc_attr( json_encode( $settings ) ); ?>"
                  data-count="<?php echo esc_attr( count( $slider_items ) ); ?>"
@@ -184,15 +193,29 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 					}
 					?>
                 </div>
-                <!-- If we need pagination -->
-                <div class="swiper-pagination"></div>
+				<?php
+				if ( $pagination ) {
+					?>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+					<?php
+				}
 
-                <!-- If we need navigation buttons -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+				if ( $navigation ) {
+					?>
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+					<?php
+				}
 
-                <!-- If we need scrollbar -->
-                <div class="swiper-scrollbar"></div>
+				if ( $scrollbar ) {
+					?>
+                    <!-- If we need scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+					<?php
+				}
+				?>
             </div>
 			<?php
 
@@ -213,6 +236,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 						}
 
 						$settings['arrows']          = isset( $_POST[ $this->mt_slider_settings ]['arrows'] ) ? 1 : 0;
+						$settings['scrollbar']       = isset( $_POST[ $this->mt_slider_settings ]['scrollbar'] ) ? 1 : 0;
 						$settings['link_image']      = isset( $_POST[ $this->mt_slider_settings ]['link_image'] ) ? 1 : 0;
 						$settings['autoplay']        = isset( $_POST[ $this->mt_slider_settings ]['autoplay'] ) ? 1 : 0;
 						$settings['infinity']        = isset( $_POST[ $this->mt_slider_settings ]['infinity'] ) ? 1 : 0;
@@ -427,6 +451,16 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
                                 <input id="settings_adaptive_height" type="checkbox"
                                        name="<?php echo esc_attr( $this->mt_slider_settings ); ?>[adaptive_height]"
                                        title="<?php esc_attr_e( 'Auto change slider height', 'sb-core' ); ?>"<?php checked( 1, $settings['adaptive_height'] ); ?>>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="settings_scrollbar"><?php _e( 'Scrollbar', 'sb-core' ); ?></label>
+                            </td>
+                            <td>
+                                <input id="settings_scrollbar" type="checkbox"
+                                       name="<?php echo esc_attr( $this->mt_slider_settings ); ?>[scrollbar]"
+                                       title="<?php esc_attr_e( 'Display scrollbar', 'sb-core' ); ?>"<?php checked( 1, $settings['scrollbar'] ); ?>>
                             </td>
                         </tr>
                         </tbody>

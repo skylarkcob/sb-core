@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-05-03 01:10+0700\n"
+"POT-Creation-Date: 2024-05-17 12:38+0700\n"
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
@@ -210,7 +210,7 @@ msgstr ""
 msgid "User Agent"
 msgstr ""
 
-#: ext/account/activity-logs.php:266 ext/slider.php:527
+#: ext/account/activity-logs.php:266 ext/slider.php:562
 msgid "URL"
 msgstr ""
 
@@ -1660,161 +1660,169 @@ msgstr ""
 msgid "Shortcode"
 msgstr ""
 
-#: ext/slider.php:237
+#: ext/slider.php:262
 msgid "Add Slide Images"
 msgstr ""
 
-#: ext/slider.php:247 ext/slider.php:254
+#: ext/slider.php:272 ext/slider.php:279
 msgid "Slider"
 msgstr ""
 
-#: ext/slider.php:268 sb-core.php:167
+#: ext/slider.php:293 sb-core.php:167
 msgid "Settings"
 msgstr ""
 
-#: ext/slider.php:273
+#: ext/slider.php:298
 msgid "How to use"
 msgstr ""
 
-#: ext/slider.php:278
+#: ext/slider.php:303
 msgid "Advanced Settings"
 msgstr ""
 
-#: ext/slider.php:283
+#: ext/slider.php:308
 msgid "Slide Items"
 msgstr ""
 
-#: ext/slider.php:309
+#: ext/slider.php:334
 msgid "Slides Per View"
 msgstr ""
 
-#: ext/slider.php:316
+#: ext/slider.php:341
 msgid "Slide items per view"
 msgstr ""
 
-#: ext/slider.php:321
+#: ext/slider.php:346
 msgid "Width"
 msgstr ""
 
-#: ext/slider.php:327
+#: ext/slider.php:352
 msgid "Slide width"
 msgstr ""
 
-#: ext/slider.php:332
+#: ext/slider.php:357
 msgid "Height"
 msgstr ""
 
-#: ext/slider.php:338
+#: ext/slider.php:363
 msgid "Slide height"
 msgstr ""
 
-#: ext/slider.php:343
+#: ext/slider.php:368
 msgid "Link Image"
 msgstr ""
 
-#: ext/slider.php:348 ext/slider.php:358
+#: ext/slider.php:373 ext/slider.php:383
 msgid "Display direction arrows"
 msgstr ""
 
-#: ext/slider.php:353
+#: ext/slider.php:378
 msgid "Arrows"
 msgstr ""
 
-#: ext/slider.php:363
+#: ext/slider.php:388
 msgid "Navigation"
 msgstr ""
 
-#: ext/slider.php:368
+#: ext/slider.php:393
 msgid "Hidden"
 msgstr ""
 
-#: ext/slider.php:369
+#: ext/slider.php:394
 msgid "Dots"
 msgstr ""
 
-#: ext/slider.php:387
+#: ext/slider.php:412
 msgid "Autoplay"
 msgstr ""
 
-#: ext/slider.php:392
+#: ext/slider.php:417
 msgid "Make slider autoplay"
 msgstr ""
 
-#: ext/slider.php:397
+#: ext/slider.php:422
 msgid "Autoplay Speed"
 msgstr ""
 
-#: ext/slider.php:404
+#: ext/slider.php:429
 msgid "Slide autoplay speed"
 msgstr ""
 
-#: ext/slider.php:409
+#: ext/slider.php:434
 msgid "Infinity"
 msgstr ""
 
-#: ext/slider.php:414
+#: ext/slider.php:439
 msgid "Make slider infinite scrolling"
 msgstr ""
 
-#: ext/slider.php:419
+#: ext/slider.php:444
 msgid "Adaptive Height"
 msgstr ""
 
-#: ext/slider.php:424
+#: ext/slider.php:449
 msgid "Auto change slider height"
 msgstr ""
 
-#: ext/slider.php:474
+#: ext/slider.php:454
+msgid "Scrollbar"
+msgstr ""
+
+#: ext/slider.php:459
+msgid "Display scrollbar"
+msgstr ""
+
+#: ext/slider.php:509
 msgid "Add images"
 msgstr ""
 
-#: ext/slider.php:493
+#: ext/slider.php:528
 msgid "Image Slide"
 msgstr ""
 
-#: ext/slider.php:524
+#: ext/slider.php:559
 msgid "Caption"
 msgstr ""
 
-#: ext/slider.php:544
+#: ext/slider.php:579
 msgid "Add thumbnail image"
 msgstr ""
 
-#: ext/slider.php:544
+#: ext/slider.php:579
 msgid "Add thumbnail"
 msgstr ""
 
-#: ext/slider.php:546
+#: ext/slider.php:581
 msgid "Remove thumbnail image"
 msgstr ""
 
-#: ext/slider.php:546
+#: ext/slider.php:581
 msgid "Remove thumbnail"
 msgstr ""
 
-#: ext/slider.php:572
+#: ext/slider.php:618
 msgid "Custom advanced settings JSON formatted."
 msgstr ""
 
-#: ext/slider.php:584
+#: ext/slider.php:630
 msgid "Copy all"
 msgstr ""
 
-#: ext/slider.php:585
+#: ext/slider.php:631
 msgid "Copied!"
 msgstr ""
 
-#: ext/slider.php:588
+#: ext/slider.php:634
 msgid ""
 "To display your slideshow, add the following shortcode (in orange) to your page. If adding the slideshow to your theme files, additionally include "
 "the surrounding PHP code (in gray)."
 msgstr ""
 
-#: ext/slider.php:595
+#: ext/slider.php:641
 msgid "Click shortcode to copy"
 msgstr ""
 
-#: ext/slider.php:599
+#: ext/slider.php:645
 msgid "Copy all code"
 msgstr ""
 

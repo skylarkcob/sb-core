@@ -55,6 +55,7 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 17/05/2024: Show hide Swiper pagination, navigation, scrollbar by settings.
 * 03/05/2024: Now slider will be based on Swiper JS if plugin is loaded.
 * 03/5/2024: Update Slider and Account extensions.
 * 19/01/2024: Update zip folder function.
