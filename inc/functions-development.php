@@ -127,20 +127,18 @@ function hocwp_dev_replace_localhost( $value, $domain = '' ) {
 		$domain = HT()->get_domain_name( $domain );
 	}
 
-	$find = 'localhost';
+	$find = 'localhost/';
 
 	if ( $domain != $find ) {
-		if ( is_array( $value ) ) {
-			$tmp = maybe_serialize( $value );
+		$type = gettype( $value );
+		$tmp  = maybe_serialize( $value );
 
-			if ( str_contains( $tmp, $find ) ) {
-				foreach ( $value as $key => $option ) {
-					$value[ $key ] = hocwp_dev_replace_localhost( $option, $domain );
-				}
-			}
-		} else {
-			if ( ! is_object( $value ) && str_contains( $value, $find ) ) {
-				$value = str_replace( $find, $domain, $value );
+		if ( str_contains( $tmp, $find ) ) {
+			$tmp   = str_replace( $find, trailingslashit( $domain ), $tmp );
+			$value = $tmp;
+
+			if ( gettype( $tmp ) != $type ) {
+				$value = maybe_unserialize( $value );
 			}
 		}
 	}

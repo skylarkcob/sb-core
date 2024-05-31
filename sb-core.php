@@ -6,8 +6,8 @@ Description: Extensions for using in theme which is created by HocWP Team. This 
 Author: HocWP Team
 Version: 0.2.3.2
 Requires at least: 5.9
-Tested up to: 6.4
-Last Updated: 24/01/2024
+Tested up to: 6.5
+Last Updated: 31/05/2024
 Requires PHP: 7.4
 Author URI: https://hocwp.net/
 Donate link: https://hocwp.net/donate/
@@ -27,7 +27,7 @@ $data = get_plugin_data( __FILE__ );
 
 $require_version = $data['RequiresPHP'] ?? '7.4';
 
-const HOCWP_EXT_VERSION                    = '2.5.8';
+const HOCWP_EXT_VERSION                    = '2.5.9';
 
 const HOCWP_EXT_REQUIRE_THEME_CORE_VERSION = '7.0.5';
 
