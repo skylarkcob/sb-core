@@ -2,10 +2,10 @@
 Contributors: skylarkcob, hocwp, sauhi
 Donate link: https://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
-Requires at least: 5.9
+Requires at least: 6.5
 Tested up to: 6.5
-Last Updated: 31/05/2024
-Stable tag: 0.2.3.2
+Last Updated: 02/06/2024
+Stable tag: 2.6.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -55,6 +55,7 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 31/05/2024: Release version 2.6.0 supports updates.
 * 31/05/2024: Fix development function change localhost url to current domain.
 * 17/05/2024: Show hide Swiper pagination, navigation, scrollbar by settings.
 * 03/05/2024: Now slider will be based on Swiper JS if plugin is loaded.
