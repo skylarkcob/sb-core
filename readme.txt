@@ -4,8 +4,8 @@ Donate link: https://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 6.5
 Tested up to: 6.5
-Last Updated: 02/06/2024
-Stable tag: 2.6.0
+Last Updated: 03/06/2024
+Stable tag: 2.6.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

@@ -4,10 +4,10 @@ Plugin Name: Extensions by HocWP Team
 Plugin URI: https://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
-Version: 2.6.0
+Version: 2.6.1
 Requires at least: 6.5
 Tested up to: 6.5
-Last Updated: 02/06/2024
+Last Updated: 03/06/2024
 Requires PHP: 7.4
 Author URI: https://hocwp.net/
 Donate link: https://hocwp.net/donate/
@@ -27,7 +27,7 @@ $data = get_plugin_data( __FILE__ );
 
 $require_version = $data['RequiresPHP'] ?? '7.4';
 
-const HOCWP_EXT_VERSION                    = '2.6.0';
+const HOCWP_EXT_VERSION                    = '2.6.1';
 
 const HOCWP_EXT_REQUIRE_THEME_CORE_VERSION = '7.0.6';
 
