@@ -22,15 +22,15 @@ $contacts = wp_get_user_contact_methods( $user_id );
 <div id="updateProfile" class="update-profile">
 	<?php
 	if ( isset( $_POST['submit'] ) ) {
-		$first_name   = isset( $_POST['first_name'] ) ? $_POST['first_name'] : '';
-		$last_name    = isset( $_POST['last_name'] ) ? $_POST['last_name'] : '';
-		$user_email   = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
-		$description  = isset( $_POST['description'] ) ? $_POST['description'] : '';
-		$nickname     = isset( $_POST['nickname'] ) ? $_POST['nickname'] : $user->user_login;
-		$display_name = isset( $_POST['display_name'] ) ? $_POST['display_name'] : $user->display_name;
+		$first_name   = $_POST['first_name'] ?? '';
+		$last_name    = $_POST['last_name'] ?? '';
+		$user_email   = $_POST['user_email'] ?? '';
+		$description  = $_POST['description'] ?? '';
+		$nickname     = $_POST['nickname'] ?? $user->user_login;
+		$display_name = $_POST['display_name'] ?? $user->display_name;
 
-		$user_pass = isset( $_POST['user_pass'] ) ? $_POST['user_pass'] : '';
-		$pass2     = isset( $_POST['pass2'] ) ? $_POST['pass2'] : '';
+		$user_pass = $_POST['user_pass'] ?? '';
+		$pass2     = $_POST['pass2'] ?? '';
 
 		$error = false;
 
@@ -52,7 +52,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 			$error = true;
 		}
 
-		$current_pass = isset( $_POST['current_pass'] ) ? $_POST['current_pass'] : '';
+		$current_pass = $_POST['current_pass'] ?? '';
 
 		if ( ! empty( $user_pass ) && ! wp_check_password( $current_pass, $user->user_pass, $user->ID ) ) {
 			?>
@@ -85,7 +85,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 				if ( HT()->array_has_value( $contacts ) ) {
 					foreach ( $contacts as $name => $label ) {
 						$key   = 'contact_' . $name;
-						$value = isset( $_POST[ $key ] ) ? $_POST[ $key ] : '';
+						$value = $_POST[ $key ] ?? '';
 						update_user_meta( $user_id, $name, $value );
 					}
 				}

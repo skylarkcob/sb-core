@@ -55,6 +55,8 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 22/07/2024: Update account extension, add register form layout 2 same with the most popular shop site in Vietnam.
+* 20/07/2024: Update account extension, now support page attribute for account shortcode.
 * 31/05/2024: Release version 2.6.0 supports updates.
 * 31/05/2024: Fix development function change localhost url to current domain.
 * 17/05/2024: Show hide Swiper pagination, navigation, scrollbar by settings.
@@ -109,7 +111,7 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 * 22/08/2019: Add feature make user verify email address and phone number for viewing site.
 * 19/08/2019: Add custom-ajax.php from theme.
 * 19/08/2019: Update for Ads extension can only display on mobile or desktop.
-* 19/08/2019: Add Facebook Account Kit for Account extension. Now user can login by using phone number or email address.
+* 19/08/2019: Add Facebook Account Kit for Account extension. Now user can log in by using phone number or email address.
 * 26/07/2019: Update WooCommerce extension hides tab heading in content by default.
 * 23/07/2019: Change plugin version for skipping update.
 * 08/06/2019: Add WooCommerce supports gallery zoom, lightbox and slider.
@@ -120,11 +122,11 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 * 11/04/2019: Allow media player play inline instead of using iframe.
 * 06/04/2019: Update Ads extension and Media Player extension. Now user can put VAST and VPAID ads to JW Player. User can choose player for video playing.
 * 20/03/2019: Add get price filter for extension Classifieds.
-* 08/03/2019: Update Account extension (page login). Update Add Post Frontend extension: Add pending posts count on admin bar, allow publish pending posts by bulk action.
+* 08/03/2019: Update Account extension (page login). Update Add Post Frontend extension: Add pending posts count on admin bar, allow to publish pending posts by bulk action.
 * 04/03/2019: Update VIP Management extension.
 * 25/02/2019: Update VIP Management extension and Classifieds extension.
 * 13/02/2019: Update Google Code Prettify extension.
-* 14/01/2019: Add auto detect ads block and display warning.
+* 14/01/2019: Add auto-detect ads block and display warning.
 * 10/01/2019: Update development functions.
 * 24/12/2018: Update VIP extension for adding new post.
 * 24/12/2018: Update address field to change maps maker in admin edit post for Add Post Frontend extension.

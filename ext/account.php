@@ -69,12 +69,19 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			}
 
 			add_action( 'hocwp_theme_extension_account_user_added', array( $this, 'user_added_action' ) );
+			add_filter( 'user_contactmethods', array( $this, 'user_contactmethods_filter' ) );
 
 			$activity_logs = $this->get_option( 'activity_logs' );
 
 			if ( $activity_logs ) {
 				require_once $this->folder_path . '/activity-logs.php';
 			}
+		}
+
+		public function user_contactmethods_filter( $methods ) {
+			$methods['phone'] = __( 'Phone', 'sb-core' );
+
+			return $methods;
 		}
 
 		public function user_added_action( $user_id ) {
@@ -173,7 +180,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 					$info = pathinfo( $basename );
 
-					if ( ! empty( $curl ) && ( ! isset( $info['extension'] ) || empty( $info['extension'] ) ) ) {
+					if ( ! empty( $curl ) && ( empty( $info['extension'] ) ) ) {
 						$_SESSION['hocwp_theme_current_url'] = $curl;
 					}
 				}
@@ -187,10 +194,10 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function get_redirect_to() {
-			$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+			$redirect_to = $_REQUEST['redirect_to'] ?? '';
 
 			if ( empty( $redirect_to ) ) {
-				$redirect_to = isset( $_SESSION['hocwp_theme_current_url'] ) ? $_SESSION['hocwp_theme_current_url'] : '';
+				$redirect_to = $_SESSION['hocwp_theme_current_url'] ?? '';
 			}
 
 			return apply_filters( 'hocwp_theme_extension_account_redirect_to', $redirect_to );
@@ -200,9 +207,9 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			global $pagenow, $wpdb;
 
 			if ( 'wp-login.php' == $pagenow ) {
-				$action = isset( $_GET['action'] ) ? $_GET['action'] : '';
+				$action = $_GET['action'] ?? '';
 
-				if ( 'logout' != $action && 'rp' != $action || ( 'rp' == $action && ( ! isset( $_GET['key'] ) || empty( $_GET['key'] ) ) ) ) {
+				if ( 'logout' != $action && 'rp' != $action || ( 'rp' == $action && ( empty( $_GET['key'] ) ) ) ) {
 					if ( 'lostpassword' == $action ) {
 						$page = HT_Util()->get_theme_option_page( 'lostpassword_page', 'account' );
 					} elseif ( 'register' == $action ) {
@@ -227,12 +234,12 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			}
 
 			if ( ! is_admin() && isset( $_POST['action'] ) && 'user_login' == $_POST['action'] ) {
-				$nonce = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : '';
+				$nonce = $_POST['_wpnonce'] ?? '';
 
 				if ( wp_verify_nonce( $nonce ) ) {
-					$login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
-					$pass  = isset( $_POST['user_pass'] ) ? $_POST['user_pass'] : '';
-					$rem   = isset( $_POST['rememberme'] ) ? $_POST['rememberme'] : '';
+					$login = $_POST['user_login'] ?? '';
+					$pass  = $_POST['user_pass'] ?? '';
+					$rem   = $_POST['rememberme'] ?? '';
 
 					$credentials = array(
 						'user_login'    => $login,
@@ -259,7 +266,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				}
 			}
 
-			$action = isset( $_GET['action'] ) ? $_GET['action'] : '';
+			$action = $_GET['action'] ?? '';
 
 			if ( is_user_logged_in() ) {
 				// Check email address vierified
@@ -446,9 +453,10 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 			$expiration_duration = apply_filters( 'hocwp_theme_extension_account_activation_key_expiration', $this->activation_code_expire );
 
-			if ( false !== strpos( $activation_key, ':' ) ) {
+			if ( str_contains( $activation_key, ':' ) ) {
 				list( $code_request_time, $code_key ) = explode( ':', $activation_key, 2 );
-				$expiration_time = $code_request_time + $expiration_duration;
+				$code_request_time = absint( $code_request_time );
+				$expiration_time   = $code_request_time + $expiration_duration;
 			} else {
 				$code_key = $activation_key;
 
@@ -487,7 +495,27 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function shortcode_account( $atts = array() ) {
-			$atts = shortcode_atts( array(), $atts );
+			$atts = shortcode_atts( array(
+				'page'   => '',
+				'layout' => ''
+			), $atts );
+
+			switch ( $atts['page'] ) {
+				case 'login':
+					return $this->shortcode_login( $atts );
+				case 'signup':
+				case 'register':
+					return $this->shortcode_register( $atts );
+				case 'reset_password':
+				case 'forgot_password':
+				case 'lost_password':
+				case 'lostpassword':
+					return $this->shortcode_lostpassword( $atts );
+				case 'profile':
+					return $this->shortcode_profile_settings( $atts );
+				case 'saved_posts':
+					return $this->shortcode_saved_posts( $atts );
+			}
 
 			ob_start();
 			include $this->folder_path . '/page-account.php';
@@ -538,7 +566,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		public function connected_socials_enabled() {
 			$options = HT_Util()->get_theme_options( 'account' );
 
-			$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
+			$cs = $options['connect_social'] ?? '';
 
 			return ( 1 == $cs );
 		}
@@ -546,7 +574,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		public function facebook_account_kit_enabled() {
 			$options = HT_Util()->get_theme_options( 'account' );
 
-			$value = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+			$value = $options['account_kit'] ?? '';
 
 			return ( 1 == $value );
 		}
@@ -575,10 +603,28 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function shortcode_register( $atts = array(), $content = null ) {
-			$atts = shortcode_atts( array(), $atts );
+			$atts = shortcode_atts( array(
+				'layout' => ''
+			), $atts );
+
+			$layout = $atts['layout'] ?? '';
 
 			ob_start();
-			include $this->folder_path . '/page-register.php';
+
+			$include = false;
+
+			if ( ! empty( $layout ) ) {
+				$file = $this->folder_path . '/page-register-layout-' . $layout . '.php';
+
+				if ( file_exists( $file ) ) {
+					include $file;
+					$include = true;
+				}
+			}
+
+			if ( ! $include ) {
+				include $this->folder_path . '/page-register.php';
+			}
 
 			return ob_get_clean();
 		}
@@ -676,9 +722,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		public function get_user_meta_posts( $meta_key, $user_id = null ) {
 			$user_id = HT_Util()->return_user( $user_id, 'id' );
 
-			$posts = get_user_meta( $user_id, $meta_key, true );
-
-			return $posts;
+			return get_user_meta( $user_id, $meta_key, true );
 		}
 
 		public function check_option_page_valid( $page, $check_current_page = false ) {

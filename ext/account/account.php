@@ -368,7 +368,7 @@ function hte_account_login_form_bottom_filter( $html ) {
 add_filter( 'login_form_bottom', 'hte_account_login_form_bottom_filter', 99 );
 
 function hocwp_ext_connected_socials_horizontal_bar() {
-	return '<div class="social-wrapper-title ng-scope text-center mt-10 mb-10"><span>' . _x( 'Or', 'connected socials', 'sb-core' ) . '</span></div>';
+	return '<div class="social-wrapper-title ng-scope text-center mt-10 mb-10 line"><span class="summary-regis">' . _x( 'Or', 'connected socials', 'sb-core' ) . '</span></div>';
 }
 
 function hocwp_ext_account_add_connect_social_buttons() {
@@ -377,21 +377,29 @@ function hocwp_ext_account_add_connect_social_buttons() {
 	$cs = $options['connect_social'] ?? '';
 
 	if ( 1 == $cs ) {
-		echo hocwp_ext_connected_socials_horizontal_bar();
-		echo hocwp_ext_account_connect_social_buttons( $options );
+		$buttons = hocwp_ext_account_connect_social_buttons( $options );
+
+		if ( ! empty( $buttons ) ) {
+			echo hocwp_ext_connected_socials_horizontal_bar();
+			echo $buttons;
+		}
 	}
 
-	// Account Kit services no longer available
-	$account_kit = $options['account_kit'] ?? '';
+	$account_kit = apply_filters( 'hocwp_theme_extension_facebook_account_kit_enabled', false );
 
-	if ( 1 == $account_kit && false ) {
-		$has_bar = ( 1 == $cs );
+	if ( $account_kit ) {
+		// Account Kit services no longer available
+		$account_kit = $options['account_kit'] ?? '';
 
-		if ( ! $has_bar ) {
-			echo hocwp_ext_connected_socials_horizontal_bar();
+		if ( 1 == $account_kit ) {
+			$has_bar = ( 1 == $cs );
+
+			if ( ! $has_bar ) {
+				echo hocwp_ext_connected_socials_horizontal_bar();
+			}
+
+			echo hocwp_ext_account_facebook_account_kit_button();
 		}
-
-		echo hocwp_ext_account_facebook_account_kit_button();
 	}
 }
 
@@ -404,8 +412,12 @@ function hocwp_ext_account_login_form_top( $html, $args ) {
 	$cs = $options['connect_social'] ?? '';
 
 	if ( 1 == $cs ) {
-		$html .= hocwp_ext_account_connect_social_buttons( $options );
-		$html .= hocwp_ext_connected_socials_horizontal_bar();
+		$buttons = hocwp_ext_account_connect_social_buttons( $options );
+
+		if ( ! empty( $buttons ) ) {
+			$html .= $buttons;
+			$html .= hocwp_ext_connected_socials_horizontal_bar();
+		}
 	}
 
 	$account_kit = $options['account_kit'] ?? '';
