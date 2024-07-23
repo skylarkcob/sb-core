@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-07-22 22:08+0700\n"
-"PO-Revision-Date: 2024-07-22 22:08+0700\n"
+"POT-Creation-Date: 2024-07-23 17:17+0700\n"
+"PO-Revision-Date: 2024-07-23 17:17+0700\n"
 "Last-Translator: Cuong Lai Dinh <laidinhcuongvn@gmail.com>\n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -165,40 +165,40 @@ msgstr "Bạn có chắc là muốn ngắt kết nối địa chỉ email hay kh
 msgid "Are you sure you want to disconnect your phone?"
 msgstr "Bạn có chắc là muốn ngắt kết nối số điện thoại hay không?"
 
-#: ext/account/account.php:120
+#: ext/account/account.php:109
 msgid "Sign up with your Google account"
 msgstr "Đăng ký bằng tài khoản Google"
 
-#: ext/account/account.php:123
+#: ext/account/account.php:112
 msgid "Continue with Google"
 msgstr "Tiếp tục với Google"
 
-#: ext/account/account.php:137
+#: ext/account/account.php:126
 msgid "Sign up with your Facebook account"
 msgstr "Đăng ký với tài khoản Facebook"
 
-#: ext/account/account.php:141
+#: ext/account/account.php:130
 msgid "Continue with Facebook"
 msgstr "Tiếp tục với Facebook"
 
-#: ext/account/account.php:283 ext/account/account.php:288
+#: ext/account/account.php:291 ext/account/account.php:296
 msgid "Connect SMS/Email"
 msgstr "Kết nối SMS hoặc địa chỉ email"
 
-#: ext/account/account.php:295 ext/account/account.php:300
+#: ext/account/account.php:303 ext/account/account.php:308
 msgid "Verify your phone number"
 msgstr "Xác minh số điện thoại của bạn"
 
-#: ext/account/account.php:303 ext/account/account.php:308
+#: ext/account/account.php:311 ext/account/account.php:316
 msgid "Verify your email address"
 msgstr "Xác minh địa chỉ email của bạn"
 
-#: ext/account/account.php:371
+#: ext/account/account.php:379
 msgctxt "connected socials"
 msgid "Or"
 msgstr "Hoặc"
 
-#: ext/account/account.php:479
+#: ext/account/account.php:487
 msgid "Login footer"
 msgstr "Chân trang đăng nhập"
 
@@ -528,11 +528,11 @@ msgid "Enter email address"
 msgstr "Nhập địa chỉ email"
 
 #: ext/account/class-form-register.php:56
-#: ext/account/class-form-register.php:90 ext/account/page-login.php:52
+#: ext/account/class-form-register.php:90 ext/account/page-login.php:54
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: ext/account/class-form-register.php:61
+#: ext/account/class-form-register.php:61 ext/account/page-login.php:59
 msgid "Enter password"
 msgstr "Nhập mật khẩu"
 
@@ -549,7 +549,7 @@ msgid "Create account"
 msgstr "Tạo tài khoản"
 
 #: ext/account/class-form-register.php:115
-#: ext/account/class-form-register.php:184 ext/account/page-login.php:86
+#: ext/account/class-form-register.php:184 ext/account/page-login.php:89
 #: ext/account/page-lostpassword.php:198
 msgid "Register"
 msgstr "Đăng ký"
@@ -715,19 +715,23 @@ msgstr "Lưu thay đổi"
 msgid "Username or Email"
 msgstr "Tên tài khoản hoặc địa chỉ email"
 
-#: ext/account/page-login.php:63
+#: ext/account/page-login.php:49
+msgid "Enter username or email"
+msgstr "Nhập tài khoản hoặc email"
+
+#: ext/account/page-login.php:66
 msgid "Remember Me"
 msgstr "Ghi nhớ đăng nhập"
 
-#: ext/account/page-login.php:76
+#: ext/account/page-login.php:79
 msgid "Log In"
 msgstr "Đăng nhập"
 
-#: ext/account/page-login.php:81
+#: ext/account/page-login.php:84
 msgid "Lost Password?"
 msgstr "Quên mật khẩu?"
 
-#: ext/account/page-login.php:85 ext/account/page-lostpassword.php:197
+#: ext/account/page-login.php:88 ext/account/page-lostpassword.php:197
 msgid "Or"
 msgstr "Hoặc"
 

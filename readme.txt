@@ -55,6 +55,7 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 
 == Changelog ==
 = 2.3.2 =
+* 23/07/2024: Update page login in account extension.
 * 22/07/2024: Update account extension, add register form layout 2 same with the most popular shop site in Vietnam.
 * 20/07/2024: Update account extension, now support page attribute for account shortcode.
 * 31/05/2024: Release version 2.6.0 supports updates.

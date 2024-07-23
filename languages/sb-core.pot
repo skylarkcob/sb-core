@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-07-22 22:08+0700\n"
+"POT-Creation-Date: 2024-07-23 17:17+0700\n"
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
@@ -137,40 +137,40 @@ msgstr ""
 msgid "Are you sure you want to disconnect your phone?"
 msgstr ""
 
-#: ext/account/account.php:120
+#: ext/account/account.php:109
 msgid "Sign up with your Google account"
 msgstr ""
 
-#: ext/account/account.php:123
+#: ext/account/account.php:112
 msgid "Continue with Google"
 msgstr ""
 
-#: ext/account/account.php:137
+#: ext/account/account.php:126
 msgid "Sign up with your Facebook account"
 msgstr ""
 
-#: ext/account/account.php:141
+#: ext/account/account.php:130
 msgid "Continue with Facebook"
 msgstr ""
 
-#: ext/account/account.php:283 ext/account/account.php:288
+#: ext/account/account.php:291 ext/account/account.php:296
 msgid "Connect SMS/Email"
 msgstr ""
 
-#: ext/account/account.php:295 ext/account/account.php:300
+#: ext/account/account.php:303 ext/account/account.php:308
 msgid "Verify your phone number"
 msgstr ""
 
-#: ext/account/account.php:303 ext/account/account.php:308
+#: ext/account/account.php:311 ext/account/account.php:316
 msgid "Verify your email address"
 msgstr ""
 
-#: ext/account/account.php:371
+#: ext/account/account.php:379
 msgctxt "connected socials"
 msgid "Or"
 msgstr ""
 
-#: ext/account/account.php:479
+#: ext/account/account.php:487
 msgid "Login footer"
 msgstr ""
 
@@ -470,11 +470,11 @@ msgstr ""
 msgid "Enter email address"
 msgstr ""
 
-#: ext/account/class-form-register.php:56 ext/account/class-form-register.php:90 ext/account/page-login.php:52
+#: ext/account/class-form-register.php:56 ext/account/class-form-register.php:90 ext/account/page-login.php:54
 msgid "Password"
 msgstr ""
 
-#: ext/account/class-form-register.php:61
+#: ext/account/class-form-register.php:61 ext/account/page-login.php:59
 msgid "Enter password"
 msgstr ""
 
@@ -490,7 +490,7 @@ msgstr ""
 msgid "Create account"
 msgstr ""
 
-#: ext/account/class-form-register.php:115 ext/account/class-form-register.php:184 ext/account/page-login.php:86
+#: ext/account/class-form-register.php:115 ext/account/class-form-register.php:184 ext/account/page-login.php:89
 #: ext/account/page-lostpassword.php:198
 msgid "Register"
 msgstr ""
@@ -646,19 +646,23 @@ msgstr ""
 msgid "Username or Email"
 msgstr ""
 
-#: ext/account/page-login.php:63
+#: ext/account/page-login.php:49
+msgid "Enter username or email"
+msgstr ""
+
+#: ext/account/page-login.php:66
 msgid "Remember Me"
 msgstr ""
 
-#: ext/account/page-login.php:76
+#: ext/account/page-login.php:79
 msgid "Log In"
 msgstr ""
 
-#: ext/account/page-login.php:81
+#: ext/account/page-login.php:84
 msgid "Lost Password?"
 msgstr ""
 
-#: ext/account/page-login.php:85 ext/account/page-lostpassword.php:197
+#: ext/account/page-login.php:88 ext/account/page-lostpassword.php:197
 msgid "Or"
 msgstr ""
 

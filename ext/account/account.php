@@ -102,6 +102,44 @@ function hocwp_ext_account_connect_social_buttons( $options = '', $args = array(
 		ob_start();
 
 		if ( $google ) {
+			$google_button = $args['google_button'] ?? '';
+
+			if ( empty( $google_button ) ) {
+				?>
+                <button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'sb-core' ); ?>"
+                        class="btn btn-danger connect-google w-full mb-10" data-login="1" type="button">
+                    <i class="fa fab fa-google mr-5" aria-hidden="true"></i><span
+                            class="dashicons dashicons-googleplus mr-5"></span><?php _e( 'Continue with Google', 'sb-core' ); ?>
+                </button>
+				<?php
+			} else {
+				echo $google_button;
+			}
+		}
+
+		if ( $facebook ) {
+			$facebook_button = $args['facebook_button'] ?? '';
+
+			if ( empty( $facebook_button ) ) {
+				?>
+                <button id="connect-facebook"
+                        title="<?php _e( 'Sign up with your Facebook account', 'sb-core' ); ?>"
+                        class="btn btn-primary connect-facebook w-full" data-login="1" type="button">
+                    <i class="fa fab fa-facebook-f mr-5"
+                       aria-hidden="true"></i><span
+                            class="dashicons dashicons-facebook mr-5"></span><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
+                </button>
+				<?php
+			} else {
+				echo $facebook_button;
+			}
+		}
+
+		$buttons = ob_get_clean();
+
+		ob_start();
+
+		if ( $google ) {
 			$params = array(
 				'load'     => true,
 				'callback' => 'hocwp_theme_connect_google'
@@ -109,45 +147,15 @@ function hocwp_ext_account_connect_social_buttons( $options = '', $args = array(
 
 			HT_Util()->load_google_javascript_sdk( $params );
 		}
-		?>
-        <p class="connected-accounts">
-			<?php
-			if ( $google ) {
-				$google_button = $args['google_button'] ?? '';
 
-				if ( empty( $google_button ) ) {
-					?>
-                    <button id="connect-google" title="<?php _e( 'Sign up with your Google account', 'sb-core' ); ?>"
-                            class="btn btn-danger connect-google w-full mb-10" data-login="1" type="button">
-                        <i class="fa fab fa-google mr-5" aria-hidden="true"></i><span
-                                class="dashicons dashicons-googleplus mr-5"></span><?php _e( 'Continue with Google', 'sb-core' ); ?>
-                    </button>
-					<?php
-				} else {
-					echo $google_button;
-				}
-			}
-
-			if ( $facebook ) {
-				$facebook_button = $args['facebook_button'] ?? '';
-
-				if ( empty( $facebook_button ) ) {
-					?>
-                    <button id="connect-facebook"
-                            title="<?php _e( 'Sign up with your Facebook account', 'sb-core' ); ?>"
-                            class="btn btn-primary connect-facebook w-full" data-login="1" type="button">
-                        <i class="fa fab fa-facebook-f mr-5"
-                           aria-hidden="true"></i><span
-                                class="dashicons dashicons-facebook mr-5"></span><?php _e( 'Continue with Facebook', 'sb-core' ); ?>
-                    </button>
-					<?php
-				} else {
-					echo $facebook_button;
-				}
-			}
+		if ( ! empty( $buttons ) ) {
 			?>
-        </p>
-		<?php
+            <p class="connected-accounts">
+				<?php echo $buttons; ?>
+            </p>
+			<?php
+		}
+
 		if ( $google ) {
 			?>
             <script>
