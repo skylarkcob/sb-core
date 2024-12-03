@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $path = get_template_directory() . '/hocwp/inc/functions-extensions.php';
 
 if ( file_exists( $path ) ) {
-	require_once $path;
+	require_once( $path );
 }
 
 if ( ! function_exists( 'HT_extension' ) ) {
@@ -14,7 +14,7 @@ if ( ! function_exists( 'HT_extension' ) ) {
 }
 
 if ( defined( 'HOCWP_THEME_DEVELOPING' ) && HOCWP_THEME_DEVELOPING ) {
-	require HOCWP_EXT_PATH . '/inc/functions-development.php';
+	require( HOCWP_EXT_PATH . '/inc/functions-development.php' );
 }
 
 function hocwp_ext_files_path_filter( $paths ) {
@@ -73,19 +73,19 @@ add_action( 'init', 'hocwp_ext_register_custom_post_types_and_taxonomies' );
  * If theme version order than 6.3.4, extensions will be loaded manually.
  */
 if ( ! function_exists( 'hocwp_load_all_extensions' ) && ! function_exists( 'HOCWP_Theme' ) ) {
-	require HOCWP_EXT_PATH . '/ext/base-slug.php';
-	require HOCWP_EXT_PATH . '/ext/google-code-prettify.php';
-	require HOCWP_EXT_PATH . '/ext/optimize.php';
-	require HOCWP_EXT_PATH . '/ext/jwplayer.php';
-	require HOCWP_EXT_PATH . '/ext/recent-activity-post.php';
-	require HOCWP_EXT_PATH . '/ext/woocommerce.php';
-	require HOCWP_EXT_PATH . '/ext/add-post-frontend.php';
-	require HOCWP_EXT_PATH . '/ext/account.php';
-	require HOCWP_EXT_PATH . '/ext/ads.php';
+	require( HOCWP_EXT_PATH . '/ext/base-slug.php' );
+	require( HOCWP_EXT_PATH . '/ext/google-code-prettify.php' );
+	require( HOCWP_EXT_PATH . '/ext/optimize.php' );
+	require( HOCWP_EXT_PATH . '/ext/jwplayer.php' );
+	require( HOCWP_EXT_PATH . '/ext/recent-activity-post.php' );
+	require( HOCWP_EXT_PATH . '/ext/woocommerce.php' );
+	require( HOCWP_EXT_PATH . '/ext/add-post-frontend.php' );
+	require( HOCWP_EXT_PATH . '/ext/account.php' );
+	require( HOCWP_EXT_PATH . '/ext/ads.php' );
 }
 
 if ( is_admin() ) {
-	require HOCWP_EXT_PATH . '/inc/back-compat/admin.php';
+	require( HOCWP_EXT_PATH . '/inc/back-compat/admin.php' );
 } else {
-	require HOCWP_EXT_PATH . '/inc/back-compat/frontend.php';
+	require( HOCWP_EXT_PATH . '/inc/back-compat/frontend.php' );
 }

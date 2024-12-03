@@ -40,15 +40,15 @@ function hocwp_add_post_frontend_admin_notices() {
 add_action( 'admin_notices', 'hocwp_add_post_frontend_admin_notices' );
 
 if ( is_admin() ) {
-	require dirname( __FILE__ ) . '/admin-setting-page.php';
-	require dirname( __FILE__ ) . '/user-profile.php';
+	require( dirname( __FILE__ ) . '/admin-setting-page.php' );
+	require( dirname( __FILE__ ) . '/user-profile.php' );
 }
 
 function hocwp_add_post_frontend_wp_handle_upload_prefilter( $file ) {
 	if ( is_user_logged_in() && ! current_user_can( 'manage_options' ) ) {
 		global $hocwp_theme;
 
-		$options = isset( $hocwp_theme->options['media'] ) ? $hocwp_theme->options['media'] : '';
+		$options = $hocwp_theme->options['media'] ?? '';
 
 		if ( ! is_array( $options ) ) {
 			$options = array();

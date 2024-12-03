@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'HOCWP_EXT_ACCOUNT_PATH', dirname( __FILE__ ) );
 const HOCWP_EXT_ACCOUNT_URL = HOCWP_EXT_URL . '/ext/account';
 
-require HOCWP_EXT_ACCOUNT_PATH . '/functions.php';
+require( HOCWP_EXT_ACCOUNT_PATH . '/functions.php' );
 
 global $pagenow;
 
@@ -74,13 +74,13 @@ add_action( 'login_enqueue_scripts', 'hocwp_ext_account_global_scripts' );
 
 
 if ( is_admin() ) {
-	require HOCWP_EXT_ACCOUNT_PATH . '/admin.php';
+	require( HOCWP_EXT_ACCOUNT_PATH . '/admin.php' );
 } else {
-	require HOCWP_EXT_ACCOUNT_PATH . '/front-end.php';
+	require( HOCWP_EXT_ACCOUNT_PATH . '/front-end.php' );
 }
 
 if ( 'wp-login.php' == $pagenow ) {
-	require HOCWP_EXT_ACCOUNT_PATH . '/default-login-page.php';
+	require( HOCWP_EXT_ACCOUNT_PATH . '/default-login-page.php' );
 }
 
 function hocwp_ext_account_connect_social_buttons( $options = '', $args = array() ) {

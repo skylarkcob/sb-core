@@ -3,21 +3,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-require HOCWP_EXT_ACCOUNT_PATH . '/admin-setting-page.php';
+require( HOCWP_EXT_ACCOUNT_PATH . '/admin-setting-page.php' );
 
 function hocwp_ext_account_profile_fields( $user ) {
 	global $pagenow, $hocwp_theme;
-	$options = isset( $hocwp_theme->options['account'] ) ? $hocwp_theme->options['account'] : '';
+	$options = $hocwp_theme->options['account'] ?? '';
 
 	if ( ! is_array( $options ) ) {
 		$options = array();
 	}
 
 	if ( 'profile.php' == $pagenow ) {
-		$cs = isset( $options['connect_social'] ) ? $options['connect_social'] : '';
+		$cs = $options['connect_social'] ?? '';
 
 		if ( 1 == $cs ) {
-			require HOCWP_EXT_ACCOUNT_PATH . '/connected-accounts.php';
+			require( HOCWP_EXT_ACCOUNT_PATH . '/connected-accounts.php' );
 		}
 	}
 }

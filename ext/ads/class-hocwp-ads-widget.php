@@ -43,7 +43,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 				$random = true;
 			}
 
-			$ads = isset( $instance['ads'] ) ? $instance['ads'] : '';
+			$ads = $instance['ads'] ?? '';
 			$ads = get_post( $ads );
 
 			if ( $ads instanceof WP_Post && 'hocwp_ads' == $ads->post_type ) {
@@ -51,7 +51,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 			}
 
 			if ( ! function_exists( 'hocwp_ext_ads_display' ) ) {
-				require_once HTE_Ads()->folder_path . '/front-end.php';
+				require_once( HTE_Ads()->folder_path . '/front-end.php' );
 			}
 
 			ob_start();

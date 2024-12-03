@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'HOCWP_EXT_WC_PATH', dirname( __FILE__ ) );
 define( 'HOCWP_EXT_WC_URL', HOCWP_EXT_URL . '/ext/woocommerce' );
 
-require HOCWP_EXT_WC_PATH . '/functions.php';
+require( HOCWP_EXT_WC_PATH . '/functions.php' );
 
 function hocwp_theme_woocommerce_support() {
 
@@ -41,9 +41,9 @@ if ( version_compare( wc()->version, '3.3.3', '<' ) ) {
 }
 
 if ( is_admin() ) {
-	require HOCWP_EXT_WC_PATH . '/admin.php';
+	require( HOCWP_EXT_WC_PATH . '/admin.php' );
 } else {
-	require HOCWP_EXT_WC_PATH . '/front-end.php';
+	require( HOCWP_EXT_WC_PATH . '/front-end.php' );
 }
 
 function vnd_to_usd( $paypal_args ) {
