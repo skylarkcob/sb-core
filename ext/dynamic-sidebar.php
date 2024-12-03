@@ -20,4 +20,4 @@ if ( ! $load ) {
 	return;
 }
 
-require dirname( __FILE__ ) . '/dynamic-sidebar/dynamic-sidebar.php';
+require( dirname( __FILE__ ) . '/dynamic-sidebar/dynamic-sidebar.php' );

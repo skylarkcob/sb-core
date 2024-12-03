@@ -65,5 +65,5 @@ function hocwp_theme_jwplayer_player_redirect_control() {
 add_action( 'template_redirect', 'hocwp_theme_jwplayer_player_redirect_control' );
 
 if ( is_admin() ) {
-	require HOCWP_EXT_PATH . '/ext/jwplayer/admin-setting-page-jwplayer.php';
+	require( HOCWP_EXT_PATH . '/ext/jwplayer/admin-setting-page-jwplayer.php' );
 }

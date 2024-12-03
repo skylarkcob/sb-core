@@ -20,13 +20,13 @@ if ( ! $wp_rewrite->using_permalinks() ) {
 	return;
 }
 
-require HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-remove-base-slug.php';
-require HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-remove-base-slug-taxonomy.php';
-require HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-remove-base-slug-post-type.php';
-require HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-update-base-slug.php';
+require( HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-remove-base-slug.php' );
+require( HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-remove-base-slug-taxonomy.php' );
+require( HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-remove-base-slug-post-type.php' );
+require( HOCWP_EXT_PATH . '/ext/base-slug/class-hocwp-update-base-slug.php' );
 
 if ( is_admin() ) {
-	require HOCWP_EXT_PATH . '/ext/base-slug/admin.php';
+	require( HOCWP_EXT_PATH . '/ext/base-slug/admin.php' );
 }
 
 function hocwp_ext_change_base_slug() {

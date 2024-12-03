@@ -3,9 +3,9 @@ Contributors: skylarkcob, hocwp, sauhi
 Donate link: https://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 6.5
-Tested up to: 6.5
-Last Updated: 03/06/2024
-Stable tag: 2.6.1
+Tested up to: 6.7
+Last Updated: 29/11/2024
+Stable tag: 2.6.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,11 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 2. Change or remove base slug for custom post type and taxonomy.
 
 == Changelog ==
+= 2.6.2 =
+* 29/11/2024: Now plugin require PHP 8.0 or later.
+* 29/11/2024: Move load plugin textdomain to init action.
+* 29/11/2024: Now theme not require this plugin.
+
 = 2.3.2 =
 * 23/07/2024: Update page login in account extension.
 * 22/07/2024: Update account extension, add register form layout 2 same with the most popular shop site in Vietnam.

@@ -43,7 +43,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 			$this->folder_url = HOCWP_EXT_URL . '/ext';
 			parent::__construct( __FILE__ );
 
-			require $this->folder_path . '/ads.php';
+			require( $this->folder_path . '/ads.php' );
 			add_shortcode( 'hte_ads_display', array( $this, 'shortcode_display_ads' ) );
 
 			$detect_adsblock = $this->get_option( 'detect_adsblock' );
@@ -350,7 +350,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 					$expire = get_post_meta( $ads->ID, 'expire', true );
 
 					$class .= ' ' . $ads->post_name;
-					$div = new HOCWP_Theme_HTML_Tag( 'div' );
+					$div   = new HOCWP_Theme_HTML_Tag( 'div' );
 
 					$class = explode( ' ', $class );
 					$class = array_unique( $class );

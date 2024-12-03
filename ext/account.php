@@ -56,7 +56,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			add_shortcode( 'hte_account_lostpassword', array( $this, 'shortcode_lostpassword' ) );
 			add_shortcode( 'hte_account', array( $this, 'shortcode_account' ) );
 
-			require dirname( __FILE__ ) . '/account/account.php';
+			require( dirname( __FILE__ ) . '/account/account.php' );
 
 			if ( ! is_admin() ) {
 				add_filter( 'edit_profile_url', array( $this, 'edit_profile_url_filter' ) );
@@ -74,7 +74,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			$activity_logs = $this->get_option( 'activity_logs' );
 
 			if ( $activity_logs ) {
-				require_once $this->folder_path . '/activity-logs.php';
+				require_once( $this->folder_path . '/activity-logs.php' );
 			}
 		}
 
@@ -447,7 +447,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			}
 
 			if ( empty( $wp_hasher ) ) {
-				require_once ABSPATH . WPINC . '/class-phpass.php';
+				require_once( ABSPATH . WPINC . '/class-phpass.php' );
 				$wp_hasher = new PasswordHash( 8, true );
 			}
 

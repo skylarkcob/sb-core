@@ -20,7 +20,7 @@ if ( ! $load ) {
 	return;
 }
 
-require dirname( __FILE__ ) . '/add-post-frontend/add-post-frontend.php';
+require( dirname( __FILE__ ) . '/add-post-frontend/add-post-frontend.php' );
 
 if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 	class HOCWP_EXT_Add_Post_Frontend extends HOCWP_Theme_Extension {

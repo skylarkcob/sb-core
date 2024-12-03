@@ -61,7 +61,7 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme_action' ), 999 );
 
-			require_once dirname( __FILE__ ) . '/woocommerce/woocommerce.php';
+			require_once( dirname( __FILE__ ) . '/woocommerce/woocommerce.php' );
 
 			if ( ! is_admin() || HOCWP_THEME_DOING_AJAX ) {
 				$custom_comment = $this->get_option( 'custom_comment' );
@@ -175,7 +175,7 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 		public function add_to_cart_fragments_filter( $fragments ) {
 			ob_start();
 			$this->cart_link();
-			$fragments['a.cart-contents']    = ob_get_clean();
+			$fragments['a.cart-contents']        = ob_get_clean();
 			$fragments['span.custom-cart-count'] = '<span class="custom-cart-count">' . WC()->cart->get_cart_contents_count() . '</span>';
 
 			return $fragments;

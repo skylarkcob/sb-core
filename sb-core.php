@@ -4,11 +4,11 @@ Plugin Name: Extensions by HocWP Team
 Plugin URI: https://hocwp.net/project/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
-Version: 2.6.1
+Version: 2.6.2
 Requires at least: 6.5
-Tested up to: 6.5
-Last Updated: 03/06/2024
-Requires PHP: 7.4
+Tested up to: 6.7
+Last Updated: 29/11/2024
+Requires PHP: 8.0
 Author URI: https://hocwp.net/
 Donate link: https://hocwp.net/donate/
 Text Domain: sb-core
@@ -20,14 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'get_plugin_data' ) ) {
-	require_once ABSPATH . '/wp-admin/includes/plugin.php';
+	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 }
 
 $data = get_plugin_data( __FILE__ );
 
-$require_version = $data['RequiresPHP'] ?? '7.4';
+$require_version = $data['RequiresPHP'] ?? '8.0';
 
-const HOCWP_EXT_VERSION                    = '2.6.1';
+const HOCWP_EXT_VERSION                    = '2.6.2';
 
 const HOCWP_EXT_REQUIRE_THEME_CORE_VERSION = '7.0.6';
 
@@ -43,7 +43,7 @@ $php_version = phpversion();
 
 if ( version_compare( $php_version, $require_version, '<' ) ) {
 	if ( ! function_exists( 'deactivate_plugins' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 	}
 
 	deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -104,7 +104,7 @@ final class SB_Core {
 			}
 
 			add_action( 'admin_notices', array( $this, 'check_theme_core_notices' ) );
-			require $this->path . '/inc/back-compat.php';
+			require( $this->path . '/inc/back-compat.php' );
 
 			return false;
 		}
@@ -194,7 +194,7 @@ final class SB_Core {
 
 	public function load() {
 		if ( defined( 'HOCWP_THEME_DEVELOPING' ) && HOCWP_THEME_DEVELOPING ) {
-			require $this->path . '/inc/functions-development.php';
+			require( $this->path . '/inc/functions-development.php' );
 		}
 
 		add_filter( 'hocwp_theme_extension_paths', array( $this, 'extension_paths_filter' ) );
@@ -323,8 +323,8 @@ function sb_core_load_plugin_textdomain() {
 	unset( $domain, $path );
 }
 
-add_action( 'plugins_loaded', 'sb_core_load_plugin_textdomain', 999 );
+add_action( 'init', 'sb_core_load_plugin_textdomain', 999 );
 
 add_action( 'hocwp_theme_setup_after', function () {
-	require_once __DIR__ . '/updates.php';
+	require_once( __DIR__ . '/updates.php' );
 } );
