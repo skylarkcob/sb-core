@@ -85,31 +85,31 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 
 				switch ( $type ) {
 					case 'facebook':
-						$email = isset( $social_data['email'] ) ? $social_data['email'] : '';
+						$email = $social_data['email'] ?? '';
 
-						$user_data['display_name'] = isset( $social_data['name'] ) ? $social_data['name'] : '';
-						$user_data['first_name']   = isset( $social_data['first_name'] ) ? $social_data['first_name'] : '';
-						$user_data['last_name']    = isset( $social_data['last_name'] ) ? $social_data['last_name'] : '';
+						$user_data['display_name'] = $social_data['name'] ?? '';
+						$user_data['first_name']   = $social_data['first_name'] ?? '';
+						$user_data['last_name']    = $social_data['last_name'] ?? '';
 
 						break;
 					case 'google':
-						$emails = isset( $social_data['emailAddresses'] ) ? $social_data['emailAddresses'] : '';
+						$emails = $social_data['emailAddresses'] ?? '';
 						$emails = (array) $emails;
 
 						if ( HT()->array_has_value( $emails ) ) {
 							$emails = current( $emails );
-							$email  = isset( $emails['value'] ) ? $emails['value'] : '';
+							$email  = $emails['value'] ?? '';
 						}
 
-						$names = isset( $social_data['names'] ) ? $social_data['names'] : '';
+						$names = $social_data['names'] ?? '';
 						$names = (array) $names;
 
 						if ( HT()->array_has_value( $names ) ) {
 							$names = current( $names );
 
-							$user_data['display_name'] = isset( $names['displayName'] ) ? $names['displayName'] : '';
-							$user_data['first_name']   = isset( $names['givenName'] ) ? $names['givenName'] : '';
-							$user_data['last_name']    = isset( $names['familyName'] ) ? $names['familyName'] : '';
+							$user_data['display_name'] = $names['displayName'] ?? '';
+							$user_data['first_name']   = $names['givenName'] ?? '';
+							$user_data['last_name']    = $names['familyName'] ?? '';
 						}
 
 						break;
@@ -188,7 +188,7 @@ function hocwp_ext_account_admin_notices_action() {
 
 	$options = HT_Util()->get_theme_options( 'account' );
 
-	$account_kit = isset( $options['account_kit'] ) ? $options['account_kit'] : '';
+	$account_kit = $options['account_kit'] ?? '';
 
 	if ( 1 == $account_kit ) {
 		$msg = __( 'Account Kit will no longer be available for developers and partners.', 'sb-core' );
@@ -318,7 +318,7 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 		$body   = wp_remote_retrieve_body( $remote );
 		$result = json_decode( $body );
 
-		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+		$requested_redirect_to = $_REQUEST['redirect_to'] ?? '';
 
 		if ( is_object( $result ) && isset( $result->id ) ) {
 			if ( 'login' == $do_action ) {

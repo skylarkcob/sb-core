@@ -384,9 +384,10 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 					$key     = HT()->get_method_value( 'key', 'get' );
 
 					if ( ! empty( $key ) ) {
-						$data = get_userdata( $user_id );
+						$user = get_userdata( $user_id );
 
-						if ( $data instanceof WP_User ) {
+						// Need compare user key with the user_activation_key from database.
+						if ( $user instanceof WP_User && ! empty( $user->data->user_activation_key ) && $key == $user->data->user_activation_key ) {
 							wp_set_auth_cookie( $user_id, true );
 							wp_redirect( HT_Util()->get_current_url( true ) );
 							exit;

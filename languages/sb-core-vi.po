@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-07-23 17:17+0700\n"
-"PO-Revision-Date: 2024-07-23 17:17+0700\n"
+"POT-Creation-Date: 2024-12-06 23:42+0700\n"
+"PO-Revision-Date: 2024-12-06 23:42+0700\n"
 "Last-Translator: Cuong Lai Dinh <laidinhcuongvn@gmail.com>\n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -1847,7 +1847,7 @@ msgstr "Thêm slide hình ảnh"
 msgid "Slider"
 msgstr "Trình chiếu"
 
-#: ext/slider.php:297 sb-core.php:167
+#: ext/slider.php:297 sb-core.php:262
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -2407,7 +2407,7 @@ msgstr ""
 "lòng dành thời gian để <a href=\"%s\" target=\"_blank\">nâng cấp nó</a>. Nếu "
 "bạn không phải là tác giả của giao diện, bạn chỉ việc tắt thông báo này đi."
 
-#: sb-core.php:51
+#: sb-core.php:96
 #, php-format
 msgid ""
 "<strong>Error:</strong> You are using PHP version %s, please upgrade PHP "
@@ -2416,15 +2416,15 @@ msgstr ""
 "<strong>Lỗi:</strong> Bạn đang sử dụng phiên bản PHP %s, xin vui lòng nâng "
 "cấp lên phiên bản PHP %s hoặc cao hơn."
 
-#: sb-core.php:52
+#: sb-core.php:97
 msgid "Invalid PHP Version"
 msgstr "Phiên bản PHP không hợp lệ"
 
-#: sb-core.php:99
+#: sb-core.php:222
 msgid "Invalid Theme Core Version"
 msgstr "Phiên bản nhân giao diện không hợp lệ"
 
-#: sb-core.php:102
+#: sb-core.php:225
 #, php-format
 msgid ""
 "<strong>Error:</strong> Plugin <code>%s</code> requires theme core version "
@@ -2435,19 +2435,19 @@ msgstr ""
 "giao diện <code>%s</code> hoặc cao hơn. Xin vui lòng nâng cấp giao diện của "
 "bạn hoặc hạ phiên bản plugin này xuống."
 
-#: sb-core.php:167
+#: sb-core.php:262
 msgid "Go to setting page"
 msgstr "Đến trang cài đặt"
 
-#: sb-core.php:189
+#: sb-core.php:284
 msgid "Reinstall plugin"
 msgstr "Cài lại plugin"
 
-#: sb-core.php:189
+#: sb-core.php:284
 msgid "Reinstall"
 msgstr "Cài đặt lại"
 
-#: sb-core.php:272
+#: sb-core.php:367
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must be using theme "
@@ -2461,7 +2461,7 @@ msgstr ""
 "bản của plugin xuống phiên bản thấp hơn, nhưng chúng tôi không khuyến khích "
 "bạn làm việc này."
 
-#: sb-core.php:295
+#: sb-core.php:390
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme "
@@ -2474,7 +2474,7 @@ msgstr ""
 "<code>hocwp-theme</code>, bạn có thể thay đổi giao diện <a href=\"%s\" "
 "title=\"%s\">tại đây</a>."
 
-#: sb-core.php:296
+#: sb-core.php:391
 msgid "View list themes"
 msgstr "Xem danh sách giao diện"
 

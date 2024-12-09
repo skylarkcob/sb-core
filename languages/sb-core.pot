@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-07-23 17:17+0700\n"
+"POT-Creation-Date: 2024-12-06 23:41+0700\n"
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
@@ -1701,7 +1701,7 @@ msgstr ""
 msgid "Slider"
 msgstr ""
 
-#: ext/slider.php:297 sb-core.php:167
+#: ext/slider.php:297 sb-core.php:262
 msgid "Settings"
 msgstr ""
 
@@ -2233,52 +2233,52 @@ msgid ""
 "not theme author, just leave this message."
 msgstr ""
 
-#: sb-core.php:51
+#: sb-core.php:96
 #, php-format
 msgid "<strong>Error:</strong> You are using PHP version %s, please upgrade PHP version to at least %s."
 msgstr ""
 
-#: sb-core.php:52
+#: sb-core.php:97
 msgid "Invalid PHP Version"
 msgstr ""
 
-#: sb-core.php:99
+#: sb-core.php:222
 msgid "Invalid Theme Core Version"
 msgstr ""
 
-#: sb-core.php:102
+#: sb-core.php:225
 #, php-format
 msgid ""
 "<strong>Error:</strong> Plugin <code>%s</code> requires theme core version <code>%s</code> or higher. Please upgrade your theme or downgrade this "
 "plugin to older version."
 msgstr ""
 
-#: sb-core.php:167
+#: sb-core.php:262
 msgid "Go to setting page"
 msgstr ""
 
-#: sb-core.php:189
+#: sb-core.php:284
 msgid "Reinstall plugin"
 msgstr ""
 
-#: sb-core.php:189
+#: sb-core.php:284
 msgid "Reinstall"
 msgstr ""
 
-#: sb-core.php:272
+#: sb-core.php:367
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must be using theme core version at least %s. Please upgrade your theme or contact theme "
 "author for more details. You may also downgrade this plugin to older version, but it is not recommended."
 msgstr ""
 
-#: sb-core.php:295
+#: sb-core.php:390
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as "
 "<code>hocwp-theme</code>, you can change your theme <a href=\"%s\" title=\"%s\">here</a>."
 msgstr ""
 
-#: sb-core.php:296
+#: sb-core.php:391
 msgid "View list themes"
 msgstr ""

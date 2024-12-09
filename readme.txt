@@ -4,8 +4,8 @@ Donate link: https://hocwp.net/donate/
 Tags: hocwp, hocwp theme, extensions
 Requires at least: 6.5
 Tested up to: 6.7
-Last Updated: 29/11/2024
-Stable tag: 2.6.2
+Last Updated: 09/12/2024
+Stable tag: 2.7.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,12 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 2. Change or remove base slug for custom post type and taxonomy.
 
 == Changelog ==
+= 2.7.0 =
+* 06/12/2024: Fix Function _load_textdomain_just_in_time was called incorrectly. Translation loading for the
+domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early.
+Translations should be loaded at the init action or later.
+* 09/12/2024: Need check verify email key with saved key in database.
+
 = 2.6.2 =
 * 29/11/2024: Now plugin require PHP 8.0 or later.
 * 29/11/2024: Move load plugin textdomain to init action.
