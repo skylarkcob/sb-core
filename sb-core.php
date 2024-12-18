@@ -7,8 +7,8 @@ Author: HocWP Team
 Version: 2.7.0
 Requires at least: 6.5
 Tested up to: 6.7
-Last Updated: 09/12/2024
-Requires PHP: 8.0
+Last Updated: 16/12/2024
+Requires PHP: 8.1
 Author URI: https://hocwp.net/
 Donate link: https://hocwp.net/donate/
 Text Domain: sb-core
@@ -201,7 +201,7 @@ if ( ! class_exists( 'SB_Core' ) ) {
 				return false;
 			}
 
-			if ( version_compare( HOCWP_THEME_CORE_VERSION, $this->require_theme_core_version, '<' ) || ! function_exists( 'HT_extension' ) ) {
+			if ( version_compare( HOCWP_THEME_CORE_VERSION, $this->require_theme_core_version, '<' ) || ! function_exists( 'ht_extension' ) ) {
 				global $pagenow;
 
 				if ( ! is_admin() && 'wp-login.php' != $pagenow ) {
@@ -226,8 +226,8 @@ if ( ! class_exists( 'SB_Core' ) ) {
 		}
 
 		public function all_plugins_filter( $plugins ) {
-			if ( HT()->array_has_value( $plugins ) && isset( $plugins[ $this->plugin_basename ] ) ) {
-				if ( HT()->array_has_value( $plugins[ $this->plugin_basename ] ) ) {
+			if ( ht()->array_has_value( $plugins ) && isset( $plugins[ $this->plugin_basename ] ) ) {
+				if ( ht()->array_has_value( $plugins[ $this->plugin_basename ] ) ) {
 					$plugins[ $this->plugin_basename ]['Version'] = HOCWP_EXT_VERSION;
 				}
 			}
@@ -280,9 +280,9 @@ if ( ! class_exists( 'SB_Core' ) ) {
 
 			add_filter( 'hocwp_theme_extension_paths', array( $this, 'extension_paths_filter' ) );
 
-			if ( function_exists( 'HOCWP_Theme' ) ) {
+			if ( function_exists( 'hocwp_theme' ) ) {
 				add_action( 'after_setup_theme', function () {
-					HOCWP_Theme()->load_extensions( HOCWP_EXT_PATH );
+					hocwp_theme()->load_extensions( HOCWP_EXT_PATH );
 				}, 99 );
 			}
 
@@ -296,23 +296,23 @@ if ( ! class_exists( 'SB_Core' ) ) {
 		public function register_custom_post_types_and_taxonomies() {
 			$post_types = $this->get_custom_post_types_registration();
 
-			if ( HT()->array_has_value( $post_types ) ) {
+			if ( ht()->array_has_value( $post_types ) ) {
 				foreach ( $post_types as $post_type => $args ) {
-					$args = HT_Util()->post_type_args( $args );
+					$args = ht_util()->post_type_args( $args );
 					register_post_type( $post_type, $args );
 				}
 			}
 
 			$taxonomies = $this->get_custom_taxonomies_registration();
 
-			if ( HT()->array_has_value( $taxonomies ) ) {
+			if ( ht()->array_has_value( $taxonomies ) ) {
 				foreach ( $taxonomies as $taxonomy => $data ) {
 					$post_type = $data['post_type'] ?? '';
 
 					if ( ! empty( $post_type ) ) {
 						$args = $data['args'] ?? $data;
 
-						$args = HT_Util()->taxonomy_args( $args );
+						$args = ht_util()->taxonomy_args( $args );
 
 						register_taxonomy( $taxonomy, $post_type, $args );
 					}
@@ -346,7 +346,7 @@ if ( ! class_exists( 'SB_Core' ) ) {
 		}
 
 		public function check_theme_core_notices() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 
@@ -369,7 +369,7 @@ if ( ! class_exists( 'SB_Core' ) ) {
 		}
 
 		public function check_theme_notices() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 

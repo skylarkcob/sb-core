@@ -3,13 +3,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$pay_later = HT_Options()->get_tab( 'pay_later', '', 'vip' );
+$pay_later = ht_options()->get_tab( 'pay_later', '', 'vip' );
 $pay_later = absint( $pay_later );
 
 $price     = HTE_VIP_Management()->get_vip_post_price( '$' );
 $vip_price = $price;
 
-if ( HT()->is_positive_number( $price ) ) {
+if ( ht()->is_positive_number( $price ) ) {
 	$price = '$' . $price . '/day';
 }
 
@@ -33,13 +33,13 @@ if ( is_user_logged_in() ) {
 		$coin = floatval( $coin );
 		$cost = HTE_VIP_Management()->get_vip_post_price();
 
-		if ( HT()->is_positive_number( $cost ) && $coin < $cost ) {
+		if ( ht()->is_positive_number( $cost ) && $coin < $cost ) {
 			$can_post = 0;
 		}
 	}
 }
 
-$post_type = HT_Options()->get_tab( 'post_type', '', 'add_post_frontend' );
+$post_type = ht_options()->get_tab( 'post_type', '', 'add_post_frontend' );
 
 if ( is_array( $post_type ) && 1 == count( $post_type ) ) {
 	$post_type = current( $post_type );
@@ -181,7 +181,7 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
                 </div>
             </div>
 			<?php
-			$vip_post_description = HT_Options()->get_tab( 'vip_post_description', '', 'vip' );
+			$vip_post_description = ht_options()->get_tab( 'vip_post_description', '', 'vip' );
 
 			if ( ! empty( $vip_post_description ) ) {
 				?>
@@ -197,7 +197,7 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 				<?php
 			}
 
-			$normal_post_description = HT_Options()->get_tab( 'normal_post_description', '', 'vip' );
+			$normal_post_description = ht_options()->get_tab( 'normal_post_description', '', 'vip' );
 
 			if ( ! empty( $normal_post_description ) ) {
 				?>
@@ -333,7 +333,7 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 					'EmailContact'   => $email
 				);
 
-				if ( HT()->array_has_value( $fields ) ) {
+				if ( ht()->array_has_value( $fields ) ) {
 					foreach ( $fields as $key => $field ) {
 						$type     = isset( $field['type'] ) ? $field['type'] : 'text';
 						$required = isset( $field['required'] ) ? $field['required'] : false;
@@ -358,7 +358,7 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
                             <div class="col-md-9">
                                 <input class="form-control" data-error="" id="<?php echo $key; ?>"
                                        name="<?php echo $key; ?>" type="text"
-                                       value="<?php echo $value; ?>"<?php HT()->checked_selected_helper( $required, true, true, 'required' ); ?>>
+                                       value="<?php echo $value; ?>"<?php ht()->checked_selected_helper( $required, true, true, 'required' ); ?>>
 
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -376,7 +376,7 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 
             <div class="col-md-12 form-horizontal confirm-info">
 				<?php
-				$confirm_post_notice = HT_Options()->get_tab( 'confirm_post_notice', '', 'vip' );
+				$confirm_post_notice = ht_options()->get_tab( 'confirm_post_notice', '', 'vip' );
 
 				$cat_tax = get_taxonomy( 'category' );
 
@@ -463,10 +463,10 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 					<?php
 				}
 
-				if ( HT()->array_has_value( $fields ) ) {
+				if ( ht()->array_has_value( $fields ) ) {
 					$parts = array_chunk( $fields, 2, true );
 
-					if ( ! HT()->array_has_value( $parts ) ) {
+					if ( ! ht()->array_has_value( $parts ) ) {
 						$parts = array( $fields );
 					}
 
@@ -478,7 +478,7 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 
 					$count = 0;
 
-					if ( HT()->array_has_value( $parts ) ) {
+					if ( ht()->array_has_value( $parts ) ) {
 						foreach ( $parts as $fields ) {
 							$div_class = 'form-group';
 
@@ -566,10 +566,10 @@ $combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
             </div>
             <div class="col-md-12 text-center">
 				<?php
-				if ( HTE_Add_Post_Frontend()->use_captcha() && HT_CAPTCHA()->check_config_valid() ) {
+				if ( HTE_Add_Post_Frontend()->use_captcha() && ht_captcha()->check_config_valid() ) {
 					?>
                     <div class="captcha-box">
-						<?php HT_CAPTCHA()->display_html(); ?>
+						<?php ht_captcha()->display_html(); ?>
                     </div>
 					<?php
 				}

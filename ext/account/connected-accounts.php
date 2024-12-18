@@ -5,12 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $hocwp_theme;
 $user_id   = get_current_user_id();
-$social    = HT_Util()->get_theme_options( 'social' );
-$api_key   = HT()->get_value_in_array( $social, 'google_api_key' );
-$client_id = HT()->get_value_in_array( $social, 'google_client_id' );
+$social    = ht_util()->get_theme_options( 'social' );
+$api_key   = ht()->get_value_in_array( $social, 'google_api_key' );
+$client_id = ht()->get_value_in_array( $social, 'google_client_id' );
 $google    = ( ! empty( $api_key ) && ! empty( $client_id ) );
-$fb_appid  = HT()->get_value_in_array( $social, 'facebook_app_id' );
-$fb_jssdk  = HT()->get_value_in_array( $social, 'facebook_sdk_javascript' );
+$fb_appid  = ht()->get_value_in_array( $social, 'facebook_app_id' );
+$fb_jssdk  = ht()->get_value_in_array( $social, 'facebook_sdk_javascript' );
 $facebook  = ( ! empty( $fb_appid ) || ! empty( $fb_jssdk ) );
 
 if ( ! $facebook && ! $google ) {
@@ -96,8 +96,8 @@ if ( ! $facebook && ! $google ) {
 					$social = array();
 				}
 
-				$api_key   = HT()->get_value_in_array( $social, 'google_api_key' );
-				$client_id = HT()->get_value_in_array( $social, 'google_client_id' );
+				$api_key   = ht()->get_value_in_array( $social, 'google_api_key' );
+				$client_id = ht()->get_value_in_array( $social, 'google_client_id' );
 
 				if ( ! empty( $api_key ) && ! empty( $client_id ) ) {
 					$args = array(
@@ -105,7 +105,7 @@ if ( ! $facebook && ! $google ) {
 						'callback' => 'hocwp_theme_connect_google'
 					);
 
-					HT_Util()->load_google_javascript_sdk( $args );
+					ht_util()->load_google_javascript_sdk( $args );
 					?>
 					<script>
 						var apiKey = "<?php echo $api_key; ?>";

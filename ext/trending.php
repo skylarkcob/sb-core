@@ -54,7 +54,7 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 				'post_type' => $post_types
 			);
 
-			$args = HT_Util()->taxonomy_args( $args );
+			$args = ht_util()->taxonomy_args( $args );
 
 			$taxonomies['trending'] = $args;
 
@@ -68,8 +68,8 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 		public function admin_init_action() {
 			global $pagenow, $plugin_page;
 
-			if ( 'themes.php' == $pagenow && HOCWP_Theme()->get_prefix() == $plugin_page ) {
-				$tab = HT()->get_method_value( 'tab', 'GET' );
+			if ( 'themes.php' == $pagenow && hocwp_theme()->get_prefix() == $plugin_page ) {
+				$tab = ht()->get_method_value( 'tab', 'GET' );
 
 				if ( 'extension' == $tab ) {
 					$this->database_table_init();
@@ -85,9 +85,9 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 		}
 
 		public function pre_comment_approved_filter( $approved, $commentdata ) {
-			$post_id = HT()->get_value_in_array( $commentdata, 'comment_post_ID' );
+			$post_id = ht()->get_value_in_array( $commentdata, 'comment_post_ID' );
 
-			if ( HT()->is_positive_number( $post_id ) ) {
+			if ( ht()->is_positive_number( $post_id ) ) {
 				$this->insert( array( 'post_id' => $post_id, 'action' => 'comment' ) );
 			}
 
@@ -107,11 +107,11 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 		        PRIMARY KEY (ID),
 		        KEY post_id (post_id)";
 
-			HT_Util()->create_database_table( $table_name, $sql );
+			ht_util()->create_database_table( $table_name, $sql );
 		}
 
 		public function insert_simple( $post_id = null, $action = 'view' ) {
-			if ( null == $post_id || ! HT()->is_positive_number( $post_id ) ) {
+			if ( null == $post_id || ! ht()->is_positive_number( $post_id ) ) {
 				$post_id = get_the_ID();
 			}
 
@@ -123,15 +123,15 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 				$args = array( 'post_id' => $args );
 			}
 
-			$post_id = HT()->get_value_in_array( $args, 'post_id' );
+			$post_id = ht()->get_value_in_array( $args, 'post_id' );
 
-			if ( HT()->is_positive_number( $post_id ) ) {
+			if ( ht()->is_positive_number( $post_id ) ) {
 				global $wpdb;
 
 				$datetime = current_time( 'mysql' );
 
 				$post   = get_post( $post_id );
-				$action = HT()->get_value_in_array( $args, 'action', 'view' );
+				$action = ht()->get_value_in_array( $args, 'action', 'view' );
 
 				if ( empty( $action ) ) {
 					$action = 'view';
@@ -139,11 +139,11 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 
 				$table_name = $wpdb->prefix . $this->table_name;
 
-				if ( ! HT_util()->is_database_table_exists( $table_name ) ) {
+				if ( ! ht_util()->is_database_table_exists( $table_name ) ) {
 					return;
 				}
 
-				$trending_day = HT()->get_value_in_array( $args, 'trending_day', 7 );
+				$trending_day = ht()->get_value_in_array( $args, 'trending_day', 7 );
 
 				$trending_day = absint( apply_filters( 'hocwp_theme_extension_trending_interval', $trending_day ) );
 
@@ -195,7 +195,7 @@ if ( ! class_exists( 'HOCWP_EXT_Trending' ) ) {
 
 			$post_ids = array();
 
-			if ( HT()->array_has_value( $trends ) ) {
+			if ( ht()->array_has_value( $trends ) ) {
 				foreach ( $trends as $trend ) {
 					$post_ids[] = $trend->post_id;
 				}
@@ -212,10 +212,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Trending()->get_instance();
+$extension = hte_trending()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Trending() {
+function hte_trending() {
 	return HOCWP_EXT_Trending::get_instance();
 }

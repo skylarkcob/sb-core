@@ -50,7 +50,7 @@ if ( ! class_exists( 'HOCWP_EXT_RSS' ) ) {
 					}
 				}
 
-				if ( HT()->array_has_value( $post_types ) ) {
+				if ( ht()->array_has_value( $post_types ) ) {
 					$query_vars['post_type'] = $post_types;
 				}
 			}
@@ -59,7 +59,7 @@ if ( ! class_exists( 'HOCWP_EXT_RSS' ) ) {
 		}
 
 		public function is_post_type_feed_enabled( $post_type ) {
-			$options = HOCWP_Theme()->object->options['reading'];
+			$options = hocwp_theme()->object->options['reading'];
 			$id      = 'rss_type_' . $post_type;
 			$value   = isset( $options[ $id ] ) ? absint( $options[ $id ] ) : 0;
 
@@ -91,7 +91,7 @@ if ( ! class_exists( 'HOCWP_EXT_RSS' ) ) {
 		}
 
 		public function setting_reading_fields( $fields ) {
-			$options = HOCWP_Theme()->object->options['reading'];
+			$options = hocwp_theme()->object->options['reading'];
 
 			$post_types = $this->get_post_types();
 
@@ -129,10 +129,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_RSS()->get_instance();
+$extension = hte_rss()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_RSS() {
+function hte_rss() {
 	return HOCWP_EXT_RSS::get_instance();
 }

@@ -130,7 +130,7 @@ $permalink = get_the_permalink();
 							restore_previous_locale();
 						}
 
-						if ( $message && ! HT_Util()->html_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
+						if ( $message && ! ht_util()->html_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
 							$errors->add( 'email_not_sent', __( 'The email could not be sent.', 'sb-core' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function.', 'sb-core' ) );
 
 							return $errors;

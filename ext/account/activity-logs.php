@@ -25,7 +25,7 @@ class HTE_User_Activity_Logs {
 		add_action( 'init', array( $this, 'init_action' ) );
 
 		if ( is_admin() ) {
-			$cur_page = HT_Admin()->get_plugin_page();
+			$cur_page = ht_admin()->get_plugin_page();
 
 			if ( 'hocwp_theme' == $cur_page ) {
 				$tab = $_GET['tab'] ?? '';
@@ -125,7 +125,7 @@ class HTE_User_Activity_Logs {
 		        PRIMARY KEY (ID),
 		        KEY user_id (user_id)";
 
-		HT_Util()->create_database_table( $table_name, $sql );
+		ht_util()->create_database_table( $table_name, $sql );
 	}
 
 	public function insert( $args = array() ) {
@@ -133,21 +133,21 @@ class HTE_User_Activity_Logs {
 			$args = array( 'user_id' => $args );
 		}
 
-		$id = HT()->get_value_in_array( $args, 'user_id' );
+		$id = ht()->get_value_in_array( $args, 'user_id' );
 
-		if ( HT()->is_positive_number( $id ) ) {
+		if ( ht()->is_positive_number( $id ) ) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . $this->table_name;
 
-			if ( ! HT_util()->is_database_table_exists( $table_name ) ) {
+			if ( ! ht_util()->is_database_table_exists( $table_name ) ) {
 				return;
 			}
 
 			$datetime = current_time( 'mysql' );
-			$ip       = HT()->get_IP();
-			$agent    = HT()->get_user_agent();
-			$url      = HT_Util()->get_current_url( true );
+			$ip       = ht()->get_IP();
+			$agent    = ht()->get_user_agent();
+			$url      = ht_util()->get_current_url( true );
 
 			$sql = "INSERT INTO $table_name (user_id, date, IP, agent, url)";
 
@@ -210,11 +210,11 @@ class HTE_User_Activity_Logs {
 	}
 }
 
-function HTE_User_Activity_Logs() {
+function hte_user_activity_logs() {
 	return HTE_User_Activity_Logs::instance();
 }
 
-HTE_User_Activity_Logs();
+hte_user_activity_logs();
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	load_template( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );

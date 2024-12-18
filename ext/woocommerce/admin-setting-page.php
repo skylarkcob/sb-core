@@ -15,7 +15,7 @@ function hocwp_theme_settings_page_woocommerce_tab( $tabs ) {
 add_filter( 'hocwp_theme_settings_page_tabs', 'hocwp_theme_settings_page_woocommerce_tab' );
 
 function hocwp_theme_settings_page_woocommerce_field() {
-	$options = HT_Util()->get_theme_options( 'woocommerce' );
+	$options = ht_util()->get_theme_options( 'woocommerce' );
 
 	$fields = array();
 
@@ -50,7 +50,7 @@ function hocwp_theme_settings_page_woocommerce_field() {
 	$field    = hocwp_theme_create_setting_field( 'usd_vnd_rate', __( 'USD to Vietnam Dong Rate', 'sb-core' ), 'input', $args, 'numeric', 'woocommerce' );
 	$fields[] = $field;
 
-	$comment = HT_Options()->get_tab( 'comment_system', '', 'discussion' );
+	$comment = ht_options()->get_tab( 'comment_system', '', 'discussion' );
 
 	if ( 'default' != $comment ) {
 		$args = array(

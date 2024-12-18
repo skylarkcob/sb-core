@@ -29,7 +29,7 @@ class HOCWP_Theme_Streaming_Streamango extends HOCWP_Theme_Streaming {
 
 			return wp_json_encode( $rs );
 		}
-		$filesystem = HT_Util()->filesystem();
+		$filesystem = ht_util()->filesystem();
 		$url        = 'https://api.fruithosted.net/file/dlticket?file=' . $id . '&login=' . $this->username . '&key=' . $this->password;
 		$args       = array(
 			'headers' => array(

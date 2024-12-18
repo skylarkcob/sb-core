@@ -27,10 +27,10 @@ class HOCWP_Update_Base_Slug {
 				}
 			}
 
-			if ( HT()->array_has_value( $this->base_slugs ) ) {
+			if ( ht()->array_has_value( $this->base_slugs ) ) {
 				$custom = hocwp_theme_get_custom_taxonomies();
 
-				if ( HT()->array_has_value( $custom ) ) {
+				if ( ht()->array_has_value( $custom ) ) {
 					$this->taxonomies = array_merge( $this->taxonomies, $custom );
 				}
 
@@ -46,7 +46,7 @@ class HOCWP_Update_Base_Slug {
 
 				$pts = hocwp_theme_get_custom_post_types();
 
-				if ( HT()->array_has_value( $pts ) ) {
+				if ( ht()->array_has_value( $pts ) ) {
 					foreach ( $pts as $pt ) {
 						add_filter( $pt . '_rewrite_rules', array( $this, 'update_rewrite_rules' ), $this->priority );
 						add_filter( 'post_type_link', array( $this, 'update_permalink' ), $this->priority );
@@ -60,7 +60,7 @@ class HOCWP_Update_Base_Slug {
 
 	public function wp_action() {
 		if ( ! is_single() && ( is_singular() || is_tax() || is_category() || is_tag() ) ) {
-			$link   = HT_Util()->get_current_url();
+			$link   = ht_util()->get_current_url();
 			$change = false;
 
 			foreach ( $this->base_slugs as $slug ) {

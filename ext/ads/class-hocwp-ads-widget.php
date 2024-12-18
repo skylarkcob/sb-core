@@ -86,7 +86,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 				'text' => __( 'Position:', 'sb-core' )
 			);
 
-			HT_HTML_Field()->label( $args );
+			ht_html_field()->label( $args );
 
 			$args = array(
 				'id'      => $this->get_field_id( 'position' ),
@@ -96,7 +96,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 				'value'   => $position
 			);
 
-			HT_HTML_Field()->select( $args );
+			ht_html_field()->select( $args );
 			?>
         </p>
         <p>
@@ -106,7 +106,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 				'text' => __( 'Ads:', 'sb-core' )
 			);
 
-			HT_HTML_Field()->label( $args );
+			ht_html_field()->label( $args );
 
 			$args = array(
 				'id'         => $this->get_field_id( 'ads' ),
@@ -117,7 +117,7 @@ class HOCWP_Ads_Widget extends WP_Widget {
 				'option_all' => __( '-- Choose ads --', 'sb-core' )
 			);
 
-			HT_HTML_Field()->select_post( $args );
+			ht_html_field()->select_post( $args );
 			?>
         </p>
         <p>

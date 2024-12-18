@@ -15,7 +15,7 @@ function hocwp_theme_settings_page_account_tab( $tabs ) {
 add_filter( 'hocwp_theme_settings_page_tabs', 'hocwp_theme_settings_page_account_tab' );
 
 function hocwp_theme_settings_page_account_field() {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$fields = array();
 
@@ -151,7 +151,7 @@ function hocwp_theme_settings_page_account_settings_section( $sections ) {
 
 	$sections[] = $section;
 
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 	$cs      = isset( $options['custom_style'] ) ? $options['custom_style'] : '';
 
 	if ( 1 == $cs ) {
@@ -194,10 +194,10 @@ function hocwp_theme_sanitize_option_account( $input ) {
 add_filter( 'hocwp_theme_sanitize_option_account', 'hocwp_theme_sanitize_option_account' );
 
 function hocwp_theme_admin_setting_page_account_scripts() {
-	if ( function_exists( 'HT_Enqueue' ) ) {
-		HT_Enqueue()->media_upload();
+	if ( function_exists( 'ht_enqueue' ) ) {
+		ht_enqueue()->media_upload();
 	} else {
-		HT_Util()->enqueue_media();
+		ht_util()->enqueue_media();
 	}
 }
 

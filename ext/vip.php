@@ -195,7 +195,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 		}
 
 		public function is_vip_post( $post_id = null ) {
-			if ( ! HT()->is_positive_number( $post_id ) ) {
+			if ( ! ht()->is_positive_number( $post_id ) ) {
 				$post_id = get_the_ID();
 			}
 
@@ -372,7 +372,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 							$ppp = $query->get( 'posts_per_page' );
 
 							if ( ! is_numeric( $ppp ) ) {
-								$ppp = HT_Util()->get_posts_per_page( is_home() );
+								$ppp = ht_util()->get_posts_per_page( is_home() );
 							}
 
 							$posts = array();
@@ -399,7 +399,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 
 								$query_vars['meta_query'] = $meta_query;
 
-								if ( HT()->array_has_value( $posts ) ) {
+								if ( ht()->array_has_value( $posts ) ) {
 									$query_vars['post__not_in'] = $posts;
 								}
 
@@ -424,7 +424,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 
 								$query_vars['meta_query'] = $meta_query;
 
-								if ( HT()->array_has_value( $posts ) ) {
+								if ( ht()->array_has_value( $posts ) ) {
 									$query_vars['post__not_in'] = $posts;
 								}
 
@@ -438,7 +438,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 								}
 							}
 
-							if ( HT()->array_has_value( $posts ) ) {
+							if ( ht()->array_has_value( $posts ) ) {
 								$query->set( 'post__in', $posts );
 								$query->set( 'orderby', 'post__in' );
 							}
@@ -457,7 +457,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 		}
 
 		public function can_upload_gallery() {
-			return (bool) HT_Options()->get_tab( 'upload_gallery', '', 'vip' );
+			return (bool) ht_options()->get_tab( 'upload_gallery', '', 'vip' );
 		}
 
 		public function post_added_meta( $post_id ) {
@@ -468,7 +468,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 			);
 
 			$start_date = isset( $_POST['StartDate'] ) ? $_POST['StartDate'] : '';
-			$start_date = HT()->string_to_datetime( $start_date, 'Y-m-d H:i:s' );
+			$start_date = ht()->string_to_datetime( $start_date, 'Y-m-d H:i:s' );
 
 			if ( strtotime( $start_date ) > $now ) {
 				$data['post_date']     = $start_date;
@@ -478,7 +478,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 			}
 
 			$end_date = isset( $_POST['EndDate'] ) ? $_POST['EndDate'] : '';
-			$end_date = HT()->string_to_datetime( $end_date, 'Y-m-d' );
+			$end_date = ht()->string_to_datetime( $end_date, 'Y-m-d' );
 
 			update_post_meta( $post_id, 'vip_expired', strtotime( $end_date ) );
 
@@ -491,24 +491,24 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 			if ( $this->can_upload_gallery() ) {
 				$gallery = isset( $_FILES['post_gallery'] ) ? $_FILES['post_gallery'] : '';
 
-				if ( HT()->array_has_value( $gallery ) ) {
+				if ( ht()->array_has_value( $gallery ) ) {
 					$name     = isset( $gallery['name'] ) ? $gallery['name'] : '';
 					$tmp_name = isset( $gallery['tmp_name'] ) ? $gallery['tmp_name'] : '';
 
 					$ids = '';
 
-					if ( HT()->array_has_value( $name ) ) {
+					if ( ht()->array_has_value( $name ) ) {
 						foreach ( (array) $name as $key => $in ) {
-							$upload = HT_Util()->upload_file( $in, @file_get_contents( $tmp_name[ $key ] ) );
+							$upload = ht_util()->upload_file( $in, @file_get_contents( $tmp_name[ $key ] ) );
 
-							if ( HT()->array_has_value( $upload ) && isset( $upload['id'] ) && HT()->is_positive_number( $upload['id'] ) ) {
+							if ( ht()->array_has_value( $upload ) && isset( $upload['id'] ) && ht()->is_positive_number( $upload['id'] ) ) {
 								$ids .= $upload['id'] . ',';
 							}
 						}
 					} else {
-						$upload = HT_Util()->upload_file( $name, @file_get_contents( $tmp_name ) );
+						$upload = ht_util()->upload_file( $name, @file_get_contents( $tmp_name ) );
 
-						if ( HT()->array_has_value( $upload ) && isset( $upload['id'] ) && HT()->is_positive_number( $upload['id'] ) ) {
+						if ( ht()->array_has_value( $upload ) && isset( $upload['id'] ) && ht()->is_positive_number( $upload['id'] ) ) {
 							$ids .= $upload['id'] . ',';
 						}
 					}
@@ -522,7 +522,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 				}
 			}
 
-			$pay_later = HT_Options()->get_tab( 'pay_later', '', 'vip' );
+			$pay_later = ht_options()->get_tab( 'pay_later', '', 'vip' );
 			$pay_later = absint( $pay_later );
 
 			$total_cost = isset( $_POST['total_cost'] ) ? $_POST['total_cost'] : '';
@@ -536,8 +536,8 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 
 				$cost = HTE_VIP_Management()->get_vip_post_price();
 
-				if ( HT()->is_positive_number( $cost ) && $coin >= $cost ) {
-					$coin_rate = HT_Options()->get_tab( 'coin_rate', '', 'vip' );
+				if ( ht()->is_positive_number( $cost ) && $coin >= $cost ) {
+					$coin_rate = ht_options()->get_tab( 'coin_rate', '', 'vip' );
 					$coin_rate = floatval( $coin_rate );
 
 					$cost = $total_cost * $coin_rate;
@@ -569,7 +569,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 		}
 
 		public function save_post_action( $post_id ) {
-			if ( ! HT_Util()->can_save_post( $post_id, 'vip-content-information', 'vip-content-information_nonce' ) ) {
+			if ( ! ht_util()->can_save_post( $post_id, 'vip-content-information', 'vip-content-information_nonce' ) ) {
 				return;
 			}
 
@@ -581,7 +581,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 				if ( ! empty( $vip_expired ) && ( ! isset( $_POST['add_vip_day'] ) || empty( $_POST['add_vip_day'] ) ) ) {
 					$now = current_time( 'timestamp' );
 
-					$vip_expired = HT()->string_to_datetime( $vip_expired );
+					$vip_expired = ht()->string_to_datetime( $vip_expired );
 					$vip_expired = strtotime( $vip_expired );
 
 					if ( $vip_expired > $now && 1 == $auto_vip_post ) {
@@ -613,7 +613,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 						'echo'    => false
 					);
 
-					$msg = HT_Util()->admin_notice( $params );
+					$msg = ht_util()->admin_notice( $params );
 					set_transient( 'hocwp_add_vip_post_day_message', $msg );
 				} else {
 					$now = current_time( 'timestamp' );
@@ -642,7 +642,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 							'echo'    => false
 						);
 
-						$msg = HT_Util()->admin_notice( $params );
+						$msg = ht_util()->admin_notice( $params );
 						set_transient( 'hocwp_add_vip_post_day_message', $msg );
 					}
 				}
@@ -658,7 +658,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 				if ( is_user_logged_in() ) {
 					$user = wp_get_current_user();
 
-					$pay_later = HT_Options()->get_tab( 'pay_later', '', 'vip' );
+					$pay_later = ht_options()->get_tab( 'pay_later', '', 'vip' );
 					$pay_later = absint( $pay_later );
 
 					if ( 1 != $pay_later ) {
@@ -666,7 +666,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 						$coin = floatval( $coin );
 						$cost = HTE_VIP_Management()->get_vip_post_price();
 
-						if ( HT()->is_positive_number( $cost ) && $coin < $cost ) {
+						if ( ht()->is_positive_number( $cost ) && $coin < $cost ) {
 							$result = new WP_Error( 'not_enough_coin', __( 'You do not have enough coin to post VIP content.', 'sb-core' ) );
 						}
 					}
@@ -677,12 +677,12 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 		}
 
 		public function get_vip_post_price( $return = 'coin' ) {
-			$post_price = HT_Options()->get_tab( 'post_price', '', 'vip' );
+			$post_price = ht_options()->get_tab( 'post_price', '', 'vip' );
 
 			$post_price = floatval( $post_price );
 
 			if ( 'coin' !== $return ) {
-				$coin_rate = HT_Options()->get_tab( 'coin_rate', '', 'vip' );
+				$coin_rate = ht_options()->get_tab( 'coin_rate', '', 'vip' );
 
 				if ( is_numeric( $coin_rate ) ) {
 					$post_price /= $coin_rate;
@@ -696,9 +696,9 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 
 		public function wp_enqueue_scripts_action() {
 			if ( function_exists( 'HTE_Add_Post_Frontend' ) ) {
-				$page = HT_Util()->get_theme_option_page( 'new_post_page', 'add_post_frontend' );
+				$page = ht_util()->get_theme_option_page( 'new_post_page', 'add_post_frontend' );
 
-				if ( HT_Options()->check_page_valid( $page ) && is_page( $page->ID ) ) {
+				if ( ht_options()->check_page_valid( $page ) && is_page( $page->ID ) ) {
 					wp_enqueue_style( 'hte-vip-form-add-post-style', SB_Core()->url . '/css/vip-form-add-post.css' );
 
 					wp_enqueue_script( 'hte-vip-form-add-post', SB_Core()->url . '/js/vip-form-add-post.js', array(
@@ -706,7 +706,7 @@ if ( ! class_exists( 'HOCWP_EXT_VIP_Management' ) ) {
 						'hocwp-theme'
 					), false, true );
 
-					HT_Enqueue()->datepicker();
+					ht_enqueue()->datepicker();
 
 					$l10n = array(
 						'l10n' => array(
@@ -803,10 +803,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_VIP_Management()->get_instance();
+$extension = hte_vip_management()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_VIP_Management() {
+function hte_vip_management() {
 	return HOCWP_EXT_VIP_Management::get_instance();
 }

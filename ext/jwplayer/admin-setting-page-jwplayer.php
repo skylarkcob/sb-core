@@ -78,7 +78,7 @@ function hocwp_theme_settings_page_jwplayer_field() {
 		$files = scandir( $skins_dir );
 		unset( $files[0], $files[1] );
 
-		if ( HT()->array_has_value( $files ) ) {
+		if ( ht()->array_has_value( $files ) ) {
 			$opts = array(
 				__( '-- Choose skin --', 'sb-core' )
 			);

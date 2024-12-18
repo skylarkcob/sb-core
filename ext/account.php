@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'hocwp_theme_load_extension_account' ) ) {
 	function hocwp_theme_load_extension_account() {
-		return apply_filters( 'hocwp_theme_load_extension_account', HT_extension()->is_active( __FILE__ ) );
+		return apply_filters( 'hocwp_theme_load_extension_account', ht_extension()->is_active( __FILE__ ) );
 	}
 }
 
@@ -89,13 +89,13 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function registration_errors_filter( $errors ) {
-			$options = HT_Util()->get_theme_options( 'account' );
+			$options = ht_util()->get_theme_options( 'account' );
 			$captcha = $options['captcha'] ?? '';
 
-			if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
-				$response = HT_CAPTCHA()->check_valid();
+			if ( 1 == $captcha && ht_captcha()->check_config_valid() ) {
+				$response = ht_captcha()->check_valid();
 
-				$errors = HT_CAPTCHA()->control_captcha_errors( $response, $errors );
+				$errors = ht_captcha()->control_captcha_errors( $response, $errors );
 			}
 
 			return $errors;
@@ -124,7 +124,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function get_user_facebook_account_kit( $user_id = '' ) {
-			if ( ! HT()->is_positive_number( $user_id ) && $this->user instanceof WP_User ) {
+			if ( ! ht()->is_positive_number( $user_id ) && $this->user instanceof WP_User ) {
 				$user_id = $this->user->ID;
 			}
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function update_user_facebook_account_kit( $value, $user_id = '' ) {
-			if ( ! HT()->is_positive_number( $user_id ) && $this->user instanceof WP_User ) {
+			if ( ! ht()->is_positive_number( $user_id ) && $this->user instanceof WP_User ) {
 				$user_id = $this->user->ID;
 			}
 
@@ -175,7 +175,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 			if ( ! $this->is_register_or_login_page() && 'wp-login.php' != $pagenow ) {
 				if ( ! wp_doing_ajax() && ! wp_doing_cron() ) {
-					$curl     = HT_Util()->get_current_url( true );
+					$curl     = ht_util()->get_current_url( true );
 					$basename = basename( $curl );
 
 					$info = pathinfo( $basename );
@@ -211,11 +211,11 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 				if ( 'logout' != $action && 'rp' != $action || ( 'rp' == $action && ( empty( $_GET['key'] ) ) ) ) {
 					if ( 'lostpassword' == $action ) {
-						$page = HT_Util()->get_theme_option_page( 'lostpassword_page', 'account' );
+						$page = ht_util()->get_theme_option_page( 'lostpassword_page', 'account' );
 					} elseif ( 'register' == $action ) {
-						$page = HT_Util()->get_theme_option_page( 'register_page', 'account' );
+						$page = ht_util()->get_theme_option_page( 'register_page', 'account' );
 					} else {
-						$page = HT_Util()->get_theme_option_page( 'login_page', 'account' );
+						$page = ht_util()->get_theme_option_page( 'login_page', 'account' );
 					}
 
 					if ( HTE_Account()->check_option_page_valid( $page ) && 'rp' != $action && 'resetpass' != $action && 'logout' != $action ) {
@@ -270,7 +270,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 			if ( is_user_logged_in() ) {
 				// Check email address vierified
-				$must_verify_email = HT_Options()->get_tab( 'must_verify_email', '', 'account' );
+				$must_verify_email = ht_options()->get_tab( 'must_verify_email', '', 'account' );
 
 				$red = true;
 
@@ -284,13 +284,13 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 								$red = false;
 
 								if ( 'verify_email' == $action ) {
-									$user_id = HT()->get_method_value( 'user_id', 'get' );
-									$key     = HT()->get_method_value( 'key', 'get' );
+									$user_id = ht()->get_method_value( 'user_id', 'get' );
+									$key     = ht()->get_method_value( 'key', 'get' );
 
 									$check = $this->check_user_activation_key( $key, $user_id );
 
 									// Check activation code valid
-									if ( ! is_wp_error( $check ) && HT()->is_positive_number( $check ) && $check == $user_id ) {
+									if ( ! is_wp_error( $check ) && ht()->is_positive_number( $check ) && $check == $user_id ) {
 										update_user_meta( $user_id, 'is_activated', 1 );
 										$wpdb->update( $wpdb->users, array( 'user_activation_key' => '' ), array( 'ID' => $user_id ) );
 										delete_user_meta( $user_id, 'activation_code_sent_count' );
@@ -324,7 +324,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 										}
 
 										$key = wp_generate_password( 20, false );
-										HT_Util()->get_user_activation_key( $key, $this->user );
+										ht_util()->get_user_activation_key( $key, $this->user );
 										$sent = hocwp_theme_verify_user_notification( $key, $this->user );
 
 										if ( $sent ) {
@@ -339,7 +339,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 									}
 
 									if ( 'profile.php' != $pagenow ) {
-										$cur_url = HT_Util()->get_current_url();
+										$cur_url = ht_util()->get_current_url();
 										$pro_url = get_edit_profile_url();
 
 										if ( $cur_url != $pro_url ) {
@@ -356,7 +356,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				}
 
 				// Check phone number verified
-				$must_verify_phone = HT_Options()->get_tab( 'must_verify_phone', '', 'account' );
+				$must_verify_phone = ht_options()->get_tab( 'must_verify_phone', '', 'account' );
 
 				if ( $red && 1 == $must_verify_phone && ! HOCWP_THEME_DOING_AJAX && ! HOCWP_THEME_DOING_CRON ) {
 					if ( $this->user instanceof WP_User && ! in_array( 'administrator', $this->user->roles ) ) {
@@ -365,7 +365,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 						if ( ! is_array( $fac ) || ! isset( $fac['phone'] ) || ! HTE_Account()->compare_phone_numbers( $phone, $fac['phone'] ) ) {
 							if ( 'profile.php' != $pagenow ) {
-								$cur_url = HT_Util()->get_current_url();
+								$cur_url = ht_util()->get_current_url();
 								$pro_url = get_edit_profile_url();
 
 								if ( $cur_url != $pro_url ) {
@@ -380,8 +380,8 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				}
 			} else {
 				if ( 'verify_email' == $action ) {
-					$user_id = HT()->get_method_value( 'user_id', 'get' );
-					$key     = HT()->get_method_value( 'key', 'get' );
+					$user_id = ht()->get_method_value( 'user_id', 'get' );
+					$key     = ht()->get_method_value( 'key', 'get' );
 
 					if ( ! empty( $key ) ) {
 						$user = get_userdata( $user_id );
@@ -389,7 +389,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 						// Need compare user key with the user_activation_key from database.
 						if ( $user instanceof WP_User && ! empty( $user->data->user_activation_key ) && $key == $user->data->user_activation_key ) {
 							wp_set_auth_cookie( $user_id, true );
-							wp_redirect( HT_Util()->get_current_url( true ) );
+							wp_redirect( ht_util()->get_current_url( true ) );
 							exit;
 						}
 					}
@@ -398,7 +398,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function admin_notice_verify_email_address() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 
@@ -407,11 +407,11 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				'type'    => 'warning'
 			);
 
-			HT_Util()->admin_notice( $args );
+			ht_util()->admin_notice( $args );
 		}
 
 		public function admin_notice_verify_phone_number() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 
@@ -420,7 +420,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				'type'    => 'warning'
 			);
 
-			HT_Util()->admin_notice( $args );
+			ht_util()->admin_notice( $args );
 		}
 
 		public function check_user_activation_key( $key, $user_id, $activation_key = '' ) {
@@ -432,7 +432,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 			}
 
-			if ( ! HT()->is_positive_number( $user_id ) ) {
+			if ( ! ht()->is_positive_number( $user_id ) ) {
 				return new WP_Error( 'invalid_key', __( 'Invalid key.', 'sb-core' ) );
 			}
 
@@ -534,8 +534,8 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function is_register_or_login_page() {
-			$page  = HT_Util()->get_theme_option_page( 'register_page', 'account' );
-			$login = HT_Util()->get_theme_option_page( 'login_page', 'account' );
+			$page  = ht_util()->get_theme_option_page( 'register_page', 'account' );
+			$login = ht_util()->get_theme_option_page( 'login_page', 'account' );
 
 			if ( HTE_Account()->check_option_page_valid( $page, true ) || HTE_Account()->check_option_page_valid( $login, true ) ) {
 				return true;
@@ -565,7 +565,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function connected_socials_enabled() {
-			$options = HT_Util()->get_theme_options( 'account' );
+			$options = ht_util()->get_theme_options( 'account' );
 
 			$cs = $options['connect_social'] ?? '';
 
@@ -573,7 +573,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function facebook_account_kit_enabled() {
-			$options = HT_Util()->get_theme_options( 'account' );
+			$options = ht_util()->get_theme_options( 'account' );
 
 			$value = $options['account_kit'] ?? '';
 
@@ -582,7 +582,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 
 		public function load_facebook_sdk() {
 			if ( $this->connected_socials_enabled() ) {
-				HT_Util()->load_facebook_javascript_sdk( array( 'load' => true ) );
+				ht_util()->load_facebook_javascript_sdk( array( 'load' => true ) );
 			}
 		}
 
@@ -597,7 +597,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		public function load_facebook_account_kit_script() {
 			if ( $this->facebook_account_kit_enabled() ) {
 				wp_enqueue_script( 'hocwp-theme' );
-				HT_Enqueue()->ajax_overlay();
+				ht_enqueue()->ajax_overlay();
 
 				wp_enqueue_script( 'hocwp-ext-facebook-account-kit' );
 			}
@@ -640,7 +640,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function edit_profile_url_filter( $url ) {
-			$page = HT_Util()->get_theme_option_page( 'profile_page', 'account' );
+			$page = ht_util()->get_theme_option_page( 'profile_page', 'account' );
 
 			if ( $this->check_option_page_valid( $page ) ) {
 				$url = get_permalink( $page );
@@ -659,7 +659,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		 */
 		public function shortcode_saved_posts( $atts = array(), $content = null ) {
 			$atts = shortcode_atts( array(
-				'posts_per_page' => HT_Util()->get_posts_per_page()
+				'posts_per_page' => ht_util()->get_posts_per_page()
 			), $atts );
 
 			if ( ! is_user_logged_in() ) {
@@ -685,7 +685,7 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 			$args = array(
 				'posts_per_page' => $ppp,
 				'post__in'       => $posts,
-				'paged'          => HT_Frontend()->get_paged()
+				'paged'          => ht_frontend()->get_paged()
 			);
 
 			$query = new WP_Query( $args );
@@ -721,25 +721,25 @@ if ( ! class_exists( 'HOCWP_EXT_Account' ) ) {
 		}
 
 		public function get_user_meta_posts( $meta_key, $user_id = null ) {
-			$user_id = HT_Util()->return_user( $user_id, 'id' );
+			$user_id = ht_util()->return_user( $user_id, 'id' );
 
 			return get_user_meta( $user_id, $meta_key, true );
 		}
 
 		public function check_option_page_valid( $page, $check_current_page = false ) {
 			if ( is_string( $page ) ) {
-				$page = HT_Util()->get_theme_option_page( $page, 'account' );
+				$page = ht_util()->get_theme_option_page( $page, 'account' );
 			}
 
-			return HT_Options()->check_page_valid( $page, $check_current_page );
+			return ht_options()->check_page_valid( $page, $check_current_page );
 		}
 
 		public function check_recaptcha_config_valid() {
-			return HT_CAPTCHA()->check_recaptcha_config_valid();
+			return ht_captcha()->check_recaptcha_config_valid();
 		}
 
 		public function check_captcha_config_valid() {
-			return HT_CAPTCHA()->check_config_valid();
+			return ht_captcha()->check_config_valid();
 		}
 	}
 }
@@ -750,10 +750,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Account()->get_instance();
+$extension = hte_account()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Account() {
+function hte_account() {
 	return HOCWP_EXT_Account::get_instance();
 }

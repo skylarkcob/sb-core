@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $type_of_post = isset( $_POST['type_of_post'] ) ? $_POST['type_of_post'] : '';
 
 if ( 'normal' != $type_of_post ) {
-	$vip_post_added_message = HT_Options()->get_tab( 'vip_post_added_message', '', 'vip' );
+	$vip_post_added_message = ht_options()->get_tab( 'vip_post_added_message', '', 'vip' );
 
 	if ( ! empty( $vip_post_added_message ) ) {
 		$post_id = isset( $_POST['post_id'] ) ? $_POST['post_id'] : '';

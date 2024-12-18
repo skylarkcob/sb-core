@@ -9,7 +9,7 @@ if ( file_exists( $path ) ) {
 	require_once( $path );
 }
 
-if ( ! function_exists( 'HT_extension' ) ) {
+if ( ! function_exists( 'ht_extension' ) ) {
 	return;
 }
 
@@ -40,23 +40,23 @@ if ( function_exists( 'hocwp_load_all_extensions' ) ) {
 function hocwp_ext_register_custom_post_types_and_taxonomies() {
 	$post_types = hocwp_ext_custom_post_types_registration();
 
-	if ( HT()->array_has_value( $post_types ) ) {
+	if ( ht()->array_has_value( $post_types ) ) {
 		foreach ( $post_types as $post_type => $args ) {
-			$args = HT_Util()->post_type_args( $args );
+			$args = ht_util()->post_type_args( $args );
 			register_post_type( $post_type, $args );
 		}
 	}
 
 	$taxonomies = hocwp_ext_custom_taxonomies_registration();
 
-	if ( HT()->array_has_value( $taxonomies ) ) {
+	if ( ht()->array_has_value( $taxonomies ) ) {
 		foreach ( $taxonomies as $taxonomy => $data ) {
 			$post_type = isset( $data['post_type'] ) ? $data['post_type'] : '';
 
 			if ( ! empty( $post_type ) ) {
 				$args = isset( $data['args'] ) ? $data['args'] : '';
 
-				$args = HT_Util()->taxonomy_args( $args );
+				$args = ht_util()->taxonomy_args( $args );
 
 				register_taxonomy( $taxonomy, $post_type, $args );
 			}
@@ -72,7 +72,7 @@ add_action( 'init', 'hocwp_ext_register_custom_post_types_and_taxonomies' );
  * Since theme core version 6.3.4, we use function hocwp_load_all_extensions to load all extensions automatically.
  * If theme version order than 6.3.4, extensions will be loaded manually.
  */
-if ( ! function_exists( 'hocwp_load_all_extensions' ) && ! function_exists( 'HOCWP_Theme' ) ) {
+if ( ! function_exists( 'hocwp_load_all_extensions' ) && ! function_exists( 'hocwp_theme' ) ) {
 	require( HOCWP_EXT_PATH . '/ext/base-slug.php' );
 	require( HOCWP_EXT_PATH . '/ext/google-code-prettify.php' );
 	require( HOCWP_EXT_PATH . '/ext/optimize.php' );

@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$allow_guest_posting = HT_Options()->get_tab( 'allow_guest_posting', '', 'add_post_frontend' );
+$allow_guest_posting = ht_options()->get_tab( 'allow_guest_posting', '', 'add_post_frontend' );
 
 if ( 1 != $allow_guest_posting ) {
 	if ( ! is_user_logged_in() ) {
@@ -49,7 +49,7 @@ if ( is_array( $post_type ) ) {
 	}
 }
 
-if ( ! HT()->array_has_value( $post_type ) ) {
+if ( ! ht()->array_has_value( $post_type ) ) {
 	return;
 }
 
@@ -78,7 +78,7 @@ $post_added = false;
 $post_id = '';
 
 if ( isset( $_POST['add_post_type'] ) ) {
-	if ( ! HT_Util()->verify_nonce() ) {
+	if ( ! ht_util()->verify_nonce() ) {
 		$messages[] = '<p class="alert alert-danger">' . __( 'Invalid form data.', 'sb-core' ) . '</p>';
 	} else {
 		$title = isset( $_POST['add_post_title'] ) ? $_POST['add_post_title'] : '';
@@ -137,26 +137,26 @@ if ( isset( $_POST['add_post_type'] ) ) {
 								$term_id  = absint( $_POST[ $name ] );
 								$term_ids = array();
 
-								if ( HT()->is_positive_number( $term_id ) ) {
+								if ( ht()->is_positive_number( $term_id ) ) {
 									$term_ids = array( $term_id );
 								} elseif ( ! empty( $_POST[ $name ] ) ) {
 									$exists = term_exists( $_POST[ $name ], $taxonomy->name );
 
-									if ( ! is_array( $exists ) || ! isset( $exists['term_id'] ) || ! HT()->is_positive_number( $exists['term_id'] ) ) {
+									if ( ! is_array( $exists ) || ! isset( $exists['term_id'] ) || ! ht()->is_positive_number( $exists['term_id'] ) ) {
 										$exists = wp_insert_term( $_POST[ $name ], $taxonomy->name );
 									}
 
-									if ( is_array( $exists ) && isset( $exists['term_id'] ) && HT()->is_positive_number( $exists['term_id'] ) ) {
+									if ( is_array( $exists ) && isset( $exists['term_id'] ) && ht()->is_positive_number( $exists['term_id'] ) ) {
 										$term_id  = $exists['term_id'];
 										$term_ids = array( $term_id );
 									}
 								}
 
-								if ( HT()->array_has_value( $term_ids ) ) {
+								if ( ht()->array_has_value( $term_ids ) ) {
 									if ( 'category' == $taxonomy->name && function_exists( 'HTE_Classifieds' ) && HTE_Classifieds()->category_as_location() ) {
 										$term = get_term( $term_id, $taxonomy->name );
 
-										while ( $term instanceof WP_Term && HT()->is_positive_number( $term->parent ) ) {
+										while ( $term instanceof WP_Term && ht()->is_positive_number( $term->parent ) ) {
 											$term_ids[] = $term->parent;
 											$term       = get_term( $term->parent, $term->taxonomy );
 										}
@@ -188,7 +188,7 @@ if ( isset( $_POST['add_post_type'] ) ) {
 							if ( is_array( $part ) && 2 == count( $part ) && taxonomy_exists( $part[0] ) ) {
 								$cbt_id = $part[1];
 
-								if ( HT()->is_positive_number( $cbt_id ) ) {
+								if ( ht()->is_positive_number( $cbt_id ) ) {
 									$cbt = get_term( $cbt_id, $part[0] );
 
 									if ( $cbt instanceof WP_Term ) {
@@ -204,11 +204,11 @@ if ( isset( $_POST['add_post_type'] ) ) {
 									if ( ! empty( $tax_name ) ) {
 										$exists = term_exists( $term_name, $tax_name );
 
-										if ( ! is_array( $exists ) || ! isset( $exists['term_id'] ) || ! HT()->is_positive_number( $exists['term_id'] ) ) {
+										if ( ! is_array( $exists ) || ! isset( $exists['term_id'] ) || ! ht()->is_positive_number( $exists['term_id'] ) ) {
 											$exists = wp_insert_term( $term_name, $tax_name );
 										}
 
-										if ( is_array( $exists ) && isset( $exists['term_id'] ) && HT()->is_positive_number( $exists['term_id'] ) ) {
+										if ( is_array( $exists ) && isset( $exists['term_id'] ) && ht()->is_positive_number( $exists['term_id'] ) ) {
 											wp_set_post_terms( $post_id, array( $exists['term_id'] ), $tax_name );
 										}
 									}
@@ -218,10 +218,10 @@ if ( isset( $_POST['add_post_type'] ) ) {
 
 						$thumbnail = isset( $_FILES['post_thumbnail'] ) ? $_FILES['post_thumbnail'] : '';
 
-						if ( HT()->array_has_value( $thumbnail ) ) {
-							$thumbnail = HT_Util()->upload_file( $thumbnail['name'], @file_get_contents( $thumbnail['tmp_name'] ) );
+						if ( ht()->array_has_value( $thumbnail ) ) {
+							$thumbnail = ht_util()->upload_file( $thumbnail['name'], @file_get_contents( $thumbnail['tmp_name'] ) );
 
-							if ( HT()->array_has_value( $thumbnail ) && isset( $thumbnail['id'] ) && HT()->is_positive_number( $thumbnail['id'] ) ) {
+							if ( ht()->array_has_value( $thumbnail ) && isset( $thumbnail['id'] ) && ht()->is_positive_number( $thumbnail['id'] ) ) {
 								set_post_thumbnail( $id, $thumbnail['id'] );
 							}
 						}
@@ -286,7 +286,7 @@ if ( ! $post_added && empty( $html ) ) {
     </div>
     <div class="form-group">
         <label
-                for="post-title"><?php printf( __( 'Post title (%s):', 'sb-core' ), HT()->required_mark() ); ?></label>
+                for="post-title"><?php printf( __( 'Post title (%s):', 'sb-core' ), ht()->required_mark() ); ?></label>
         <input type="text" name="add_post_title" id="post-title" class="form-control"
                value="<?php echo $title; ?>" required>
     </div>
@@ -316,10 +316,10 @@ if ( ! $post_added && empty( $html ) ) {
 		<?php
 	}
 
-	if ( HTE_Add_Post_Frontend()->use_captcha() && HT_CAPTCHA()->check_config_valid() ) {
+	if ( HTE_Add_Post_Frontend()->use_captcha() && ht_captcha()->check_config_valid() ) {
 		?>
         <div class="captcha-box form-group">
-			<?php HT_CAPTCHA()->display_html(); ?>
+			<?php ht_captcha()->display_html(); ?>
         </div>
 		<?php
 	}
@@ -340,7 +340,7 @@ if ( ! $post_added && empty( $html ) ) {
 		if ( 0 < count( $messages ) ) {
 			$messages = apply_filters( 'hocwp_theme_extension_add_post_frontend_form_messages', $messages );
 
-			if ( HT()->array_has_value( $messages ) ) {
+			if ( ht()->array_has_value( $messages ) ) {
 				foreach ( $messages as $message ) {
 					echo $message;
 				}
@@ -351,15 +351,15 @@ if ( ! $post_added && empty( $html ) ) {
 			do_action( 'hocwp_theme_extension_add_post_frontend_post_added_form', $post_id );
 
 			$_POST = array();
-			$url   = HT_Options()->get_tab( 'redirect_url', '', 'add_post_frontend' );
+			$url   = ht_options()->get_tab( 'redirect_url', '', 'add_post_frontend' );
 
 			if ( empty( $url ) ) {
 				$url = home_url();
 			}
 
-			$secs = HT_Options()->get_tab( 'redirect_seconds', '', 'add_post_frontend' );
+			$secs = ht_options()->get_tab( 'redirect_seconds', '', 'add_post_frontend' );
 
-			if ( ! HT()->is_positive_number( $secs ) ) {
+			if ( ! ht()->is_positive_number( $secs ) ) {
 				$secs = 30;
 			}
 

@@ -45,7 +45,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 		}
 
 		public function admin_columns_filter( $columns ) {
-			HT()->insert_to_array( $columns, __( 'Shortcode', 'sb-core' ), 'before_last', 'shortcode' );
+			ht()->insert_to_array( $columns, __( 'Shortcode', 'sb-core' ), 'before_last', 'shortcode' );
 
 			return $columns;
 		}
@@ -102,14 +102,14 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 
 			$slider_items = get_post_meta( $slider->ID, $this->mt_slider_items, true );
 
-			if ( ! HT()->is_array_has_value( $slider_items ) ) {
+			if ( ! ht()->is_array_has_value( $slider_items ) ) {
 				return '';
 			}
 
 			$settings = $atts['settings'];
 
 			if ( ! empty( $settings ) ) {
-				$settings = HT()->json_string_to_array( $settings );
+				$settings = ht()->json_string_to_array( $settings );
 			}
 
 			if ( ! is_array( $settings ) ) {
@@ -125,7 +125,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 			$slides_per_view = '';
 
 			if ( ! empty( $advanced_settings ) ) {
-				$advanced_settings = HT()->json_string_to_array( $advanced_settings );
+				$advanced_settings = ht()->json_string_to_array( $advanced_settings );
 				$slides_per_view   = $advanced_settings['slidesPerView'] ?? '';
 			}
 
@@ -161,7 +161,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 						$post_excerpt = str_replace( '%url%', $url, $post_excerpt );
 						$thumbnail    = $item['thumbnail_id'] ?? '';
 
-						if ( HT_Media()->exists( $image_id ) ) {
+						if ( ht_media()->exists( $image_id ) ) {
 							?>
                             <div class="slider-item swiper-slide"
                                  data-image-url="<?php echo esc_attr( wp_get_original_image_url( $image_id ) ); ?>"
@@ -225,7 +225,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 		public function save_post_action( $post_id ) {
 			if ( ! wp_is_post_revision( $post_id ) && current_user_can( 'edit_posts' ) ) {
 				if ( get_post_type( $post_id ) == $this->post_type ) {
-					if ( HT()->array_has_value( $_POST ) ) {
+					if ( ht()->array_has_value( $_POST ) ) {
 						$slide_items = $_POST[ $this->mt_slider_items ] ?? '';
 						update_post_meta( $post_id, $this->mt_slider_items, $slide_items );
 
@@ -252,11 +252,11 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 			global $pagenow;
 
 			if ( 'post.php' == $pagenow || 'post-new.php' == $pagenow ) {
-				$pt = HT_Admin()->get_current_post_type();
+				$pt = ht_admin()->get_current_post_type();
 
 				if ( $pt == $this->post_type ) {
 					wp_enqueue_media();
-					HT_Enqueue()->sortable();
+					ht_enqueue()->sortable();
 					wp_enqueue_style( 'hte-slider-style', SB_Core()->url . '/css/admin-slider.css' );
 					wp_enqueue_script( 'hte-slider', SB_CORE()->url . '/js/admin-slider.js', array( 'jquery' ), false, true );
 
@@ -287,7 +287,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 				'supports'     => array( 'title' )
 			);
 
-			$args = HT_Util()->post_type_args( $args );
+			$args = ht_util()->post_type_args( $args );
 
 			register_post_type( $this->post_type, $args );
 		}
@@ -477,7 +477,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
                 <div data-slide-id="<?php echo esc_attr( $post->ID ); ?>" class="hocwp-theme slider-items slide-items">
                     <div data-slide-id="<?php echo esc_attr( $post->ID ); ?>" class="items">
 						<?php
-						if ( HT()->is_array_has_value( $slide_items ) ) {
+						if ( ht()->is_array_has_value( $slide_items ) ) {
 							$count = 0;
 
 							foreach ( $slide_items as $item ) {
@@ -521,7 +521,7 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 				$image_id = '%image_id%';
 			}
 
-			if ( ! HT()->is_nonnegative_number( $index ) ) {
+			if ( ! ht()->is_nonnegative_number( $index ) ) {
 				$index = '%key_index%';
 			}
 
@@ -567,14 +567,14 @@ if ( ! class_exists( 'HOCWP_EXT_Slider' ) ) {
 						<?php
 						$class = 'thumbnail';
 
-						if ( HT_Media()->exists( $thumbnail ) ) {
+						if ( ht_media()->exists( $thumbnail ) ) {
 							$class .= ' has-image';
 						}
 						?>
                         <div class="<?php echo esc_attr( $class ); ?>">
                             <div class="thumb-image">
 								<?php
-								if ( HT_Media()->exists( $thumbnail ) ) {
+								if ( ht_media()->exists( $thumbnail ) ) {
 									echo wp_get_attachment_image( $thumbnail, 'full' );
 								}
 								?>
@@ -688,10 +688,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HOCWP_EXT_Slider()->get_instance();
+$extension = hocwp_ext_slider()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HOCWP_EXT_Slider() {
+function hocwp_ext_slider() {
 	return HOCWP_EXT_Slider::get_instance();
 }

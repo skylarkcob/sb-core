@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function hocwp_ext_account_default_login_page_scripts() {
 	wp_enqueue_style( 'hocwp-ext-account-login-style', HOCWP_EXT_URL . '/css/login' . HOCWP_THEME_CSS_SUFFIX );
 
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	HTE_Account()->load_connected_socials_script();
 	HTE_Account()->load_facebook_account_kit_script();
@@ -27,9 +27,9 @@ function hocwp_ext_account_default_login_page_scripts() {
 		'logo' => ''
 	);
 
-	$logo = HT_Util()->get_theme_option( 'login_logo', '', 'account' );
+	$logo = ht_util()->get_theme_option( 'login_logo', '', 'account' );
 
-	if ( HT()->is_positive_number( $logo ) ) {
+	if ( ht()->is_positive_number( $logo ) ) {
 		$tag = new HOCWP_Theme_HTML_Tag( 'img' );
 		$tag->add_attribute( 'src', wp_get_attachment_url( $logo ) );
 		$tag->add_attribute( 'alt', get_bloginfo( 'name', 'display' ) );
@@ -46,7 +46,7 @@ function hocwp_ext_account_default_login_page_scripts() {
 add_action( 'login_enqueue_scripts', 'hocwp_ext_account_default_login_page_scripts' );
 
 function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$cs = $options['custom_style'] ?? '';
 
@@ -70,7 +70,7 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 			if ( isset( $locations['login'] ) ) {
 				$items = wp_get_nav_menu_items( $locations['login'] );
 
-				if ( HT()->array_has_value( $items ) ) {
+				if ( ht()->array_has_value( $items ) ) {
 					foreach ( $items as $item ) {
 						if ( ! empty( $item->title ) ) {
 							printf( '<a class="menu-link" href="%s">%s</a>', esc_url( $item->url ), $item->title );
@@ -91,7 +91,7 @@ function hocwp_ext_account_the_privacy_policy_link_filter( $link, $url ) {
 						<?php
 						$params = (array) $params;
 
-						if ( HT()->array_has_value( $params ) ) {
+						if ( ht()->array_has_value( $params ) ) {
 							foreach ( $params as $name => $value ) {
 								if ( ! empty( $value ) && ! empty( $name ) && 'locale' != $name ) {
 									?>

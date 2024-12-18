@@ -22,7 +22,7 @@ if ( empty( $url ) ) {
 
 	return;
 }
-$domain   = HT()->get_domain_name( $url, true );
+$domain   = ht()->get_domain_name( $url, true );
 $username = isset( $_REQUEST['username'] ) ? $_REQUEST['username'] : '';
 $password = isset( $_REQUEST['password'] ) ? $_REQUEST['password'] : '';
 switch ( $domain ) {

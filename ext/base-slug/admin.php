@@ -5,7 +5,7 @@ function hocwp_ext_settings_page_permalinks_section( $sections ) {
 	$taxs  = hocwp_theme_get_custom_taxonomies();
 	$types = hocwp_theme_get_custom_post_types();
 
-	if ( HT()->array_has_value( $taxs ) || HT()->array_has_value( $types ) ) {
+	if ( ht()->array_has_value( $taxs ) || ht()->array_has_value( $types ) ) {
 		$desc = __( 'If you like, you may enter custom structures for your custom taxonomy term and custom post type URLs here. If you leave these blank the defaults will be used. Note: This function may affect the performance of the site.', 'sb-core' );
 
 		$sections['custom_base'] = array(

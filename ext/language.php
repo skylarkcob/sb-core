@@ -83,7 +83,7 @@ if ( ! class_exists( 'HOCWP_EXT_Language' ) ) {
 					$default = pll_default_language();
 					unset( $langs[ array_search( $default, $langs ) ] );
 
-					if ( HT()->array_has_value( $langs ) ) {
+					if ( ht()->array_has_value( $langs ) ) {
 						if ( $field instanceof HOCWP_Theme_Admin_Setting_Field ) {
 							$data = $field->generate();
 						} else {
@@ -117,10 +117,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HOCWP_EXT_Language()->get_instance();
+$extension = hocwp_ext_language()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HOCWP_EXT_Language() {
+function hocwp_ext_language() {
 	return HOCWP_EXT_Language::get_instance();
 }

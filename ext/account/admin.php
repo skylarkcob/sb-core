@@ -52,28 +52,28 @@ add_action( 'admin_footer', 'hocwp_ext_account_admin_footer' );
 function hocwp_ext_account_connect_social_ajax_callback() {
 	global $hocwp_theme;
 
-	$type = HT()->get_method_value( 'type' );
+	$type = ht()->get_method_value( 'type' );
 
-	$social_data = HT()->get_method_value( 'social_data' );
-	$disconnect  = HT()->get_method_value( 'disconnect' );
+	$social_data = ht()->get_method_value( 'social_data' );
+	$disconnect  = ht()->get_method_value( 'disconnect' );
 
 	$user_id = get_current_user_id();
 	$data    = array();
 
 	if ( ! empty( $type ) && ( $social_data || 1 == $disconnect ) ) {
-		$login = HT()->get_method_value( 'login' );
+		$login = ht()->get_method_value( 'login' );
 		$type  = strtolower( $type );
 
 		$profile_key = $type . '_profile';
 
 		$id_key = $type . '_id';
 
-		$id = HT()->get_method_value( 'id' );
+		$id = ht()->get_method_value( 'id' );
 
 		if ( 1 == $login ) {
 			$users = get_users( array( 'meta_key' => $id_key, 'meta_value' => $id ) );
 
-			if ( HT()->array_has_value( $users ) ) {
+			if ( ht()->array_has_value( $users ) ) {
 				$user = current( $users );
 
 				if ( $user instanceof WP_User ) {
@@ -96,7 +96,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 						$emails = $social_data['emailAddresses'] ?? '';
 						$emails = (array) $emails;
 
-						if ( HT()->array_has_value( $emails ) ) {
+						if ( ht()->array_has_value( $emails ) ) {
 							$emails = current( $emails );
 							$email  = $emails['value'] ?? '';
 						}
@@ -104,7 +104,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 						$names = $social_data['names'] ?? '';
 						$names = (array) $names;
 
-						if ( HT()->array_has_value( $names ) ) {
+						if ( ht()->array_has_value( $names ) ) {
 							$names = current( $names );
 
 							$user_data['display_name'] = $names['displayName'] ?? '';
@@ -119,7 +119,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 					if ( $hocwp_theme->users_can_register ) {
 						$user_id = wp_create_user( $email, wp_generate_password(), $email );
 
-						if ( HT()->is_positive_number( $user_id ) ) {
+						if ( ht()->is_positive_number( $user_id ) ) {
 							do_action( 'hocwp_theme_extension_account_user_added', $user_id );
 						}
 					} else {
@@ -128,7 +128,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 				}
 			}
 
-			if ( HT()->is_positive_number( $user_id ) ) {
+			if ( ht()->is_positive_number( $user_id ) ) {
 				wp_set_auth_cookie( $user_id, true );
 			}
 		}
@@ -141,7 +141,7 @@ function hocwp_ext_account_connect_social_ajax_callback() {
 		$deleted = delete_user_meta( $user_id, $profile_key );
 		delete_user_meta( $user_id, $id_key );
 
-		if ( 0 == $disconnect || ( 1 == $login && HT()->is_positive_number( $user_id ) ) ) {
+		if ( 0 == $disconnect || ( 1 == $login && ht()->is_positive_number( $user_id ) ) ) {
 			if ( ! is_array( $social_data ) ) {
 				$social_data = array();
 			}
@@ -182,11 +182,11 @@ add_action( 'wp_ajax_hocwp_theme_connect_social', 'hocwp_ext_account_connect_soc
 add_action( 'wp_ajax_nopriv_hocwp_theme_connect_social', 'hocwp_ext_account_connect_social_ajax_callback' );
 
 function hocwp_ext_account_admin_notices_action() {
-	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+	if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 		return;
 	}
 
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$account_kit = $options['account_kit'] ?? '';
 
@@ -198,20 +198,20 @@ function hocwp_ext_account_admin_notices_action() {
 			'message' => sprintf( '<strong>%s</strong> %s', __( 'Account Extension:', 'sb-core' ), $msg )
 		);
 
-		HT_Util()->admin_notice( $args );
+		ht_util()->admin_notice( $args );
 	}
 
 	$cs      = $options['connect_social'] ?? '';
 	$captcha = $options['captcha'] ?? '';
 
 	if ( 1 == $cs || 1 == $captcha ) {
-		$options = HT_Util()->get_theme_options( 'social' );
+		$options = ht_util()->get_theme_options( 'social' );
 
 		$fai = $options['facebook_app_id'] ?? '';
 		$gak = $options['google_api_key'] ?? '';
 		$gci = $options['google_client_id'] ?? '';
 
-		if ( empty( $fai ) || empty( $gak ) || empty( $gci ) || ! HT_CAPTCHA()->check_config_valid() ) {
+		if ( empty( $fai ) || empty( $gak ) || empty( $gci ) || ! ht_captcha()->check_config_valid() ) {
 			$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for account extension works normally.', 'sb-core' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
 
 			$args = array(
@@ -219,7 +219,7 @@ function hocwp_ext_account_admin_notices_action() {
 				'message' => sprintf( '<strong>%s</strong> %s', __( 'Account Extension:', 'sb-core' ), $msg )
 			);
 
-			HT_Util()->admin_notice( $args );
+			ht_util()->admin_notice( $args );
 		}
 	}
 }
@@ -235,10 +235,10 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 		'message' => __( 'There was an error occurred, please try again.', 'sb-core' )
 	);
 
-	$do_action = HT()->get_method_value( 'do_action' );
+	$do_action = ht()->get_method_value( 'do_action' );
 
 	if ( 'disconnect-email' == $do_action ) {
-		$email = HT()->get_method_value( 'email' );
+		$email = ht()->get_method_value( 'email' );
 
 		$user = get_user_by( 'email', $email );
 
@@ -254,7 +254,7 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 
 		wp_send_json_error( $data );
 	} elseif ( 'disconnect-phone' == $do_action ) {
-		$user_id = HT()->get_method_value( 'user_id' );
+		$user_id = ht()->get_method_value( 'user_id' );
 
 		$user = get_user_by( 'ID', $user_id );
 
@@ -271,22 +271,22 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 		wp_send_json_error( $data );
 	}
 
-	$csrf = HT()->get_method_value( 'csrf' );
+	$csrf = ht()->get_method_value( 'csrf' );
 
 	if ( ! wp_verify_nonce( $csrf, 'hte_facebook_account_kit' ) ) {
 		$data['message'] = __( 'Invalid nonce', 'sb-core' );
 		wp_send_json_error( $data );
 	}
 
-	$app_id = HT()->get_method_value( 'app_id' );
+	$app_id = ht()->get_method_value( 'app_id' );
 
-	$app_secret = HT()->get_method_value( 'app_secret' );
+	$app_secret = ht()->get_method_value( 'app_secret' );
 
 	$token = 'AA|' . $app_id . '|' . $app_secret;
 
-	$api_version = HT()->get_method_value( 'api_version' );
+	$api_version = ht()->get_method_value( 'api_version' );
 
-	$code = HT()->get_method_value( 'code' );
+	$code = ht()->get_method_value( 'code' );
 
 	$url = 'https://graph.accountkit.com/' . $api_version . '/access_token';
 
@@ -379,7 +379,7 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 						} elseif ( isset( $result->email ) ) {
 							$user_id = wp_create_user( $result->email->address, wp_generate_password(), $result->email->address );
 
-							if ( HT()->is_positive_number( $user_id ) ) {
+							if ( ht()->is_positive_number( $user_id ) ) {
 								$fac = array(
 									'id'    => $result->id,
 									'email' => $result->email->address
@@ -406,9 +406,9 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 					}
 				}
 			} elseif ( 'connect-email' == $do_action ) {
-				$user_id = HT()->get_method_value( 'user_id' );
+				$user_id = ht()->get_method_value( 'user_id' );
 
-				if ( HT()->is_positive_number( $user_id ) && isset( $result->email ) && isset( $result->email->address ) && is_email( $result->email->address ) ) {
+				if ( ht()->is_positive_number( $user_id ) && isset( $result->email ) && isset( $result->email->address ) && is_email( $result->email->address ) ) {
 					$user = get_user_by( 'ID', $user_id );
 
 					if ( $user instanceof WP_User ) {
@@ -431,9 +431,9 @@ function hocwp_extension_account_connect_facebook_account_kit_ajax_callback() {
 					}
 				}
 			} elseif ( 'connect-phone' == $do_action ) {
-				$user_id = HT()->get_method_value( 'user_id' );
+				$user_id = ht()->get_method_value( 'user_id' );
 
-				if ( HT()->is_positive_number( $user_id ) && isset( $result->phone ) && isset( $result->phone->national_number ) && ! empty( $result->phone->national_number ) ) {
+				if ( ht()->is_positive_number( $user_id ) && isset( $result->phone ) && isset( $result->phone->national_number ) && ! empty( $result->phone->national_number ) ) {
 					$user = get_user_by( 'ID', $user_id );
 
 					if ( $user instanceof WP_User ) {

@@ -81,7 +81,7 @@ function hocwp_theme_dev_end_of_working_hours() {
 		return;
 	}
 
-	$time      = HT_Util()->timestamp_to_string( current_time( 'timestamp' ), 'H:i:s', 'Asia/Ho_Chi_Minh' );
+	$time      = ht_util()->timestamp_to_string( current_time( 'timestamp' ), 'H:i:s', 'Asia/Ho_Chi_Minh' );
 	$time      = strtotime( $time );
 	$morning   = ( $time < strtotime( '07:00:00' ) );
 	$noon      = ( $time >= strtotime( '11:00:00' ) && $time <= strtotime( '13:00:00' ) );
@@ -124,7 +124,7 @@ add_filter( 'hocwp_theme_option', 'hocwp_dev_option_hocwp_theme_filter', 99 );
 function hocwp_dev_replace_localhost( $value, $domain = '' ) {
 	if ( empty( $domain ) ) {
 		$domain = get_bloginfo( 'url' );
-		$domain = HT()->get_domain_name( $domain );
+		$domain = ht()->get_domain_name( $domain );
 	}
 
 	$find = 'localhost/';
@@ -258,8 +258,8 @@ add_filter( 'woocommerce_data_get_description', 'hocwp_dev_the_content_filter', 
 add_filter( 'woocommerce_product_get_description', 'hocwp_dev_the_content_filter', 99 );
 
 function hocwp_theme_zip_folder( $source, $destination ) {
-	if ( method_exists( HT_Util(), 'zip_folder' ) ) {
-		return HT_Util()->zip_folder( $source, $destination );
+	if ( method_exists( ht_util(), 'zip_folder' ) ) {
+		return ht_util()->zip_folder( $source, $destination );
 	}
 
 	if ( ! extension_loaded( 'zip' ) || ! file_exists( $source ) ) {
@@ -497,8 +497,8 @@ add_action( 'admin_bar_menu', 'hocwp_theme_dev_admin_bar_menu_action', 90 );
  * Backup one or all tables in current database.
  */
 function hocwp_theme_dev_export_database( $db_name = '' ) {
-	if ( method_exists( HT_Util(), 'export_database' ) ) {
-		HT_Util()->export_database( $db_name );
+	if ( method_exists( ht_util(), 'export_database' ) ) {
+		ht_util()->export_database( $db_name );
 
 		return;
 	}
@@ -517,7 +517,7 @@ function hocwp_theme_dev_export_database( $db_name = '' ) {
 
 	global $wp_db_version;
 
-	$info = HT_Util()->generate_file_path( WP_CONTENT_DIR, WP_CONTENT_URL, 'databases', $db_name, $wp_db_version, 'sql' );
+	$info = ht_util()->generate_file_path( WP_CONTENT_DIR, WP_CONTENT_URL, 'databases', $db_name, $wp_db_version, 'sql' );
 
 	$dir = $info['path'];
 
@@ -567,7 +567,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 		$source = trailingslashit( $source );
 	}
 
-	$source = HT_Util()->normalize_path( $source );
+	$source = ht_util()->normalize_path( $source );
 
 	if ( ! is_dir( $source ) ) {
 		return;
@@ -581,7 +581,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 
 	$home_path = get_home_path();
 	$home_path = dirname( $home_path );
-	$home_path = HT_Util()->normalize_path( $home_path );
+	$home_path = ht_util()->normalize_path( $home_path );
 
 	$driver_letters = array( 'D', 'E', 'G', 'H', 'Y', 'Z' );
 
@@ -591,15 +591,15 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 	$driver_letter .= ':\\' . $pc;
 
 	$dest   = str_replace( $home_path, $driver_letter, $source );
-	$dest   = HT_Util()->normalize_path( $dest, true );
-	$source = HT_Util()->normalize_path( $source, true );
+	$dest   = ht_util()->normalize_path( $dest, true );
+	$source = ht_util()->normalize_path( $source, true );
 
 	$tr_name   = 'hocwp_dev_notify_backup';
 	$transient = get_transient( $tr_name );
 
 	if ( false === $transient ) {
-		HT()->debug( '---------------------------------------------------------------------------------------------' );
-		HT()->debug( 'Doing backup from: ' . $source . ' to ' . $dest );
+		ht()->debug( '---------------------------------------------------------------------------------------------' );
+		ht()->debug( 'Doing backup from: ' . $source . ' to ' . $dest );
 	}
 
 	$cmd = "robocopy $source $dest /S /E";
@@ -607,7 +607,7 @@ function hocwp_theme_dev_backup_wp_content_folder( $folder = '' ) {
 	exec( $cmd );
 
 	if ( false === $transient ) {
-		HT()->debug( '---------------------------------------------------------------------------------------------' );
+		ht()->debug( '---------------------------------------------------------------------------------------------' );
 		set_transient( $tr_name, 1, 12 * HOUR_IN_SECONDS );
 	}
 }
@@ -653,7 +653,7 @@ function hocwp_theme_execute_development_ajax_callback() {
 
 	if ( 'true' == $compress_css_and_js || ( 'false' != $compress_css_and_js && ! empty( $compress_css_and_js ) ) ) {
 		if ( 'true' != $compress_css_and_js ) {
-			$compress_css_and_js = HT()->json_string_to_array( $compress_css_and_js );
+			$compress_css_and_js = ht()->json_string_to_array( $compress_css_and_js );
 
 			$tmp = array();
 
@@ -714,7 +714,7 @@ if ( is_admin() ) {
 add_action( 'wp_footer', 'hocwp_theme_debug_save_queries', 9999 );
 
 function hocwp_theme_dev_global_scripts() {
-	$domain = HT()->get_domain_name( home_url(), true );
+	$domain = ht()->get_domain_name( home_url(), true );
 
 	if ( 'localhost' == $domain ) {
 		wp_enqueue_script( 'taking-breaks', HOCWP_EXT_URL . '/js/taking-breaks' . HOCWP_THEME_JS_SUFFIX, array(
@@ -836,9 +836,9 @@ function hocwp_theme_dev_init_action() {
 				$message = sprintf( 'You should take a break and relax for %d minutes . Waiting until <span id="timeUntil">%s</span>, time left <span id="timeLeft">' . $left . '</span>.', $minute, $time_left );
 				hocwp_theme_dev_add_clock_to_message( $message );
 				$script  = 'setInterval(function(){window.location.reload();},5e3);';
-				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
+				$message .= ht()->wrap_text( $script, '<script>', '</script>' );
 				$script  = 'var countDownDate=new Date(document.getElementById("timeUntil").innerHTML).getTime(),x=setInterval(function(){var e=(new Date).getTime(),t=countDownDate-e,n=Math.floor(t%36e5/6e4);0>n&&(window.location.reload());var o=Math.floor(t%6e4/1e3);document.getElementById("timeLeft").innerHTML=n+"m "+o+"s",0>t&&(clearInterval(x),window.location.reload())},1e3);';
-				$message .= HT()->wrap_text( $script, '<script>', '</script>' );
+				$message .= ht()->wrap_text( $script, '<script>', '</script>' );
 				$title   = 'Taking Short Beaks';
 
 				if ( 15 <= $minute ) {
@@ -854,9 +854,9 @@ function hocwp_theme_dev_init_action() {
 add_action( 'init', 'hocwp_theme_dev_init_action' );
 
 function hocwp_team_dev_wp_schedule_event() {
-	$domain = HT()->get_domain_name( home_url() );
+	$domain = ht()->get_domain_name( home_url() );
 
-	if ( 'localhost' == $domain || HT()->is_IP( $domain ) ) {
+	if ( 'localhost' == $domain || ht()->is_IP( $domain ) ) {
 		if ( ! wp_next_scheduled( 'hocwp_team_backup_wp_content' ) ) {
 			wp_schedule_event( current_time( 'timestamp' ), 'daily', 'hocwp_team_backup_wp_content' );
 		}
@@ -880,18 +880,18 @@ function hocwp_team_backup_wp_content_event_callback() {
 add_action( 'hocwp_team_backup_wp_content', 'hocwp_team_backup_wp_content_event_callback' );
 
 function hocwp_team_dev_is_localhost() {
-	if ( function_exists( 'HT_Util' ) && is_callable( array( HT_Util(), 'is_localhost' ) ) ) {
-		return HT_Util()->is_localhost();
+	if ( function_exists( 'ht_util' ) && is_callable( array( ht_util(), 'is_localhost' ) ) ) {
+		return ht_util()->is_localhost();
 	}
 
 	$domain = home_url();
-	$domain = HT()->get_domain_name( $domain, true );
+	$domain = ht()->get_domain_name( $domain, true );
 
 	return ( 'localhost' == $domain );
 }
 
 function hocwp_team_dev_backup_files() {
-	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+	if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 		return;
 	}
 
@@ -909,7 +909,7 @@ function hocwp_team_dev_backup_files() {
 					'id'      => 'backupFolderNotice'
 				);
 
-				HT_Util()->admin_notice( $args );
+				ht_util()->admin_notice( $args );
 			}
 		}
 	}
@@ -918,7 +918,7 @@ function hocwp_team_dev_backup_files() {
 add_action( 'admin_notices', 'hocwp_team_dev_backup_files' );
 
 function hocwp_dev_check_theme_core_new_version() {
-	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+	if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 		return;
 	}
 
@@ -944,7 +944,7 @@ function hocwp_dev_check_theme_core_new_version() {
 				'type'    => 'info'
 			);
 
-			HT_Admin()->admin_notice( $args );
+			ht_admin()->admin_notice( $args );
 		}
 	}
 }
@@ -1091,7 +1091,7 @@ function hocwp_team_dev_backup_wp_content_folders_plugin( $folders ) {
 add_filter( 'hocwp_theme_backup_wp_content_folders', 'hocwp_team_dev_backup_wp_content_folders_plugin' );
 
 function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root = false, $recursive = false ) {
-	if ( HT()->is_file( $path ) ) {
+	if ( ht()->is_file( $path ) ) {
 		$info = pathinfo( $path );
 
 		if ( isset( $info['extension'] ) && $extension == $info['extension'] ) {
@@ -1105,10 +1105,10 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root
 		$path = trailingslashit( $path ) . $extension;
 	}
 
-	if ( HT()->is_dir( $path ) ) {
+	if ( ht()->is_dir( $path ) ) {
 		$files = scandir( $path );
 
-		if ( HT()->array_has_value( $files ) ) {
+		if ( ht()->array_has_value( $files ) ) {
 			foreach ( $files as $file ) {
 				$info = pathinfo( $file );
 
@@ -1120,7 +1120,7 @@ function hocwp_theme_delete_duplicate_min_file( $path, $extension = 'css', $root
 					if ( $recursive ) {
 						$tmp = trailingslashit( $path ) . $file;
 
-						if ( HT()->is_dir( $tmp ) ) {
+						if ( ht()->is_dir( $tmp ) ) {
 							hocwp_theme_delete_duplicate_min_file( $tmp, $extension, $root, $recursive );
 						}
 					}
@@ -1169,9 +1169,9 @@ function hocwp_theme_dev_load_themes_action() {
 
 	$paths = $hocwp_theme->defaults['compress_css_and_js_paths'] ?? '';
 
-	if ( HT()->array_has_value( $paths ) ) {
+	if ( ht()->array_has_value( $paths ) ) {
 		foreach ( $paths as $path ) {
-			if ( HT()->is_dir( $path ) ) {
+			if ( ht()->is_dir( $path ) ) {
 				hocwp_theme_delete_duplicate_min_file( $path );
 				hocwp_theme_delete_duplicate_min_file( $path, 'js' );
 			}

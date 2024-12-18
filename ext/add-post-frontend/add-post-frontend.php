@@ -8,7 +8,7 @@ function hocwp_add_post_frontend_template() {
 }
 
 function hocwp_add_post_frontend_post_type() {
-	$post_type = HT_Options()->get_tab( 'post_type', 'post', 'add_post_frontend' );
+	$post_type = ht_options()->get_tab( 'post_type', 'post', 'add_post_frontend' );
 
 	return apply_filters( 'hocwp_add_post_frontend_post_type', $post_type );
 }
@@ -27,7 +27,7 @@ function hocwp_add_post_frontend_save_post( $post_id ) {
 add_action( 'save_post', 'hocwp_add_post_frontend_save_post' );
 
 function hocwp_add_post_frontend_admin_notices() {
-	if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+	if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 		return;
 	}
 
@@ -126,7 +126,7 @@ function hocwp_add_post_frontend_admin_bar_menu( $wp_admin_bar ) {
 
 		$results = $wpdb->get_results( $sql );
 
-		if ( HT()->array_has_value( $results ) ) {
+		if ( ht()->array_has_value( $results ) ) {
 			$post_types = array();
 
 			$count = 0;

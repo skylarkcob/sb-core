@@ -85,10 +85,10 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 		}
 
 		public function wp_enqueue_scripts_action() {
-			$only_single = HT_Options()->get_tab( 'load_only_single', 1, 'google_maps' );
+			$only_single = ht_options()->get_tab( 'load_only_single', 1, 'google_maps' );
 
 			if ( 1 != $only_single || is_singular() ) {
-				HT_Enqueue()->google_maps();
+				ht_enqueue()->google_maps();
 			}
 		}
 
@@ -107,11 +107,11 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 			if ( is_singular() ) {
 				$post_id     = get_the_ID();
 				$google_maps = get_post_meta( $post_id, 'google_maps', true );
-				$google_maps = HT()->json_string_to_array( $google_maps );
+				$google_maps = ht()->json_string_to_array( $google_maps );
 
-				if ( HT()->array_has_value( $google_maps ) ) {
-					$latitude  = HT()->get_value_in_array( $google_maps, 'lat' );
-					$longitude = HT()->get_value_in_array( $google_maps, 'lng' );
+				if ( ht()->array_has_value( $google_maps ) ) {
+					$latitude  = ht()->get_value_in_array( $google_maps, 'lat' );
+					$longitude = ht()->get_value_in_array( $google_maps, 'lng' );
 				}
 			}
 
@@ -123,7 +123,7 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 			}
 
 			ob_start();
-			HT_HTML_Field()->google_maps( $atts );
+			ht_html_field()->google_maps( $atts );
 
 			return ob_get_clean();
 		}
@@ -133,8 +133,8 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 				'draggable' => true
 			);
 
-			$lng = HT_Options()->get_tab( 'default_lng', '', 'google_maps' );
-			$lat = HT_Options()->get_tab( 'default_lat', '', 'google_maps' );
+			$lng = ht_options()->get_tab( 'default_lng', '', 'google_maps' );
+			$lat = ht_options()->get_tab( 'default_lat', '', 'google_maps' );
 
 			if ( ! empty( $lat ) ) {
 				$args['latitude'] = $lat;
@@ -148,7 +148,7 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 		}
 
 		public function upgrade_theme_core_notice() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 
@@ -157,12 +157,12 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Maps' ) ) {
 				'message' => sprintf( __( '<strong>Warning:</strong> Extension <code>%s</code> requires theme core version as least %s.', 'sb-core' ), $this->name, '6.5.4' )
 			);
 
-			HT_Admin()->admin_notice( $args );
+			ht_admin()->admin_notice( $args );
 		}
 
 		public function enqueue_google_maps( $api_key = '' ) {
-			if ( function_exists( 'HT_Enqueue' ) ) {
-				HT_Enqueue()->google_maps( $api_key );
+			if ( function_exists( 'ht_enqueue' ) ) {
+				ht_enqueue()->google_maps( $api_key );
 			} else {
 				hocwp_theme_load_google_maps_script( $api_key );
 			}
@@ -176,10 +176,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Google_Maps()->get_instance();
+$extension = hte_google_maps()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Google_Maps() {
+function hte_google_maps() {
 	return HOCWP_EXT_Google_Maps::get_instance();
 }

@@ -74,13 +74,13 @@ if ( ! class_exists( 'HOCWP_EXT_Google_Code_Prettify' ) ) {
 		}
 
 		public function scripts() {
-			$only_singular = HT_Options()->get_tab( 'only_singular', 1, 'google_code_prettify' );
+			$only_singular = ht_options()->get_tab( 'only_singular', 1, 'google_code_prettify' );
 
 			if ( 1 == $only_singular && ! is_singular() ) {
 				return;
 			}
 
-			$theme = HT_Options()->get_tab( 'theme', 'default', 'google_code_prettify' );
+			$theme = ht_options()->get_tab( 'theme', 'default', 'google_code_prettify' );
 			$theme = strtolower( $theme );
 
 			wp_enqueue_script( 'google-code-prettify', 'https://rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=' . $theme, array(), false, true );
@@ -132,10 +132,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Google_Code_Prettify()->get_instance();
+$extension = hte_google_code_prettify()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Google_Code_Prettify() {
+function hte_google_code_prettify() {
 	return HOCWP_EXT_Google_Code_Prettify::get_instance();
 }

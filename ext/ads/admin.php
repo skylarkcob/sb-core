@@ -10,7 +10,7 @@ function hocwp_ext_ads_sub_menu() {
 
 add_action( 'admin_menu', 'hocwp_ext_ads_sub_menu', 99 );
 
-if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
+if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( function_exists( 'ht_admin' ) && ht_admin()->is_post_new_update_page() ) || ( ! function_exists( 'ht_admin' ) && ht_util()->is_post_new_update_page() ) ) {
 	function hocwp_ext_ads_meta_box() {
 		$meta = new HOCWP_Theme_Meta_Post();
 		$meta->add_post_type( HTE_Ads()->post_type );
@@ -95,16 +95,16 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_post_new_update_page' ) || ( fu
 	add_action( 'add_meta_boxes', 'hocwp_ext_ads_add_meta_box_action', 0 );
 }
 
-if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_edit_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_edit_post_new_update_page() ) ) {
+if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) || ( function_exists( 'ht_admin' ) && ht_admin()->is_edit_post_new_update_page() ) || ( ! function_exists( 'ht_admin' ) && ht_util()->is_edit_post_new_update_page() ) ) {
 	function hocwp_ext_ads_admin_enqueue_scripts() {
 		global $post_type, $pagenow;
 
 		if ( HTE_Ads()->post_type == $post_type ) {
-			if ( ( function_exists( 'HT_Admin' ) && HT_Admin()->is_post_new_update_page() ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_post_new_update_page() ) ) {
-				if ( function_exists( 'HT_Enqueue' ) ) {
-					HT_Enqueue()->datepicker();
+			if ( ( function_exists( 'ht_admin' ) && ht_admin()->is_post_new_update_page() ) || ( ! function_exists( 'ht_admin' ) && ht_util()->is_post_new_update_page() ) ) {
+				if ( function_exists( 'ht_enqueue' ) ) {
+					ht_enqueue()->datepicker();
 				} else {
-					HT_Util()->enqueue_datepicker();
+					ht_util()->enqueue_datepicker();
 				}
 			}
 
@@ -118,12 +118,12 @@ if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_edit_post_new_update_page' ) ||
 	add_action( 'admin_enqueue_scripts', 'hocwp_ext_ads_admin_enqueue_scripts', 99 );
 }
 
-if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exists( 'HT_Admin' ) && HT_Admin()->is_admin_page( 'edit.php' ) ) || ( ! function_exists( 'HT_Admin' ) && HT_Util()->is_admin_page( 'edit.php' ) ) ) {
+if ( ! method_exists( 'HOCWP_Theme_Utility', 'is_admin_page' ) || ( function_exists( 'ht_admin' ) && ht_admin()->is_admin_page( 'edit.php' ) ) || ( ! function_exists( 'ht_admin' ) && ht_util()->is_admin_page( 'edit.php' ) ) ) {
 	function hocwp_ext_ads_posts_columns( $columns ) {
-		$columns = HT()->insert_to_array( $columns, __( 'Position', 'sb-core' ), 'before_tail', 'position' );
-		$columns = HT()->insert_to_array( $columns, __( 'Expiry date', 'sb-core' ), 'before_tail', 'expire_date' );
-		$columns = HT()->insert_to_array( $columns, __( 'Desktop/Mobile', 'sb-core' ), 'before_tail', 'desktop_mobile' );
-		$columns = HT()->insert_to_array( $columns, __( 'Active', 'sb-core' ), 'before_tail', 'active' );
+		$columns = ht()->insert_to_array( $columns, __( 'Position', 'sb-core' ), 'before_tail', 'position' );
+		$columns = ht()->insert_to_array( $columns, __( 'Expiry date', 'sb-core' ), 'before_tail', 'expire_date' );
+		$columns = ht()->insert_to_array( $columns, __( 'Desktop/Mobile', 'sb-core' ), 'before_tail', 'desktop_mobile' );
+		$columns = ht()->insert_to_array( $columns, __( 'Active', 'sb-core' ), 'before_tail', 'active' );
 
 		return $columns;
 	}

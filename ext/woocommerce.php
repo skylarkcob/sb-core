@@ -16,7 +16,7 @@ if ( ! function_exists( 'hocwp_theme_woocommerce_activated' ) ) {
 
 if ( ! function_exists( 'hocwp_theme_load_extension_woocommerce' ) ) {
 	function hocwp_theme_load_extension_woocommerce() {
-		$load = apply_filters( 'hocwp_theme_load_extension_woocommerce', HT_extension()->is_active( __FILE__ ) );
+		$load = apply_filters( 'hocwp_theme_load_extension_woocommerce', ht_extension()->is_active( __FILE__ ) );
 
 		return $load;
 	}
@@ -228,7 +228,7 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 			$replace_review = $this->get_option( 'replace_review' );
 
 			if ( 1 != $replace_review ) {
-				$comment = HT_Options()->get_tab( 'comment_system', '', 'discussion' );
+				$comment = ht_options()->get_tab( 'comment_system', '', 'discussion' );
 
 				if ( 'facebook' == $comment ) {
 					$tabs['facebook_comment'] = array(
@@ -256,9 +256,9 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 		}
 
 		public function get_wc_image_sizes() {
-			$sizes = HT_Util()->get_image_sizes();
+			$sizes = ht_util()->get_image_sizes();
 
-			if ( HT()->array_has_value( $sizes ) ) {
+			if ( ht()->array_has_value( $sizes ) ) {
 				foreach ( $sizes as $key => $size ) {
 					if ( false === strpos( $key, 'woocommerce' ) && false === strpos( $key, 'shop' ) ) {
 						unset( $sizes[ $key ] );
@@ -271,8 +271,8 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 	}
 }
 
-function HTE_WooCommerce() {
+function hte_woocommerce() {
 	return HOCWP_EXT_WooCommerce::get_instance();
 }
 
-HTE_WooCommerce();
+hte_woocommerce();

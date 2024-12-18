@@ -243,9 +243,9 @@ function hocwp_wc_theme_localize_script_l10n_filter( $args ) {
 add_filter( 'hocwp_theme_localize_script_l10n', 'hocwp_wc_theme_localize_script_l10n_filter' );
 
 function hocwp_theme_woocommerce_get_image_size_thumbnail_filter( $size ) {
-	$s = HT_Options()->get_tab( 'woocommerce_thumbnail', '', 'woocommerce' );
+	$s = ht_options()->get_tab( 'woocommerce_thumbnail', '', 'woocommerce' );
 
-	if ( HT()->array_has_value( $s ) ) {
+	if ( ht()->array_has_value( $s ) ) {
 		$size = $s;
 	}
 
@@ -256,9 +256,9 @@ function hocwp_theme_woocommerce_get_image_size_thumbnail_filter( $size ) {
 add_filter( 'woocommerce_get_image_size_thumbnail', 'hocwp_theme_woocommerce_get_image_size_thumbnail_filter' );
 
 function hocwp_theme_woocommerce_get_image_size_single_filter( $size ) {
-	$s = HT_Options()->get_tab( 'woocommerce_single', '', 'woocommerce' );
+	$s = ht_options()->get_tab( 'woocommerce_single', '', 'woocommerce' );
 
-	if ( HT()->array_has_value( $s ) ) {
+	if ( ht()->array_has_value( $s ) ) {
 		$size = $s;
 	}
 
@@ -269,9 +269,9 @@ function hocwp_theme_woocommerce_get_image_size_single_filter( $size ) {
 add_filter( 'woocommerce_get_image_size_single', 'hocwp_theme_woocommerce_get_image_size_single_filter' );
 
 function hocwp_theme_woocommerce_get_image_size_gallery_thumbnail_filter( $size ) {
-	$s = HT_Options()->get_tab( 'woocommerce_gallery_thumbnail', '', 'woocommerce' );
+	$s = ht_options()->get_tab( 'woocommerce_gallery_thumbnail', '', 'woocommerce' );
 
-	if ( HT()->array_has_value( $s ) ) {
+	if ( ht()->array_has_value( $s ) ) {
 		$size = $s;
 	}
 
@@ -282,9 +282,9 @@ function hocwp_theme_woocommerce_get_image_size_gallery_thumbnail_filter( $size 
 add_filter( 'woocommerce_get_image_size_gallery_thumbnail', 'hocwp_theme_woocommerce_get_image_size_gallery_thumbnail_filter' );
 
 function hocwp_theme_woocommerce_get_image_size_shop_catalog_filter( $size ) {
-	$s = HT_Options()->get_tab( 'shop_catalog', '', 'woocommerce' );
+	$s = ht_options()->get_tab( 'shop_catalog', '', 'woocommerce' );
 
-	if ( HT()->array_has_value( $s ) ) {
+	if ( ht()->array_has_value( $s ) ) {
 		$size = $s;
 	}
 
@@ -295,9 +295,9 @@ function hocwp_theme_woocommerce_get_image_size_shop_catalog_filter( $size ) {
 add_filter( 'woocommerce_get_image_size_shop_catalog', 'hocwp_theme_woocommerce_get_image_size_shop_catalog_filter' );
 
 function hocwp_theme_woocommerce_get_image_size_shop_single_filter( $size ) {
-	$s = HT_Options()->get_tab( 'shop_single', '', 'woocommerce' );
+	$s = ht_options()->get_tab( 'shop_single', '', 'woocommerce' );
 
-	if ( HT()->array_has_value( $s ) ) {
+	if ( ht()->array_has_value( $s ) ) {
 		$size = $s;
 	}
 
@@ -308,9 +308,9 @@ function hocwp_theme_woocommerce_get_image_size_shop_single_filter( $size ) {
 add_filter( 'woocommerce_get_image_size_shop_single', 'hocwp_theme_woocommerce_get_image_size_shop_single_filter' );
 
 function hocwp_theme_woocommerce_get_image_size_shop_thumbnail_filter( $size ) {
-	$s = HT_Options()->get_tab( 'shop_thumbnail', '', 'woocommerce' );
+	$s = ht_options()->get_tab( 'shop_thumbnail', '', 'woocommerce' );
 
-	if ( HT()->array_has_value( $s ) ) {
+	if ( ht()->array_has_value( $s ) ) {
 		$size = $s;
 	}
 
@@ -327,7 +327,7 @@ if ( $value ) {
 		if ( $post instanceof WP_Post && $product instanceof WC_Product ) {
 			$regular = $product->get_regular_price( 'mysql' );
 			$sale    = $product->get_sale_price( 'mysql' );
-			$percent = HT()->calculate_discount( $regular, $sale, 0 );
+			$percent = ht()->calculate_discount( $regular, $sale, 0 );
 			$html    = '<span class="onsale">-' . $percent . '%</span>';
 		}
 

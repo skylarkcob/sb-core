@@ -25,7 +25,7 @@ function hocwp_ext_account_global_scripts() {
 		'hocwp-theme-ajax-button'
 	), false, true );
 
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$country_code = $options['fac_country_code'] ?? '';
 	$country_code = str_replace( '+', '', $country_code );
@@ -50,7 +50,7 @@ function hocwp_ext_account_global_scripts() {
 	}
 
 	$l10n = array(
-		'app_id'                   => HT_Options()->get_tab( 'facebook_app_id', '', 'social' ),
+		'app_id'                   => ht_options()->get_tab( 'facebook_app_id', '', 'social' ),
 		'nonce'                    => wp_create_nonce( 'hte_facebook_account_kit' ),
 		'api_version'              => $options['fac_api_version'] ?? '',
 		'display'                  => $options['fac_display'] ?? 'popup',
@@ -85,18 +85,18 @@ if ( 'wp-login.php' == $pagenow ) {
 
 function hocwp_ext_account_connect_social_buttons( $options = '', $args = array() ) {
 	if ( empty( $options ) ) {
-		$options = HT_Util()->get_theme_options( 'account' );
+		$options = ht_util()->get_theme_options( 'account' );
 	}
 
 	$cs = $options['connect_social'] ?? '';
 
 	if ( 1 == $cs ) {
-		$social    = HT_Util()->get_theme_options( 'social' );
-		$api_key   = HT()->get_value_in_array( $social, 'google_api_key' );
-		$client_id = HT()->get_value_in_array( $social, 'google_client_id' );
+		$social    = ht_util()->get_theme_options( 'social' );
+		$api_key   = ht()->get_value_in_array( $social, 'google_api_key' );
+		$client_id = ht()->get_value_in_array( $social, 'google_client_id' );
 		$google    = ( ! empty( $api_key ) && ! empty( $client_id ) );
-		$fb_appid  = HT()->get_value_in_array( $social, 'facebook_app_id' );
-		$fb_jssdk  = HT()->get_value_in_array( $social, 'facebook_sdk_javascript' );
+		$fb_appid  = ht()->get_value_in_array( $social, 'facebook_app_id' );
+		$fb_jssdk  = ht()->get_value_in_array( $social, 'facebook_sdk_javascript' );
 		$facebook  = ( ! empty( $fb_appid ) || ! empty( $fb_jssdk ) );
 
 		ob_start();
@@ -145,7 +145,7 @@ function hocwp_ext_account_connect_social_buttons( $options = '', $args = array(
 				'callback' => 'hocwp_theme_connect_google'
 			);
 
-			HT_Util()->load_google_javascript_sdk( $params );
+			ht_util()->load_google_javascript_sdk( $params );
 		}
 
 		if ( ! empty( $buttons ) ) {
@@ -324,12 +324,12 @@ function hocwp_ext_account_facebook_account_kit_button() {
 }
 
 function hocwp_ext_account_add_recaptcha( $html, $args ) {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 	$captcha = $options['captcha'] ?? '';
 
 	if ( 1 == $captcha ) {
 		ob_start();
-		HT_CAPTCHA()->display_html();
+		ht_captcha()->display_html();
 		$html .= ob_get_clean();
 	}
 
@@ -339,11 +339,11 @@ function hocwp_ext_account_add_recaptcha( $html, $args ) {
 add_filter( 'login_form_middle', 'hocwp_ext_account_add_recaptcha', 10, 2 );
 
 function hocwp_ext_account_login_form_recaptcha() {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 	$captcha = $options['captcha'] ?? '';
 
-	if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
-		HT_CAPTCHA()->display_html();
+	if ( 1 == $captcha && ht_captcha()->check_config_valid() ) {
+		ht_captcha()->display_html();
 	}
 }
 
@@ -352,22 +352,22 @@ add_action( 'register_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 add_action( 'lostpassword_form', 'hocwp_ext_account_login_form_recaptcha', 99 );
 
 function hte_account_login_footer_action() {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 	$captcha = $options['captcha'] ?? '';
 
-	if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
-		echo HT_CAPTCHA()->add_recaptcha_script( HT_CAPTCHA() );
+	if ( 1 == $captcha && ht_captcha()->check_config_valid() ) {
+		echo ht_captcha()->add_recaptcha_script( ht_captcha() );
 	}
 }
 
 add_action( 'login_footer', 'hte_account_login_footer_action', 99 );
 
 function hte_account_login_form_bottom_filter( $html ) {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 	$captcha = $options['captcha'] ?? '';
 
-	if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
-		$html = HT_CAPTCHA()->add_recaptcha_script( HT_CAPTCHA(), $html );
+	if ( 1 == $captcha && ht_captcha()->check_config_valid() ) {
+		$html = ht_captcha()->add_recaptcha_script( ht_captcha(), $html );
 	}
 
 	return $html;
@@ -380,7 +380,7 @@ function hocwp_ext_connected_socials_horizontal_bar() {
 }
 
 function hocwp_ext_account_add_connect_social_buttons() {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$cs = $options['connect_social'] ?? '';
 
@@ -415,7 +415,7 @@ add_action( 'login_form', 'hocwp_ext_account_add_connect_social_buttons', 99 );
 add_action( 'register_form', 'hocwp_ext_account_add_connect_social_buttons', 99 );
 
 function hocwp_ext_account_login_form_top( $html, $args ) {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$cs = $options['connect_social'] ?? '';
 
@@ -447,13 +447,13 @@ add_filter( 'login_form_top', 'hocwp_ext_account_login_form_top', 10, 2 );
 
 function hocwp_ext_account_wp_authenticate_user( $user ) {
 	if ( ! is_wp_error( $user ) ) {
-		$options = HT_Util()->get_theme_options( 'account' );
+		$options = ht_util()->get_theme_options( 'account' );
 		$captcha = $options['captcha'] ?? '';
 
-		if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
-			$response = HT_CAPTCHA()->check_valid();
+		if ( 1 == $captcha && ht_captcha()->check_config_valid() ) {
+			$response = ht_captcha()->check_valid();
 
-			$user = HT_CAPTCHA()->control_captcha_errors( $response, $user );
+			$user = ht_captcha()->control_captcha_errors( $response, $user );
 		}
 	}
 
@@ -469,13 +469,13 @@ function hocwp_ext_account_lostpassword_post( $errors ) {
 add_action( 'lostpassword_post', 'hocwp_ext_account_lostpassword_post' );
 
 function hte_account_lostpassword_errors_filter( $errors ) {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 	$captcha = $options['captcha'] ?? '';
 
-	if ( 1 == $captcha && HT_CAPTCHA()->check_config_valid() ) {
-		$response = HT_CAPTCHA()->check_valid();
+	if ( 1 == $captcha && ht_captcha()->check_config_valid() ) {
+		$response = ht_captcha()->check_valid();
 
-		$errors = HT_CAPTCHA()->control_captcha_errors( $response, $errors );
+		$errors = ht_captcha()->control_captcha_errors( $response, $errors );
 	}
 
 	return $errors;
@@ -497,7 +497,7 @@ function hocwp_ext_account_set_logged_in_cookie_action( $logged_in_cookie, $expi
 add_action( 'set_logged_in_cookie', 'hocwp_ext_account_set_logged_in_cookie_action', 10, 4 );
 
 function hocwp_ext_account_body_classes_filter( $classes ) {
-	$options = HT_Util()->get_theme_options( 'account' );
+	$options = ht_util()->get_theme_options( 'account' );
 
 	$cs = $options['custom_style'] ?? '';
 

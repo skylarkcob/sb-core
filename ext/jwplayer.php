@@ -10,10 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $extension = new HOCWP_Theme_Extension( __FILE__ );
 
-HT_Extension()->deprecated( $extension->name, '6.4.2', 'Media Player' );
+ht_extension()->deprecated( $extension->name, '6.4.2', 'Media Player' );
 
 function hocwp_theme_load_extension_jwplayer() {
-	return apply_filters( 'hocwp_theme_load_extension_jwplayer', HT_extension()->is_active( __FILE__ ) );
+	return apply_filters( 'hocwp_theme_load_extension_jwplayer', ht_extension()->is_active( __FILE__ ) );
 }
 
 $load = hocwp_theme_load_extension_jwplayer();

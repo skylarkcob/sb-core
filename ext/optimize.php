@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$load = apply_filters( 'hocwp_theme_load_extension_optimize', HT_extension()->is_active( __FILE__ ) );
+$load = apply_filters( 'hocwp_theme_load_extension_optimize', ht_extension()->is_active( __FILE__ ) );
 
 if ( ! $load ) {
 	return;
@@ -36,7 +36,7 @@ function hocwp_theme_force_inline_css_and_js() {
 
 							$wp_styles->registered[ $queue ] = $data;
 						}
-						$filesystem = HT_Util()->filesystem();
+						$filesystem = ht_util()->filesystem();
 						$code       = $filesystem->get_contents( $src );
 					}
 				}

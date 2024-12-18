@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'hocwp_theme_load_extension_dynamic_sidebar' ) ) {
 	function hocwp_theme_load_extension_dynamic_sidebar() {
-		return apply_filters( 'hocwp_theme_load_extension_dynamic_sidebar', HT_extension()->is_active( __FILE__ ) );
+		return apply_filters( 'hocwp_theme_load_extension_dynamic_sidebar', ht_extension()->is_active( __FILE__ ) );
 	}
 }
 

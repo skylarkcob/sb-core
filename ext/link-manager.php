@@ -57,7 +57,7 @@ if ( ! class_exists( 'HOCWP_EXT_Bookmark' ) ) {
 			if ( 'thumbnail' == $column_name ) {
 				$id = get_post_meta( $link_id, 'thumbnail_id', true );
 
-				if ( HT()->is_positive_number( $id ) ) {
+				if ( ht()->is_positive_number( $id ) ) {
 					echo wp_get_attachment_image( $id, 'full' );
 				}
 			}
@@ -95,7 +95,7 @@ if ( ! class_exists( 'HOCWP_EXT_Bookmark' ) ) {
 				$action = isset( $_POST['action'] ) ? $_POST['action'] : '';
 
 				if ( $location == admin_url( 'link-manager.php' ) ) {
-					if ( 'save' == $action && isset( $_POST['link_id'] ) && HT()->is_positive_number( $_POST['link_id'] ) ) {
+					if ( 'save' == $action && isset( $_POST['link_id'] ) && ht()->is_positive_number( $_POST['link_id'] ) ) {
 						$location = admin_url( 'link.php' );
 
 						$params = array( 'action' => 'edit', 'link_id' => $_POST['link_id'], 'updated' => 'true' );
@@ -116,10 +116,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Bookmark()->get_instance();
+$extension = hte_bookmark()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Bookmark() {
+function hte_bookmark() {
 	return HOCWP_EXT_Bookmark::get_instance();
 }

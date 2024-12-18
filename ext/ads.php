@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'hocwp_theme_load_extension_ads' ) ) {
 	function hocwp_theme_load_extension_ads() {
-		return apply_filters( 'hocwp_theme_load_extension_ads', HT_extension()->is_active( __FILE__ ) );
+		return apply_filters( 'hocwp_theme_load_extension_ads', ht_extension()->is_active( __FILE__ ) );
 	}
 }
 
@@ -110,7 +110,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 
 			ob_start();
 
-			HT_Util()->display_ads( $atts );
+			ht_util()->display_ads( $atts );
 
 			return ob_get_clean();
 		}
@@ -150,7 +150,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 				$vast_ads = isset( $args['vast_ads'] ) ? $args['vast_ads'] : false;
 
 				if ( ! empty( $position ) || $vast_ads ) {
-					$random = (bool) HT()->get_value_in_array( $args, 'random' );
+					$random = (bool) ht()->get_value_in_array( $args, 'random' );
 
 					if ( 'random' == $position ) {
 						$random = true;
@@ -259,7 +259,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 						)
 					);
 
-					if ( function_exists( 'HT_Util' ) && HT_Util()->is_amp() ) {
+					if ( function_exists( 'ht_util' ) && ht_util()->is_amp() ) {
 						$key = 'only_amp';
 
 						$meta_query[] = array(
@@ -276,7 +276,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 
 					$args = apply_filters( 'hocwp_theme_extension_ads_query_args', $args, $position );
 
-					$query = HT_Query()->posts_by_meta( 'position', $position, $args );
+					$query = ht_query()->posts_by_meta( 'position', $position, $args );
 				}
 			}
 
@@ -293,7 +293,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 				if ( is_string( $args ) ) {
 					$position = $args;
 				} elseif ( is_array( $args ) ) {
-					$position = HT()->get_value_in_array( $args, 'position' );
+					$position = ht()->get_value_in_array( $args, 'position' );
 				}
 
 				$ads = $this->query( $args );
@@ -320,7 +320,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 				if ( empty( $code ) ) {
 					$image = get_post_meta( $ads->ID, 'image', true );
 
-					if ( ! empty( $image ) && HT_Media()->exists( $image ) ) {
+					if ( ! empty( $image ) && ht_media()->exists( $image ) ) {
 						$image = wp_get_attachment_url( $image );
 						$img   = new HOCWP_Theme_HTML_Tag( 'img' );
 						$img->add_attribute( 'src', $image );
@@ -339,7 +339,7 @@ if ( ! class_exists( 'HOCWP_Ext_Ads' ) ) {
 				}
 
 				if ( ! empty( $code ) ) {
-					$class = HT()->get_value_in_array( $args, 'class' );
+					$class = ht()->get_value_in_array( $args, 'class' );
 					$class .= ' hocwp-ads text-center ads';
 
 					if ( ! empty( $position ) ) {
@@ -381,10 +381,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Ads()->get_instance();
+$extension = hte_ads()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Ads() {
+function hte_ads() {
 	return HOCWP_Ext_Ads::get_instance();
 }

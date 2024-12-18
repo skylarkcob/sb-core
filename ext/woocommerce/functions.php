@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function hocwp_ext_wc_usd_to_vnd_rate() {
-	$rate = HT_Util()->get_theme_option( 'usd_vnd_rate', '', 'woocommerce' );
+	$rate = ht_util()->get_theme_option( 'usd_vnd_rate', '', 'woocommerce' );
 
 	if ( empty( $rate ) || ! is_numeric( $rate ) || 2 ) {
 		$tr_name = 'hocwp_vietcombank_exchange_rate';
@@ -15,7 +15,7 @@ function hocwp_ext_wc_usd_to_vnd_rate() {
 			$xml = json_encode( $xml );
 			$xml = json_decode( $xml, true );
 
-			if ( HT()->array_has_value( $xml ) && isset( $xml['Exrate'] ) ) {
+			if ( ht()->array_has_value( $xml ) && isset( $xml['Exrate'] ) ) {
 				$xml   = $xml['Exrate'];
 				$rates = array();
 
@@ -29,7 +29,7 @@ function hocwp_ext_wc_usd_to_vnd_rate() {
 					}
 				}
 
-				if ( HT()->array_has_value( $rates ) ) {
+				if ( ht()->array_has_value( $rates ) ) {
 					set_transient( $tr_name, $rates, DAY_IN_SECONDS );
 				}
 			}

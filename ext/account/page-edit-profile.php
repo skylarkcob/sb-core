@@ -82,7 +82,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 			if ( $updated ) {
 				update_user_meta( $user_id, 'description', $description );
 
-				if ( HT()->array_has_value( $contacts ) ) {
+				if ( ht()->array_has_value( $contacts ) ) {
 					foreach ( $contacts as $name => $label ) {
 						$key   = 'contact_' . $name;
 						$value = $_POST[ $key ] ?? '';
@@ -130,7 +130,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 
 							<p>
 								<strong><?php _e( 'Joined:', 'sb-core' ); ?></strong>
-								<span><?php echo date( HOCWP_Theme()->get_date_format(), strtotime( $user->user_registered ) ); ?></span>
+								<span><?php echo date( hocwp_theme()->get_date_format(), strtotime( $user->user_registered ) ); ?></span>
 							</p>
 
 							<p>
@@ -308,7 +308,7 @@ $contacts = wp_get_user_contact_methods( $user_id );
 							</div>
 							<div class="tab-pane" id="profileContact">
 								<?php
-								if ( HT()->array_has_value( $contacts ) ) {
+								if ( ht()->array_has_value( $contacts ) ) {
 									foreach ( $contacts as $name => $label ) {
 										$value = get_user_meta( $user_id, $name, true );
 										?>

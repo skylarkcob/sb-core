@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'hocwp_theme_load_extension_add_post_frontend' ) ) {
 	function hocwp_theme_load_extension_add_post_frontend() {
-		return apply_filters( 'hocwp_theme_load_extension_add_post_frontend', HT_extension()->is_active( __FILE__ ) );
+		return apply_filters( 'hocwp_theme_load_extension_add_post_frontend', ht_extension()->is_active( __FILE__ ) );
 	}
 }
 
@@ -262,7 +262,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function handle_post_bulk_action( $redirect_to, $doaction, $post_ids ) {
-			if ( 'publish' == $doaction && HT()->array_has_value( $post_ids ) ) {
+			if ( 'publish' == $doaction && ht()->array_has_value( $post_ids ) ) {
 				foreach ( $post_ids as $post_id ) {
 					$data = array(
 						'ID'          => $post_id,
@@ -290,30 +290,30 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 		public function admin_scripts() {
 			if ( is_admin_bar_showing() ) {
-				wp_enqueue_style( 'hocwp-theme-user-logged-in-style', HOCWP_Theme()->core_url . '/css/user-logged-in' . HOCWP_THEME_CSS_SUFFIX );
+				wp_enqueue_style( 'hocwp-theme-user-logged-in-style', hocwp_theme()->core_url . '/css/user-logged-in' . HOCWP_THEME_CSS_SUFFIX );
 			}
 		}
 
 		public function save_post( $post_id ) {
 			$taxs = $this->get_once_hierarchical_taxonomies();
 
-			if ( HT()->array_has_value( $taxs ) ) {
+			if ( ht()->array_has_value( $taxs ) ) {
 				foreach ( $taxs as $taxonomy ) {
 					if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 						$term_ids = isset( $_POST['tax_input'][ $taxonomy ] ) ? $_POST['tax_input'][ $taxonomy ] : '';
 
-						if ( HT()->array_has_value( $term_ids ) ) {
+						if ( ht()->array_has_value( $term_ids ) ) {
 							$term_ids = array_unique( $term_ids );
 							$term_ids = array_filter( $term_ids );
 
 							if ( 1 < count( $term_ids ) ) {
 								$term_id = array_shift( $term_ids );
 
-								while ( ! HT()->is_positive_number( $term_id ) && HT()->array_has_value( $term_ids ) ) {
+								while ( ! ht()->is_positive_number( $term_id ) && ht()->array_has_value( $term_ids ) ) {
 									$term_id = array_shift( $term_ids );
 								}
 
-								if ( HT()->is_positive_number( $term_id ) ) {
+								if ( ht()->is_positive_number( $term_id ) ) {
 									wp_set_object_terms( $post_id, array( absint( $term_id ) ), $taxonomy );
 								}
 							}
@@ -330,7 +330,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				'textarea_name' => 'add_post_content'
 			);
 
-			if ( 1 == HT_Options()->get_tab( 'insert_media', '', 'add_post_frontend' ) ) {
+			if ( 1 == ht_options()->get_tab( 'insert_media', '', 'add_post_frontend' ) ) {
 				unset( $defaults['media_buttons'] );
 			}
 
@@ -342,28 +342,28 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function check_data_before_submit_post( $errors ) {
-			if ( $this->use_captcha() && HT_CAPTCHA()->check_config_valid() ) {
-				$response = HT_CAPTCHA()->check_valid();
+			if ( $this->use_captcha() && ht_captcha()->check_config_valid() ) {
+				$response = ht_captcha()->check_valid();
 
-				$errors = HT_CAPTCHA()->control_captcha_errors( $response, $errors );
+				$errors = ht_captcha()->control_captcha_errors( $response, $errors );
 			}
 
 			return $errors;
 		}
 
 		public function check_captcha_config() {
-			return HT_CAPTCHA()->check_config_valid();
+			return ht_captcha()->check_config_valid();
 		}
 
 		public function admin_notices_action() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 
 			if ( isset( $_REQUEST['published_posts'] ) ) {
 				$count = absint( $_REQUEST['published_posts'] );
 
-				if ( HT()->is_positive_number( $count ) ) {
+				if ( ht()->is_positive_number( $count ) ) {
 					global $post_type;
 
 					if ( empty( $post_type ) ) {
@@ -377,12 +377,12 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 						'message' => sprintf( __( '%d %s has/have been published successfully.', 'sb-core' ), $count, $object->labels->singular_name )
 					);
 
-					HT_Util()->admin_notice( $args );
+					ht_util()->admin_notice( $args );
 				}
 			}
 
 			if ( $this->use_captcha() ) {
-				if ( ! HT_CAPTCHA()->check_config_valid() ) {
+				if ( ! ht_captcha()->check_config_valid() ) {
 					$msg = sprintf( __( 'You must fully input settings in <a href="%s">Social tab</a> for Add Post Frontend extension works normally.', 'sb-core' ), admin_url( 'themes.php?page=hocwp_theme&tab=social' ) );
 
 					$args = array(
@@ -390,13 +390,13 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 						'message' => sprintf( '<strong>%s</strong> %s', __( 'Add Post Frontend:', 'sb-core' ), $msg )
 					);
 
-					HT_Util()->admin_notice( $args );
+					ht_util()->admin_notice( $args );
 				}
 			}
 		}
 
 		public function use_captcha() {
-			return (bool) HT_Options()->get_tab( 'captcha', '', 'add_post_frontend' );
+			return (bool) ht_options()->get_tab( 'captcha', '', 'add_post_frontend' );
 		}
 
 		public function generate_preview_taxs( $tax_args = array() ) {
@@ -414,7 +414,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 			HTE_Add_Post_Frontend()->filter_combined_disabled_taxonomies( $taxonomies, $tags );
 
-			if ( HT()->array_has_value( $combined_taxonomies ) ) {
+			if ( ht()->array_has_value( $combined_taxonomies ) ) {
 				$combined_taxonomies = array_map( 'get_taxonomy', $combined_taxonomies );
 
 				$id    = 'taxonomy-';
@@ -444,7 +444,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				}
 			}
 
-			if ( HT()->array_has_value( $taxonomies ) ) {
+			if ( ht()->array_has_value( $taxonomies ) ) {
 				$chunks = array_chunk( $taxonomies, 2 );
 
 				foreach ( $chunks as $taxonomies ) {
@@ -474,7 +474,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function filter_combined_disabled_taxonomies( &$taxonomies, &$tags ) {
-			if ( HT()->array_has_value( $taxonomies ) ) {
+			if ( ht()->array_has_value( $taxonomies ) ) {
 				$disabled_taxonomies = HTE_Add_Post_Frontend()->get_disabled_taxonomies();
 				$combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 
@@ -525,7 +525,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 					$terms = $query->get_terms();
 
-					if ( HT()->array_has_value( $terms ) ) {
+					if ( ht()->array_has_value( $terms ) ) {
 						$id    .= $taxonomy->name . '-';
 						$label .= $taxonomy->labels->singular_name . '/';
 
@@ -675,7 +675,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		public function add_combined_taxonomies_to_list( &$taxonomies, $post_type, $args = array() ) {
 			$combined_taxonomies = HTE_Add_Post_Frontend()->get_combined_taxonomies();
 
-			if ( HT()->array_has_value( $combined_taxonomies ) ) {
+			if ( ht()->array_has_value( $combined_taxonomies ) ) {
 				if ( ! isset( $args['object_type'] ) ) {
 					$args['object_type'] = $post_type;
 				}
@@ -696,7 +696,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					}
 				}
 
-				if ( HT()->array_has_value( $taxs ) ) {
+				if ( ht()->array_has_value( $taxs ) ) {
 					$list_even = ( 0 == ( count( $taxonomies ) % 2 ) );
 
 					$args['even'] = ! $list_even;
@@ -708,7 +708,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					$taxonomies[] = ob_get_clean();
 				}
 
-				if ( HT()->array_has_value( $man_taxs ) ) {
+				if ( ht()->array_has_value( $man_taxs ) ) {
 					$list_even = ( 0 == ( count( $taxonomies ) % 2 ) );
 
 					if ( isset( $args['right_label'] ) && (bool) $args['right_label'] ) {
@@ -731,7 +731,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		public function add_manually_taxonomies_to_list( &$taxonomies, $post_type, $args = array() ) {
 			$taxonomies = HTE_Add_Post_Frontend()->get_manually_taxonomies();
 
-			if ( HT()->array_has_value( $taxonomies ) ) {
+			if ( ht()->array_has_value( $taxonomies ) ) {
 				if ( ! isset( $args['object_type'] ) ) {
 					$args['object_type'] = $post_type;
 				}
@@ -744,7 +744,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					}
 				}
 
-				if ( HT()->array_has_value( $taxs ) ) {
+				if ( ht()->array_has_value( $taxs ) ) {
 					$list_even = ( 0 == ( count( $taxonomies ) % 2 ) );
 
 					$args['even'] = ! $list_even;
@@ -759,7 +759,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function taxonomy_form_group_html( $taxonomies, $args = array() ) {
-			if ( HT()->array_has_value( $taxonomies ) ) {
+			if ( ht()->array_has_value( $taxonomies ) ) {
 				$even = ( 0 == ( count( $taxonomies ) % 2 ) );
 
 				$required_taxonomies = HTE_Add_Post_Frontend()->get_required_taxonomies();
@@ -842,7 +842,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 					<?php
 				}
 
-				$has_cb_mn = HT()->array_has_value( $last_chunk );
+				$has_cb_mn = ht()->array_has_value( $last_chunk );
 
 				if ( 2 != $count_last || $has_cb_mn ) {
 					if ( $has_cb_mn ) {
@@ -889,7 +889,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 				$required = isset( $args['required'] ) ? (bool) $args['required'] : false;
 
 				if ( $required ) {
-					$req = sprintf( ' (%s)', HT()->required_mark() );
+					$req = sprintf( ' (%s)', ht()->required_mark() );
 
 					$box_args['required'] = true;
 				}
@@ -956,7 +956,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 				$name = 'add_' . $taxonomy->name;
 
-				$before = HT()->get_value_in_array( $args, 'before' );
+				$before = ht()->get_value_in_array( $args, 'before' );
 
 				echo $before;
 
@@ -992,7 +992,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 					$replace = '<select data-taxonomy="' . $taxonomy->name . '"';
 
-					$replace .= ' data-hierarchical="' . HT()->bool_to_int( $taxonomy->hierarchical ) . '"';
+					$replace .= ' data-hierarchical="' . ht()->bool_to_int( $taxonomy->hierarchical ) . '"';
 
 					if ( $manually ) {
 						$replace .= ' data-combobox="1"';
@@ -1008,13 +1008,13 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
                     <input name="<?php echo esc_attr( $name ); ?>" id="taxonomy-<?php echo $taxonomy->name; ?>"
                            class="form-control nonhierarchical-taxonomy" data-autocomplete="1"
                            data-taxonomy="<?php echo $taxonomy->name; ?>"
-                           placeholder=""<?php HT()->checked_selected_helper( true, $required, true, 'required' ); ?>>
+                           placeholder=""<?php ht()->checked_selected_helper( true, $required, true, 'required' ); ?>>
                     <p class="description"><?php _e( 'Each value separated by commas.', 'sb-core' ); ?></p>
                     <div class="help-block with-errors"></div>
 					<?php
 				}
 
-				$after = HT()->get_value_in_array( $args, 'after' );
+				$after = ht()->get_value_in_array( $args, 'after' );
 
 				echo $after;
 			}
@@ -1048,10 +1048,10 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function change_post_type_ajax_callback() {
-			$post_type = HT()->get_method_value( 'post_type' );
+			$post_type = ht()->get_method_value( 'post_type' );
 
 			if ( post_type_exists( $post_type ) ) {
-				$right_label = HT()->get_method_value( 'right_label' );
+				$right_label = ht()->get_method_value( 'right_label' );
 
 				$taxonomies = get_object_taxonomies( $post_type, OBJECT );
 
@@ -1098,12 +1098,12 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 		public function enqueue_scripts() {
 			if ( is_admin_bar_showing() ) {
-				wp_enqueue_style( 'hocwp-theme-user-logged-in-style', HOCWP_Theme()->core_url . '/css/user-logged-in' . HOCWP_THEME_CSS_SUFFIX );
+				wp_enqueue_style( 'hocwp-theme-user-logged-in-style', hocwp_theme()->core_url . '/css/user-logged-in' . HOCWP_THEME_CSS_SUFFIX );
 			}
 
-			$page = HT_Util()->get_theme_option_page( 'new_post_page', 'add_post_frontend' );
+			$page = ht_util()->get_theme_option_page( 'new_post_page', 'add_post_frontend' );
 
-			if ( HT_Options()->check_page_valid( $page ) && is_page( $page->ID ) ) {
+			if ( ht_options()->check_page_valid( $page ) && is_page( $page->ID ) ) {
 				wp_enqueue_style( 'hte-add-post-frontend-style', SB_Core()->url . '/css/add-post-frontend' . HOCWP_THEME_CSS_SUFFIX );
 
 				wp_enqueue_script( 'hte-add-post-frontend', SB_Core()->url . '/js/add-post-frontend' . HOCWP_THEME_JS_SUFFIX, array(
@@ -1119,8 +1119,8 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 
 				wp_localize_script( 'hte-add-post-frontend', 'hteAddPostFrontend', $l10n );
 
-				HT_Enqueue()->combobox();
-				HT_Enqueue()->autocomplete();
+				ht_enqueue()->combobox();
+				ht_enqueue()->autocomplete();
 			}
 		}
 
@@ -1137,7 +1137,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		private function get_taxonomies_option_array( $option_name ) {
-			$taxs = HT_Options()->get_tab( $option_name, '', 'add_post_frontend' );
+			$taxs = ht_options()->get_tab( $option_name, '', 'add_post_frontend' );
 
 			if ( ! is_array( $taxs ) ) {
 				$taxs = array();
@@ -1167,7 +1167,7 @@ if ( ! class_exists( 'HOCWP_EXT_Add_Post_Frontend' ) ) {
 		}
 
 		public function can_upload_thumbnail() {
-			return (bool) HT_Options()->get_tab( 'upload_thumbnail', '', 'add_post_frontend' );
+			return (bool) ht_options()->get_tab( 'upload_thumbnail', '', 'add_post_frontend' );
 		}
 
 		public function form_control_thumbnail() {
@@ -1205,10 +1205,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Add_Post_Frontend()->get_instance();
+$extension = hte_add_post_frontend()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Add_Post_Frontend() {
+function hte_add_post_frontend() {
 	return HOCWP_EXT_Add_Post_Frontend::get_instance();
 }

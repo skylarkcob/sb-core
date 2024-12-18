@@ -13,7 +13,7 @@ function hocwp_ext_dynamic_sidebar_init_action() {
 		'show_ui'       => true
 	);
 
-	$args = HT_Util()->post_type_args( $args );
+	$args = ht_util()->post_type_args( $args );
 
 	register_post_type( 'hocwp_sidebar', $args );
 }

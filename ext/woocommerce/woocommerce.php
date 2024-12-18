@@ -81,7 +81,7 @@ add_filter( 'post_thumbnail_id', function ( $thumbnail_id, $post ) {
 			$obj = new WC_Product( $post_id );
 			$ids = $obj->get_gallery_image_ids( 'mysql' );
 
-			if ( HT()->array_has_value( $ids ) ) {
+			if ( ht()->array_has_value( $ids ) ) {
 				$thumbnail_id = current( $ids );
 			}
 		}
@@ -100,7 +100,7 @@ add_filter( 'woocommerce_cart_item_thumbnail', function ( $value, $item ) {
 		if ( empty( $obj->get_image_id() ) ) {
 			$ids = $obj->get_gallery_image_ids( 'mysql' );
 
-			if ( HT()->array_has_value( $ids ) ) {
+			if ( ht()->array_has_value( $ids ) ) {
 				$thumbnail_id = current( $ids );
 				$value        = wp_get_attachment_image( $thumbnail_id, 'woocommerce_thumbnail' );
 			}

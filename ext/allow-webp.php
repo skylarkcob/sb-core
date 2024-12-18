@@ -40,10 +40,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HOCWP_EXT_Allow_Webp();
+$extension = hocwp_ext_allow_webp();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HOCWP_EXT_Allow_Webp() {
+function hocwp_ext_allow_webp() {
 	return HOCWP_EXT_Allow_Webp::get_instance();
 }

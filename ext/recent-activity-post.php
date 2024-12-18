@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$load = apply_filters( 'hocwp_theme_load_extension_recent_activity_post', HT_extension()->is_active( __FILE__ ) );
+$load = apply_filters( 'hocwp_theme_load_extension_recent_activity_post', ht_extension()->is_active( __FILE__ ) );
 
 if ( ! $load ) {
 	return;

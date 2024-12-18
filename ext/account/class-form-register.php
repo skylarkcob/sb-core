@@ -133,7 +133,7 @@ class HTE_Account_Form_Register {
 						<?php
 						$page_id = get_option( 'wp_page_for_privacy_policy' );
 
-						if ( HT()->is_positive_number( $page_id ) ) {
+						if ( ht()->is_positive_number( $page_id ) ) {
 							$page = get_post( $page_id );
 
 							if ( $page instanceof WP_Post ) {
@@ -237,7 +237,7 @@ class HTE_Account_Form_Register {
 							} else {
 								$errors = register_new_user( $user_login, $user_email );
 
-								if ( ( ! ( $errors instanceof WP_Error ) || empty( $errors->get_error_code() ) ) && HT()->is_positive_number( $errors ) ) {
+								if ( ( ! ( $errors instanceof WP_Error ) || empty( $errors->get_error_code() ) ) && ht()->is_positive_number( $errors ) ) {
 									$user_id = $errors;
 
 									$added = true;

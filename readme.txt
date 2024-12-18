@@ -59,6 +59,7 @@ Go to Appearance → Settings → Extensions and look for the extension you want
 domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early.
 Translations should be loaded at the init action or later.
 * 09/12/2024: Need check verify email key with saved key in database.
+* 18/12/2024: Update all function using snake_case.
 
 = 2.6.2 =
 * 29/11/2024: Now plugin require PHP 8.0 or later.

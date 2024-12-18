@@ -233,7 +233,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 						}
 					}
 
-					HT()->wrap_text( $text, '<h2 class="' . $class . '">', '</h2>', true );
+					ht()->wrap_text( $text, '<h2 class="' . $class . '">', '</h2>', true );
 
 					while ( $query->have_posts() ) {
 						$query->the_post();
@@ -289,7 +289,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 					$class = 'schedule-day-of-week weekday';
 
-					HT()->wrap_text( $text, '<h2 class="' . $class . '">', '</h2>', true );
+					ht()->wrap_text( $text, '<h2 class="' . $class . '">', '</h2>', true );
 
 					while ( $query->have_posts() ) {
 						$query->the_post();
@@ -309,7 +309,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 							<a title="<?php _e( 'See all releases for this post', 'sb-core' ); ?>"
 							   href="<?php echo get_permalink( $parent ); ?>"><?php echo $parent->post_title; ?></a>
 							<span
-								class="schedule-time fr"><?php echo date( HOCWP_Theme()->get_date_format() . ' - H:i A', strtotime( $object->post_date ) ); ?></span>
+								class="schedule-time fr"><?php echo date( hocwp_theme()->get_date_format() . ' - H:i A', strtotime( $object->post_date ) ); ?></span>
 						</p>
 						<?php
 					}
@@ -420,7 +420,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 					if ( $this->is_anime( $anime ) ) {
 						$id = isset( $_GET['id'] ) ? $_GET['id'] : '';
 
-						if ( HT()->is_positive_number( $id ) ) {
+						if ( ht()->is_positive_number( $id ) ) {
 							$episode = get_post( $id );
 
 							if ( $this->is_episode( $episode ) ) {
@@ -453,11 +453,11 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				} else {
 					$id = isset( $_GET['id'] ) ? $_GET['id'] : '';
 
-					if ( HT()->is_positive_number( $id ) ) {
+					if ( ht()->is_positive_number( $id ) ) {
 						$episode = get_post( $id );
 
 						if ( $this->is_episode( $episode ) ) {
-							if ( ! $this->is_anime( $anime ) && HT()->is_positive_number( $episode->post_parent ) ) {
+							if ( ! $this->is_anime( $anime ) && ht()->is_positive_number( $episode->post_parent ) ) {
 								$obj = get_post( $episode->post_parent );
 
 								if ( $this->is_anime( $obj ) ) {
@@ -514,7 +514,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				return $details;
 			}
 
-			if ( HT()->array_has_value( $details ) ) {
+			if ( ht()->array_has_value( $details ) ) {
 				$anime = $details[0];
 
 				if ( $this->is_anime( $anime ) ) {
@@ -579,7 +579,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 		public function shortcode_anime_search_advanced( $atts = array() ) {
 			$atts = shortcode_atts( array(
-				'posts_per_page' => HT_Util()->get_posts_per_page()
+				'posts_per_page' => ht_util()->get_posts_per_page()
 			), $atts );
 
 			$s = isset( $_GET['s'] ) ? $_GET['s'] : '';
@@ -587,7 +587,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			$args = array(
 				'post_type'       => $this->get_post_type(),
 				'posts_per_page'  => $atts['posts_per_page'],
-				'paged'           => HT_Util()->get_paged(),
+				'paged'           => ht_util()->get_paged(),
 				'advanced_search' => true
 			);
 
@@ -602,7 +602,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			foreach ( $taxs as $taxonomy ) {
 				$key = 'a_' . $taxonomy->name;
 
-				if ( isset( $_GET[ $key ] ) && HT()->is_positive_number( $_GET[ $key ] ) ) {
+				if ( isset( $_GET[ $key ] ) && ht()->is_positive_number( $_GET[ $key ] ) ) {
 					$tax_query[] = array(
 						'taxonomy' => $taxonomy->name,
 						'field'    => 'term_id',
@@ -611,7 +611,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				}
 			}
 
-			if ( HT()->array_has_value( $tax_query ) ) {
+			if ( ht()->array_has_value( $tax_query ) ) {
 				$tax_query['relation'] = 'AND';
 				$args['tax_query']     = $tax_query;
 			}
@@ -701,7 +701,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				</div>
 				<div class="form-group">
 					<?php
-					if ( HT()->array_has_value( $taxs ) ) {
+					if ( ht()->array_has_value( $taxs ) ) {
 						$count  = count( $taxs );
 						$column = 12 / ( $count + 1 );
 						$column = intval( $column );
@@ -790,13 +790,13 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 		public function shortcode_anime_list( $atts = array() ) {
 			$atts = shortcode_atts( array(
-				'posts_per_page' => HT_Util()->get_posts_per_page()
+				'posts_per_page' => ht_util()->get_posts_per_page()
 			), $atts );
 
 			$args = array(
 				'post_type'      => $this->get_post_type(),
 				'posts_per_page' => $atts['posts_per_page'],
-				'paged'          => HT_Util()->get_paged()
+				'paged'          => ht_util()->get_paged()
 			);
 
 			$query = new WP_Query( $args );
@@ -821,7 +821,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function meta_boxes( $post ) {
-			$post_id = HT_Admin()->get_current_post_id( $post );
+			$post_id = ht_admin()->get_current_post_id( $post );
 
 			$meta = new HOCWP_Theme_Meta_Post();
 			$meta->add_post_type( $this->get_post_type() );
@@ -848,7 +848,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 			$servers = $this->get_movie_servers( $post_id );
 
-			if ( HT()->array_has_value( $servers ) ) {
+			if ( ht()->array_has_value( $servers ) ) {
 				$meta = new HOCWP_Theme_Meta_Post();
 				$meta->add_post_type( $this->episode_post_type );
 
@@ -879,7 +879,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			$servers = $this->get_option( 'servers' );
 			$servers = explode( ',', $servers );
 
-			if ( HT()->is_positive_number( $post_id ) ) {
+			if ( ht()->is_positive_number( $post_id ) ) {
 				$custom = get_post_meta( $post_id, 'anime_custom_servers', true );
 
 				if ( ! empty( $custom ) ) {
@@ -902,7 +902,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				$post_id = $post->ID;
 			}
 
-			if ( ! HT()->is_positive_number( $post_id ) ) {
+			if ( ! ht()->is_positive_number( $post_id ) ) {
 				echo wpautop( __( 'No episodes found!', 'sb-core' ) );
 
 				return;
@@ -960,7 +960,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 		private function build_episode_document_title( $title, $episode, $context = 'document' ) {
 			if ( $this->is_episode( $episode ) ) {
-				$sep = apply_filters( 'document_title_separator', HT_Frontend()->get_separator() );
+				$sep = apply_filters( 'document_title_separator', ht_frontend()->get_separator() );
 
 				$parent = get_post( $episode->post_parent );
 
@@ -1143,8 +1143,8 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function manage_episode_custom_columns( $columns ) {
-			$columns = HT()->insert_to_array( $columns, __( 'Post parent', 'sb-core' ), 'before_tail', 'post_parent' );
-			$columns = HT()->insert_to_array( $columns, __( 'Thumbnail', 'sb-core' ), 'after_head', 'thumbnail' );
+			$columns = ht()->insert_to_array( $columns, __( 'Post parent', 'sb-core' ), 'before_tail', 'post_parent' );
+			$columns = ht()->insert_to_array( $columns, __( 'Thumbnail', 'sb-core' ), 'after_head', 'thumbnail' );
 
 			//$columns = HT()->insert_to_array( $columns, __( 'Parent Thumbnail', 'sb-core' ), 'after_head', 'parent_thumbnail' );
 
@@ -1152,7 +1152,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function anime_posts_custom_columns( $columns ) {
-			$columns = HT()->insert_to_array( $columns, __( 'Thumbnail', 'sb-core' ), 'after_head', 'thumbnail' );
+			$columns = ht()->insert_to_array( $columns, __( 'Thumbnail', 'sb-core' ), 'after_head', 'thumbnail' );
 
 			return $columns;
 		}
@@ -1167,7 +1167,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			if ( 'post_parent' == $column ) {
 				$obj = get_post( $post_id );
 
-				if ( HT()->is_positive_number( $obj->post_parent ) ) {
+				if ( ht()->is_positive_number( $obj->post_parent ) ) {
 					$parent = get_post( $obj->post_parent );
 
 					echo '<a href="' . get_edit_post_link( $parent ) . '">' . $parent->post_title . '</a>';
@@ -1176,7 +1176,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			} elseif ( 'parent_thumbnail' == $column ) {
 				$obj = get_post( $post_id );
 
-				if ( HT()->is_positive_number( $obj->post_parent ) ) {
+				if ( ht()->is_positive_number( $obj->post_parent ) ) {
 					$parent = get_post( $obj->post_parent );
 
 					if ( $this->is_anime( $parent ) ) {
@@ -1209,8 +1209,8 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function post_updated_messages_filter( $messages ) {
-			$post_type = HT_Admin()->get_current_post_type();
-			$post_id   = HT_Admin()->get_current_post_id();
+			$post_type = ht_admin()->get_current_post_type();
+			$post_id   = ht_admin()->get_current_post_id();
 
 			if ( $this->episode_post_type == $post_type ) {
 				$post_type_object = get_post_type_object( $post_type );
@@ -1238,7 +1238,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			if ( $this->is_viewing_movie() ) {
 				$details = $this->get_viewing_movie_details();
 
-				if ( HT()->array_has_value( $details ) && isset( $details[1] ) && $this->is_episode( $details[1] ) ) {
+				if ( ht()->array_has_value( $details ) && isset( $details[1] ) && $this->is_episode( $details[1] ) ) {
 					return $details[1];
 				}
 
@@ -1378,7 +1378,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function get_episode_permalink( $post ) {
-			if ( HT()->is_positive_number( $post ) ) {
+			if ( ht()->is_positive_number( $post ) ) {
 				$post = get_post( $post );
 			}
 
@@ -1408,7 +1408,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			$post_type_object = get_post_type_object( $post->post_type );
 
 			if ( 'publish' == $post->post_status ) {
-				if ( $this->episode_post_type == $post->post_type && HT()->is_positive_number( $post->post_parent ) ) {
+				if ( $this->episode_post_type == $post->post_type && ht()->is_positive_number( $post->post_parent ) ) {
 					if ( ! $post_type_object->public && ! $post_type_object->publicly_queryable ) {
 						$actions['view'] = sprintf(
 							'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
@@ -1433,7 +1433,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		public function post_updated_messages( $messages ) {
 			$notices = $this->get_admin_notices();
 
-			if ( HT()->array_has_value( $notices ) ) {
+			if ( ht()->array_has_value( $notices ) ) {
 				unset( $messages['post'][6] );
 			}
 
@@ -1441,13 +1441,13 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function admin_notices() {
-			if ( function_exists( 'HT_Admin' ) && method_exists( HT_Admin(), 'skip_admin_notices' ) && HT_Admin()->skip_admin_notices() ) {
+			if ( function_exists( 'ht_admin' ) && method_exists( ht_admin(), 'skip_admin_notices' ) && ht_admin()->skip_admin_notices() ) {
 				return;
 			}
 
 			$notices = $this->get_admin_notices();
 
-			if ( HT()->array_has_value( $notices ) ) {
+			if ( ht()->array_has_value( $notices ) ) {
 				foreach ( $notices as $notice ) {
 					echo $notice;
 				}
@@ -1461,7 +1461,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			$prefix = get_post_meta( $post_id, 'prefix', true );
 
 			if ( $number ) {
-				$prefix = HT()->keep_only_number( $prefix, '.,+-' );
+				$prefix = ht()->keep_only_number( $prefix, '.,+-' );
 				$prefix = trim( $prefix, '.,+-' );
 			}
 
@@ -1494,15 +1494,15 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function admin_enqueue_scripts() {
-			if ( HT_Admin()->is_admin_page( array( 'post.php', 'post-new.php' ) ) ) {
-				if ( function_exists( 'HT_Enqueue' ) ) {
-					HT_Enqueue()->chosen();
+			if ( ht_admin()->is_admin_page( array( 'post.php', 'post-new.php' ) ) ) {
+				if ( function_exists( 'ht_enqueue' ) ) {
+					ht_enqueue()->chosen();
 				} else {
-					HT_Util()->enqueue_chosen();
+					ht_util()->enqueue_chosen();
 				}
 			}
 
-			if ( HT_Admin()->is_admin_page( array( 'post.php', 'post-new.php', 'edit.php' ) ) ) {
+			if ( ht_admin()->is_admin_page( array( 'post.php', 'post-new.php', 'edit.php' ) ) ) {
 				wp_enqueue_style( 'hte-anime-style', HOCWP_EXT_URL . '/css/admin-anime.css' );
 			}
 		}
@@ -1527,7 +1527,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 			if ( $this->episode_post_type == $post->post_type ) {
 				$parent_id = get_post_meta( $post->ID, 'parent_id', true );
 
-				if ( ! HT()->is_positive_number( $parent_id ) ) {
+				if ( ! ht()->is_positive_number( $parent_id ) ) {
 					$parent_id = isset( $_GET['post_parent'] ) ? $_GET['post_parent'] : '';
 				}
 
@@ -1560,7 +1560,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function save_post( $post_id ) {
-			if ( ( HT_Admin()->can_save_post( $post_id, 'add-post' ) || HT_Admin()->can_save_post( $post_id, 'update-post_' . $post_id ) ) && $this->episode_post_type == get_post_type( $post_id ) ) {
+			if ( ( ht_admin()->can_save_post( $post_id, 'add-post' ) || ht_admin()->can_save_post( $post_id, 'update-post_' . $post_id ) ) && $this->episode_post_type == get_post_type( $post_id ) ) {
 				$obj = get_post( $post_id );
 
 				if ( 'trash' == $obj->post_status ) {
@@ -1573,13 +1573,13 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 
 				$order_key = $obj->menu_order;
 
-				if ( ! HT()->is_positive_number( $obj->post_parent ) ) {
+				if ( ! ht()->is_positive_number( $obj->post_parent ) ) {
 					$args = array(
 						'message' => sprintf( __( 'Please set parent for this <strong>%s</strong>.', 'sb-core' ), $post_type_object->labels->singular_name ),
 						'type'    => 'error'
 					);
 
-					$notice = HT_Admin()->admin_notice( $args );
+					$notice = ht_admin()->admin_notice( $args );
 				} else {
 					do_action( 'hocwp_ext_anime_save_episode', $post_id, $obj );
 				}
@@ -1594,7 +1594,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 					if ( '' != $_POST['prefix'] ) {
 						$order_key = $_POST['prefix'];
 
-						$tmp = HT()->keep_only_number( $order_key, '.,+-' );
+						$tmp = ht()->keep_only_number( $order_key, '.,+-' );
 
 						if ( null != $tmp && false != $tmp ) {
 							$order_key = $tmp;
@@ -1692,12 +1692,12 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 		}
 
 		public function get_view_movie_url( $post_id = null, $ep_id = null ) {
-			$object = HT_Util()->return_post( $post_id );
+			$object = ht_util()->return_post( $post_id );
 
 			$url = home_url( $this->get_view_movie_endpoint() );
 			$url = trailingslashit( $url ) . $object->post_name;
 
-			if ( HT()->is_positive_number( $ep_id ) ) {
+			if ( ht()->is_positive_number( $ep_id ) ) {
 				$url = trailingslashit( $url ) . $ep_id;
 			}
 
@@ -1728,7 +1728,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				'menu_position'       => 5
 			);
 
-			$args = HT_Util()->post_type_args( $args );
+			$args = ht_util()->post_type_args( $args );
 
 			register_post_type( $this->episode_post_type, $args );
 
@@ -1738,7 +1738,7 @@ if ( ! class_exists( 'HOCWP_EXT_Anime' ) ) {
 				if ( ! empty( $post_type ) ) {
 					$args = isset( $data['args'] ) ? $data['args'] : '';
 
-					$args = HT_Util()->taxonomy_args( $args );
+					$args = ht_util()->taxonomy_args( $args );
 
 					register_taxonomy( $taxonomy, $post_type, $args );
 				}
@@ -1753,10 +1753,10 @@ if ( ! isset( $hocwp_theme->extensions ) || ! is_array( $hocwp_theme->extensions
 	$hocwp_theme->extensions = array();
 }
 
-$extension = HTE_Anime()->get_instance();
+$extension = hte_anime()->get_instance();
 
 $hocwp_theme->extensions[ $extension->basename ] = $extension;
 
-function HTE_Anime() {
+function hte_anime() {
 	return HOCWP_EXT_Anime::get_instance();
 }

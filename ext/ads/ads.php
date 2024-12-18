@@ -14,7 +14,7 @@ if ( ! function_exists( 'hocwp_ext_ads_register_object' ) ) {
 			'supports'     => array( 'title' )
 		);
 
-		$args = HT_Util()->post_type_args( $args );
+		$args = ht_util()->post_type_args( $args );
 
 		register_post_type( HTE_Ads()->post_type, $args );
 	}
