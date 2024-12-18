@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-12-06 23:42+0700\n"
-"PO-Revision-Date: 2024-12-06 23:42+0700\n"
+"POT-Creation-Date: 2024-12-18 20:49+0700\n"
+"PO-Revision-Date: 2024-12-18 20:49+0700\n"
 "Last-Translator: Cuong Lai Dinh <laidinhcuongvn@gmail.com>\n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
 "Language: vi\n"
@@ -40,9 +40,9 @@ msgstr ""
 msgid "Email Address Verified"
 msgstr "Địa chỉ email đã được xác nhận"
 
-#: ext/account.php:300 ext/account.php:431 ext/account.php:435
-#: ext/account.php:443 ext/account.php:467 ext/account.php:476
-#: ext/account.php:480 ext/account.php:485
+#: ext/account.php:300 ext/account.php:432 ext/account.php:436
+#: ext/account.php:444 ext/account.php:468 ext/account.php:477
+#: ext/account.php:481 ext/account.php:486
 msgid "Invalid key."
 msgstr "Mã không hợp lệ."
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Verify Email Address"
 msgstr "Xác minh địa chỉ email"
 
-#: ext/account.php:405
+#: ext/account.php:406
 #, php-format
 msgid ""
 "<strong>Verify email address:</strong> You must provide and verify your "
@@ -106,7 +106,7 @@ msgstr ""
 "chỉ email của bạn trước khi xem trang web. <a href=\"%s\">Nhấn vào đây</a> "
 "để cập nhật."
 
-#: ext/account.php:418
+#: ext/account.php:419
 #, php-format
 msgid ""
 "<strong>Verify phone number:</strong> You must provide and verify your phone "
@@ -116,12 +116,12 @@ msgstr ""
 "điện thoại của bạn trước khi xem trang web. <a href=\"%s\">Nhấn vào đây</a> "
 "để cập nhật."
 
-#: ext/account.php:665 ext/account/class-form-register.php:182
+#: ext/account.php:666 ext/account/class-form-register.php:182
 #: ext/account/page-lostpassword.php:193
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: ext/account.php:676
+#: ext/account.php:677
 msgid "No posts found."
 msgstr "Không có bài viết nào được tìm thấy."
 
@@ -1847,7 +1847,7 @@ msgstr "Thêm slide hình ảnh"
 msgid "Slider"
 msgstr "Trình chiếu"
 
-#: ext/slider.php:297 sb-core.php:262
+#: ext/slider.php:297 sb-core.php:248
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -2407,7 +2407,7 @@ msgstr ""
 "lòng dành thời gian để <a href=\"%s\" target=\"_blank\">nâng cấp nó</a>. Nếu "
 "bạn không phải là tác giả của giao diện, bạn chỉ việc tắt thông báo này đi."
 
-#: sb-core.php:96
+#: sb-core.php:97
 #, php-format
 msgid ""
 "<strong>Error:</strong> You are using PHP version %s, please upgrade PHP "
@@ -2416,15 +2416,15 @@ msgstr ""
 "<strong>Lỗi:</strong> Bạn đang sử dụng phiên bản PHP %s, xin vui lòng nâng "
 "cấp lên phiên bản PHP %s hoặc cao hơn."
 
-#: sb-core.php:97
+#: sb-core.php:98
 msgid "Invalid PHP Version"
 msgstr "Phiên bản PHP không hợp lệ"
 
-#: sb-core.php:222
+#: sb-core.php:208
 msgid "Invalid Theme Core Version"
 msgstr "Phiên bản nhân giao diện không hợp lệ"
 
-#: sb-core.php:225
+#: sb-core.php:211
 #, php-format
 msgid ""
 "<strong>Error:</strong> Plugin <code>%s</code> requires theme core version "
@@ -2435,19 +2435,19 @@ msgstr ""
 "giao diện <code>%s</code> hoặc cao hơn. Xin vui lòng nâng cấp giao diện của "
 "bạn hoặc hạ phiên bản plugin này xuống."
 
-#: sb-core.php:262
+#: sb-core.php:248
 msgid "Go to setting page"
 msgstr "Đến trang cài đặt"
 
-#: sb-core.php:284
+#: sb-core.php:270
 msgid "Reinstall plugin"
 msgstr "Cài lại plugin"
 
-#: sb-core.php:284
+#: sb-core.php:270
 msgid "Reinstall"
 msgstr "Cài đặt lại"
 
-#: sb-core.php:367
+#: sb-core.php:353
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must be using theme "
@@ -2461,7 +2461,7 @@ msgstr ""
 "bản của plugin xuống phiên bản thấp hơn, nhưng chúng tôi không khuyến khích "
 "bạn làm việc này."
 
-#: sb-core.php:390
+#: sb-core.php:376
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme "
@@ -2474,7 +2474,7 @@ msgstr ""
 "<code>hocwp-theme</code>, bạn có thể thay đổi giao diện <a href=\"%s\" "
 "title=\"%s\">tại đây</a>."
 
-#: sb-core.php:391
+#: sb-core.php:377
 msgid "View list themes"
 msgstr "Xem danh sách giao diện"
 

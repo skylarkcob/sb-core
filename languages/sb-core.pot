@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-12-06 23:41+0700\n"
+"POT-Creation-Date: 2024-12-18 20:48+0700\n"
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
@@ -35,8 +35,8 @@ msgstr ""
 msgid "Email Address Verified"
 msgstr ""
 
-#: ext/account.php:300 ext/account.php:431 ext/account.php:435 ext/account.php:443 ext/account.php:467 ext/account.php:476 ext/account.php:480
-#: ext/account.php:485
+#: ext/account.php:300 ext/account.php:432 ext/account.php:436 ext/account.php:444 ext/account.php:468 ext/account.php:477 ext/account.php:481
+#: ext/account.php:486
 msgid "Invalid key."
 msgstr ""
 
@@ -75,25 +75,25 @@ msgstr ""
 msgid "Verify Email Address"
 msgstr ""
 
-#: ext/account.php:405
+#: ext/account.php:406
 #, php-format
 msgid ""
 "<strong>Verify email address:</strong> You must provide and verify your email address before viewing site. <a href=\"%s\">Click here</a> to update "
 "it."
 msgstr ""
 
-#: ext/account.php:418
+#: ext/account.php:419
 #, php-format
 msgid ""
 "<strong>Verify phone number:</strong> You must provide and verify your phone number before viewing site. <a href=\"%s\">Click here</a> to update "
 "it."
 msgstr ""
 
-#: ext/account.php:665 ext/account/class-form-register.php:182 ext/account/page-lostpassword.php:193
+#: ext/account.php:666 ext/account/class-form-register.php:182 ext/account/page-lostpassword.php:193
 msgid "Login"
 msgstr ""
 
-#: ext/account.php:676
+#: ext/account.php:677
 msgid "No posts found."
 msgstr ""
 
@@ -1701,7 +1701,7 @@ msgstr ""
 msgid "Slider"
 msgstr ""
 
-#: ext/slider.php:297 sb-core.php:262
+#: ext/slider.php:297 sb-core.php:248
 msgid "Settings"
 msgstr ""
 
@@ -2233,52 +2233,52 @@ msgid ""
 "not theme author, just leave this message."
 msgstr ""
 
-#: sb-core.php:96
+#: sb-core.php:97
 #, php-format
 msgid "<strong>Error:</strong> You are using PHP version %s, please upgrade PHP version to at least %s."
 msgstr ""
 
-#: sb-core.php:97
+#: sb-core.php:98
 msgid "Invalid PHP Version"
 msgstr ""
 
-#: sb-core.php:222
+#: sb-core.php:208
 msgid "Invalid Theme Core Version"
 msgstr ""
 
-#: sb-core.php:225
+#: sb-core.php:211
 #, php-format
 msgid ""
 "<strong>Error:</strong> Plugin <code>%s</code> requires theme core version <code>%s</code> or higher. Please upgrade your theme or downgrade this "
 "plugin to older version."
 msgstr ""
 
-#: sb-core.php:262
+#: sb-core.php:248
 msgid "Go to setting page"
 msgstr ""
 
-#: sb-core.php:284
+#: sb-core.php:270
 msgid "Reinstall plugin"
 msgstr ""
 
-#: sb-core.php:284
+#: sb-core.php:270
 msgid "Reinstall"
 msgstr ""
 
-#: sb-core.php:367
+#: sb-core.php:353
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must be using theme core version at least %s. Please upgrade your theme or contact theme "
 "author for more details. You may also downgrade this plugin to older version, but it is not recommended."
 msgstr ""
 
-#: sb-core.php:390
+#: sb-core.php:376
 #, php-format
 msgid ""
 "<strong>Plugin Extensions by HocWP Team:</strong> You must use the theme written by the HocWP Team or the directory of the theme must be named as "
 "<code>hocwp-theme</code>, you can change your theme <a href=\"%s\" title=\"%s\">here</a>."
 msgstr ""
 
-#: sb-core.php:391
+#: sb-core.php:377
 msgid "View list themes"
 msgstr ""
