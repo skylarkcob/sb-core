@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SB Core\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2024-12-18 20:48+0700\n"
+"POT-Creation-Date: 2025-01-10 10:20+0700\n"
 "PO-Revision-Date: 2016-12-23 16:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: HocWP Team - hocwp.net@gmail.com - www.hocwp.net\n"
@@ -2130,7 +2130,7 @@ msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ext/woocommerce.php:235
+#: ext/woocommerce.php:248
 msgid "Facebook Comments"
 msgstr ""
 
@@ -2154,47 +2154,59 @@ msgstr ""
 msgid "USD to Vietnam Dong Rate"
 msgstr ""
 
-#: ext/woocommerce/admin-setting-page.php:58
-msgid "Use custom comment system for product?"
+#: ext/woocommerce/admin-setting-page.php:56
+msgid "Column Number:"
 msgstr ""
 
-#: ext/woocommerce/admin-setting-page.php:61
-msgid "Custom Comment"
-msgstr ""
-
-#: ext/woocommerce/admin-setting-page.php:64
-msgid "Replace review form with custom comment form."
-msgstr ""
-
-#: ext/woocommerce/admin-setting-page.php:66
-msgid "Replace Review"
+#: ext/woocommerce/admin-setting-page.php:63
+msgid "Number of Products:"
 msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:72
-msgid "Replace price reduction with the percentage reduction."
-msgstr ""
-
-#: ext/woocommerce/admin-setting-page.php:75
-msgid "Onsale Percentage"
+msgid "Related Products"
 msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:80
-msgid "Add plus <code>+</code> and minus <code>-</code> buttons to the quantity input on the product page."
+msgid "Use custom comment system for product?"
 msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:83
-msgid "Plus Minus Quantity"
+msgid "Custom Comment"
 msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:86
-msgid "Add <code>Buy now</code> button to the right of <code>Add to cart</code> button."
+msgid "Replace review form with custom comment form."
 msgstr ""
 
 #: ext/woocommerce/admin-setting-page.php:88
+msgid "Replace Review"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:94
+msgid "Replace price reduction with the percentage reduction."
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:97
+msgid "Onsale Percentage"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:102
+msgid "Add plus <code>+</code> and minus <code>-</code> buttons to the quantity input on the product page."
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:105
+msgid "Plus Minus Quantity"
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:108
+msgid "Add <code>Buy now</code> button to the right of <code>Add to cart</code> button."
+msgstr ""
+
+#: ext/woocommerce/admin-setting-page.php:110
 msgid "Buy Now Button"
 msgstr ""
 
-#: ext/woocommerce/admin-setting-page.php:117
+#: ext/woocommerce/admin-setting-page.php:139
 msgid "Image Sizes"
 msgstr ""
 
@@ -2202,23 +2214,23 @@ msgstr ""
 msgid "Buy now"
 msgstr ""
 
-#: ext/woocommerce/front-end.php:184
+#: ext/woocommerce/front-end.php:190
 msgid "Back to shopping cart"
 msgstr ""
 
-#: ext/woocommerce/front-end.php:193
+#: ext/woocommerce/front-end.php:199
 msgid "Continue shopping"
 msgstr ""
 
-#: ext/woocommerce/front-end.php:235
+#: ext/woocommerce/front-end.php:241
 msgid "Adding to cart"
 msgstr ""
 
-#: ext/woocommerce/front-end.php:236
+#: ext/woocommerce/front-end.php:242
 msgid "Add to cart"
 msgstr ""
 
-#: ext/woocommerce/front-end.php:237
+#: ext/woocommerce/front-end.php:243
 msgid "Added to cart"
 msgstr ""
 

@@ -50,6 +50,28 @@ function hocwp_theme_settings_page_woocommerce_field() {
 	$field    = hocwp_theme_create_setting_field( 'usd_vnd_rate', __( 'USD to Vietnam Dong Rate', 'sb-core' ), 'input', $args, 'numeric', 'woocommerce' );
 	$fields[] = $field;
 
+	$args = array(
+		'fields' => array(
+			'column' => array(
+				'title' => __( 'Column Number:', 'sb-core' ),
+				'args'  => array(
+					'class' => 'medium-text',
+					'type'  => 'number'
+				)
+			),
+			'number' => array(
+				'title' => __( 'Number of Products:', 'sb-core' ),
+				'args'  => array(
+					'class' => 'medium-text',
+					'type'  => 'number'
+				)
+			)
+		)
+	);
+
+	$field    = hocwp_theme_create_setting_field( 'related_products', __( 'Related Products', 'sb-core' ), 'fields', $args, 'array', 'woocommerce' );
+	$fields[] = $field;
+
 	$comment = ht_options()->get_tab( 'comment_system', '', 'discussion' );
 
 	if ( 'default' != $comment ) {

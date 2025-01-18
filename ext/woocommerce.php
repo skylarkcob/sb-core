@@ -193,6 +193,19 @@ if ( ! class_exists( 'HOCWP_EXT_WooCommerce' ) ) {
 				'columns'        => 3,
 			);
 
+			$related_products = ht_options()->get_tab( 'related_products', '', 'woocommerce' );
+			$column           = $related_products['column'] ?? '';
+			$number           = $related_products['number'] ?? '';
+
+			if ( ! empty( $column ) ) {
+				if ( empty( $number ) ) {
+					$number = $column;
+				}
+
+				$defaults['posts_per_page'] = $number;
+				$defaults['columns']        = $column;
+			}
+
 			return wp_parse_args( $defaults, $args );
 		}
 

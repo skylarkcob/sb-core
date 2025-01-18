@@ -8,7 +8,7 @@ Version: 2.7.0
 Requires at least: 6.5
 Tested up to: 6.7
 Last Updated: 16/12/2024
-Requires PHP: 8.1
+Requires PHP: 8.0
 Author URI: https://hocwp.net/
 Donate link: https://hocwp.net/donate/
 Text Domain: sb-core

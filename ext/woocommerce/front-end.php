@@ -101,17 +101,17 @@ function hocwp_wc_after_add_to_cart_button_action() {
         <a href="#" class="btn btn-warning buy-now"><?php _e( 'Buy now', 'sb-core' ); ?></a>
         <script>
             jQuery(document).ready(function ($) {
-                var body = $("body");
+                const body = $("body");
 
                 (function () {
-                    var btnAddCart = $("form.cart *[type='submit'][name='add-to-cart'], form.cart *[type='submit'].single_add_to_cart_button");
+                    let btnAddCart = $("form.cart *[type='submit'][name='add-to-cart'], form.cart *[type='submit'].single_add_to_cart_button");
 
                     if (btnAddCart && btnAddCart.length) {
-                        var btnBuyNow = body.find(".btn.buy-now"),
+                        let btnBuyNow = body.find(".btn.buy-now"),
                             variationId = body.find("input[name='variation_id']");
 
                         if (variationId && variationId.length) {
-                            var id = parseInt(variationId.val());
+                            let id = parseInt(variationId.val());
 
                             if (1 > id) {
                                 btnBuyNow.addClass("disabled");
@@ -131,7 +131,7 @@ function hocwp_wc_after_add_to_cart_button_action() {
                         body.on("click", "a.btn.buy-now", function (e) {
                             e.preventDefault();
 
-                            var p_id = parseInt(btnAddCart.attr("value"));
+                            let p_id = parseInt(btnAddCart.attr("value"));
 
                             if (!$.isNumeric(p_id) || 1 > p_id) {
                                 if (variationId && variationId.length) {
@@ -142,10 +142,16 @@ function hocwp_wc_after_add_to_cart_button_action() {
                             $(this).addClass("disabled");
                             $(document.body).css({cursor: "wait"});
 
-                            var url = hocwpTheme.homeUrl + "wp/?post_type=product&quantity=1&add-to-cart=" + p_id;
+                            let url = hocwpTheme.homeUrl;
+
+                            if (!(/\/$/.test(url))) {
+                                url += "/";
+                            }
+
+                            url += "?post_type=product&quantity=1&add-to-cart=" + p_id;
 
                             body.find(".variations select").each(function () {
-                                var select = $(this),
+                                let select = $(this),
                                     name = select.attr("data-attribute_name"),
                                     value = select.val();
 
@@ -161,7 +167,7 @@ function hocwp_wc_after_add_to_cart_button_action() {
                                 $(this).removeClass("disabled");
                                 $(document.body).css({cursor: "default"});
 
-                                var checkoutUrl = "<?php echo $url; ?>";
+                                let checkoutUrl = "<?php echo $url; ?>";
 
                                 if ($.trim(checkoutUrl)) {
                                     window.location.href = checkoutUrl;
