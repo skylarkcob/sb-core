@@ -9,7 +9,6 @@ if ( ! defined( 'HOCWP_THEME_DEVELOPING' ) || 1 != HOCWP_THEME_DEVELOPING ) {
 
 $allow_domains = apply_filters( 'hocwp_theme_dev_allow_domains', array(
 	'localhost',
-	'hocwp.net',
 	'ldcuong.com'
 ) );
 

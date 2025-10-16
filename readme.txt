@@ -1,10 +1,10 @@
 === Extensions by HocWP Team ===
 Contributors: skylarkcob, hocwp, sauhi
-Donate link: https://hocwp.net/donate/
+Donate link: https://ldcuong.com/gui-ung-ho/
 Tags: hocwp, hocwp theme, extensions
-Requires at least: 6.5
-Tested up to: 6.7
-Last Updated: 09/12/2024
+Requires at least: 6.6
+Tested up to: 6.8
+Last Updated: 16/10/20245
 Stable tag: 2.7.0
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -43,7 +43,7 @@ Install this plugin from your WordPress site Dashboard or follow these steps bel
 
 == Frequently Asked Questions ==
 
-Please visit [www.hocwp.net](https://hocwp.net) for more details.
+Please visit [www.ldcuong.com](https://ldcuong.com) for more details.
 
 = Where is the settings page for Extensions by HocWP Team? =
 
@@ -586,4 +586,4 @@ Please read changelog first before you update this plugin.
 This plugin only supports for theme which is created by HocWP Team since version 2.0.0.
 
 == Updates ==
-Updates to the plugin will be posted on [www.hocwp.net](https://hocwp.net/) and the [Extensions by HocWP Team homepage](https://wordpress.org/plugins/sb-core/) will always link to the newest version.
+Updates to the plugin will be posted on [www.ldcuong.com](https://ldcuong.com/) and the [Extensions by HocWP Team homepage](https://wordpress.org/plugins/sb-core/) will always link to the newest version.

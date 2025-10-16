@@ -1,16 +1,16 @@
 <?php
 /*
 Plugin Name: Extensions by HocWP Team
-Plugin URI: https://hocwp.net/project/
+Plugin URI: https://ldcuong.com/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
 Version: 2.7.0
-Requires at least: 6.5
-Tested up to: 6.7
-Last Updated: 16/12/2024
+Requires at least: 6.6
+Tested up to: 6.8
+Last Updated: 16/10/2025
 Requires PHP: 8.0
-Author URI: https://hocwp.net/
-Donate link: https://hocwp.net/donate/
+Author URI: https://ldcuong.com/
+Donate link: https://ldcuong.com/gui-ung-ho/
 Text Domain: sb-core
 Domain Path: /languages/
 */
