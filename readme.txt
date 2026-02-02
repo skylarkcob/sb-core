@@ -2,9 +2,9 @@
 Contributors: skylarkcob, hocwp, sauhi
 Donate link: https://ldcuong.com/gui-ung-ho/
 Tags: hocwp, hocwp theme, extensions
-Requires at least: 6.6
-Tested up to: 6.8
-Last Updated: 16/10/20245
+Requires at least: 6.7
+Tested up to: 6.9
+Last Updated: 02/10/2026
 Stable tag: 2.7.0
 Requires PHP: 7.4
 License: GPLv2 or later

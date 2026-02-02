@@ -5,9 +5,9 @@ Plugin URI: https://ldcuong.com/
 Description: Extensions for using in theme which is created by HocWP Team. This plugin will not work if you use it on theme not written by HocWP Team.
 Author: HocWP Team
 Version: 2.7.0
-Requires at least: 6.6
-Tested up to: 6.8
-Last Updated: 16/10/2025
+Requires at least: 6.7
+Tested up to: 6.9
+Last Updated: 02/02/2026
 Requires PHP: 8.0
 Author URI: https://ldcuong.com/
 Donate link: https://ldcuong.com/gui-ung-ho/
